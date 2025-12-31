@@ -4,10 +4,11 @@
     font-family: Arial, Helvetica, sans-serif;
     margin:0px;
     padding:0px;
+    box-sizing: border-box;
 }
 
 body, html{
-    background-image: linear-gradient(to top,#242625,#fd5d00, #fd5d00);
+    background-image: linear-gradient(to top,#242625,#ef8b1f, #fd7200);
 }
 
 main{
@@ -23,8 +24,24 @@ main>section{
     left:50%;
     transform:translate(-50%, -50%);
     background-color: white;
-    width:600px;
-    height: 200px;
+    width:700px;
+    height: 350px;
     border-radius: 20px;
+    padding:0px;
+}
+
+main>section>section#foto{
+    display:block;
+    float: right;
+    width: 45%;
+    height: 100%;
+    background-image: url(../imagens/equipe-Mscred.jpeg);
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+}
+
+main>section>section#login{
+    display: block;
     padding:20px;
 }
