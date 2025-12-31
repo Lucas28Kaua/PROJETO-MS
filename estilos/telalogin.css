@@ -33,7 +33,7 @@ main>section{
 main>section>section#foto{
     display:block;
     float: right;
-    width: 45%;
+    width: 46%;
     height: 100%;
     background-image: url(../imagens/equipe-Mscred.jpeg);
     background-position: center;
@@ -43,5 +43,7 @@ main>section>section#foto{
 
 main>section>section#login{
     display: block;
-    padding:20px;
+    float:left;
+    width:54%;
+    padding:10px;
 }
