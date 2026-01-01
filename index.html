@@ -14,14 +14,14 @@
             <section id="login">
                 <section id="box-formulario">
                     <h1>LOGIN</h1>
-                    <p>Seja bem-vindo(a), Correspondente!🧡</p>
+                    <p>Seja bem-vindo(a), Correspondente!</p>
                     <form  id="formulario"action="#">
                         <label for="iuser">Usuário:</label>
-                        <input type="email" name="user" id="iuser" placeholder="Informe seu Usuário..."><br>
-                        <label for="isenha">Password:</label>
-                        <input type="password" name="senha" id="isenha" placeholder="Informe sua Senha..."><br>
-                        <input type="button" value="Entrar">
-                        <input type="button" value="Esqueci minha senha">
+                        <input type="email" name="user" id="iuser" placeholder="Informe seu Usuário..." autocomplete="on" required minlength="8" maxlength="30"><br>
+                        <label for="isenha">Senha:</label>
+                        <input type="password" name="senha" id="isenha" placeholder="Informe sua Senha..." required minlength="8" maxlength="20"><br>
+                        <input id='entrar' type="submit" value="Entrar">
+                        <input id='esqueci_senha' type="submit" value="Esqueci minha senha">
                     </form>
                 </section>
             </section>

@@ -51,29 +51,217 @@ main>section>section#login{
     box-sizing: border-box;
     display: block;
     width:54%;
-    height: 190px;
+    height: 295px;
     margin:10px;
     border-radius:20px;
     align-self:center;
 }
 
 section#box-formulario>h1{
+    font-size: 37px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0 0 2px 0;
     text-align: center;
-    padding:6px 0px 0px 0px;
-    font-size:2.4em;
+    letter-spacing: 2px;
 }
 
 section#box-formulario>p{
     text-align:center;
-    font-size:1.2em;
+    font-size:1.1em;
+    background-color: #fd7200;
+    color:white;
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 10px;
+    width: 90%;
+    margin: 0 auto 5px auto;
 }
 
 form#formulario{
-    padding:15px;
+    padding:5px;
     text-align: center;
 }
 
 form>label{
-    font-size:1.1em;
+   color: #1a1a1a;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+#formulario input[type='email']{
+    width: 20vw;
+    margin:5px;
+    padding:9px;
+    font-size:15px;
+    border:none;
+    border-radius:20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#formulario input[type='password']{
+    width: 20vw;
+    margin-bottom: 15px;
+    padding:9px;
+    font-size:15px;
+    border:none;
+    border-radius:20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#formulario input[type="email"]:focus,
+#formulario input[type="password"]:focus {
+    outline: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    border: 1px solid gray;
+}
+
+#formulario input[type="email"]::placeholder,
+#formulario input[type="password"]::placeholder {
+    color: #999;
+}
+
+form#formulario>input#entrar{
+    background-color: #fd7200;
+    color:rgb(255, 255, 255);
+    font-size:1.2em;
     font-weight: bold;
+    display: block;
+    margin:auto;
+    margin-bottom:4px;
+    width:16vw;
+    padding:5px;
+    border: 1px solid rgba(0, 0, 0, 0.525);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.474);
+    border-radius:15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form#formulario>input#entrar:hover{
+    background-color: #ff8520;
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+form#formulario>input#entrar:active{
+    transform: translateY(0px);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.474);
+}
+
+form#formulario>input#esqueci_senha{
+    background-color: #fd7200;
+    color:rgb(255, 255, 255);
+    font-size:1.2em;
+    font-weight: bold;
+    display: block;
+    margin:auto;
+    margin-bottom:4px;
+    width:16vw;
+    padding:5px;
+    border: 1px solid rgba(0, 0, 0, 0.525);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.474);
+    border-radius:15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form#formulario>input#esqueci_senha:hover{
+    background-color: #ff8520;
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+form#formulario>input#esqueci_senha:active{
+    transform: translateY(0px);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.474);
+}
+
+/* RESPONSIVIDADE PARA CELULAR */
+
+/* Tablets e telas menores */
+@media screen and (max-width: 768px) {
+    main>section{
+        width: 90vw;
+        height: auto;
+        flex-direction: column;
+    }
+    
+    main>section>section#foto{
+        width: 100%;
+        height: 430px;
+        border-radius: 20px 20px 0 0;
+        background-position: top;
+    }
+    
+    main>section>section#login{
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 20px;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    #formulario input[type='email'],
+    #formulario input[type='password']{
+        width: 80%;
+    }
+    
+    form#formulario>input#entrar,
+    form#formulario>input#esqueci_senha{
+        width: 70%;
+    }
+}
+
+/* Celulares */
+@media screen and (max-width: 480px) {
+    main>section{
+        width: 95vw;
+        height: auto;
+    }
+    
+    main>section>section#foto{
+        height: 345px;
+    }
+    
+    section#box-formulario>h1{
+        font-size: 28px;
+    }
+    
+    section#box-formulario>p{
+        font-size: 0.9em;
+        width: 95%;
+    }
+    
+    #formulario input[type='email'],
+    #formulario input[type='password']{
+        width: 90%;
+        padding: 12px;
+    }
+    
+    form#formulario>input#entrar,
+    form#formulario>input#esqueci_senha{
+        width: 85%;
+        font-size: 1em;
+        padding: 10px;
+    }
+}
+
+/* Celulares pequenos */
+@media screen and (max-width: 360px) {
+    main>section>section#foto{
+        height: 345px;
+    }
+    
+    section#box-formulario>h1{
+        font-size: 24px;
+    }
+    
+    section#box-formulario>p{
+        font-size: 0.85em;
+    }
 }
