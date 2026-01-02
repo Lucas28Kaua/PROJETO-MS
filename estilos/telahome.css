@@ -28,6 +28,12 @@ header{
     display: flex;
     align-items: center;
     padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    z-index: 1000;
 }
 
 
@@ -43,14 +49,17 @@ header img {
     background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
     border: 2px solid rgba(235, 114, 28, 0.4);
     border-left: none;
-    position: fixed;
     height: 100vh;
     padding: 20px 10px;
     border-top-right-radius: 90px;
-    border-bottom-right-radius: 90px;
     transition: width 0.3s ease;
     overflow: hidden;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 110px; /* altura do header */
+    left: 0;
+    height: calc(100vh - 110px);
+    z-index: 900;
 }
 
 .sidebar.aberto{
@@ -151,6 +160,8 @@ header img {
 
 /* Conteúdo principal */
 .meio{
+    margin-top:110px;
+    height: calc(100vh - 110px);
     margin-left: 105px; /* largura da sidebar fechada */
     padding: 20px;
     transition: margin-left 0.3s ease;
@@ -162,71 +173,4 @@ header img {
     margin-left: 233px; /* largura da sidebar aberta */
 }
 
-@media (max-width: 480px){
 
-    .sidebar{
-        width: 70px;
-    }
-
-    .sidebar.aberto{
-        width: 200px;
-    }
-
-    main{
-        margin-left: 70px;
-        padding: 15px;
-    }
-
-    header{
-        height: 70px;
-    }
-
-    .menu-text{
-        font-size: 1em;
-    }
-}
-
-@media (max-width: 768px){
-
-    header{
-        height: 80px;
-        padding: 0 15px;
-    }
-
-    header img{
-        width: 110px;
-    }
-
-    /* Sidebar vira overlay */
-    .sidebar{
-        width: 80px;
-        z-index: 999;
-    }
-
-    .sidebar.aberto{
-        width: 220px;
-    }
-
-    /* Conteúdo ocupa tudo */
-    main{
-        margin-left: 80px;
-    }
-
-    .sidebar.aberto ~ main{
-        margin-left: 80px; /* NÃO empurra no mobile */
-    }
-
-    .menu li{
-        margin: 20px 0;
-        width: 55px;
-    }
-
-    .sidebar.aberto .menu li{
-        width: 180px;
-    }
-
-    .toggle-btn{
-        top: 70px;
-        height: 60px;
-    }
-}
