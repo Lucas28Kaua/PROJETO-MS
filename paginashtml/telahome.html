@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../estilos/telahome.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="shortcut icon" href="../imagens/favicon3.ico" type="image/x-icon">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Sistema MS CRED</title>
 </head>
 <body>
@@ -26,7 +26,7 @@
             <ul class="menu">
                 <li>
                     <i class="material-symbols-outlined">home</i>
-                    <a href="#" class="menu-text">HOME</a>
+                    <a href="../paginashtml/telahome.html" class="menu-text">HOME</a>
                 </li>
                 <li>
                     <i class="material-symbols-outlined">search</i>
@@ -75,9 +75,18 @@
                 </div>
             </div>
         </div>
+        <div class="foto-container"></div>
     </main>
 
-    <footer></footer>
+    <!-- Botão hambúrguer -->
+    <div class="menu-hamburguer" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+    </div>
+
+    <!-- Overlay escuro -->
+    <div class="overlay" id="overlay"></div>
 
     <script src="../javascript/home.js"></script>
 </body>
