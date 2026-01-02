@@ -1,0 +1,232 @@
+@charset "UTF8";
+
+/* CORES:
+    PRETO ONIX- #101115
+    LARANJA- #EB721C
+    BRANCO- FFFFFF
+*/
+
+*{
+    font-family:Arial, Helvetica, sans-serif;
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+}
+
+body, html{
+    height: 100%;
+    /* Mesmo degradê do login */
+    background: linear-gradient(to bottom, #ff8c1a 0%, #eb721c 30%, #a8521a 70%, #6b3810 100%);
+    background-attachment: fixed;
+}
+
+header{
+    height: 110px;
+    background: linear-gradient(to left, #2a2a2a 0%, #1a1a1a 100%);
+    border-bottom: 2px solid rgba(235, 114, 28, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+
+header img {
+  width: 140px; /* ajuste o tamanho conforme necessário */
+  height: auto;
+  max-width: 150px;
+  object-fit: contain;
+}
+
+.sidebar{
+    width: 105px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
+    border: 2px solid rgba(235, 114, 28, 0.4);
+    border-left: none;
+    position: fixed;
+    height: 100vh;
+    padding: 20px 10px;
+    border-top-right-radius: 90px;
+    border-bottom-right-radius: 90px;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.aberto{
+    width: 233px; /* Largura quando aberto */
+}
+
+/* Botão toggle */
+.toggle-btn{
+    position: absolute;
+    top: 87px;
+    right: -10px; /* Aumentei pra sair mais pra fora */
+    width: 35px; /* Aumentei um pouco */
+    height: 70px;
+    background-color: #eb6505;
+    border: 2px solid black;
+    border-radius: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+
+.toggle-btn:hover{
+    background: linear-gradient(135deg, #ff7b1a 0%, #ff9d3d 100%);
+    transform: scale(1.15);
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4);
+}
+
+.toggle-btn i{
+    color: white;
+    font-size: 35px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.aberto .toggle-btn i{
+    transform: rotate(180deg);
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.menu{
+    margin-top: 60px;
+}
+
+.menu li {
+    display: flex;
+    align-items: center;
+    margin: 30px 0px;
+    list-style: none;
+    white-space: nowrap;
+    padding:10px;
+    border-radius:10px;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.258);
+    border: 1px solid rgba(235, 101, 5, 0.3);
+    width: 60px; /* Largura fixa dos itens - ADICIONA ISSO */
+}
+
+.menu li i {
+    min-width: 24px;
+    font-size: 24px;
+    color: #eb6505;
+    margin-right: 15px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra no ícone */
+}
+
+.menu-text{
+    color:#eb6505;
+    text-decoration: none;
+    font-weight: bold;
+    font-size:1.1em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Sombra no texto */
+}
+
+.sidebar.aberto .menu-text{
+    opacity: 1;
+}
+
+/* Quando a sidebar tá aberta */
+.sidebar.aberto .menu li {
+    width: 190px; /* Aumenta mais pra caber tudo */
+    justify-content: flex-start;
+}
+
+.menu li:hover{
+    background-color: rgba(235, 101, 5, 0.2);
+    border: 1px solid #eb6505;
+    transform: translateX(5px);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Conteúdo principal */
+.meio{
+    margin-left: 105px; /* largura da sidebar fechada */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    min-height: 80vh;
+}
+
+/* Quando sidebar abre, empurra o conteúdo */
+.sidebar.aberto ~ .meio{
+    margin-left: 233px; /* largura da sidebar aberta */
+}
+
+@media (max-width: 480px){
+
+    .sidebar{
+        width: 70px;
+    }
+
+    .sidebar.aberto{
+        width: 200px;
+    }
+
+    main{
+        margin-left: 70px;
+        padding: 15px;
+    }
+
+    header{
+        height: 70px;
+    }
+
+    .menu-text{
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 768px){
+
+    header{
+        height: 80px;
+        padding: 0 15px;
+    }
+
+    header img{
+        width: 110px;
+    }
+
+    /* Sidebar vira overlay */
+    .sidebar{
+        width: 80px;
+        z-index: 999;
+    }
+
+    .sidebar.aberto{
+        width: 220px;
+    }
+
+    /* Conteúdo ocupa tudo */
+    main{
+        margin-left: 80px;
+    }
+
+    .sidebar.aberto ~ main{
+        margin-left: 80px; /* NÃO empurra no mobile */
+    }
+
+    .menu li{
+        margin: 20px 0;
+        width: 55px;
+    }
+
+    .sidebar.aberto .menu li{
+        width: 180px;
+    }
+
+    .toggle-btn{
+        top: 70px;
+        height: 60px;
+    }
+}
