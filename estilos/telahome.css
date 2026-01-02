@@ -45,6 +45,11 @@ header img {
   object-fit: contain;
 }
 
+header img:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
 .sidebar{
     width: 105px;
     background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
@@ -196,6 +201,7 @@ h2.titulo-card{
     margin-bottom: 15px;
     border-radius: 15px;
     padding:6px;
+    
 }
 
 div.cards-menores{
