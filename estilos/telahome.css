@@ -13,26 +13,27 @@
     box-sizing: border-box;
 }
 
+/* Tamanho de tela e cores*/
 body, html{
     height: 100%;
     /* Mesmo degradê do login */
-    background: linear-gradient(to bottom, #ff8c1a 0%, #eb721c 30%, #a8521a 70%, #6b3810 100%);
+    background: white;
     background-attachment: fixed;
 }
 
+/* cabeçalho que fica no alto.*/
 header{
-    height: 110px;
-    background: linear-gradient(to left, #2a2a2a 0%, #1a1a1a 100%);
+    height: 110px; /* Tamanho da altura (Importante pra colocar tbm no sidebar e não sobrepor)*/
+    background: linear-gradient(to left, #2a2a2a 0%, #1a1a1a 100%); /* Cor */
     border-bottom: 2px solid rgba(235, 114, 28, 0.5);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     padding: 0 30px;
-    position: fixed;
+    position: fixed; /*fixo para não sumir na rolagem*/
     top: 0;
     left: 0;
     width: 100%;
-    height: 110px;
     z-index: 1000;
 }
 
@@ -160,9 +161,13 @@ header img {
 
 /* Conteúdo principal */
 .meio{
-    margin-top:110px;
+    background-color: rgba(187, 187, 187, 0.327);
+    margin-top:133px;
     height: calc(100vh - 110px);
-    margin-left: 105px; /* largura da sidebar fechada */
+    margin-left: 120px; /* largura da sidebar fechada */
+    margin-right: 20px;
+    border-radius:15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
     padding: 20px;
     transition: margin-left 0.3s ease;
     min-height: 80vh;
@@ -170,7 +175,85 @@ header img {
 
 /* Quando sidebar abre, empurra o conteúdo */
 .sidebar.aberto ~ .meio{
-    margin-left: 233px; /* largura da sidebar aberta */
+    margin-left: 240px; /* largura da sidebar aberta */
+}
+
+div.card-grande{
+    background: #101115;
+    border-radius: 20px;
+    padding: 20px 25px;
 }
 
 
+h2.titulo-card{
+    font-family:Arial, Helvetica, sans-serif;
+    color: #101115;
+    font-size: 1.4em;
+    text-align:center;
+    background-color: #ff7b1a;
+    width:600px;
+    margin:auto;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    padding:6px;
+}
+
+div.cards-menores{
+    display:flex;
+    gap:20px;
+}
+
+div.card{
+    flex:1 1 250px;
+    height: 150px;
+    background: #eb6505;
+    color: white;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+div.card:hover{ 
+    border: 1px solid #eb6505;
+    transform: translateX(-5px);
+    transform: translateY(-5px);
+    box-shadow: 2px 2px 8px #eb65055c;
+    transition: 0.3s ease;
+}
+
+div.prodmes{
+    background-color: white;
+    height: 115px;
+    border-radius:30px;
+    padding:10px
+}
+div.prodmes>h3, h1, p{
+    color:black;
+    text-align: center;
+    padding:4px
+}
+
+div.metames{
+    background-color: white;
+    height: 115px;
+    border-radius:30px;
+    padding:4px 10px 10px 10px
+}
+
+div.metames>h3, h1, p{
+    color:black;
+    text-align: center;
+    padding:4px
+}
+
+div.bancomes{
+    background-color: white;
+    height: 115px;
+    border-radius:30px;
+    padding:10px
+}
+div.bancomes> h3, h4 {
+    color:black;
+    text-align: center;
+    padding:4px
+}
