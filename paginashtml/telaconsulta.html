@@ -21,9 +21,7 @@
         <button class="toggle-btn" id="toggleMenu">
             <i class="material-symbols-outlined">chevron_right</i>
         </button>
-
-        <div class="logo"></div>
-
+        <!--MENU LATERAL-->
         <nav>
             <ul class="menu">
                 <li>
@@ -46,15 +44,58 @@
                 </li>
                 <li>
                     <a href="#" class="menu-link">
-                        <i class="material-symbols-outlined">work</i>
-                        <span class="menu-text">SOBRE</span>
+                        <i class="material-symbols-outlined">trending_up</i>
+                        <span class="menu-text">PRODUÇÃO</span>
                     </a>
                 </li>
             </ul>
         </nav>
     </aside>
 
-<script src="../javascript/consulta.js"></script>
+    <!--TELA DO MEIO, PRINCIPAL-->
+    <!--FORMULARIO TERÁ: NOME, DN, CPF, END(estado,cidade,bairro,rua,n°), 
+    DATA(escolha p/ mês e dia. (de tal dia e mes a tal dia e mes))-->
+    <main class="meio">
+        <div class="formulario">
+            <form action="" id="formConsulta">
+                <label for="tipoBusca">Tipo de Busca:</label>
+                <select id="tipoBusca" name="tipoBusca" onchange="atualizarCampos()">
+                    <option value="">Selecione</option>
+                    <option value="nome">Nome</option>
+                    <option value="cpf">CPF</option>
+                    <option value="dn">data de nascimento</option>
+                    <option value="endereco">Endereço</option>
+                </select>
+
+                <!-- CAMPO SIMPLES -->
+                <div id="campoSimples" style="display: none;">
+                    <label id="labelBusca" for="buscaSimples">Pesquisar</label>
+                    <input type="text" id="buscaSimples">
+                </div>
+
+                <!-- BLOCO ENDEREÇO -->
+                 <div id="blocoEndereco" style="display:none;">
+                    <!--ESTADO-->
+                    <label for="estado">Estado:</label>
+                    <input type="text" id="estado" placeholder="Ex.: RN">
+                    <!--CIDADE-->
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" placeholder="Ex.: Santa Cruz">
+                    <!--BAIRRO-->
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" id="bairro" placeholder="Ex.: Centro">
+                    <!--RUA-->
+                    <label for="rua">Rua:</label>
+                    <input type="text" id="rua" placeholder="Ex.: Joao Bianor Bezerra">
+                 </div>
+
+                 <button type="button" id ="btnBuscar" style="display:none;">Buscar</button>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="../javascript/consulta.js"></script>
 </body>
 
 </html>

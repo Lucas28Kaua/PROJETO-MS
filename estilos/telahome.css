@@ -112,7 +112,7 @@ header img:hover{
 
 .menu{
     margin-top: 60px;
-}
+}       
 
 .menu li {
     display: flex;
@@ -131,7 +131,7 @@ header img:hover{
 .menu-link {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 7px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.258);
     border: 1px solid rgba(235, 101, 5, 0.3);

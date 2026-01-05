@@ -129,7 +129,7 @@ header img:hover{
 .menu-link {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 7px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.258);
     border: 1px solid rgba(235, 101, 5, 0.3);
@@ -179,3 +179,24 @@ header img:hover{
     transform: translateX(5px);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+.sidebar.aberto ~ .meio{
+    margin-left:253px;
+}
+
+.sidebar.aberto ~ .modal-cinza{
+    margin-left: 253px; /* mesma distância */
+}
+
+.meio{
+    transition: margin-left 0.3s ease;
+    margin-left:120px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 133px;
+    border-radius:15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+}
+

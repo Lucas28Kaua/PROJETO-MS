@@ -22,3 +22,50 @@ if (menuToggle) {
         overlay.classList.remove('ativo');
     });
 }
+
+const tipoBusca=window.document.getElementById('tipoBusca')
+const campoSimples=window.document.getElementById('campoSimples')
+const blocoEndereco=window.document.getElementById('blocoEndereco')
+const botaoBuscar=window.document.getElementById('btnBuscar')
+const labelBusca=window.document.getElementById('labelBusca')
+
+function atualizarCampos(){
+
+    campoSimples.style.display = "none";
+    blocoEndereco.style.display = "none";
+    botaoBuscar.style.display = "none";
+
+    if (tipoBusca.value === "") {
+        labelBusca.textContent=""
+    return;
+  }
+
+
+  if (tipoBusca.value === "endereco") {
+    blocoEndereco.style.display = "block";
+    botaoBuscar.style.display = "block";
+    labelBusca.textContent = "" // não usa label no endereço
+    return
+  } 
+  
+
+  if (tipoBusca.value === "nome") {
+    campoSimples.style.display = "block";
+    labelBusca.textContent = "Nome"
+    botaoBuscar.style.display = "block"
+  } 
+  else if (tipoBusca.value === "cpf") {
+    campoSimples.style.display = "block";
+    labelBusca.textContent = "CPF"
+    botaoBuscar.style.display = "block"
+  } 
+  else if (tipoBusca.value === "dn") {
+    campoSimples.style.display = "block";
+    labelBusca.textContent = "Data de nascimento"
+    botaoBuscar.style.display = "block"
+  } 
+  else {
+    
+    labelBusca.textContent = "Pesquisar"
+  }
+}
