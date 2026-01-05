@@ -16,7 +16,6 @@
 /* Tamanho de tela e cores*/
 body, html{
     height: 100%;
-    /* Mesmo degradê do login */
     background: white;
     background-attachment: fixed;
 }
