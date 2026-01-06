@@ -133,7 +133,7 @@ form#formulario>input#entrar{
     display: block;
     margin:auto;
     margin-bottom:4px;
-    width:16vw;
+    width:17vw;
     padding:5px;
     border: 1px solid rgba(0, 0, 0, 0.525);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.474);
@@ -161,7 +161,7 @@ form#formulario>input#esqueci_senha{
     display: block;
     margin:auto;
     margin-bottom:4px;
-    width:16vw;
+    width:17vw;
     padding:5px;
     border: 1px solid rgba(0, 0, 0, 0.525);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.474);

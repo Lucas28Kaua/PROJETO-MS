@@ -49,6 +49,51 @@ header img:hover{
     transition: all 0.3s ease;
 }
 
+header button {
+    min-width: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.05em;
+    font-weight: 600;
+    background: #EB721C;
+    color: white;
+    margin-right: 15px;
+    margin-left: auto;
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    box-shadow:2px 2px 8px #eb641c8e;
+}
+
+header button a{
+    text-decoration: none;
+    color:white;
+}
+header button:hover {
+    background: #EB721C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    cursor: pointer;
+    box-shadow:2px 2px 8px #eb641c8e;
+}
+
+header button:active {
+    transform: scale(1);
+    box-shadow:2px 2px 8px #eb641c8e;
+}
+
+header button>span.text-button {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: opacity 0.3s ease;
+}
+
 .sidebar{
     width: 105px;
     background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
@@ -205,6 +250,7 @@ div.card-grande{
     background: #101115;
     border-radius: 20px;
     padding: 20px 25px;
+    margin-bottom:0px;
 }
 
 

@@ -14,6 +14,7 @@
 <body>
     <header>
         <img src="../imagens/logo-mscred-menor.png" alt="logo mscred">
+        <button><i class="material-symbols-outlined">exit_to_app</i><span class="text-button"><a href="../paginashtml/telalogin.html">Sair</a></span></button>
     </header>
 
     <aside class="sidebar">
@@ -56,16 +57,20 @@
     <!--FORMULARIO TERÁ: NOME, DN, CPF, END(estado,cidade,bairro,rua,n°), 
     DATA(escolha p/ mês e dia. (de tal dia e mes a tal dia e mes))-->
     <main class="meio">
+        <h1>TELA DE BUSCA</h1>
         <div class="formulario">
             <form action="" id="formConsulta">
-                <label for="tipoBusca">Tipo de Busca:</label>
-                <select id="tipoBusca" name="tipoBusca" onchange="atualizarCampos()">
-                    <option value="">Selecione</option>
-                    <option value="nome">Nome</option>
-                    <option value="cpf">CPF</option>
-                    <option value="dn">data de nascimento</option>
-                    <option value="endereco">Endereço</option>
-                </select>
+
+                <div class="campo-select">
+                    <label class="labelBusca" for="tipoBusca">Tipo de Busca:</label>
+                    <select id="tipoBusca" name="tipoBusca" onchange="atualizarCampos()">
+                        <option value="">Selecione</option>
+                        <option value="nome">Nome</option>
+                        <option value="cpf">CPF</option>
+                        <option value="dn">data de nascimento</option>
+                        <option value="endereco">Endereço</option>
+                    </select>
+                </div>
 
                 <!-- CAMPO SIMPLES -->
                 <div id="campoSimples" style="display: none;">
