@@ -49,7 +49,7 @@ header img:hover{
     transition: all 0.3s ease;
 }
 
-header button {
+.btn-sair {
     min-width: 24px;
     display: flex;
     align-items: center;
@@ -68,30 +68,17 @@ header button {
         transform 0.2s ease,
         box-shadow 0.2s ease;
     box-shadow:2px 2px 8px #eb641c8e;
+    text-decoration:none;
 }
 
-header button a{
-    text-decoration: none;
-    color:white;
-}
-header button:hover {
-    background: #EB721C;
+
+.btn-sair:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    cursor: pointer;
-    box-shadow:2px 2px 8px #eb641c8e;
 }
 
-header button:active {
-    transform: scale(1);
-    box-shadow:2px 2px 8px #eb641c8e;
-}
-
-header button>span.text-button {
-    color: white;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: opacity 0.3s ease;
+.btn-sair:active {
+    transform: scale(0.98);
 }
 
 .sidebar{

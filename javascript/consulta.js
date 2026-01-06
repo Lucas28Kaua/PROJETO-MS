@@ -51,17 +51,17 @@ function atualizarCampos(){
 
   if (tipoBusca.value === "nome") {
     campoSimples.style.display = "block";
-    labelBusca.textContent = "Nome"
+    labelBusca.textContent = "Nome:"
     botaoBuscar.style.display = "block"
   } 
   else if (tipoBusca.value === "cpf") {
     campoSimples.style.display = "block";
-    labelBusca.textContent = "CPF"
+    labelBusca.textContent = "CPF:"
     botaoBuscar.style.display = "block"
   } 
   else if (tipoBusca.value === "dn") {
     campoSimples.style.display = "block";
-    labelBusca.textContent = "Data de nascimento"
+    labelBusca.textContent = "Data de nascimento:"
     botaoBuscar.style.display = "block"
   } 
   else {
