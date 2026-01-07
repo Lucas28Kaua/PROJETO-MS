@@ -28,12 +28,18 @@ const campoSimples=window.document.getElementById('campoSimples')
 const blocoEndereco=window.document.getElementById('blocoEndereco')
 const botaoBuscar=window.document.getElementById('btnBuscar')
 const labelBusca=window.document.getElementById('labelBusca')
+const buscaSimples=window.document.getElementById('buscaSimples')
 
 function atualizarCampos(){
 
     campoSimples.style.display = "none";
     blocoEndereco.style.display = "none";
     botaoBuscar.style.display = "none";
+
+    buscaSimples.value = ""
+    buscaSimples.type = "text"
+    buscaSimples.placeholder = ""
+    buscaSimples.removeAttribute("inputmode")
 
     if (tipoBusca.value === "") {
         labelBusca.textContent=""
@@ -42,7 +48,7 @@ function atualizarCampos(){
 
 
   if (tipoBusca.value === "endereco") {
-    blocoEndereco.style.display = "block";
+    blocoEndereco.style.display = "grid";
     botaoBuscar.style.display = "block";
     labelBusca.textContent = "" // não usa label no endereço
     return
@@ -53,16 +59,19 @@ function atualizarCampos(){
     campoSimples.style.display = "block";
     labelBusca.textContent = "Nome:"
     botaoBuscar.style.display = "block"
+    buscaSimples.placeholder = "Ex.: João da Silva"
   } 
   else if (tipoBusca.value === "cpf") {
     campoSimples.style.display = "block";
     labelBusca.textContent = "CPF:"
     botaoBuscar.style.display = "block"
+    buscaSimples.placeholder = "000.000.000-00"
   } 
   else if (tipoBusca.value === "dn") {
     campoSimples.style.display = "block";
     labelBusca.textContent = "Data de nascimento:"
     botaoBuscar.style.display = "block"
+    buscaSimples.placeholder = "DD/MM/AAAA"
   } 
   else {
     

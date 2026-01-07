@@ -85,25 +85,43 @@
                 <!-- BLOCO ENDEREÇO -->
                  <div id="blocoEndereco" style="display:none;">
                     <!--ESTADO-->
-                    <label for="estado">Estado:</label>
-                    <input type="text" id="estado" placeholder="Ex.: RN">
+                    <div class="campo">
+                        <label for="estado">Estado:</label>
+                        <input type="text" id="estado" placeholder="Ex.: RN">
+                    </div>
                     <!--CIDADE-->
-                    <label for="cidade">Cidade:</label>
-                    <input type="text" id="cidade" placeholder="Ex.: Santa Cruz">
+                    <div class="campo">
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" id="cidade" placeholder="Ex.: Santa Cruz">
+                    </div>
                     <!--BAIRRO-->
-                    <label for="bairro">Bairro:</label>
-                    <input type="text" id="bairro" placeholder="Ex.: Centro">
+                    <div class="campo">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" id="bairro" placeholder="Ex.: Centro">
+                    </div>
                     <!--RUA-->
-                    <label for="rua">Rua:</label>
-                    <input type="text" id="rua" placeholder="Ex.: Joao Bianor Bezerra">
+                    <div class="campo">
+                        <label for="rua">Rua:</label>
+                        <input type="text" id="rua" placeholder="Ex.: Joao Bianor Bezerra">
+                    </div>
                  </div>
 
-                 <button type="button" id ="btnBuscar" style="display:none;">Buscar</button>
+                <button type="button" id="btnBuscar" style="display:none;">
+                    <span>Buscar</span>
+                </button>
 
             </form>
         </div>
     </main>
 
+        <div class="telaRetornoConsulta">
+            <h1>DADOS RETORNADOS</h1>
+            <div class="boxMenor">
+
+                <!--Campo-->
+            </div>
+        </div>
+        
     <script src="../javascript/consulta.js"></script>
 </body>
 

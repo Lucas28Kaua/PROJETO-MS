@@ -319,3 +319,102 @@ header img:hover {
     border-radius:10px;
     border:1px solid black
 }
+
+#blocoEndereco{
+    max-width:600px;
+    margin:30px 20px 20px 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* duas colunas */
+    gap: 16px 30px; /* linha / coluna */
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    max-width:240px;
+}
+
+
+.campo label {
+    margin-bottom: 4px;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.campo input {
+    padding: 11px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+
+#btnBuscar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+
+    background-color: #eb6505;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.496);
+}
+
+#btnBuscar:hover{
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    box-shadow:2px 2px 8px #eb641c8e;
+    transform: translateY(-2px);
+    transform:scale(1.02); 
+}
+
+#btnBuscar:active{
+    transform: scale(0.98);
+}
+
+.telaRetornoConsulta{
+    transition: margin-left 0.3s ease;
+    margin-left: 120px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 133px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+.sidebar.aberto~.telaRetornoConsulta {
+    margin-left: 253px;
+}
+
+.telaRetornoConsulta h1{
+    text-align:center;
+    background-color: #eb6505;
+    max-width: 500px;
+    margin: auto;
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.441);
+}
+
+.boxMenor{
+    transition: margin-left 0.3s ease;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 35px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    padding: 20px;
+}
+
