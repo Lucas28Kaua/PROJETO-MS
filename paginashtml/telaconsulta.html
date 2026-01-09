@@ -106,7 +106,7 @@
                     </div>
                  </div>
 
-                <button type="button" id="btnBuscar" style="display:none;">
+                <button type="button" id="btnBuscar" style="display:none;" onclick="buscar()">
                     <span>Buscar</span>
                 </button>
 
@@ -114,11 +114,24 @@
         </div>
     </main>
             <!--CAMPO DADOS RETONADOS-->
-        <div class="telaRetornoConsulta">
+        <div class="telaRetornoConsulta" style="display:none;">
             <h1>DADOS RETORNADOS</h1>
-            <div class="boxMenor">
 
+            <!--DIV DE LISTA DE CLIENTES(PREVIEW)-->
+            <div id="listaClientes" class="boxLista">
+                <div class="cliente-info"> 
+                    <p><strong>Nome:</strong> Maria das Graças</p> 
+                    <p><strong>CPF:</strong> ***.456.789-**</p> 
+                    <p><strong>Cidade:</strong> Santa Cruz</p> 
+                </div> 
+                <button class="btnDetalhes">➜</button>
             </div>
+
+            <!-- DETALHE DO CLIENTE -->
+            <div id="detalheCliente" class="boxDetalhe" style="display:none;">
+            
+            </div>
+
         </div>
         
     <script src="../javascript/consulta.js"></script>
