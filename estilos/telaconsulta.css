@@ -233,20 +233,24 @@ header img:hover {
     /* mesma distância */
 }
 
-.meio {
-    transition: margin-left 0.3s ease;
+.meio{
     margin-left: 120px;
+    transition: margin-left 0.3s ease;
+}
+
+.formulario {
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
     margin-right: 20px;
     background-color: rgba(211, 211, 211, 0.326);
     min-height: 110px;
     margin-top: 133px;
     border-radius: 15px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
-    transition: margin-left 0.3s ease;
     padding: 20px;
 }
 
-.meio>h1 {
+.formulario>h1 {
     text-align: center;
     background-color: #eb6505;
     max-width: 500px;
@@ -257,7 +261,7 @@ header img:hover {
     margin-bottom: 15px;
 }
 
-.meio>h1:hover {
+.formulario>h1:hover {
     transition: opacity 0.3s ease;
 }
 
@@ -383,11 +387,11 @@ header img:hover {
 
 .telaRetornoConsulta{
     transition: margin-left 0.3s ease;
-    margin-left: 120px;
+    margin-left: 0px;
     margin-right: 20px;
     background-color: rgba(211, 211, 211, 0.326);
     min-height: 110px;
-    margin-top: 133px;
+    margin-top: 70px;
     border-radius: 15px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
     transition: margin-left 0.3s ease;
@@ -416,4 +420,180 @@ header img:hover {
     border-radius: 15px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
     padding: 20px;
+}
+
+div.cliente-info{
+    overflow-Y:auto;
+    max-height: 200px;
+    overflow-Y:auto;
+    border:1px solid black;
+    margin:20px auto 0px auto;
+    padding:0px;
+}
+.tabela-clientes{
+    position:relative;
+    width:100%;
+    border-collapse:collapse;
+    table-layout: fixed;
+}
+
+.tabela-clientes tr,
+.tabela-clientes th,
+.tabela-clientes td{
+    border:1px solid black;
+    padding:7px
+    
+}
+
+.tabela-clientes tr:nth-child(2n){
+    background-color: lightgray;
+}
+
+.tabela-clientes thead>th.maior, th{
+    position:sticky;
+    top:0;
+    color:#0a0a0c;
+    font-weight: bolder;
+    background-color: #EB721C;
+}
+
+
+
+.tabela-clientes th.maior{
+    width:30%
+}
+
+.tabela-clientes th{
+    width:15%
+}
+
+#detalheCliente{
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 70px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+.dados-cliente{
+    width:100%;
+    min-height: 40vh;
+    background-color: rgba(211, 211, 211, 0.44);
+    margin: 8px auto 15px auto;
+    border-radius:20px;
+    box-shadow:2px 2px 9px rgba(0,0,0,0.463)
+}
+
+.dados-cliente>h2{
+    text-align:center;
+    background-color: #eb6505;
+    border-radius:20px 20px 0px 0px;
+    color:black;
+    padding:4px;
+}
+
+.detalheGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.campoDetalhe{
+    background-color: #ffffff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 9px rgba(3, 3, 3, 0.407);
+    min-height: 65px;
+    margin-top:15px;
+    margin-left:10px;
+    margin-right:10px;
+    margin-bottom:20px;
+}
+
+.campoDetalhe:hover{
+    cursor: pointer;
+    transform: scale(0.98);
+    box-shadow:0px 0px 9px #eb65059f;
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    
+}
+
+.campoDetalhe .label {
+    display: block;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.campoDetalhe .valor {
+    font-size: 1.10em;
+    color: #000;
+}
+
+.box-documentos{
+    margin-top:20px;
+}
+.box-documentos .lista-docs{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.box-documentos .lista-docs .doc-item{
+    margin-top:10px;
+    background-color: lightgray;
+    color: #0a0a0c;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.lista-docs .doc-item:hover{
+    background-color: #eb6505;
+    cursor: pointer;
+    transform: scale(0.98);
+    transform:translate(2px, -2px);
+    box-shadow:2px 2px 9px #eb5d0583;
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#OperacaoRecenteCliente{
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 70px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+#OperacaoRecenteCliente>h2{
+    background-color: #eb6505;
+    max-width:500px;
+    margin:auto;
+    text-align: center;
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.441);
+}
+
+footer>div{
+    height: 20px;
 }

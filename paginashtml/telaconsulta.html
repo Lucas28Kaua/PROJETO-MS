@@ -61,8 +61,10 @@
     <!--FORMULARIO TERÁ: NOME, DN, CPF, END(estado,cidade,bairro,rua,n°), 
     DATA(escolha p/ mês e dia. (de tal dia e mes a tal dia e mes))-->
     <main class="meio">
-        <h1>CONSULTA DE CLIENTE</h1>
+
         <div class="formulario">
+
+            <h1>CONSULTA DE CLIENTE</h1>
             <form action="" id="formConsulta">
 
                 <div class="campo-select">
@@ -112,29 +114,95 @@
 
             </form>
         </div>
-    </main>
+
             <!--CAMPO DADOS RETONADOS-->
         <div class="telaRetornoConsulta" style="display:none;">
-            <h1>DADOS RETORNADOS</h1>
 
+            <h1>DADOS RETORNADOS</h1>
             <!--DIV DE LISTA DE CLIENTES(PREVIEW)-->
             <div id="listaClientes" class="boxLista">
                 <div class="cliente-info"> 
-                    <p><strong>Nome:</strong> Maria das Graças</p> 
-                    <p><strong>CPF:</strong> ***.456.789-**</p> 
-                    <p><strong>Cidade:</strong> Santa Cruz</p> 
-                </div> 
-                <button class="btnDetalhes">➜</button>
+                    <table class="tabela-clientes">
+                        <thead>
+                            <tr>
+                                <th class="maior">NOME</th>
+                                <th>CPF</th>
+                                <th>DATA NASCIMENTO</th>
+                                <th class="maior">ENDEREÇO</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tabelaClientes">
+                            <!-- JS vai inserir as linhas aqui -->
+                             
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+         <!-- DETALHE DO CLIENTE -->
+        <div id="detalheCliente" class="boxDetalhe" style="display:block;">
+
+            <div class="dados-cliente">
+                <h2>DADOS CLIENTE</h2>
+                <div class="detalheGrid">
+                    <div class="campoDetalhe">
+                        <span class="label">Nome</span>
+                        <span class="valor"></span>
+                    </div>
+
+                    <div class="campoDetalhe">
+                        <span class="label">CPF</span>
+                        <span class="valor"></span>
+                    </div>
+                    <div class="campoDetalhe">
+                        <span class="label">Data de Nascimento</span>
+                        <span class="valor"></span>
+                    </div>
+                    <div class="campoDetalhe">
+                        <span class="label">Endereço</span>
+                        <span class="valor"></span>
+                    </div>
+                    <div class="campoDetalhe">
+                        <span class="label">N° Benefício</span>
+                        <span class="valor"></span>
+                    </div>
+                    <div class="campoDetalhe">
+                        <span class="label">Senha INSS</span>
+                        <span class="valor"></span>
+                    </div>
+                </div>
             </div>
 
-            <!-- DETALHE DO CLIENTE -->
-            <div id="detalheCliente" class="boxDetalhe" style="display:none;">
-            
-            </div>
+            <div class="box-documentos">
+                <h3>Documentos</h3>
 
+                <div class="lista-docs">
+                    <div class="doc-item">RG FRENTE</div>
+                    <div class="doc-item">RG VERSO</div>
+                </div>
+                        
+            </div>
         </div>
         
+        <div id="OperacaoRecenteCliente" style="display:block;">
+            <h2>OPERAÇÕS RECENTES CLIENTE</h2>
+            <div class="tabela-operacoesCliente">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </main> 
     <script src="../javascript/consulta.js"></script>
 </body>
 
+<footer>
+    <div></div>
+</footer>
 </html>
