@@ -92,6 +92,24 @@ function buscar() {
 }
 
 
+const tbody=document.getElementById('tabelaClientes');
+
+tbody.addEventListener('click', function (e) {
+  const linha = e.target.closest('tr');
+  if (!linha) return;
+  console.log('linha Clicada');
+
+
+  abrirDetalhesCliente();
+
+});
+
+function abrirDetalhesCliente() {
+  document.querySelector('.telaRetornoConsulta').style.display = 'none';
+  document.querySelector('.telaDetalhesCliente').style.display = 'block';
+}
+
+
 function abrefecha(botao, url = null){
   const bloco=botao.parentElement;
   const img=bloco.querySelector('.doc-imagem');

@@ -429,12 +429,22 @@ div.cliente-info{
     table-layout: fixed;
 }
 
+#tabelaClientes tr.linhaClicavel:hover{
+    background-color: #eb650570;
+    font-size:1.2em;
+    transition: 0.2s ease;
+}
+
 .tabela-clientes tr,
 .tabela-clientes th,
 .tabela-clientes td{
     border:1px solid black;
-    padding:7px
-    
+    padding:7px;
+    text-align: center;
+}
+
+.tabela-clientes tr{
+    cursor:pointer
 }
 
 .tabela-clientes tr:nth-child(2n){
@@ -649,6 +659,43 @@ div.cliente-info{
     padding: 8px;
     box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.441);
 }
+
+.tabela-operacoesCliente table{
+    border-collapse: collapse;
+    margin:auto;
+    width:100%;
+    table-layout: fixed;
+}
+
+.tabela-operacoesCliente table th{
+    border:2px solid black;
+    padding:10px;
+    width:300px;
+    position:sticky;
+    top:0;
+    color:#0a0a0c;
+    font-weight: bolder;
+    background-color: #EB721C;
+}
+
+.tabela-operacoesCliente table td{
+    border:2px solid black;
+    padding:7px
+}
+
+.tabela-operacoesCliente tr:nth-child(2n){
+    background-color: lightgray;
+}
+
+.tabela-operacoesCliente{
+    overflow-Y:auto;
+    max-height: 200px;
+    overflow-Y:auto;
+    border:1px solid black;
+    margin:20px auto 0px auto;
+    padding:0px;
+}
+
 
 footer>div{
     height: 20px;
