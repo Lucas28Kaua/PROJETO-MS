@@ -81,8 +81,8 @@ header img:hover{
     transform: scale(0.98);
 }
 
-.sidebar{
-    width: 105px;
+.sidebar {
+    width: 99px;
     background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
     border: 2px solid rgba(235, 114, 28, 0.4);
     border-left: none;
@@ -93,20 +93,22 @@ header img:hover{
     overflow: hidden;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
     position: fixed;
-    top: 110px; /* altura do header */
+    top: 110px;
+    /* altura do header */
     left: 0;
     height: calc(100vh - 110px);
     z-index: 900;
 }
 
-.sidebar.aberto{
-    width: 233px; /* Largura quando aberto */
+.sidebar.aberto {
+    width: 231px;
+    /* Largura quando aberto */
 }
 
 /* Botão toggle */
 .toggle-btn{
     position: absolute;
-    top: 87px;
+    top: 123px;
     right: -10px; /* Aumentei pra sair mais pra fora */
     width: 35px; /* Aumentei um pouco */
     height: 70px;
@@ -164,21 +166,14 @@ header img:hover{
     display: flex;
     align-items: center;
     padding: 7px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.258);
-    border: 1px solid rgba(235, 101, 5, 0.3);
+
     text-decoration: none;
     white-space: nowrap;
     transition: all 0.3s ease;
     width: 100%;
 }
 
-.menu-link:hover{
-    background-color: rgba(235, 101, 5, 0.2);
-    border: 1px solid #eb6505;
-    transform: translateX(5px);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
+
 
 .menu li i {
     min-width: 24px;
@@ -210,7 +205,7 @@ header img:hover{
 .menu li:hover{
     background-color: rgba(235, 101, 5, 0.2);
     border: 1px solid #eb6505;
-    transform: translateX(5px);
+    transform: scale(1.06);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 

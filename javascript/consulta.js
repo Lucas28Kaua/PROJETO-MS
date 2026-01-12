@@ -91,3 +91,14 @@ function buscar() {
   
 }
 
+
+function abrefecha(botao, url = null){
+  const bloco=botao.parentElement;
+  const img=bloco.querySelector('.doc-imagem');
+
+  if (url){
+    img.src=url;
+  }
+
+  bloco.classList.toggle('ativo');
+}

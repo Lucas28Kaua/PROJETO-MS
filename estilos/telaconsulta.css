@@ -84,7 +84,7 @@ header img:hover {
 }
 
 .sidebar {
-    width: 105px;
+    width: 99px;
     background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
     border: 2px solid rgba(235, 114, 28, 0.4);
     border-left: none;
@@ -103,14 +103,14 @@ header img:hover {
 }
 
 .sidebar.aberto {
-    width: 233px;
+    width: 231px;
     /* Largura quando aberto */
 }
 
 /* Botão toggle */
 .toggle-btn {
     position: absolute;
-    top: 87px;
+    top: 123px;
     right: -10px;
     /* Aumentei pra sair mais pra fora */
     width: 35px;
@@ -171,21 +171,13 @@ header img:hover {
     display: flex;
     align-items: center;
     padding: 7px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.258);
-    border: 1px solid rgba(235, 101, 5, 0.3);
+
     text-decoration: none;
     white-space: nowrap;
     transition: all 0.3s ease;
     width: 100%;
 }
 
-.menu-link:hover {
-    background-color: rgba(235, 101, 5, 0.2);
-    border: 1px solid #eb6505;
-    transform: translateX(5px);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
 
 .menu li i {
     min-width: 24px;
@@ -220,7 +212,7 @@ header img:hover {
 .menu li:hover {
     background-color: rgba(235, 101, 5, 0.2);
     border: 1px solid #eb6505;
-    transform: translateX(5px);
+    transform: scale(1.06);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -526,6 +518,21 @@ div.cliente-info{
     
 }
 
+.dadosPessoais, .dadosEndereco, .dadosTel, .dadosSenhaINSS{
+    background-color: white;
+    margin:15px;
+    border-radius:12px;
+    box-shadow: 2px 2px 9px rgba(3, 3, 3, 0.407)
+}
+
+.dadosPessoais h3, .dadosEndereco h3, .dadosTel h3, .dadosSenhaINSS h3{
+    padding:10px;
+    font-size:1.3em;
+    text-align:center;
+    background-color: #eb6505;
+    border-radius:12px 12px 0px 0px;
+}
+
 .campoDetalhe .label {
     display: block;
     font-size: 0.85em;
@@ -540,30 +547,79 @@ div.cliente-info{
 }
 
 .box-documentos{
-    margin-top:20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    margin:20px 20px 0px 0px;
+    border-radius:15px;
+    box-shadow:2px 2px 8px rgba(0,0,0,0.463);
+    padding-bottom:15px
+}
+
+.box-documentos h2{
+    background-color: #eb6505;
+    width:100%;
+    border-radius:15px 15px 0px 0px;
+    padding:8px;
+    text-align: center;
 }
 .box-documentos .lista-docs{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 12px;
+    margin:20px;
 }
 
 .box-documentos .lista-docs .doc-item{
-    margin-top:10px;
-    background-color: lightgray;
+    margin-top:0px;
+    background-color: rgb(163, 163, 163);
     color: #0a0a0c;
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: bold;
     padding: 12px;
-    border-radius: 8px;
+    border-radius: 8px 8px 0px 0px;
     text-align: center;
 }
+
+
+.doc-bloco{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.doc-bloco.ativo .doc-conteudo{
+    max-height:450px;
+    padding:12px;
+
+}
+
+.doc-imagem{
+    width:100%;
+    max-height:380px;
+    object-fit:contain;
+    border-radius:8px;
+    background-color: #fff;
+}
+
+.botao-rg{
+    border:none;
+}
+
+.doc-conteudo {
+    margin-top: 0px;
+    max-height: 0;
+    overflow:hidden;
+    padding:0 12px;
+    transition:
+        max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.3s ease;
+    background-color: lightgray;
+    border-radius: 0px 0px 8px 8px;
+}
+
 
 .lista-docs .doc-item:hover{
     background-color: #eb6505;
     cursor: pointer;
-    transform: scale(0.98);
-    transform:translate(2px, -2px);
     box-shadow:2px 2px 9px #eb5d0583;
     transition:
         background 0.3s ease,
