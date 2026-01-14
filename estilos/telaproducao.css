@@ -264,7 +264,7 @@ header img:hover {
 .contagemProd{
     border-collapse:collapse;
     margin:20px auto 20px auto;
-    width:80%;
+    width:90%;
     padding:8px;
 }
 
@@ -325,11 +325,11 @@ header img:hover {
     font-weight: bolder;
 }
 .totalFuncionario>td{
-    background-color: rgba(0, 128, 0, 0.36);
+    background-color: rgba(0, 128, 0, 0.681);
 }
 
 .ultimo>td{
-    background-color: rgba(0, 128, 0, 0.6);
+    background-color: rgb(0, 128, 0);
     border:2px solid black;
     font-weight: bolder;
 }
