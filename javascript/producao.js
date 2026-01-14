@@ -59,3 +59,7 @@ document.querySelectorAll('.contagemProd input[type="text"]').forEach(input => {
     });
 
 });
+
+function registrarProd(){
+    return console.log('Botão clicado!')
+}

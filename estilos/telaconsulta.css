@@ -58,29 +58,40 @@ header img:hover {
     gap: 8px;
     padding: 8px 14px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     font-size: 1.05em;
     font-weight: 600;
-    background: #EB721C;
+    background: linear-gradient(135deg, #eb721c, #ff8a3d);
     color: white;
     margin-right: 15px;
     margin-left: auto;
+
     transition:
-        background 0.3s ease,
+        background 0.25s ease,
         transform 0.2s ease,
-        box-shadow 0.2s ease;
-    box-shadow:2px 2px 8px #eb641c8e;
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+    box-shadow:2px 2px 8px rgba(235, 100, 28, 0.55);
     text-decoration:none;
+    cursor:pointer;
 }
 
 
 .btn-sair:hover {
+    background: linear-gradient(135deg, #ff7a1a, #ff9a4d);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.35);
+    filter: brightness(1.05);
 }
 
 .btn-sair:active {
-    transform: scale(0.98);
+    transform: scale(0.96) translateY(1px);
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-sair:focus-visible {
+    outline: 2px solid #ffb380;
+    outline-offset: 3px;
 }
 
 .sidebar {
