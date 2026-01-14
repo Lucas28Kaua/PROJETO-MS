@@ -60,6 +60,12 @@ document.querySelectorAll('.contagemProd input[type="text"]').forEach(input => {
 
 });
 
+const tableData=window.document.querySelectorAll('td:not(.produto)')
+
 function registrarProd(){
+    tableData.forEach(td=>{
+        td.innerHTML ='';
+    })
+    
     return console.log('Botão clicado!')
 }
