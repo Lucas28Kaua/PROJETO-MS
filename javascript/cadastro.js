@@ -32,19 +32,30 @@ const conteudoClienteNovo=document.querySelector('.conteudoClienteNovo')
 const conteudoClienteCarteira=document.querySelector('.conteudoClienteCarteira')
 
 function abreFechaNovo(){
-   console.log('clicado!')
-   if (conteudoClienteNovo.style.display =='none'){
-    conteudoClienteNovo.style.display='block'
-   } else{
-        conteudoClienteNovo.style.display='none'
-   }
+   console.log('clicado cliente novo!')
+    conteudoClienteNovo.classList.toggle('aberto')
 }
 
 function abreFechaCarteira(){
-   console.log('clicado!')
-   if (conteudoClienteCarteira.style.display =='none'){
-    conteudoClienteCarteira.style.display='block'
-   } else{
-        conteudoClienteCarteira.style.display='none'
-   }
+   console.log('clicado cliente carteira!')
+    conteudoClienteCarteira.classList.toggle('aberto')
 }
+
+const estados = [
+  "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia",
+  "Ceará", "Distrito Federal", "Espírito Santo", "Goiás",
+  "Maranhão", "Mato Grosso", "Mato Grosso do Sul",
+  "Minas Gerais", "Pará", "Paraíba", "Paraná",
+  "Pernambuco", "Piauí", "Rio de Janeiro",
+  "Rio Grande do Norte", "Rio Grande do Sul",
+  "Rondônia", "Roraima", "Santa Catarina",
+  "São Paulo", "Sergipe", "Tocantins"
+]
+
+const dataList= document.getElementById('lista-estados')
+
+estados.forEach(estado => {
+  const option = document.createElement('option')
+  option.value = estado
+  dataList.appendChild(option)
+})
