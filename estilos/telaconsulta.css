@@ -711,3 +711,332 @@ div.cliente-info{
 footer>div{
     height: 20px;
 }
+
+
+/* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
+
+/* Tablet e telas menores */
+@media screen and (max-width: 768px) {
+    
+    /* AJUSTE: Header menor */
+    header {
+        height: 80px;
+        padding: 0 15px;
+        justify-content: space-between;
+    }
+    
+    header img {
+        width: 100px;
+        margin-right: auto;
+    }
+    
+    /* AJUSTE: Botão sair só com ícone */
+    .btn-sair {
+        padding: 8px;
+        min-width: auto;
+        margin-right: 60px;
+        margin-left: 0;
+    }
+    
+    .btn-sair .text-button {
+        display: none;
+    }
+    
+    /* AJUSTE: Sidebar escondida */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+        top: 0;
+        height: 100vh;
+        border-radius: 0;
+        transition: transform 0.3s ease;
+        z-index: 2000;
+    }
+    
+    .sidebar.aberto {
+        transform: translateX(0);
+    }
+    
+    /* NOVO: Botão hambúrguer */
+    .menu-hamburguer {
+        display: block;
+        position: fixed;
+        top: 17px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        background-color: #eb6505;
+        border: 2px solid black;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 3000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+    }
+    
+    .menu-hamburguer span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: all 0.3s ease;
+        display: block;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 6px);
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+    
+    /* NOVO: Overlay */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1500;
+    }
+    
+    .overlay.ativo {
+        display: block;
+    }
+    
+    /* AJUSTE: Esconde botão toggle */
+    .toggle-btn {
+        display: none;
+    }
+    
+    /* AJUSTE: Menu sempre expandido no mobile */
+    .menu li {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 15px;
+    }
+    
+    .menu-text {
+        opacity: 1;
+    }
+    
+    /* AJUSTE: Conteúdo sem margem lateral */
+    .meio {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .sidebar.aberto ~ .meio {
+        margin-left: 10px;
+    }
+    
+    /* AJUSTE: Formulário */
+    .formulario {
+        margin-top: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    .formulario > h1 {
+        font-size: 1.3em;
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Campos de busca */
+    .campo-select {
+        max-width: 100%;
+    }
+    
+    #blocoEndereco {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        gap: 12px;
+        margin: 20px 10px;
+    }
+    
+    .campo {
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Botão buscar */
+    #btnBuscar {
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    /* AJUSTE: Tela de retorno */
+    .telaRetornoConsulta {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    .sidebar.aberto ~ .telaRetornoConsulta {
+        margin-left: 10px;
+    }
+    
+    .telaRetornoConsulta h1 {
+        font-size: 1.2em;
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Tabela de clientes com scroll */
+    div.cliente-info {
+        overflow-x: auto;
+        max-height: 300px;
+    }
+    
+    .tabela-clientes {
+        min-width: 600px;
+    }
+    
+    .tabela-clientes tr,
+    .tabela-clientes th,
+    .tabela-clientes td {
+        padding: 8px;
+        font-size: 0.85em;
+    }
+    
+    /* AJUSTE: Detalhe do cliente */
+    #detalheCliente {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    /* AJUSTE: Grid de detalhes em coluna única */
+    .detalheGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .campoDetalhe {
+        margin: 10px 5px;
+    }
+    
+    /* AJUSTE: Boxes de dados */
+    .dadosPessoais,
+    .dadosEndereco,
+    .dadosTel,
+    .dadosSenhaINSS {
+        margin: 10px 5px;
+    }
+    
+    .dadosPessoais h3,
+    .dadosEndereco h3,
+    .dadosTel h3,
+    .dadosSenhaINSS h3 {
+        font-size: 1.1em;
+    }
+    
+    /* AJUSTE: Documentos */
+    .box-documentos {
+        margin: 20px 10px 0px 10px;
+    }
+    
+    .box-documentos .lista-docs {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        gap: 10px;
+        margin: 15px 10px;
+    }
+    
+    .doc-imagem {
+        max-height: 300px;
+    }
+    
+    /* AJUSTE: Operações recentes */
+    #OperacaoRecenteCliente {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    #OperacaoRecenteCliente > h2 {
+        font-size: 1.2em;
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Tabela de operações com scroll */
+    .tabela-operacoesCliente {
+        overflow-x: auto;
+    }
+    
+    .tabela-operacoesCliente table {
+        min-width: 600px;
+    }
+    
+    .tabela-operacoesCliente table th,
+    .tabela-operacoesCliente table td {
+        padding: 8px;
+        font-size: 0.85em;
+    }
+}
+
+/* Celular pequeno */
+@media screen and (max-width: 480px) {
+    
+    /* AJUSTE: Header ainda menor */
+    header {
+        height: 70px;
+    }
+    
+    header img {
+        width: 80px;
+    }
+    
+    /* AJUSTE: Títulos menores */
+    .formulario > h1,
+    .telaRetornoConsulta h1,
+    #OperacaoRecenteCliente > h2 {
+        font-size: 1em;
+        padding: 6px;
+    }
+    
+    /* AJUSTE: Margens ajustadas */
+    .formulario,
+    .telaRetornoConsulta,
+    #detalheCliente,
+    #OperacaoRecenteCliente {
+        margin-top: 85px;
+        padding: 10px;
+    }
+    
+    /* AJUSTE: Campos menores */
+    .campo input,
+    #buscaSimples {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+    
+    /* AJUSTE: Tabelas mais compactas */
+    .tabela-clientes tr,
+    .tabela-clientes th,
+    .tabela-clientes td,
+    .tabela-operacoesCliente table th,
+    .tabela-operacoesCliente table td {
+        padding: 6px;
+        font-size: 0.75em;
+    }
+    
+    /* AJUSTE: Documentos */
+    .box-documentos .lista-docs .doc-item {
+        font-size: 1em;
+    }
+    
+    .doc-imagem {
+        max-height: 250px;
+    }
+}

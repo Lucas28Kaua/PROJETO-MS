@@ -347,12 +347,26 @@ div.foto-container{
     header {
         padding: 0 15px;
         justify-content: space-between;
+        height: 80px; /* ADICIONA ISSO */
     }
     
     header img {
         width: 100px;
+        margin-right: auto; /* ADICIONA ISSO */
     }
     
+    /* AJUSTE: Botão sair só com ícone e espaço pro hambúrguer */
+    .btn-sair {
+        padding: 8px;
+        min-width: auto;
+        margin-right: 60px; /* ADICIONA ISSO - dá espaço pro hambúrguer */
+        margin-left: 0;
+    }
+
+    .btn-sair .text-button {
+        display: none; /* ADICIONA ISSO - esconde o texto "Sair" */
+    }
+
     /* Esconde a sidebar normal */
     .sidebar {
         transform: translateX(-100%);
@@ -374,7 +388,7 @@ div.foto-container{
     .menu-hamburguer {
         display: block;
         position: fixed;
-        top: 30px;
+        top: 20px;
         right: 20px;
         width: 40px;
         height: 40px;

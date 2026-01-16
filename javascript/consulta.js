@@ -1,26 +1,31 @@
-const toggleBtn = document.getElementById('toggleMenu');
+toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
-
-toggleBtn.addEventListener('click', function () {
-  sidebar.classList.toggle('aberto');
-});
-
 const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
 
-if (menuToggle) {
-  menuToggle.addEventListener('click', function () {
-    sidebar.classList.toggle('aberto');
-    menuToggle.classList.toggle('ativo');
-    overlay.classList.toggle('ativo');
-  });
+// Toggle do botão normal da sidebar (desktop)
+if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+        sidebar.classList.toggle('aberto');
+    });
+}
 
-  // Fecha ao clicar no overlay
-  overlay.addEventListener('click', function () {
-    sidebar.classList.remove('aberto');
-    menuToggle.classList.remove('ativo');
-    overlay.classList.remove('ativo');
-  });
+// Menu hambúrguer mobile
+if (menuToggle) {
+    menuToggle.addEventListener('click', function () {
+        sidebar.classList.toggle('aberto');
+        menuToggle.classList.toggle('ativo');
+        if (overlay) overlay.classList.toggle('ativo');
+    });
+}
+
+// Fecha ao clicar no overlay
+if (overlay) {
+    overlay.addEventListener('click', function () {
+        sidebar.classList.remove('aberto');
+        if (menuToggle) menuToggle.classList.remove('ativo');
+        overlay.classList.remove('ativo');
+    });
 }
 
 const tipoBusca = window.document.getElementById('tipoBusca')

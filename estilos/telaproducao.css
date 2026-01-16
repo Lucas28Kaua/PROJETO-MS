@@ -376,3 +376,218 @@ header img:hover {
 footer{
     height:20px;
 }
+
+
+/* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
+
+/* Tablet e telas menores */
+@media screen and (max-width: 768px) {
+    
+    /* AJUSTE: Header menor no mobile */
+    header {
+        height: 80px;
+        padding: 0 15px;
+        justify-content: space-between; /* ADICIONA ISSO */
+    }
+    
+    header img {
+        width: 100px;
+        margin-right:auto
+    }
+    
+    /* AJUSTE: Botão sair fica só com ícone */
+    .btn-sair .text-button {
+        display: none;
+    }
+    
+    .btn-sair {
+        padding: 10px;
+        min-width: auto;
+        margin-right: 60px; /* ADICIONA ISSO - dá espaço pro hambúrguer */
+        margin-left: 0;
+    }
+    
+    /* AJUSTE: Sidebar escondida por padrão */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+        top: 0;
+        height: 100vh;
+        border-radius: 0;
+        transition: transform 0.3s ease;
+        z-index: 2000;
+    }
+    
+    .sidebar.aberto {
+        transform: translateX(0);
+    }
+    
+    /* NOVO: Botão hambúrguer (adiciona no HTML antes do </body>) */
+    .menu-hamburguer {
+        display: block;
+        position: fixed;
+        top: 20px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        top: 17px; /* AJUSTA PRA ALINHAR COM O HEADER */
+        background-color: #eb6505;
+        border: 2px solid black;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 3000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+    }
+    
+    .menu-hamburguer span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: all 0.3s ease;
+        display: block;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 6px);
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+    
+    /* NOVO: Overlay escuro (adiciona no HTML antes do </body>) */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1500;
+    }
+    
+    .overlay.ativo {
+        display: block;
+    }
+    
+    /* AJUSTE: Esconde botão toggle da sidebar */
+    .toggle-btn {
+        display: none;
+    }
+    
+    /* AJUSTE: Menu sempre expandido no mobile */
+    .menu li {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 15px;
+    }
+    
+    .menu-text {
+        opacity: 1;
+    }
+    
+    /* AJUSTE: Conteúdo principal sem margem lateral */
+    .meio {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .sidebar.aberto ~ .meio {
+        margin-left: 10px;
+    }
+    
+    /* AJUSTE: Box da tabela */
+    .box-tabela {
+        margin-top: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        overflow-x: auto;
+    }
+    
+    /* AJUSTE: Tabela responsiva com scroll horizontal */
+    .contagemProd {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .contagemProd thead,
+    .contagemProd tbody,
+    .contagemProd tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    /* AJUSTE: Células menores */
+    .contagemProd tr, 
+    .contagemProd th, 
+    .contagemProd td {
+        padding: 10px;
+        font-size: 0.85em;
+    }
+    
+    .contagemProd td input {
+        font-size: 14px;
+    }
+    
+    /* AJUSTE: Botão registrar centralizado */
+    .btnRegistrar {
+        text-align: center;
+        margin: 20px 10px;
+    }
+    
+    .btnRegistrar button {
+        width: 90%;
+        font-size: 1em;
+        padding: 12px;
+    }
+}
+
+/* Celular pequeno */
+@media screen and (max-width: 480px) {
+    
+    /* AJUSTE: Header ainda menor */
+    header {
+        height: 70px;
+    }
+    
+    header img {
+        width: 80px;
+    }
+    
+    /* AJUSTE: Título da tabela menor */
+    .box-tabela h1 {
+        font-size: 1.2em;
+        padding: 8px;
+    }
+    
+    /* AJUSTE: Tabela ainda mais compacta */
+    .contagemProd tr, 
+    .contagemProd th, 
+    .contagemProd td {
+        padding: 6px;
+        font-size: 0.75em;
+    }
+    
+    .contagemProd td input {
+        font-size: 12px;
+    }
+    
+    /* AJUSTE: Margem do conteúdo */
+    .box-tabela {
+        margin-top: 85px;
+    }
+}
