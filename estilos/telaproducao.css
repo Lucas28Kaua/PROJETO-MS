@@ -430,7 +430,7 @@ footer{
         right: 15px;
         width: 45px;
         height: 45px;
-        top: 17px; /* AJUSTA PRA ALINHAR COM O HEADER */
+        top: 20px; /* AJUSTA PRA ALINHAR COM O HEADER */
         background-color: #eb6505;
         border: 2px solid black;
         border-radius: 8px;

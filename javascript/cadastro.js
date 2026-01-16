@@ -27,3 +27,24 @@ if (overlay) {
         overlay.classList.remove('ativo');
     });
 }
+
+const conteudoClienteNovo=document.querySelector('.conteudoClienteNovo')
+const conteudoClienteCarteira=document.querySelector('.conteudoClienteCarteira')
+
+function abreFechaNovo(){
+   console.log('clicado!')
+   if (conteudoClienteNovo.style.display =='none'){
+    conteudoClienteNovo.style.display='block'
+   } else{
+        conteudoClienteNovo.style.display='none'
+   }
+}
+
+function abreFechaCarteira(){
+   console.log('clicado!')
+   if (conteudoClienteCarteira.style.display =='none'){
+    conteudoClienteCarteira.style.display='block'
+   } else{
+        conteudoClienteCarteira.style.display='none'
+   }
+}
