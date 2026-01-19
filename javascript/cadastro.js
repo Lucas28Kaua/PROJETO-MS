@@ -1,4 +1,4 @@
-toggleBtn = document.getElementById('toggleMenu');
+const toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
 const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
@@ -52,10 +52,13 @@ const estados = [
   "São Paulo", "Sergipe", "Tocantins"
 ]
 
-const dataList= document.getElementById('lista-estados')
+const selectEstado = document.getElementById('estado')
 
-estados.forEach(estado => {
-  const option = document.createElement('option')
-  option.value = estado
-  dataList.appendChild(option)
-})
+if (selectEstado) {
+  estados.forEach(estado => {
+    const option = document.createElement('option')
+    option.value = estado
+    option.textContent = estado
+    selectEstado.appendChild(option)
+  })
+}

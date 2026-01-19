@@ -236,7 +236,7 @@ header img:hover {
     margin-right:20px;
     margin-top: 133px;
     min-width:80vw;
-    min-height: 0px;
+    max-height: 585px;
     border-radius:15px;
     box-shadow:2px 2px 8px rgba(0, 0, 0, 0.463);
 }
@@ -253,7 +253,8 @@ header img:hover {
     display: flex;
     gap:100px;              /* espaço entre as divs */
     justify-content: center;
-    padding: 20px;
+
+    padding: 5px 20px 20px 20px;
 }
 
 .clienteNovo{
@@ -312,7 +313,7 @@ header img:hover {
 
 .conteudoClienteNovo.aberto,
 .conteudoClienteCarteira.aberto{
-    max-height: 150px; /* maior que o conteúdo */
+    max-height: 490px; /* maior que o conteúdo */
     padding:15px;
     opacity: 1;
 }
@@ -332,3 +333,116 @@ header img:hover {
     font-size:1.6em;
 }
 
+.conteudoClienteNovo {
+    width: 100%;
+}
+
+.conteudoClienteNovo form {
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
+    gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
+    margin-bottom: 15px;
+}
+
+.campo,
+.campo-grande{
+    display:flex;
+    flex-direction: column;
+}
+
+.campo label,
+.campo-grande label {
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#inumero{
+    width:25%
+}
+
+#labelNumero{
+    text-align: left;
+    margin-left:30px
+}
+.campo input,
+.campo-grande input,
+.campo-grande select {
+    width: 100%;
+    padding: 8px;
+    border-radius:12px;
+    border:1px solid black;
+
+        font-size: 0.95rem;
+
+    transition: 
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+input:hover,
+select:hover {
+    border-color: #eb6505;
+    background-color: #f8faff;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #eb6505;
+    box-shadow: 0 0 0 3px #eb650524;
+    background-color: #ffffff;
+}
+
+input:active,
+select:active {
+    transform: scale(0.995);
+}
+
+.campo:focus-within label,
+.campo-grande:focus-within label {
+    color: #eb6505;
+}
+
+.cadastroClienteNovo{
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+
+    background-color:#eb5d05;
+    color: #fff;
+
+    
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    cursor: pointer;
+
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+.cadastroClienteNovo:hover{
+    filter: brightness(1.1);
+    box-shadow: 2px 2px 8px #eb5d057e;
+    transform: translateY(-1px);
+}
+
+.cadastroClienteNovo:active {
+    transform: translateY(1px) scale(0.98);
+    
+}
+
+.cadastroClienteNovo:focus-visible {
+    outline: none;
+    box-shadow: 2px 2px 8px #eb5d057e;
+}
+
+footer div{
+    margin:15px;
+}
