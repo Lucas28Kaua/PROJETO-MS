@@ -66,71 +66,100 @@
                     </button>
 
                     <div class="conteudoClienteNovo">
-                        <form action="#">
+                        <form id="formClienteNovo" action="#" onsubmit="cadClienteNovo(event)">
                                         <!--NOME-->
+                            <div class="enderecoClienteNovo">
+                                <h3 class="h3ClienteNovo">Dados Pessoais</h3>
+                            </div>
+
                             <div class="campo-grande">
                                 <label for="inome">Nome:</label>
-                                <input type="text" name="nome" id="inome">
+                                <input type="text" name="nome" id="inome" placeholder="João Da Silva" required autocomplete="on">
                             </div>
                                         <!--CPF-->
                             <div class="campo">
                                 <label for="icpf">CPF:</label>
-                                <input type="text" name="cpf" id="icpf">
+                                <input type="text" name="cpf" id="icpf" placeholder="000.000.000-00" required autocomplete="on">
                             </div>
                                         <!--DATA NASC-->
                             <div class="campo">
                                 <label for="idataNasc">Data de Nascimento</label>
-                                <input type="date" name="dataNasc" id="idataNasc">
+                                <input type="date" name="dataNasc" id="idataNasc" placeholder="000.000.000-00" required autocomplete="on">
                             </div>
                                         <!--N BENEFICIO-->
                             <div class="campo">
                                 <label for="ibeneficio">N° Benefício</label>
-                                <input type="number" name="beneficio" id="ibeneficio">
+                                <input type="number" name="beneficio" id="ibeneficio" placeholder="000.000.000-0" required autocomplete="on">
                             </div>
                                         <!--N° TELEFONE-->
                             <div class="campo">
                                 <label for="itelefone">N° Telefone</label>
-                                <input type="tel" name="telefone" id="itelefone">
+                                <input type="tel" name="telefone" id="itelefone" placeholder="(99) 99999-9999" required autocomplete="on">
                             </div>
                                         <!--SENHA INSS-->
                             <div class="campo">
                                 <label for="senhaInss">Senha INSS</label>
-                                <input type="text" name="senha" id="senhaInss">
+                                <input type="text" name="senha" id="senhaInss" placeholder="Joao@1234" required autocomplete="on">
                             </div>
 
-                                            <!--ENDEREÇO-->
-                                            <!--ESTADO-->
+                                        <!--ENDEREÇO-->
+                                        <!--ESTADO-->
+                            <div class="enderecoClienteNovo">
+                                <h3 class="h3ClienteNovo">Endereço</h3>
+                            </div>
+
+                            <div class="campo-grande">
+                                <label for="estado">Estado</label>
+                                <select name="estado" id="estado" required autocomplete="on">
+                                    <option value="">Selecione o estado</option></select>
+                            
+                            </div>
+                                        <!-- FIM ESTADO-->
+                                        <!--CIDADE-->
+                            <div class="campo-grande">
+                                <label for="cidade">Cidade</label>
+                                <input type="text" name="cidade" id="cidade" placeholder="Santa Cruz" required autocomplete="on">
+                            </div>
+                                        <!--BAIRRO-->
+                            <div class="campo-grande">
+                                <label for="bairro">Bairro</label>
+                                <input type="text" name="bairro" id="bairro" placeholder="Centro" required autocomplete="on">
+                            </div>
+                                        <!--RUA-->
+                            <div class="campo-grande">
+                                <label for="rua">Rua</label>
+                                <input type="text" name="rua" id="irua" placeholder="João Bianor Bezerra" required autocomplete="on">
+                            </div>
+                                        <!--Número-->
+                            <div class="campo">
+                                <label for="inumero" id="labelNumero">N°</label>
+                                <input type="text" name="numero" id="inumero" placeholder="00" required autocomplete="on">
+                            </div>
+                                        <!--OPERAÇÕES RECENTES-->
+                                            <!--PRODUTO-->
+                            <div class="enderecoClienteNovo">
+                                <h3 class="h3ClienteNovo">Operações Recentes</h3>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ioperacao">Operação</label>
+                                <input type="text" name="produto" id="ioperacao" placeholder="Margem Novo" required autocomplete="on">
+                            </div>
+                                            <!--DATA-->
+                            <div class="campo">
+                                <label for="dataProd">Data</label>
+                                <input type="date" name="data-prod" id="dataProd" placeholder="01/01/2026" required autocomplete="on">
+                            </div>
+                                            <!--BANCO-->
+                            <div class="campo">
+                                <label for="bancoProd">Banco Operação</label>
+                                <input type="text" name="banco" id="bancoProd" required autocomplete="on">
+                            </div>
                                 
-                                    <div class="campo-grande">
-                                        <label for="estado">Estado</label>
-                                        <select name="estado" id="estado">
-                                            <option value="">Selecione o estado</option></select>
-                                    
-                                    </div>
-                                                <!-- FIM ESTADO-->
-                                                <!--CIDADE-->
-                                    <div class="campo-grande">
-                                        <label for="cidade">Cidade</label>
-                                        <input type="text" name="cidade" id="cidade">
-                                    </div>
-                                                <!--BAIRRO-->
-                                    <div class="campo-grande">
-                                        <label for="bairro">Bairro</label>
-                                        <input type="text" name="bairro" id="bairro">
-                                    </div>
-                                                <!--RUA-->
-                                    <div class="campo-grande">
-                                        <label for="rua">Rua</label>
-                                        <input type="text" name="rua" id="irua">
-                                    </div>
-                                                <!--Número-->
-                                    <div class="campo">
-                                        <label for="inumero" id="labelNumero">N°</label>
-                                        <input type="text" name="numero" id="inumero">
-                                    </div>
                         </form>
                         
-                        <button class="cadastroClienteNovo">CADASTRAR</button>
+                        <input type="submit" value="Cadastrar" class="cadastroClienteNovo" form="formClienteNovo">
+                        <h4 id="botaoClicado"></h4>
                     </div>   
                 </div>
 

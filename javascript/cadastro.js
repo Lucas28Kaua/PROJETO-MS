@@ -62,3 +62,27 @@ if (selectEstado) {
     selectEstado.appendChild(option)
   })
 }
+
+const formClienteNovo=document.getElementById('formClienteNovo')
+const botaoClicado=document.getElementById('botaoClicado')
+
+function cadClienteNovo(event) {
+    event.preventDefault(); // impede reload
+    console.log("Formulário validado, enviando...");
+    formClienteNovo.reset()
+
+    // força reset da animação
+    
+    void botaoClicado.offsetWidth;
+
+    botaoClicado.textContent = "✅ Cliente cadastrado com sucesso!";
+    botaoClicado.classList.remove('sumir');
+    botaoClicado.classList.add('ativo');
+
+    // some após o tempo da barra
+    setTimeout(() => {
+        botaoClicado.classList.remove('ativo');
+        botaoClicado.classList.add('sumir');
+        
+    }, 4000);
+}

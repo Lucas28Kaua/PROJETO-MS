@@ -343,6 +343,26 @@ header img:hover {
     grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
     gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
     margin-bottom: 15px;
+
+    max-height: 300px;       /* <<< AJUSTA AQUI */
+    overflow-y: auto;
+
+    padding-right: 6px;     /* espaço pro scroll não colar */
+}
+
+.enderecoClienteNovo{
+    grid-column: 1/ -1;
+    margin:12px 0px 6px 0px;
+}
+
+.enderecoClienteNovo h3{
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: black;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #eb6505;
+
+    letter-spacing: 0.5px;
 }
 
 .campo,
@@ -358,14 +378,6 @@ header img:hover {
     text-align: center;
 }
 
-#inumero{
-    width:25%
-}
-
-#labelNumero{
-    text-align: left;
-    margin-left:30px
-}
 .campo input,
 .campo-grande input,
 .campo-grande select {
@@ -382,13 +394,13 @@ header img:hover {
         background-color 0.25s ease;
 }
 
-input:hover,
+input:not(.cadastroClienteNovo):hover,
 select:hover {
     border-color: #eb6505;
     background-color: #f8faff;
 }
 
-input:focus,
+input:not(.cadastroClienteNovo):focus,
 select:focus {
     outline: none;
     border-color: #eb6505;
@@ -396,7 +408,7 @@ select:focus {
     background-color: #ffffff;
 }
 
-input:active,
+input:not(.cadastroClienteNovo):active,
 select:active {
     transform: scale(0.995);
 }
@@ -411,15 +423,18 @@ select:active {
     border-radius: 10px;
     border: none;
 
-    background-color:#eb5d05;
+    background-color: #eb5d05;
     color: #fff;
 
-    
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.3px;
 
     cursor: pointer;
+
+    /* ESSENCIAL pra input */
+    appearance: none;
+    -webkit-appearance: none;
 
     transition: 
         transform 0.2s ease,
@@ -442,6 +457,66 @@ select:active {
     outline: none;
     box-shadow: 2px 2px 8px #eb5d057e;
 }
+
+#botaoClicado{
+    background: linear-gradient(135deg,green 30%, rgba(144, 238, 144, 0.723));
+    font-size:1.5em;
+    text-align: center;
+    color:white;
+    margin:15px;
+    padding:12px;
+
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+}
+
+#botaoClicado.ativo {
+    animation: aparecer 0.4s ease forwards;
+}
+
+/* barra de tempo */
+#botaoClicado.ativo::after {
+    content: "";
+    display: block;
+    height: 4px;
+    margin-top: 8px;    
+    background: rgba(255,255,255,0.9);
+    border-radius: 4px;
+    width: 100%;
+    animation: tempo 4s linear forwards;
+}
+
+
+/* quando some */
+/* SUMIR */
+#botaoClicado.sumir {
+    animation: sumir 0.5s ease forwards;
+}
+
+/* animações */
+@keyframes aparecer {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sumir {
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes tempo {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
 
 footer div{
     margin:15px;
