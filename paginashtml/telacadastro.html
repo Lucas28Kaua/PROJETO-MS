@@ -17,6 +17,13 @@
             <i class="material-symbols-outlined">exit_to_app</i>
             <span class="text-button">Sair</span>
         </a>
+
+        <!-- Menu hambúrguer para mobile -->
+        <div class="menu-hamburguer" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
     <aside class="sidebar">
@@ -79,7 +86,7 @@
                                         <!--CPF-->
                             <div class="campo">
                                 <label for="icpf">CPF:</label>
-                                <input type="text" name="cpf" id="icpf" placeholder="000.000.000-00" required autocomplete="on">
+                                <input type="text" name="cpf" id="icpf" placeholder="000.000.000-00" required autocomplete="on" oninput="this.value = formatarCPF(this.value)">
                             </div>
                                         <!--DATA NASC-->
                             <div class="campo">
@@ -89,17 +96,29 @@
                                         <!--N BENEFICIO-->
                             <div class="campo">
                                 <label for="ibeneficio">N° Benefício</label>
-                                <input type="number" name="beneficio" id="ibeneficio" placeholder="000.000.000-0" required autocomplete="on">
+                                <input type="text" name="beneficio" id="ibeneficio" placeholder="000.000.000-0" required autocomplete="on" maxlength="13" oninput="this.value = formatarBeneficio(this.value)">
                             </div>
                                         <!--N° TELEFONE-->
                             <div class="campo">
                                 <label for="itelefone">N° Telefone</label>
-                                <input type="tel" name="telefone" id="itelefone" placeholder="(99) 99999-9999" required autocomplete="on">
+                                <input type="tel" name="telefone" id="itelefone" placeholder="(99) 99999-9999" required autocomplete="on" oninput="this.value = formatarTelefone(this.value)">
                             </div>
                                         <!--SENHA INSS-->
                             <div class="campo">
                                 <label for="senhaInss">Senha INSS</label>
                                 <input type="text" name="senha" id="senhaInss" placeholder="Joao@1234" required autocomplete="on">
+                            </div>
+                                        <!--TIPO BENEFICIO-->
+                            <div class="campo">
+                                <label for="tipoBeneficio">Convênio</label>
+                                <select name="tipoBeneficio" id="tipoConvenio" required>
+                                    <option value="">Selecione</option>
+                                    <option value="INSS">INSS</option>
+                                    <option value="SIAPE">SIAPE</option>
+                                    <option value="SERV. PÚBLICO MUN">SERV. PÚBLICO MUN</option>
+                                    <option value="SERV. PÚBLICO EST">SERV. PÚBLICO EST</option>
+                                    <option value="CLT">CLT</option>
+                                </select>
                             </div>
 
                                         <!--ENDEREÇO-->
@@ -170,14 +189,59 @@
                     </button>
                     
                     <div class="conteudoClienteCarteira">
-                            <p>TESTE TESTE TESTE</p>
-                            <p>TESTE TESTE TESTE</p>
-                            <p>TESTE TESTE TESTE</p>
+                        
+                                <!-- Passo 1: Digitar CPF -->
+                        <div id="stepCPF" style="display:block;">
+                            <label for="icliente">Digite o CPF do cliente que deseja atualizar:</label>
+                            <input type="text" name="cliente" id="icliente" placeholder="000.000.000-00" required minlength="11" maxlength="14" oninput="this.value = formatarCPF(this.value)">
+                           <button onclick="proximoPasso(1)">Próximo</button>
+                        </div>
+
+                                <!-- Passo 2: Selecionar dado -->
+                        <div id="stepDado" style="display:none;">
+                            <label for="tipoAtualizacaoDadoCliente" id="labelClienteCarteira" >Qual dado deseja atualizar?</label>
+                            <select name="atualizar" id="tipoAtualizacaoDadoCliente">
+                                <option value="">Selecione</option>
+                                <option value="nome">Nome</option>
+                                <option value="cpf">CPF</option>
+                                <option value="dataNascimento">Data de Nascimento</option>
+                                <option value="telefone">N° de Telefone</option>
+                                <option value="senhaINSS">Senha INSS</option>
+                                <option value="endereco">Endereço</option>
+                            </select>
+                            <button onclick="proximoPasso(2)">Próximo</button>
+                        </div>
+
+                                    <!-- Passo 2.5: Selecionar parte do endereço -->
+                        <div id="stepEndereco" style="display: none;">
+                            <label for="parteEndereco">Qual parte do endereço deseja atualizar?</label>
+                            <select name="parteEndereco" id="parteEndereco">
+                                <option value="">Selecione</option>
+                                <option value="estado">Estado</option>
+                                <option value="cidade">Cidade</option>
+                                <option value="bairro">Bairro</option>
+                                <option value="rua">Rua</option>
+                                <option value="numero">Número</option>
+                            </select>
+                            <button onclick="proximoPasso(3)">Próximo</button>
+                        </div>
+
+                                    <!-- Passo 3: Atualizar dado -->
+                        <div id="stepAtualizar" style="display: none;">
+                            <label id="labelNovoDado" for="novoValor">Novo valor:</label>
+                            <input type="text" id="novoValor">
+                            <select id="selectEstado" style="display: none;"></select>
+                            <button onclick="atualizarDado()">Atualizar</button>
+                        </div>
+
+                        <h4 id="mensagemAtualizacao"></h4>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <div id="overlay" class="overlay"></div>
 
     <script src="../javascript/cadastro.js"></script>
 </body>

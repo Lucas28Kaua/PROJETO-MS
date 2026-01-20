@@ -227,7 +227,11 @@ header img:hover {
 }
 
 .sidebar.aberto~.meio {
-    margin-left: 253px;
+    margin-left: 120px;
+}
+
+.meio {
+    transition: margin-left 0.3s ease;
 }
 
 .boxCadastrar{
@@ -311,11 +315,20 @@ header img:hover {
     
 }
 
-.conteudoClienteNovo.aberto,
-.conteudoClienteCarteira.aberto{
+.conteudoClienteNovo.aberto{
     max-height: 490px; /* maior que o conteúdo */
     padding:15px;
     opacity: 1;
+}
+
+.conteudoClienteCarteira.aberto{
+    max-height: 250px; /* ajustado pro conteúdo menor */
+    padding:15px;
+    opacity: 1;
+}
+
+.conteudoClienteCarteira {
+    transition: max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s ease;
 }
 
 .clienteCarteira{
@@ -394,14 +407,29 @@ header img:hover {
         background-color 0.25s ease;
 }
 
+.campo #tipoConvenio{
+    padding:8px;
+    border-radius:12px;
+    border:1px solid black;
+
+    font-size: 0.95rem;
+
+    transition: 
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
 input:not(.cadastroClienteNovo):hover,
-select:hover {
+select:hover,
+.campo #tipoConvenio:hover {
     border-color: #eb6505;
     background-color: #f8faff;
 }
 
 input:not(.cadastroClienteNovo):focus,
-select:focus {
+select:focus,
+.campo #tipoConvenio:focus {
     outline: none;
     border-color: #eb6505;
     box-shadow: 0 0 0 3px #eb650524;
@@ -409,7 +437,8 @@ select:focus {
 }
 
 input:not(.cadastroClienteNovo):active,
-select:active {
+select:active,
+.campo #tipoConvenio:active {
     transform: scale(0.995);
 }
 
@@ -517,7 +546,303 @@ select:active {
     to { width: 0%; }
 }
 
+/* Estilos pra carteira - labels */
+.conteudoClienteCarteira label {
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-align: center;
+}
+/* Estilos pra carteira - inputs e selects */
+.conteudoClienteCarteira input,
+.conteudoClienteCarteira select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid black;
+    font-size: 0.95rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+.conteudoClienteCarteira input:hover,
+.conteudoClienteCarteira select:hover {
+    border-color: #eb6505;
+    background-color: #f8faff;
+}
+
+.conteudoClienteCarteira input:focus,
+.conteudoClienteCarteira select:focus {
+    outline: none;
+    border-color: #eb6505;
+    box-shadow: 0 0 0 3px #eb650524;
+    background-color: #ffffff;
+}
+
+.conteudoClienteCarteira input:active,
+.conteudoClienteCarteira select:active {
+    transform: scale(0.995);
+}
+
+/* Estilos pra carteira - botões */
+.conteudoClienteCarteira button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background-color: #eb5d05;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+    align-self: flex-start; /* pra não ocupar 100% */
+}
+
+.conteudoClienteCarteira button:hover {
+    filter: brightness(1.1);
+    box-shadow: 2px 2px 8px #eb5d057e;
+    transform: translateY(-1px);
+}
+
+.conteudoClienteCarteira button:active {
+    transform: scale(0.98);
+}
+
+.conteudoClienteCarteira,
+.inputClienteAtualizar{
+    display:flex;
+    flex-direction: column;
+}
+
+
+#labelClienteCarteira{
+    font-size: 1.2em;
+    font-weight: 600;
+
+}
+
+#tipoAtualizacaoDadoCliente,
+input#icliente{
+    padding:6px;
+    margin-top:8px;
+    border-radius:8px;
+    width:35%;
+}
+
+#mensagemAtualizacao{
+    background: linear-gradient(135deg,green 30%, rgba(144, 238, 144, 0.723));
+    font-size:1.5em;
+    text-align: center;
+    color:white;
+    margin:15px;
+    padding:12px;
+
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+}
+
+#mensagemAtualizacao.ativo {
+    animation: aparecer 0.4s ease forwards;
+}
+
+#mensagemAtualizacao.ativo::after {
+    content: "";
+    display: block;
+    height: 4px;
+    margin-top: 8px;    
+    background: rgba(255,255,255,0.9);
+    border-radius: 4px;
+    width: 100%;
+    animation: tempo 4s linear forwards;
+}
+
+#mensagemAtualizacao.sumir {
+    animation: sumir 0.5s ease forwards;
+}
 
 footer div{
     margin:15px;
+}
+
+/* Media Queries para telas menores */
+@media screen and (max-width: 768px) {
+    
+    /* Header ajustado */
+    header {
+        padding: 0 15px;
+        justify-content: space-between;
+        height: 80px;
+    }
+    
+    header img {
+        width: 100px;
+        margin-right: auto;
+    }
+    
+    /* AJUSTE: Botão sair só com ícone */
+    .btn-sair {
+        padding: 8px;
+        min-width: auto;
+        margin-right: 60px;
+        margin-left: 0;
+    }
+
+    .btn-sair .text-button {
+        display: none;
+    }
+
+    /* Esconde a sidebar normal */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+        top: 0;
+        height: 100vh;
+        border-radius: 0;
+        transition: transform 0.3s ease;
+        z-index: 2000;
+    }
+    
+    /* Quando o menu tá aberto */
+    .sidebar.aberto {
+        transform: translateX(0);
+        width: 250px;
+    }
+    
+    /* Botão toggle ajustado */
+    .toggle-btn {
+        top: 15px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .toggle-btn i {
+        font-size: 30px;
+    }
+
+    /* Menu hambúrguer */
+    .menu-hamburguer {
+        display: block;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background-color: #eb6505;
+        border: 2px solid black;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 3000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+    }
+    
+    .menu-hamburguer span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: all 0.3s ease;
+        display: block;
+    }
+    
+    /* Animação do X quando aberto */
+    .menu-hamburguer.ativo span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Esconde toggle-btn normal */
+    .toggle-btn {
+        display: none;
+    }
+
+    /* Overlay escuro quando menu aberto */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1500;
+    }
+
+    .overlay.ativo {
+        display: block;
+    }
+
+    /* Ajustes no conteúdo */
+    .meio {
+        margin-top: 100px;
+        padding: 10px;
+    }
+
+    .boxCadastrar {
+        margin-left: 0;
+        margin-right: 0;
+        min-width: auto;
+        max-height: none;
+    }
+
+    .boxCadastrar h2 {
+        font-size: 1.5em;
+        padding: 6px;
+    }
+
+    .clientes {
+        gap: 50px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .clienteNovo, .clienteCarteira {
+        width: 90%;
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header {
+        height: 80px;
+    }
+    
+    header img {
+        width: 80px;
+    }
+    
+    .meio {
+        margin-top: 100px;
+        padding: 10px;
+    }
+    
+    .boxCadastrar h2 {
+        font-size: 1.2em;
+        padding: 5px;
+    }
+
+    .clientes {
+        gap: 30px;
+    }
+
+    .clienteNovo, .clienteCarteira {
+        width: 95%;
+    }
+
+    .conteudoClienteNovo.aberto, .conteudoClienteCarteira.aberto {
+        padding: 10px;
+    }
 }

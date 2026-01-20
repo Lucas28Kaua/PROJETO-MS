@@ -224,7 +224,8 @@ header img:hover{
 .meio{
     background-color: rgba(187, 187, 187, 0.327);
     margin-top:133px;
-    height: calc(100vh - 110px);
+    min-height: calc(100vh - 110px);
+    height: auto;
     margin-left: 120px; /* largura da sidebar fechada */
     margin-right: 20px;
     border-radius:15px;
@@ -500,6 +501,7 @@ div.foto-container{
     .meio {
         margin-top: 100px;
         padding: 10px;
+        min-height: calc(100vh - 80px);
     }
     
     h2.titulo-card {

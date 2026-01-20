@@ -427,10 +427,9 @@ footer{
         display: block;
         position: fixed;
         top: 20px;
-        right: 15px;
-        width: 45px;
-        height: 45px;
-        top: 20px; /* AJUSTA PRA ALINHAR COM O HEADER */
+        right: 20px;
+        width: 40px;
+        height: 40px; /* AJUSTA PRA ALINHAR COM O HEADER */
         background-color: #eb6505;
         border: 2px solid black;
         border-radius: 8px;
@@ -453,7 +452,7 @@ footer{
     }
     
     .menu-hamburguer.ativo span:nth-child(1) {
-        transform: rotate(45deg) translate(7px, 6px);
+        transform: rotate(45deg) translate(7px, 7px);
     }
     
     .menu-hamburguer.ativo span:nth-child(2) {
@@ -461,7 +460,7 @@ footer{
     }
     
     .menu-hamburguer.ativo span:nth-child(3) {
-        transform: rotate(-45deg) translate(7px, -6px);
+        transform: rotate(-45deg) translate(6px, -6px);
     }
     
     /* NOVO: Overlay escuro (adiciona no HTML antes do </body>) */
