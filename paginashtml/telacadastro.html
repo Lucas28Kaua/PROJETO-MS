@@ -226,6 +226,7 @@
                             <button onclick="proximoPasso(3)">Próximo</button>
                         </div>
 
+                        
                                     <!-- Passo 3: Atualizar dado -->
                         <div id="stepAtualizar" style="display: none;">
                             <label id="labelNovoDado" for="novoValor">Novo valor:</label>
@@ -234,6 +235,12 @@
                             <button onclick="atualizarDado()">Atualizar</button>
                         </div>
 
+                        <div id="stepOperacao" style="display: block;">
+                            <div>
+                                <label for="iOperacao">Operação Feita</label>
+                                <input type="text" name="operacao" id="iOperacao" placeholder="Margem Novo" required autocomplete="on" style="width:40%">
+                            </div>
+                        </div>
                         <h4 id="mensagemAtualizacao"></h4>
                     </div>
                 </div>
