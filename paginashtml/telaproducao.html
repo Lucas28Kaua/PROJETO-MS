@@ -63,6 +63,9 @@
         <div class="box-tabela">
             <h1>PRODUÇÃO</h1>
             
+            <label for="dataProd" class="mesAtualDataProd">Data da Produção:</label>
+            <input type="month" name="producao" id="dataProd">
+
             <table class="contagemProd">
                 <thead>
                     <tr>
@@ -102,7 +105,7 @@
                                 </thead> 
                                 <tbody> 
                                     <tr>
-                                        <td>Margem Novo</td> 
+                                        <td class="produto">Margem Novo</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -111,7 +114,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>RMC</td>
+                                        <td class="produto">RMC</td>
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -120,7 +123,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>RCC</td> 
+                                        <td class="produto">RCC</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -129,7 +132,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>Port+Refin</td> 
+                                        <td class="produto">Port+Refin</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -138,7 +141,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>Crédito Pessoal</td> 
+                                        <td class="produto">Crédito Pessoal</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -176,7 +179,7 @@
                                 </thead> 
                                 <tbody> 
                                     <tr>
-                                        <td>Margem Novo</td> 
+                                        <td class="produto">Margem Novo</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -185,7 +188,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>RMC</td>
+                                        <td class="produto">RMC</td>
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -194,7 +197,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>RCC</td> 
+                                        <td class="produto">RCC</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -203,7 +206,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>Port+Refin</td> 
+                                        <td class="produto">Port+Refin</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -212,7 +215,7 @@
                                         <td><input type="text" data-funcionario="djullian"></td> 
                                     </tr> 
                                     <tr>
-                                        <td>Crédito Pessoal</td> 
+                                        <td class="produto">Crédito Pessoal</td> 
                                         <td><input type="text" data-funcionario="iraneide"></td> 
                                         <td><input type="text" data-funcionario="carla"></td> 
                                         <td><input type="text" data-funcionario="joaovitor"></td> 
@@ -289,7 +292,7 @@
                     </tr>
                     <tr class="ultimo">
                         <td colspan="6">TOTAL</td>
-                        <td></td>
+                        <td class="ultimoTd"></td>
                     </tr>
                 </tbody>
             </table>
@@ -300,6 +303,14 @@
 
         </div>
 
+        <form action="#">
+            <div class="visualizarTabela">
+                <h2>Visualizador De Produção</h2>
+                <label for="dataProducao" class="labelProducao">Mês da produção:</label>
+                <input type="month" name="data" id="dataProducaoMes" required> <br>
+                <button type="submit" class="btnBuscarTabela">Buscar</button>
+            </div>
+        </form>
     </main>
 
 

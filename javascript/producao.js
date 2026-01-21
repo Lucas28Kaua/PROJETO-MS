@@ -164,8 +164,11 @@ document.querySelectorAll('.contagemProd input[type="text"]').forEach(input => {
 const tableData = document.querySelectorAll('td:not(.produto)');
 
 function registrarProd(){
+    let ultimoTd=document.querySelector('.ultimoTd')
     tableData.forEach(td => {
+        if(td.hasAttribute('colspan')) return;
         td.innerHTML = '';
+        ultimoTd.innerHTML='';
     })
     
     return console.log('Botão clicado!')
@@ -185,3 +188,5 @@ document.querySelectorAll('.toggle-subtable').forEach(btn => {
         }
     });
 });
+
+const btnBuscarTabela=document.querySelector('.btnBuscarTabela')
