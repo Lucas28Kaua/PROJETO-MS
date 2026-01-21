@@ -142,10 +142,20 @@ function proximoPasso(passoAtual){
         if (tipoSelecionado === 'endereco') {
             document.getElementById('stepDado').style.display = 'none';
             document.getElementById('stepEndereco').style.display = 'block';
+            document.getElementById('stepOperacao').style.display="block";
         } else {
             const label=document.getElementById("labelNovoDado");
+            document.getElementById('stepOperacao').style.display="block";
             if (tipoSelecionado === 'senhaINSS') {
                 label.textContent = 'Nova Senha INSS:';
+            } else if( tipoSelecionado ==='nome'){
+                label.textContent = 'Novo Nome:'
+            } else if( tipoSelecionado ==='cpf'){
+                label.textContent = 'Novo CPF'
+            } else if( tipoSelecionado==='dataNascimento'){
+                label.textContent= 'Nova Data Nascimento'
+            } else if( tipoSelecionado ==='telefone'){
+                label.textContent='Novo Telefone'
             } else {
                 label.textContent = `Novo ${dadoSelecionado.charAt(0).toUpperCase() + dadoSelecionado.slice(1)}:`;
             }
@@ -260,6 +270,29 @@ function atualizarDado() {
     document.getElementById('novoValor').style.display = 'block'; // mostra input
     document.getElementById('selectEstado').style.display = 'none'; // esconde select
     document.getElementById('novoValor').style.width = '100%'; // reseta tamanho
+    const inputsTabela = document.querySelectorAll('.tabelaOp tbody input');
+        inputsTabela.forEach(input => {
+        input.value = '';
+    });
+    document.querySelector('.stepOperacao').style.display='none';
     tipoSelecionado = null; // reseta
     parteEndereco = null; // reseta
 }
+
+const tbody = document.querySelector(".tabelaOp tbody");
+const btnAdd = document.getElementById("addLinha");
+
+btnAdd.addEventListener("click", () => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+        <td><input type="text" name="operacao" placeholder="Ex.: Portabilidade"></td>
+        <td><input type="date" name="data"></td>
+        <td><input type="text" name="banco" placeholder="Banco... promotora..."></td>
+    `;
+
+    tbody.appendChild(tr);
+
+    // foco automático no primeiro input
+    tr.querySelector("input").focus();
+});

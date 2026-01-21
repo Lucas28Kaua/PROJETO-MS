@@ -178,8 +178,9 @@
                         </form>
                         
                         <input type="submit" value="Cadastrar" class="cadastroClienteNovo" form="formClienteNovo">
-                        <h4 id="botaoClicado"></h4>
-                    </div>   
+                        
+                    </div>
+                    <h4 id="botaoClicado"></h4>   
                 </div>
 
                 <div class="clienteCarteira">
@@ -232,15 +233,15 @@
                             <label id="labelNovoDado" for="novoValor">Novo valor:</label>
                             <input type="text" id="novoValor">
                             <select id="selectEstado" style="display: none;"></select>
-                            <button onclick="atualizarDado()">Atualizar</button>
+                            
                         </div>
 
-                        <div class="subBoxOperacoes">
-                            <h4>Operações feitas</h4>
-                        </div>
-                        <div id="stepOperacao" style="display: block;">
-                            <div>
-                                <label for="Operacao">Operação Feita</label>
+                    
+                        <div id="stepOperacao" style="display: none;">
+                            <div class="subBoxOperacoes">
+                                <h4>Operações feitas</h4>
+                            </div>
+                            <div class="tabela-container">
                                 <table class="tabelaOp">
                                     <thead>
                                         <tr>
@@ -255,18 +256,23 @@
                                                 <input type="text" name="operacao" id="iOperacao" placeholder="Ex.:Portabilidade" required>
                                             </td>
                                             <td>
-                                                <input type="text" name="data" id="iData" placeholder="Ex.:01/01/2026" required>
+                                                <input type="date" name="data" id="iData" placeholder="Ex.:01/01/2026" required>
                                             </td>
                                             <td>
-                                                <input type="text" name="banco" id="iBanco" placeholder="Banco... promotora...">
+                                                <input type="text" name="banco" id="iBanco" placeholder="Banco... promotora..." required>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="acoesOperacao">
+                                <button id="addLinha">+ Adicionar linha</button>
+                                <button onclick="atualizarDado()" class="btnAtualizar">Atualizar</button>
+                            </div>
                         </div>
-                        <h4 id="mensagemAtualizacao"></h4>
                     </div>
+                    <h4 id="mensagemAtualizacao"></h4>
                 </div>
             </div>
         </div>

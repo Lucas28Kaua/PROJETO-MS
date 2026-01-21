@@ -316,13 +316,15 @@ header img:hover {
 }
 
 .conteudoClienteNovo.aberto{
-    max-height: 490px; /* maior que o conteúdo */
+    max-height: 388px; /* maior que o conteúdo */
     padding:15px;
     opacity: 1;
 }
 
 .conteudoClienteCarteira.aberto{
-    max-height: 350px; /* ajustado pro conteúdo menor */
+    max-height: 388px; /* ajustado pro conteúdo menor */
+    overflow-y:auto;
+    overflow-x:hidden;
     padding:15px;
     opacity: 1;
 }
@@ -620,8 +622,7 @@ select:active,
 }
 
 .subBoxOperacoes{
-    margin-top:10px;
-    margin-bottom:10px;
+    margin-top:60px;
     font-size:0.95rem;
     font-weight: 700;
     border-radius:15px 15px 0px 0px;
@@ -630,10 +631,18 @@ select:active,
     padding:6px;
 }
 
+
+.tabela-container {
+    max-height: 200px; /* ou o tamanho que quiser */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
 #stepOperacao .tabelaOp{
     border-collapse:collapse;
     width:100%;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 #stepOperacao tr, th, td{
@@ -668,6 +677,16 @@ select:active,
     background-color: white;
 }
 
+.acoesOperacao {
+    display: flex;
+    justify-content: space-between; /* esquerda x direita */
+    align-items: center;
+    margin-top: 10px;
+}
+
+.acoesOperacao button {
+    height: 42px;
+}
 
 #tipoAtualizacaoDadoCliente,
 input#icliente{
