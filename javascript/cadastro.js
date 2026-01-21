@@ -131,6 +131,7 @@ function proximoPasso(passoAtual){
             return;
         }
         document.getElementById('stepCPF').style.display="none";
+        document.getElementById('stepClienteCarteiraRetornado').style.display="block";
         document.getElementById('stepDado').style.display="block";
     } else if (passoAtual===2){
         const dadoSelecionado = document.getElementById('tipoAtualizacaoDadoCliente').value;
@@ -275,6 +276,7 @@ function atualizarDado() {
         input.value = '';
     });
     document.querySelector('#stepOperacao').style.display='none';
+    document.getElementById('stepClienteCarteiraRetornado').style.display="none";
     tipoSelecionado = null; // reseta
     parteEndereco = null; // reseta
 }

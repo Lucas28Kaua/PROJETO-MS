@@ -198,12 +198,21 @@
                            <button onclick="proximoPasso(1)">Próximo</button>
                         </div>
 
-                        <div id="stepClienteCarteiraRetornado">
+                        <div id="stepClienteCarteiraRetornado" style="display:none;">
+                            <h4>Cliente Retornado</h4>
                             <div class="dadoRetornadoNome">
-                                
+                                <h5>Nome:</h5>
+                                <p>Lucas Kauã Antunes Bezerra</p>
                             </div>
-                            <div>
-                                
+                            <div class="boxDivsPequenas">
+                                <div class="dadoRetornadoCPF">
+                                    <h5>CPF:</h5>
+                                    <p>700.088.014-79</p>
+                                </div>
+                                <div class="dadoRetornadoDN">
+                                    <h5>Data de Nascimento:</h5>
+                                    <p>15/08/1995</p>
+                                </div>
                             </div>
                         </div>
                                 <!-- Passo 2: Selecionar dado -->
@@ -223,6 +232,7 @@
 
                                     <!-- Passo 2.5: Selecionar parte do endereço -->
                         <div id="stepEndereco" style="display: none;">
+                            <h4 class="tituloDadoParaAtualizar">Dado para atualizar:</h4>
                             <label for="parteEndereco">Qual parte do endereço deseja atualizar?</label>
                             <select name="parteEndereco" id="parteEndereco">
                                 <option value="">Selecione</option>
@@ -238,6 +248,7 @@
                         
                                     <!-- Passo 3: Atualizar dado -->
                         <div id="stepAtualizar" style="display: none;">
+                            <h4 class="tituloDadoParaAtualizar">Dado para atualizar:</h4>
                             <label id="labelNovoDado" for="novoValor">Novo valor:</label>
                             <input type="text" id="novoValor">
                             <select id="selectEstado" style="display: none;"></select>

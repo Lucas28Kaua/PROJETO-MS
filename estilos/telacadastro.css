@@ -614,11 +614,73 @@ select:active,
     flex-direction: column;
 }
 
+#stepClienteCarteiraRetornado h4{
+    text-align: center;
+    background-color: #EB6505;
+    margin-top:15px;
+    margin-bottom:15px;
+    padding:6px;
+    border-radius:15px 15px 0px 0px;
+}
+
+.dadoRetornadoNome{
+    background-color: white;
+    border:1px solid black;
+    padding:3px 0px 10px 6px;
+    margin-bottom:15px;
+    border-radius:15px;
+    color:rgb(89, 89, 89);
+    max-width:70%
+}
+
+.boxDivsPequenas{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:15px;
+}
+
+.dadoRetornadoCPF{
+    background-color: white;
+    border:1px solid black;
+    padding:3px 0px 10px 6px;
+    margin-bottom:15px;
+    border-radius:15px;
+    color:rgb(89, 89, 89);
+    max-width:100%
+}
+
+.dadoRetornadoDN{
+    background-color: white;
+    border:1px solid black;
+    padding:3px 0px 10px 6px;
+    margin-bottom:15px;
+    border-radius:15px;
+    color:rgb(89, 89, 89);
+    max-width:100%
+}
+
+.dadoRetornadoNome p,
+.dadoRetornadoCPF p,
+.dadoRetornadoDN p{
+    color:black;
+    font-size:1.1em;
+    font-weight: 700;
+    padding:3px 0px 0px 15px
+}
 
 #labelClienteCarteira{
     font-size: 1.2em;
     font-weight: 600;
 
+}
+
+.tituloDadoParaAtualizar{
+    text-align: center;
+    background-color: #EB6505;
+    margin-top:15px;
+    margin-bottom:15px;
+    padding:6px;
+    border-radius:15px 15px 0px 0px;
 }
 
 .subBoxOperacoes{
