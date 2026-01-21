@@ -157,7 +157,7 @@
                                         <!--OPERAÇÕES RECENTES-->
                                             <!--PRODUTO-->
                             <div class="enderecoClienteNovo">
-                                <h3 class="h3ClienteNovo">Operações Recentes</h3>
+                                <h3 class="h3ClienteNovo">Operações Feitas</h3>
                             </div>
 
                             <div class="campo">
@@ -235,10 +235,34 @@
                             <button onclick="atualizarDado()">Atualizar</button>
                         </div>
 
+                        <div class="subBoxOperacoes">
+                            <h4>Operações feitas</h4>
+                        </div>
                         <div id="stepOperacao" style="display: block;">
                             <div>
-                                <label for="iOperacao">Operação Feita</label>
-                                <input type="text" name="operacao" id="iOperacao" placeholder="Margem Novo" required autocomplete="on" style="width:40%">
+                                <label for="Operacao">Operação Feita</label>
+                                <table class="tabelaOp">
+                                    <thead>
+                                        <tr>
+                                            <th>OPERAÇÃO</th>
+                                            <th>DATA</th>
+                                            <th>BANCO/PROMOTORA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="operacao" id="iOperacao" placeholder="Ex.:Portabilidade" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="data" id="iData" placeholder="Ex.:01/01/2026" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="banco" id="iBanco" placeholder="Banco... promotora...">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <h4 id="mensagemAtualizacao"></h4>
