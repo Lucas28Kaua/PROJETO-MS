@@ -274,7 +274,7 @@ function atualizarDado() {
         inputsTabela.forEach(input => {
         input.value = '';
     });
-    document.querySelector('.stepOperacao').style.display='none';
+    document.querySelector('#stepOperacao').style.display='none';
     tipoSelecionado = null; // reseta
     parteEndereco = null; // reseta
 }
