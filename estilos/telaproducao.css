@@ -268,6 +268,37 @@ header img:hover {
     padding:8px;
 }
 
+.subtable{
+    border-collapse:collapse;
+    width:100%;
+}
+/* Para a subtabela "crescer" suavemente */
+.subtable-row {
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    overflow: hidden;
+    max-height: 0; /* Inicialmente fechada */
+    opacity: 0;
+}
+
+/* Quando a subtabela estiver aberta */
+.subtable-row.open {
+    max-height: 1000px; /* Valor grande suficiente para caber todo o conteúdo */
+    opacity: 1;
+}
+
+/* Setinha girando */
+.toggle-subtable {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+}
+
+.toggle-subtable.open {
+    transform: rotate(180deg); /* gira a setinha pra cima */
+}
+
 .contagemProd tr, th, td{
     border:1px solid black;
     padding:25px;

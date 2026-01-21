@@ -45,33 +45,67 @@ function limparMoeda(valor) {
 
 // Calcula o total de um funcionário AUTOMATICAMENTE
 function calcularTotalFuncionario(funcionario) {
-    // Pega TODAS as linhas que NÃO são de total
-    const linhas = document.querySelectorAll('.contagemProd tbody tr:not(.totalFuncionario)');
-    let total = 0;
+
+    let totalGeral = 0; // total final do funcionário
+
+    // pega todas as linhas
+    const linhas = document.querySelectorAll('.contagemProd tbody tr');
     
     // Para cada linha de produto
     linhas.forEach(linha => {
-        const input = linha.querySelector(`input[data-funcionario="${funcionario}"]`);
-        if (input && input.value) {
-            // Limpa a moeda antes de somar
-            const valor = limparMoeda(input.value);
-            total += valor;
+        // ignora linhas de total
+        if(linha.classList.contains('totalFuncionario') || linha.classList.contains('ultimo')) return;
+
+        // Se for subtabela
+        if(linha.classList.contains('subtable-row')) {
+            const inputsSub = linha.querySelectorAll(`input[data-funcionario="${funcionario}"]`);
+            let totalSub = 0; // total só dessa subtabela
+
+            inputsSub.forEach(input => {
+                const valor = input.value ? limparMoeda(input.value) : 0;
+                totalSub += valor;
+            });
+
+            // atualiza a linha pai do convênio correspondente
+            const convenio = linha.getAttribute('data-convenio');
+            const linhaPai = document.querySelector(`.linha-convenio[data-convenio="${convenio}"]`);
+            const inputPai = linhaPai.querySelector(`input[data-funcionario="${funcionario}"]`);
+            inputPai.value = totalSub ? formatarMoeda(totalSub) : '';
+
+            
+        } 
+        // Linhas normais (não subtabela, nem convênio pai)
+        else if(!linha.classList.contains('linha-convenio')) {
+            const input = linha.querySelector(`input[data-funcionario="${funcionario}"]`);
+            if(input && input.value) {
+                totalGeral += limparMoeda(input.value);
+            }
         }
     });
     
-    // Encontra a célula de total
+     // Atualiza a célula de total por funcionário
     const thFuncionario = document.querySelector(`.contagemProd thead th[data-funcionario="${funcionario}"]`);
     const colunaIndex = Array.from(thFuncionario.parentElement.children).indexOf(thFuncionario);
-    
-    // Atualiza o total formatado
     const linhaTotalFunc = document.querySelector('.contagemProd tbody tr.totalFuncionario');
     const celulaTotalFunc = linhaTotalFunc.children[colunaIndex];
-    celulaTotalFunc.textContent = formatarMoeda(total);
+    celulaTotalFunc.textContent = formatarMoeda(totalGeral);
     celulaTotalFunc.style.fontWeight = 'bold';
-    
-    // CHAMA O TOTAL GERAL AUTOMATICAMENTE
+
+    // Atualiza total geral
     calcularTotalGeral();
 }
+
+document.querySelectorAll('.toggle-subtable').forEach(botao => {
+    botao.addEventListener('click', () => {
+        const trPai = botao.closest('tr');
+        const convenio = trPai.getAttribute('data-convenio');
+        const subtabela = document.querySelector(`.subtable-row[data-convenio="${convenio}"]`);
+        
+        // Alterna classe open
+        subtabela.classList.toggle('open');
+        botao.classList.toggle('open');
+    });
+});
 
 // Calcula o TOTAL GERAL (soma de todos os funcionários)
 function calcularTotalGeral() {
@@ -136,3 +170,18 @@ function registrarProd(){
     
     return console.log('Botão clicado!')
 }
+
+document.querySelectorAll('.toggle-subtable').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const tr = btn.closest('tr');
+        const convenio = tr.dataset.convenio;
+        const subtable = document.querySelector(`.subtable-row[data-convenio="${convenio}"]`);
+        if (subtable.style.display === 'none') {
+            subtable.style.display = 'table-row';
+            btn.textContent = '▲';
+        } else {
+            subtable.style.display = 'none';
+            btn.textContent = '▼';
+        }
+    });
+});
