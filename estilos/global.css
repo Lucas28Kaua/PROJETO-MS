@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 90%;
+    background: white;
+    background-attachment: fixed;
+}
+
+header {
+    background-color: #101115;
+    height: 110px;
+    background: linear-gradient(to left, #2a2a2a 0%, #1a1a1a 100%);
+    /* Cor */
+    border-bottom: 2px solid rgba(235, 114, 28, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    position: fixed;
+    /*fixo para não sumir na rolagem*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+header img {
+    width: 140px;
+    /* ajuste o tamanho conforme necessário */
+    height: auto;
+    max-width: 150px;
+    object-fit: contain;
+}
+
+header img:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.btn-sair {
+    min-width: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 1.05em;
+    font-weight: 600;
+    background: linear-gradient(135deg, #eb721c, #ff8a3d);
+    color: white;
+    margin-right: 15px;
+    margin-left: auto;
+
+    transition:
+        background 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+    box-shadow:2px 2px 8px rgba(235, 100, 28, 0.55);
+    text-decoration:none;
+    cursor:pointer;
+}
+
+
+.btn-sair:hover {
+    background: linear-gradient(135deg, #ff7a1a, #ff9a4d);
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.35);
+    filter: brightness(1.05);
+}
+
+.btn-sair:active {
+    transform: scale(0.96) translateY(1px);
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-sair:focus-visible {
+    outline: 2px solid #ffb380;
+    outline-offset: 3px;
+}
+
+.sidebar {
+    width: 99px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
+    border: 2px solid rgba(235, 114, 28, 0.4);
+    border-left: none;
+    height: 100vh;
+    padding: 20px 10px;
+    border-top-right-radius: 90px;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 110px;
+    /* altura do header */
+    left: 0;
+    height: calc(100vh - 110px);
+    z-index: 900;
+}
+
+.sidebar.aberto {
+    width: 231px;
+    /* Largura quando aberto */
+}
+
+/* Botão toggle */
+.toggle-btn {
+    position: absolute;
+    top: 123px;
+    right: -10px;
+    /* Aumentei pra sair mais pra fora */
+    width: 35px;
+    /* Aumentei um pouco */
+    height: 70px;
+    background-color: #eb6505;
+    border: 2px solid black;
+    border-radius: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+
+.toggle-btn:hover {
+    background: linear-gradient(135deg, #ff7b1a 0%, #ff9d3d 100%);
+    transform: scale(1.15);
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4);
+}
+
+.toggle-btn i {
+    color: white;
+    font-size: 35px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.aberto .toggle-btn i {
+    transform: rotate(180deg);
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.menu {
+    margin-top: 60px;
+}
+
+.menu li {
+    display: flex;
+    align-items: center;
+    margin: 30px 0px;
+    list-style: none;
+    white-space: nowrap;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.258);
+    border: 1px solid rgba(235, 101, 5, 0.3);
+    width: 60px;
+    /* Largura fixa dos itens - ADICIONA ISSO */
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 7px;
+
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+
+.menu li i {
+    min-width: 24px;
+    font-size: 24px;
+    color: #eb6505;
+    margin-right: 15px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    /* Sombra no ícone */
+}
+
+.menu-text {
+    color: #eb6505;
+    font-weight: bold;
+    font-size: 1.1em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    /* Sombra no texto */
+}
+
+.sidebar.aberto .menu-text {
+    opacity: 1;
+}
+
+/* Quando a sidebar tá aberta */
+.sidebar.aberto .menu li {
+    width: 190px;
+    /* Aumenta mais pra caber tudo */
+    justify-content: flex-start;
+}
+
+.menu li:hover {
+    background-color: rgba(235, 101, 5, 0.2);
+    border: 1px solid #eb6505;
+    transform: scale(1.06);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.aberto~.meio {
+    margin-left: 253px;
+}
+
+.sidebar.aberto~.modal-cinza {
+    margin-left: 253px;
+    /* mesma distância */
+}
