@@ -28,7 +28,18 @@
     margin-top:25px
 }
 
+.escolherDataProdQuinzena{
+    margin-top:25px
+}
+
 .mesAtualDataProd{
+    margin-top:30px;
+    margin-left:72px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.mesAtualDataProdQuinzena{
     margin-top:30px;
     margin-left:72px;
     font-size: 1.2em;
@@ -41,6 +52,12 @@
     border:1px solid black
 }
 
+#dataProdQuinzena{
+    padding:6px;
+    border-radius:6px;
+    border:1px solid black
+}
+
 .tabela30Dias{
     margin: 0px 30px 40px 20px;
     border-radius:20px;
@@ -48,20 +65,70 @@
     box-shadow:2px 2px 8px rgba(0, 0, 0, 0.463);
 }
 
-.toggle-producao{
-    background-color: #eb6505;
-    text-align: center;
-    width:100%;
-    border:none;
-    font-size:1em;
-    padding:6px 5px 4px 5px;
-    border-radius:20px 20px 0px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
+.toggle-producao,
+.toggle-producao-quinzena{
+  width: calc(100% - 24px);
+  margin: 12px auto 0 auto;
+
+  background: rgba(255,255,255,0.55);
+  color: #111;
+  border: 1px solid rgba(0,0,0,0.12);
+
+  font-size: 1em;
+  font-weight: 800;
+
+  padding: 12px 14px;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  user-select: none;
+
+  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
+
+/* “bolinha” laranja de status */
+.toggle-producao::before,
+.toggle-producao-quinzena::before{
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border:1px solid rgba(0, 0, 0, 0.603);
+  margin-right: 10px;
+}
+
+.toggle-producao.ativo::before,
+.toggle-producao-quinzena.ativo::before {
+  background: #eb6505;
+  box-shadow: 0 0 0 4px rgba(235, 101, 5, 0.18);
+}
+
+.toggle-producao,
+.toggle-producao-quinzena{
+  gap: 10px;
+}
+.toggle-producao:hover,
+.toggle-producao-quinzena:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+  border-color: rgba(235, 101, 5, 0.35);
+  background-color: #eb65055f;
+}
+.toggle-producao:active,
+.toggle-producao-quinzena:active{
+  transform: translateY(0px);
+}
+.toggle-producao:focus-visible
+.toggle-producao-quinzena:focus-visible{
+  outline: 3px solid rgba(235, 101, 5, 0.35);
+  outline-offset: 3px;
+}
+
 
 .conteudoProducao{
     max-height: 0;
@@ -71,10 +138,22 @@
 }
 
 .conteudoProducao.aberto{
+    max-height: 3000px; /* suficiente pra tabela */
+}
+
+.conteudoProducaoQuinzena{
+    max-height: 0;
+    margin-top:0px;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.conteudoProducaoQuinzena.aberto{
     max-height: 950px; /* suficiente pra tabela */
 }
 
-.contagemProd{
+.contagemProd,
+.contagemProdQuinzena{
     border-collapse:collapse;
     margin:10px auto 20px auto;
     width:90%;
@@ -112,27 +191,32 @@
     transform: rotate(180deg); /* gira a setinha pra cima */
 }
 
-.contagemProd tr, th, td{
+.contagemProd tr, th, td,
+.contagemProdQuinzena tr, th, td{
     border:1px solid black;
     padding:25px;
     text-align:center;
 }
 
-.contagemProd th.espaco{
+.contagemProd th.espaco,
+.contagemProdQuinzena th.espaco{
     width:10%
 }
 
-.contagemProd th.maior{
+.contagemProd th.maior,
+.contagemProdQuinzena th.maior{
     width:15%
 }
 
-.contagemProd td{
+.contagemProd td,
+.contagemProdQuinzena td{
     font-weight: bold;
     position: relative;
     cursor: pointer;
 }
 
-.contagemProd td input{
+.contagemProd td input,
+.contagemProdQuinzena td input{
     position: absolute;
     inset: 0;               /* ocupa td inteiro */
     width: 100%;
@@ -155,52 +239,63 @@
 
         /*PARA TIRAR AS SETINHAS DO INPUT COM TYPE NUMBER*/
 .contagemProd input[type="number"]::-webkit-inner-spin-button,
-.contagemProd input[type="number"]::-webkit-outer-spin-button {
+.contagemProd input[type="number"]::-webkit-outer-spin-button,
+.contagemProdQuinzena input[type="number"]::-webkit-inner-spin-button,
+.contagemProdQuinzena input[type="number"]::-webkit-outer-spin-button{
     -webkit-appearance: none;
     margin: 0;
 }
 
-.contagemProd input[type="number"] {
+.contagemProd input[type="number"],
+.contagemProdQuinzena input[type="number"] {
     -moz-appearance: textfield;
 }
 
-.contagemProd th, td.produto{
+.contagemProd th, td.produto,
+.contagemProdQuinzena th, td.produto{
     background-color: #eb6505b3;
     font-weight: bolder;
 }
-.totalFuncionario>td{
+.totalFuncionario>td,
+.totalFuncionarioQuinzena>td{
     background-color: rgba(0, 128, 0, 0.681);
 }
 
-.ultimo>td{
+.ultimo>td,
+.ultimoQuinzena>td{
     background-color: rgb(0, 128, 0);
     border:2px solid black;
     font-weight: bolder;
 }
 
 
-.btnRegistrar{
+.btnRegistrar,
+.btnRegistrarQuinzena{
     text-align: right;
     margin:20px 50px 15px 0px ;
 }
 
-.btnRegistrar button:hover{
+.btnRegistrar button:hover,
+.btnRegistrarQuinzena button:hover{
     transform: scale(1.05) translateY(-3px);
     background-color: #ff7a1a;
     box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.45);
     border: none;
 }
 
-.btnRegistrar button:active {
+.btnRegistrar button:active,
+.btnRegistrarQuinzena button:active {
     transform: scale(0.97) translateY(1px);
     box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-.btnRegistrar button:focus-visible {
+.btnRegistrar button:focus-visible,
+.btnRegistrarQuinzena button:focus-visible {
     outline: 2px solid #ff9a4d;
     outline-offset: 3px;
 }
-.btnRegistrar button{
+.btnRegistrar button,
+.btnRegistrarQuinzena button{
     background-color: #eb6505;
     color:white;
     font-weight: bolder;
@@ -215,6 +310,13 @@
         transform 0.25s ease,
         box-shadow 0.25s ease,
         background-color 0.25s ease;
+}
+
+.tabelaQuinzena{
+    margin: 0px 30px 40px 20px;
+    border-radius:20px;
+    background-color: rgba(187, 187, 187, 0.327);
+    box-shadow:2px 2px 8px rgba(0, 0, 0, 0.463);
 }
 
 .visualizarTabela{

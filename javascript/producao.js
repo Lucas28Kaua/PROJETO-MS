@@ -6,9 +6,21 @@ toggleBtn.addEventListener('click', function () {
 });
 
 const conteudo = document.querySelector('.conteudoProducao')
+const bolinha = document.querySelector('.toggle-producao')
+
 function abreToggleProd(){
     conteudo.classList.toggle('aberto');
-    console.log('aberto')
+    bolinha.classList.toggle('ativo');
+    console.log('aberto Mensal');
+}
+
+const conteudoQuinzena = document.querySelector('.conteudoProducaoQuinzena')
+const bolinhaQuinzena = document.querySelector('.toggle-producao-quinzena')
+
+function abreToggleProdQuinzena(){
+    conteudoQuinzena.classList.toggle('aberto');
+    bolinhaQuinzena.classList.toggle('ativo');
+    console.log('aberto Quinzena')
 }
 
 const menuToggle = document.getElementById('menuToggle');
@@ -177,7 +189,7 @@ function registrarProd(){
         ultimoTd.innerHTML='';
     })
     
-    return console.log('Botão clicado!')
+    return console.log('Produção Mensal Registrada!')
 }
 
 document.querySelectorAll('.toggle-subtable').forEach(btn => {
@@ -196,3 +208,94 @@ document.querySelectorAll('.toggle-subtable').forEach(btn => {
 });
 
 const btnBuscarTabela=document.querySelector('.btnBuscarTabela')
+
+//--------------------------------------------------------------------------------------
+
+const tabelaQuinzena = document.querySelector('.contagemProdQuinzena');
+
+function limparMoeda (valor){
+    if (!valor) return 0;
+    return Number(valor.replace(/\./g, '').replace(',', '.'));
+}
+
+function formatarMoeda(valor){
+    return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function calcularTotalFuncionarioQuinzena(funcionario){
+    let totalFunc=0
+
+    const inputs = tabelaQuinzena.querySelectorAll(`tbody input[data-funcionario="${funcionario}"]`);
+
+    inputs.forEach(input => {
+        const valor = input.value ? limparMoeda(input.value) : 0;
+        totalFunc += valor;
+    });
+
+     // Atualiza célula TOTAL/FUNC
+    const thFuncionario = tabelaQuinzena.querySelector(`thead th[data-funcionario="${funcionario}"]`);
+    const colunaIndex = Array.from(thFuncionario.parentElement.children).indexOf(thFuncionario);
+    const linhaTotalFunc = tabelaQuinzena.querySelector('tbody tr.totalFuncionarioQuinzena');
+    const celulaTotalFunc = linhaTotalFunc.children[colunaIndex];
+
+    celulaTotalFunc.textContent = formatarMoeda(totalFunc);
+    celulaTotalFunc.style.fontWeight = 'bold';
+
+    // Atualiza total geral
+    calcularTotalGeralQuinzena();
+}
+    // ======== CALCULA TOTAL GERAL ========
+function calcularTotalGeralQuinzena() {
+    const celulasTotal = tabelaQuinzena.querySelectorAll('tbody tr.totalFuncionarioQuinzena td:not(.produto)');
+    let totalGeral = 0;
+
+    celulasTotal.forEach(celula => {
+        totalGeral += limparMoeda(celula.textContent);
+    });
+
+    const linhaTotalGeral = tabelaQuinzena.querySelector('tbody tr.ultimoQuinzena');
+    const celulaTotalGeral = linhaTotalGeral.querySelector('.ultimoTd');
+
+    celulaTotalGeral.textContent = formatarMoeda(totalGeral);
+    celulaTotalGeral.style.fontWeight = 'bold';
+    celulaTotalGeral.style.color = 'white';
+    celulaTotalGeral.style.textAlign = 'center';
+}
+
+// ======== EVENTOS DE INPUT ========
+tabelaQuinzena.querySelectorAll('input[type="text"]').forEach(input => {
+    // foco → mostra valor cru
+    input.addEventListener('focus', () => {
+        const numero = limparMoeda(input.value);
+        input.value = numero ? numero.toString().replace('.', ',') : '';
+    });
+
+    // blur → formata e calcula total
+    input.addEventListener('blur', () => {
+        if (!input.value) return;
+
+        const numero = limparMoeda(input.value);
+        input.value = formatarMoeda(numero);
+
+        const funcionario = input.getAttribute('data-funcionario');
+        calcularTotalFuncionarioQuinzena(funcionario);
+    });
+
+    // enquanto digita → recalcula automaticamente
+    input.addEventListener('input', () => {
+        const funcionario = input.getAttribute('data-funcionario');
+        calcularTotalFuncionarioQuinzena(funcionario);
+    });
+});
+
+// ======== BOTÃO REGISTRAR ========
+function registrarProdQuinzena() {
+    // limpa todos os inputs da tabela quinzena
+    tabelaQuinzena.querySelectorAll('tbody input[type="text"]').forEach(input => input.value = '');
+
+    // limpa totais
+    tabelaQuinzena.querySelector('tbody tr.totalFuncionarioQuinzena').querySelectorAll('td:not(.produto)').forEach(td => td.textContent = '');
+    tabelaQuinzena.querySelector('.ultimoTd').textContent = '';
+
+    console.log('Produção Quinzena registrada!');
+}

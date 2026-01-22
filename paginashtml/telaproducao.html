@@ -76,7 +76,8 @@
                         <label for="dataProd" class="mesAtualDataProd">Data da Produção:</label>
                         <input type="month" name="producao" id="dataProd" required>
                     </div>
-                    <table class="contagemProd">
+                            <!--TABELA PRODUCAO MENSAL-->
+                    <table class="contagemProd" data-tipo="mensal">
                         <thead>
                             <tr>
                                 <th class="espaco"></th>
@@ -310,6 +311,126 @@
                 </div>
             </div>
 
+            <div class="tabelaQuinzena">
+
+                <button class="toggle-producao-quinzena" onclick="abreToggleProdQuinzena()">
+                    <h2 >Produção Quinzena</h2>
+                    <span class="icone-toggle">▼</span>
+                </button>
+
+                <div class="conteudoProducaoQuinzena">
+                    <div class="escolherDataProdQuinzena">
+                        <label for="dataProd" class="mesAtualDataProdQuinzena">Data da Produção:</label>
+                        <input type="month" name="producao" id="dataProdQuinzena" required>
+                    </div>
+                                <!--TABELA PRODUCAO QUINZENAL-->
+                    <table class="contagemProdQuinzena" data-tipo="quinzena">
+                        <thead>
+                            <tr>
+                                <th class="espaco"></th>
+                                <th class="maior" data-funcionario="iraneide">IRANEIDE</th>
+                                <th data-funcionario="carla">CARLA</th>
+                                <th class="maior" data-funcionario="joaovitor">JOÃO VITOR</th>
+                                <th data-funcionario="kaua">KAUÃ</th>
+                                <th data-funcionario="sueli">SUELI</th>
+                                <th class="maior" data-funcionario="djullian">DJULLIAN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="linha-convenio" data-convenio="INSS">
+                                <td class="produto"> INSS </td>
+                                <td><input type="text" data-funcionario="iraneide"></td>
+                                <td><input type="text" data-funcionario="carla"></td>
+                                <td><input type="text" data-funcionario="joaovitor"></td>
+                                <td><input type="text" data-funcionario="kaua"></td>
+                                <td><input type="text" data-funcionario="sueli"></td>
+                                <td><input type="text" data-funcionario="djullian"></td>
+                            </tr> <!-- Linha da subtabela (inicialmente escondida) -->
+                
+                            <tr class="linha-convenio" data-convenio="SIAPE">
+                                <td class="produto"> SIAPE </td>
+                                <td><input type="text" data-funcionario="iraneide"></td>
+                                <td><input type="text" data-funcionario="carla"></td>
+                                <td><input type="text" data-funcionario="joaovitor"></td>
+                                <td><input type="text" data-funcionario="kaua"></td>
+                                <td><input type="text" data-funcionario="sueli"></td>
+                                <td><input type="text" data-funcionario="djullian"></td>
+                            </tr>
+                
+                            <tr>
+                                <td class="produto">CLT</td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
+                            </tr>
+                            <tr>
+                                <td class="produto">FGTS</td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
+                            </tr>
+                            <tr>
+                                <td class="produto">ESTADO</td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
+                            </tr>
+                            <tr>
+                                <td class="produto">MUNICÍPIO</td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
+                            </tr>
+                            <tr>
+                                <td class="produto">Bolsa Fam.</td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
+                            </tr>
+                            <tr>
+                                <td class="produto">CREFAZ</td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
+                                <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
+                            </tr>
+                            <tr class="totalFuncionarioQuinzena">
+                                <td class="produto">TOTAL/FUNC</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="ultimoQuinzena">
+                                <td colspan="6">TOTAL</td>
+                                <td class="ultimoTd"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="btnRegistrarQuinzena">
+                        <button onclick="registrarProdQuinzena()">REGISTRAR</button>
+                    </div>
+                </div>
+            </div>
             
 
         </div>
