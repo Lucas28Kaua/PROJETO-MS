@@ -5,6 +5,12 @@ toggleBtn.addEventListener('click', function () {
   sidebar.classList.toggle('aberto');
 });
 
+const conteudo = document.querySelector('.conteudoProducao')
+function abreToggleProd(){
+    conteudo.classList.toggle('aberto');
+    console.log('aberto')
+}
+
 const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
 
