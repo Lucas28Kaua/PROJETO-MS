@@ -134,13 +134,18 @@
 
     padding-right: 6px;     /* espaço pro scroll não colar */
 }
-
-.enderecoClienteNovo{
+.dadosPessoaisClienteNovo,
+.enderecoClienteNovo,
+.operacoesClienteNovo,
+.docEVideosClienteNovo{
     grid-column: 1/ -1;
     margin:12px 0px 6px 0px;
 }
 
-.enderecoClienteNovo h3{
+.dadosPessoaisClienteNovo h3,
+.enderecoClienteNovo h3,
+.operacoesClienteNovo h3,
+.docEVideosClienteNovo h3{
     font-size: 0.95rem;
     font-weight: 700;
     color: black;
@@ -217,6 +222,21 @@ select:active,
 .campo:focus-within label,
 .campo-grande:focus-within label {
     color: #eb6505;
+}
+
+.tituloDocCliente{
+    font-weight: bold;
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+.inputDocCliente{
+    border: 1px dashed rgba(0, 0, 0, 0.425);
+    background-color: white;
+    width:100%;
+    height:60px;
+    border-radius:8px;
 }
 
 .cadastroClienteNovo{
