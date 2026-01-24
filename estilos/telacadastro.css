@@ -239,6 +239,24 @@ select:active,
     border-radius:8px;
 }
 
+.inputDocCliente:hover{
+    border:1px dashed #eb5d05;
+    background-color: lightgray ;
+}
+
+#simboloUploadDocFrente,
+#simboloUploadDocVerso,
+#simboloUploadVideo{
+    margin:11px 10px 10px 15px;
+    padding:6px;
+    background-color: #F5F5F5;
+    border-radius:5px;
+}
+
+.indicarDoc{
+    margin-bottom:10px;
+}
+
 .cadastroClienteNovo{
     padding: 12px 22px;
     border-radius: 10px;
