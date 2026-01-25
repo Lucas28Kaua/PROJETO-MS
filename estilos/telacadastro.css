@@ -450,10 +450,18 @@ select:active,
 #stepClienteCarteiraRetornado h4{
     text-align: center;
     background-color: #EB6505;
-    margin-top:15px;
+    margin-top:0px;
     margin-bottom:15px;
     padding:6px;
     border-radius:15px 15px 0px 0px;
+}
+
+#stepClienteCarteiraRetornado{
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
 .dadoRetornadoNome{
@@ -501,10 +509,38 @@ select:active,
     padding:3px 0px 0px 15px
 }
 
+#stepDado{
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
 #labelClienteCarteira{
+    display:block;
+    width:30vw;
+    text-align: center;
+    background-color: #eb7005e7;
     font-size: 1.2em;
     font-weight: 600;
+    margin-top: 20px;
+    padding: 8px 0px 8px 0px;
+    margin:auto;
+    border-radius:15px
+}
 
+.gridAtualizacao {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.gridAtualizacao select {
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #000;
 }
 
 .tituloDadoParaAtualizar{

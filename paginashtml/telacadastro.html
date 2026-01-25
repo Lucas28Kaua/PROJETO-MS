@@ -263,18 +263,20 @@
                         </div>
                         <!-- Passo 2: Selecionar dado -->
                         <div id="stepDado" style="display:none;">
-                            <label for="tipoAtualizacaoDadoCliente" id="labelClienteCarteira">Qual dado deseja
-                                atualizar?</label>
-                            <select name="atualizar" id="tipoAtualizacaoDadoCliente">
-                                <option value="">Selecione</option>
-                                <option value="nome">Nome</option>
-                                <option value="cpf">CPF</option>
-                                <option value="dataNascimento">Data de Nascimento</option>
-                                <option value="telefone">N° de Telefone</option>
-                                <option value="senhaINSS">Senha INSS</option>
-                                <option value="endereco">Endereço</option>
-                            </select>
-                            <button onclick="proximoPasso(2)">Próximo</button>
+                            <label for="tipoAtualizacaoDadoCliente" id="labelClienteCarteira">Dado para Atualizar</label>
+
+                            <div class="gridAtualizacao">
+                                <select name="atualizar" id="tipoAtualizacaoDadoCliente" class="linhaAtualizacao">
+                                    <option value="">Selecione</option>
+                                    <option value="nome">Nome</option>
+                                    <option value="cpf">CPF</option>
+                                    <option value="dataNascimento">Data de Nascimento</option>
+                                    <option value="telefone">N° de Telefone</option>
+                                    <option value="senhaINSS">Senha INSS</option>
+                                    <option value="endereco">Endereço</option>
+                                </select>
+                                <button onclick="proximoPasso(2)" class="btnProximoDoDado">Próximo</button>
+                            </div>
                         </div>
 
                         <!-- Passo 2.5: Selecionar parte do endereço -->
