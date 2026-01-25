@@ -197,13 +197,26 @@
                                 <form action="#">
                                     <!--DOCUMENTO FRENTE-->
                                     <label class="tituloDocCliente" for="iDocFrenteCliente">DOC FRENTE</label>
-                                    <div class="inputDocCliente"><input hidden type="file" name="docCliente" id="idocFrenteCliente" accept="image/*, .pdf"><i class="material-symbols-outlined" id="simboloUploadDocFrente">upload</i><span class="indicarDoc">Clique ou arraste o arquivo</span></div>
+
+                                    <label class="inputDocCliente" for="iDocFrenteCliente">
+                                        <input type="file" id="iDocFrenteCliente" accept="image/*,.pdf">
+                                        <i class="material-symbols-outlined" id="simboloUploadDocFrente">upload</i>
+                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    </label>
                                     <!--DOCUMENTO VERSO-->
                                     <label class="tituloDocCliente" for="iDocVersoCliente">DOC VERSO</label>
-                                    <div class="inputDocCliente"><input hidden type="file" name="docCliente" id="iDocVersoCliente" accept="image/*, .pdf"><i class="material-symbols-outlined" id="simboloUploadDocVerso">upload</i><span class="indicarDoc">Clique ou arraste o arquivo</span></div>
+                                    <label class="inputDocCliente" for="iDocVersoCliente">
+                                        <input type="file" id="iDocVersoCliente" accept="image/*,.pdf">
+                                        <i class="material-symbols-outlined" id="simboloUploadDocVerso">upload</i>
+                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    </label>
                                     <!--VIDEO CLIENTE-->
                                     <label class="tituloDocCliente" for="iVideoCliente">VIDEO CLIENTE</label>
-                                    <div class="inputDocCliente"><input hidden type="file" name="videoCliente" id="iVideoCliente" accept="video/*"><i class="material-symbols-outlined" id="simboloUploadVideo">upload</i><span class="indicarDoc">Clique ou arraste o arquivo</span></div>    
+                                    <label class="inputDocCliente" for="iVideoCliente">
+                                        <input type="file" id="iVideoCliente" accept="video/*">
+                                        <i class="material-symbols-outlined" id="simboloUploadVideo">upload</i>
+                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    </label>
                                 </form>
                             </div>
 
@@ -324,9 +337,50 @@
 
                             <div class="acoesOperacao">
                                 <button id="addLinha">+ Adicionar linha</button>
-                                <button onclick="atualizarDado()" class="btnAtualizar">Atualizar</button>
                             </div>
                         </div>
+
+                        
+                        <!--ÁREA DE DOCUMENTOS E VÍDEOS-->
+                            <div class="docEVideosClienteCarteira" style="display:none;">
+
+                                <div class="operacoesClienteCarteira">
+                                    <h3 class="h3ClienteCarteira">Documentos e vídeo</h3>
+                                </div>
+
+                                <form action="#">
+                                    <!--DOCUMENTO FRENTE-->
+                                    <label class="tituloDocCliente" for="iDocFrenteCliente">DOC FRENTE</label>
+
+                                    <label class="inputDocCliente" for="iDocFrenteCliente">
+                                        <input type="file" id="iDocFrenteClienteCarteira" accept="image/*,.pdf">
+                                        <i class="material-symbols-outlined" id="simboloUploadDocFrenteCarteira">upload</i>
+                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    </label>
+                                    <!--DOCUMENTO VERSO-->
+                                    <label class="tituloDocCliente" for="iDocVersoCliente">DOC VERSO</label>
+
+                                    <label class="inputDocCliente" for="iDocVersoCliente">
+                                        <input type="file" id="iDocVersoClienteCarteira" accept="image/*,.pdf">
+                                        <i class="material-symbols-outlined" id="simboloUploadDocVersoCarteira">upload</i>
+                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    </label>
+                                    <!--VIDEO CLIENTE-->
+                                    <label class="tituloDocCliente" for="iVideoCliente">VIDEO CLIENTE</label>
+
+                                    <label class="inputDocCliente" for="iVideoCliente">
+                                        <input type="file" id="iVideoClienteCarteira" accept="video/*">
+                                        <i class="material-symbols-outlined" id="simboloUploadVideoCarteira">upload</i>
+                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    </label>
+                                </form>
+                                
+                                <div class="acoesOperacao">
+                                    <button onclick="atualizarDado()" class="btnAtualizar">Atualizar</button>
+                                </div>
+                            </div>
+
+
                     </div>
                     <h4 id="mensagemAtualizacao"></h4>
                 </div>

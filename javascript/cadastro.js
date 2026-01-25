@@ -144,9 +144,11 @@ function proximoPasso(passoAtual){
             document.getElementById('stepDado').style.display = 'none';
             document.getElementById('stepEndereco').style.display = 'block';
             document.getElementById('stepOperacao').style.display="block";
+            document.querySelector('.docEVideosClienteCarteira').style.display='block';
         } else {
             const label=document.getElementById("labelNovoDado");
             document.getElementById('stepOperacao').style.display="block";
+            document.querySelector('.docEVideosClienteCarteira').style.display='block';
             if (tipoSelecionado === 'senhaINSS') {
                 label.textContent = 'Nova Senha INSS:';
             } else if( tipoSelecionado ==='nome'){
@@ -277,6 +279,7 @@ function atualizarDado() {
     });
     document.querySelector('#stepOperacao').style.display='none';
     document.getElementById('stepClienteCarteiraRetornado').style.display="none";
+    document.querySelector('.docEVideosClienteCarteira').style.display='none';
     tipoSelecionado = null; // reseta
     parteEndereco = null; // reseta
 }
