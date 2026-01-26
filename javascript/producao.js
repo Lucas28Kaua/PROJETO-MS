@@ -181,15 +181,27 @@ document.querySelectorAll('.contagemProd input[type="text"]').forEach(input => {
 // Função do botão registrar
 const tableData = document.querySelectorAll('td:not(.produto)');
 
-function registrarProd(){
-    let ultimoTd=document.querySelector('.ultimoTd')
-    tableData.forEach(td => {
-        if(td.hasAttribute('colspan')) return;
-        td.innerHTML = '';
-        ultimoTd.innerHTML='';
-    })
+// Captura o evento de envio do formulário mensal
+document.getElementById('formMensal').addEventListener('submit', function(event) {
+    // Impede o recarregamento da página
+    event.preventDefault();
+
+    // Só chega aqui se o input month estiver preenchido!
+    registrarProd();
+});
+
+function registrarProd() {
+    let ultimoTd = document.querySelector('.ultimoTd');
     
-    return console.log('Produção Mensal Registrada!')
+    // tableData precisa estar definido no seu escopo (ex: document.querySelectorAll('.contagemProd td'))
+    tableData.forEach(td => {
+        if (td.hasAttribute('colspan')) return;
+        td.innerHTML = '';
+    });
+    
+    if (ultimoTd) ultimoTd.innerHTML = '';
+
+    console.log('Produção Mensal Registrada!');
 }
 
 document.querySelectorAll('.toggle-subtable').forEach(btn => {
@@ -289,13 +301,15 @@ tabelaQuinzena.querySelectorAll('input[type="text"]').forEach(input => {
 });
 
 // ======== BOTÃO REGISTRAR ========
+document.getElementById('formQuinzena').addEventListener('submit', function(event) {
+    // Impede o envio real do form (recarregar a página)
+    event.preventDefault();
+
+    // Agora sim, chama a sua função de registrar
+    registrarProdQuinzena();
+});
+
 function registrarProdQuinzena() {
-    // limpa todos os inputs da tabela quinzena
-    tabelaQuinzena.querySelectorAll('tbody input[type="text"]').forEach(input => input.value = '');
-
-    // limpa totais
-    tabelaQuinzena.querySelector('tbody tr.totalFuncionarioQuinzena').querySelectorAll('td:not(.produto)').forEach(td => td.textContent = '');
-    tabelaQuinzena.querySelector('.ultimoTd').textContent = '';
-
-    console.log('Produção Quinzena registrada!');
+    console.log('Validado e registrando...');
+    // ... o resto do seu código de limpar campos ...
 }

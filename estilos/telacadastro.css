@@ -123,16 +123,66 @@
 }
 
 .conteudoClienteNovo form {
+    max-height: 300px;       /* <<< AJUSTA AQUI */
+    overflow-y: auto;
+
+    padding-right: 6px;     /* espaço pro scroll não colar */
+}
+
+.subBoxDadosPessoaisClienteNovo{
     width:100%;
     display: grid;
     grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
     gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
     margin-bottom: 15px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+}
 
-    max-height: 300px;       /* <<< AJUSTA AQUI */
-    overflow-y: auto;
+.subBoxEderecoClienteNovo{
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
+    gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
+    margin-bottom: 15px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+}
 
-    padding-right: 6px;     /* espaço pro scroll não colar */
+.subBoxOperacoesClienteNovo{
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
+    gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
+    margin-bottom: 15px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.subBoxDocEVideoClienteNovo{
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
+    gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
+    margin-bottom: 15px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .dadosPessoaisClienteNovo,
@@ -141,7 +191,7 @@
 .docEVideosClienteNovo,
 .operacoesClienteCarteira{
     grid-column: 1/ -1;
-    margin:12px 0px 6px 0px;
+    margin:0px 0px 6px 0px;
 }
 
 .dadosPessoaisClienteNovo h3,
@@ -153,8 +203,7 @@
     font-weight: 700;
     color: black;
     padding-bottom: 4px;
-    border-bottom: 2px solid #eb6505;
-
+    border-bottom: 2px solid #EB721C;
     letter-spacing: 0.5px;
 }
 
@@ -530,7 +579,7 @@ select:active,
 
 #stepConfirmarAtualizacao h4{
     text-align: center;
-    background-color: #EB6505;
+    background-color: #EB721C;
     margin-top:0px;
     margin-bottom:15px;
     padding:6px;
@@ -544,7 +593,7 @@ select:active,
 
 #stepClienteCarteiraRetornado h4{
     text-align: center;
-    background-color: #EB6505;
+    background-color: #EB721C;
     margin-top:0px;
     margin-bottom:15px;
     padding:6px;
@@ -618,7 +667,7 @@ select:active,
     display:block;
     width:30vw;
     text-align: center;
-    background-color: #EB6505;
+    background-color: #EB721C;
     font-size: 1.2em;
     font-weight: 600;
     margin-top: 20px;
@@ -651,8 +700,7 @@ select:active,
 
 .tituloDadoParaAtualizar{
     text-align: center;
-    background-color: #EB6505;
-    margin-top:15px;
+    background-color: #EB721C;
     margin-bottom:15px;
     padding:6px;
     border-radius:15px 15px 0px 0px;
@@ -736,7 +784,7 @@ select:active,
     font-size:0.95rem;
     font-weight: 700;
     border-radius:15px 15px 0px 0px;
-    background-color: #eb6505;
+    background-color: #EB721C;
     text-align: center;
     padding:6px;
 }
@@ -747,6 +795,7 @@ select:active,
     border-radius: 14px;
     padding: 15px;
     margin-bottom: 20px;
+    box-shadow:2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .tabela-container {

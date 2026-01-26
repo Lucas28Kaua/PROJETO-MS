@@ -260,8 +260,13 @@ function confirmarAtualizacao(resposta) {
 // Função para atualizar o dado (simula a atualização)
 function atualizarDado() {
 
-    
-    // 👉 SE FOR ENDEREÇO, VALIDA OS CAMPOS DE ENDEREÇO
+    // 👉 NÃO vai atualizar dado
+    if (vaiAtualizarDado === false) {
+        finalizarFluxo();
+        return;
+    }
+
+    // 👉 VALIDAÇÃO
     if (tipoSelecionado === 'endereco') {
 
         const estado  = document.getElementById('enderecoEstado').value;
@@ -275,63 +280,51 @@ function atualizarDado() {
             return;
         }
 
-        // 👉 aqui no futuro tu manda tudo pra API
-        console.log('Endereço atualizado:', {
-            estado, cidade, bairro, rua, numero
-        });
+    } else {
 
-    } 
-    // 👉 SE NÃO FOR ENDEREÇO, SEGUE O FLUXO NORMAL
-    else {
-        let novoValor;
-
-        if (parteEndereco === 'estado') {
-            novoValor = document.getElementById('selectEstado').value;
-        } else {
-            novoValor = document.getElementById('novoValor').value;
-        }
+        let novoValor = parteEndereco === 'estado'
+            ? document.getElementById('selectEstado').value
+            : document.getElementById('novoValor').value;
 
         if (!novoValor || !novoValor.trim()) {
             alert('Digite o novo valor!');
             return;
         }
     }
+
+    // 👉 DAQUI PRA BAIXO: SEMPRE EXECUTA
+    console.log('Atualização válida, resetando fluxo');
+
+    finalizarFluxo();
+}
+
+function finalizarFluxo() {
+
     const mensagem = document.getElementById('mensagemAtualizacao');
-    // força reset da animação
     void mensagem.offsetWidth;
 
-    mensagem.textContent = "✅ Dado atualizado com sucesso!";
+    mensagem.textContent = "✅ Operação concluída com sucesso!";
     mensagem.classList.remove('sumir');
     mensagem.classList.add('ativo');
 
-    // some após o tempo da barra
     setTimeout(() => {
         mensagem.classList.remove('ativo');
         mensagem.classList.add('sumir');
-        
     }, 4000);
 
-    // Reseta o fluxo
-    document.getElementById('stepAtualizar').style.display = 'none';
-    document.getElementById('stepEndereco').style.display = 'none'; // esconde o step endereco
     document.getElementById('stepCPF').style.display = 'block';
     document.getElementById('icliente').value = '';
-    document.getElementById('tipoAtualizacaoDadoCliente').value = '';
-    document.getElementById('parteEndereco').value = ''; // reseta select endereco
-    document.getElementById('novoValor').value = '';
-    document.getElementById('selectEstado').value = ''; // reseta select estado
-    document.getElementById('novoValor').style.display = 'block'; // mostra input
-    document.getElementById('selectEstado').style.display = 'none'; // esconde select
-    document.getElementById('novoValor').style.width = '100%'; // reseta tamanho
-    const inputsTabela = document.querySelectorAll('.tabelaOp tbody input');
-        inputsTabela.forEach(input => {
-        input.value = '';
-    });
-    document.querySelector('#stepOperacao').style.display='none';
-    document.getElementById('stepClienteCarteiraRetornado').style.display="none";
-    document.querySelector('.docEVideosClienteCarteira').style.display='none';
-    tipoSelecionado = null; // reseta
-    parteEndereco = null; // reseta
+    document.getElementById('stepAtualizar').style.display = 'none';
+    document.getElementById('stepEndereco').style.display = 'none';
+    document.getElementById('stepOperacao').style.display = 'none';
+    document.querySelector('.docEVideosClienteCarteira').style.display = 'none';
+    document.getElementById('stepClienteCarteiraRetornado').style.display = 'none';
+    document.getElementById('tipoAtualizacaoDadoCliente').value='';
+    document.getElementById('novoValor').value=''
+
+    tipoSelecionado = null;
+    parteEndereco = null;
+    vaiAtualizarDado = null;
 }
 
 const tbody = document.querySelector(".tabelaOp tbody");
