@@ -2,6 +2,7 @@ const toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
 const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
+let vaiAtualizarDado = true;
 
 // Função para formatar CPF
 function formatarCPF(cpf) {
@@ -132,7 +133,8 @@ function proximoPasso(passoAtual){
         }
         document.getElementById('stepCPF').style.display="none";
         document.getElementById('stepClienteCarteiraRetornado').style.display="block";
-        document.getElementById('stepDado').style.display="block";
+        document.getElementById('stepConfirmarAtualizacao').style.display = "block";
+
     } else if (passoAtual===2){
         const dadoSelecionado = document.getElementById('tipoAtualizacaoDadoCliente').value;
         if (!dadoSelecionado){
@@ -145,6 +147,19 @@ function proximoPasso(passoAtual){
             document.getElementById('stepEndereco').style.display = 'block';
             document.getElementById('stepOperacao').style.display="block";
             document.querySelector('.docEVideosClienteCarteira').style.display='block';
+
+            // popula estados
+            const selectEstado = document.getElementById('enderecoEstado');
+            selectEstado.innerHTML = '<option value="">Selecione</option>';
+            estados.forEach(estado => {
+                const option = document.createElement('option');
+                option.value = estado;
+                option.textContent = estado;
+                selectEstado.appendChild(option);
+            });
+
+            return;
+
         } else {
             const label=document.getElementById("labelNovoDado");
             document.getElementById('stepOperacao').style.display="block";
@@ -173,6 +188,23 @@ function proximoPasso(passoAtual){
                 input.placeholder = 'Joao@123';
                 input.oninput = null;
                 input.style.width = '40%'; // tamanho menor pra senha
+            } else if (tipoSelecionado ==='nome'){
+                input.placeholder='João da Silva';
+                input.oninput = null;
+                input.style.width='55%'
+            } else if (tipoSelecionado ==='dataNascimento'){
+                input.type='date'
+                input.oninput = null;
+                input.style.width='29%'
+            } else if(tipoSelecionado === 'cpf'){
+                input.placeholder = '000.000.000-00';
+                input.oninput = () => { input.value = formatarCPF(input.value); };
+                input.style.width = '40%'; // tamanho menor pro telefone
+                input.minLength = 11; // com máscara
+                input.maxLength = 14;
+            } else if(tipoSelecionado === "endereco"){
+                input.oninput=null;
+                input.style.width ='40%'
             } else {
                 input.placeholder = '';
                 input.oninput = null;
@@ -182,69 +214,87 @@ function proximoPasso(passoAtual){
             document.getElementById('stepDado').style.display = 'none';
             document.getElementById('stepAtualizar').style.display = 'block';
         }
-    } else if (passoAtual===3){
-        const parteSelecionada = document.getElementById('parteEndereco').value;
-        if (!parteSelecionada){
-            alert('Selecione uma parte do endereço!');
-            return;
-        }
-        parteEndereco = parteSelecionada;
-        const label=document.getElementById("labelNovoDado");
-        label.textContent = `Novo ${parteSelecionada.charAt(0).toUpperCase() + parteSelecionada.slice(1)}:`;
+    } else if (passoAtual === 3) {
 
-        const input = document.getElementById('novoValor');
-        const selectEstado = document.getElementById('selectEstado');
+    const estado = document.getElementById('enderecoEstado').value;
+    const cidade = document.getElementById('enderecoCidade').value;
+    const bairro = document.getElementById('enderecoBairro').value;
+    const rua = document.getElementById('enderecoRua').value;
+    const numero = document.getElementById('enderecoNumero').value;
 
-        if (parteSelecionada === 'estado') {
-            // Popula o select com estados
-            selectEstado.innerHTML = '<option value="">Selecione</option>';
-            estados.forEach(estado => {
-                const option = document.createElement('option');
-                option.value = estado;
-                option.textContent = estado;
-                selectEstado.appendChild(option);
-            });
-            input.style.display = 'none';
-            selectEstado.style.display = 'block';
-            selectEstado.style.width = '60%';
-        } else {
-            input.style.display = 'block';
-            selectEstado.style.display = 'none';
-            if (parteSelecionada === 'numero') {
-                input.placeholder = '123';
-                input.style.width = '30%';
-            } else if (parteSelecionada === 'cidade') {
-                input.placeholder = 'Ex: São Paulo';
-                input.style.width = '60%';
-            } else if (parteSelecionada === 'bairro') {
-                input.placeholder = 'Ex: Centro';
-                input.style.width = '60%';
-            } else if (parteSelecionada === 'rua') {
-                input.placeholder = 'Ex: Rua das Flores';
-                input.style.width = '70%';
-            } else {
-                input.placeholder = '';
-                input.style.width = '100%';
-            }
-            input.oninput = null;
-        }
+    if (!estado || !cidade || !bairro || !rua || !numero) {
+        alert('Preencha todo o endereço!');
+        return;
+    }
 
-        document.getElementById('stepEndereco').style.display = 'none';
-        document.getElementById('stepAtualizar').style.display = 'block';
+    // aqui tu já tem o endereço completo
+    enderecoAtualizado = { estado, cidade, bairro, rua, numero };
+
+    document.getElementById('stepEndereco').style.display = 'none';
+    document.getElementById('stepAtualizar').style.display = 'block';
+    }
+}
+
+function confirmarAtualizacao(resposta) {
+
+    document.getElementById('stepConfirmarAtualizacao').style.display = 'none';
+
+    if (resposta === true) {
+        vaiAtualizarDado = true;
+        // SIM → escolher dado
+        document.getElementById('stepDado').style.display = 'block';
+        document.getElementById('stepOperacao').style.display = 'none';
+        document.querySelector('.docEVideosClienteCarteira').style.display = 'none';
+    } 
+    else {
+        vaiAtualizarDado = false;
+        // NÃO → vai direto pra operações + docs
+        document.getElementById('stepDado').style.display = 'none';
+        document.getElementById('stepAtualizar').style.display = 'none';
+
+        document.getElementById('stepOperacao').style.display = 'block';
+        document.querySelector('.docEVideosClienteCarteira').style.display = 'block';
     }
 }
 
 // Função para atualizar o dado (simula a atualização)
 function atualizarDado() {
-    let novoValor;
-    if (parteEndereco === 'estado') {
-        novoValor = document.getElementById('selectEstado').value;
-    } else {
-        novoValor = document.getElementById('novoValor').value;
-    }
-    if (!novoValor.trim()) {
-        alert('Digite o novo valor!');
-        return;
+
+    
+    // 👉 SE FOR ENDEREÇO, VALIDA OS CAMPOS DE ENDEREÇO
+    if (tipoSelecionado === 'endereco') {
+
+        const estado  = document.getElementById('enderecoEstado').value;
+        const cidade  = document.getElementById('enderecoCidade').value;
+        const bairro  = document.getElementById('enderecoBairro').value;
+        const rua     = document.getElementById('enderecoRua').value;
+        const numero  = document.getElementById('enderecoNumero').value;
+
+        if (!estado || !cidade || !bairro || !rua || !numero) {
+            alert('Preencha todos os campos do endereço!');
+            return;
+        }
+
+        // 👉 aqui no futuro tu manda tudo pra API
+        console.log('Endereço atualizado:', {
+            estado, cidade, bairro, rua, numero
+        });
+
+    } 
+    // 👉 SE NÃO FOR ENDEREÇO, SEGUE O FLUXO NORMAL
+    else {
+        let novoValor;
+
+        if (parteEndereco === 'estado') {
+            novoValor = document.getElementById('selectEstado').value;
+        } else {
+            novoValor = document.getElementById('novoValor').value;
+        }
+
+        if (!novoValor || !novoValor.trim()) {
+            alert('Digite o novo valor!');
+            return;
+        }
     }
     const mensagem = document.getElementById('mensagemAtualizacao');
     // força reset da animação
@@ -301,3 +351,49 @@ btnAdd.addEventListener("click", () => {
     // foco automático no primeiro input
     tr.querySelector("input").focus();
 });
+
+function previewArquivo(input, previewId) {
+    const preview = document.getElementById(previewId);
+    preview.innerHTML = "";
+
+    const file = input.files[0];
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    const label = input.closest(".inputDocCliente");
+    const conteudo = label.querySelector(".conteudoUpload");
+
+    label.classList.add("com-preview");
+    preview.style.display = "flex";
+
+    // NOME DO ARQUIVO
+    const nome = document.createElement("p");
+    nome.classList.add("nomeArquivo");
+    nome.textContent = file.name;
+
+    // IMAGEM
+    if (file.type.startsWith("image/")) {
+        const img = document.createElement("img");
+        img.src = url;
+        preview.appendChild(img);
+    }
+
+    // PDF
+    else if (file.type === "application/pdf") {
+        const embed = document.createElement("embed");
+        embed.src = url;
+        embed.type = "application/pdf";
+        preview.appendChild(embed);
+    }
+
+    // VÍDEO
+    else if (file.type.startsWith("video/")) {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        preview.appendChild(video);
+    }
+
+    preview.appendChild(nome);
+}

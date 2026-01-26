@@ -196,26 +196,62 @@
                                 <h3 class="h3ClienteNovo">Documentos e vídeo</h3>
                                 <form action="#">
                                     <!--DOCUMENTO FRENTE-->
-                                    <label class="tituloDocCliente" for="iDocFrenteCliente">DOC FRENTE</label>
+                                    <label class="tituloDocCliente">DOC FRENTE</label>
 
-                                    <label class="inputDocCliente" for="iDocFrenteCliente">
-                                        <input type="file" id="iDocFrenteCliente" accept="image/*,.pdf">
-                                        <i class="material-symbols-outlined" id="simboloUploadDocFrente">upload</i>
-                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    <label class="inputDocCliente" for="iDocFrenteClienteNovo">
+                                        <input 
+                                            type="file" 
+                                            id="iDocFrenteClienteNovo" 
+                                            name="docFrenteClienteNovo"
+                                            accept="image/*,.pdf"
+                                            onchange="previewArquivo(this, 'previewDocFrenteClienteNovo')"
+                                        >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadDocFrente">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewDocFrenteClienteNovo"></div>
+                                        </div>
+
                                     </label>
                                     <!--DOCUMENTO VERSO-->
-                                    <label class="tituloDocCliente" for="iDocVersoCliente">DOC VERSO</label>
-                                    <label class="inputDocCliente" for="iDocVersoCliente">
-                                        <input type="file" id="iDocVersoCliente" accept="image/*,.pdf">
-                                        <i class="material-symbols-outlined" id="simboloUploadDocVerso">upload</i>
-                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    <label class="tituloDocCliente">DOC VERSO</label>
+
+                                    <label class="inputDocCliente" for="iDocVersoClienteNovo">
+
+                                        <input 
+                                            type="file" 
+                                            id="iDocVersoClienteNovo" 
+                                            name="docVersoClienteNovo"
+                                            accept="image/*,.pdf"
+                                            onchange="previewArquivo(this, 'previewDocVersoClienteNovo')"
+                                            >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadDocVerso">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewDocVersoClienteNovo"></div>
+                                        </div>
+
                                     </label>
                                     <!--VIDEO CLIENTE-->
-                                    <label class="tituloDocCliente" for="iVideoCliente">VIDEO CLIENTE</label>
-                                    <label class="inputDocCliente" for="iVideoCliente">
-                                        <input type="file" id="iVideoCliente" accept="video/*">
-                                        <i class="material-symbols-outlined" id="simboloUploadVideo">upload</i>
-                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    <label class="tituloDocCliente">VIDEO CLIENTE</label>
+                                    <label class="inputDocCliente" for="iVideoClienteNovo">
+
+                                        <input 
+                                        type="file" 
+                                        id="iVideoClienteNovo" 
+                                        name="VideoClienteNovo"
+                                        accept="video/*"
+                                        onchange="previewArquivo(this, 'previewVideoClienteNovo')"
+                                        >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadVideo">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewVideoClienteNovo"></div>
+                                        </div>
+
                                     </label>
                                 </form>
                             </div>
@@ -261,6 +297,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div id="stepConfirmarAtualizacao" style="display:none;">
+                            <h4>Atualização de dados</h4>
+                            <p>Deseja atualizar algum dado deste cliente?</p>
+
+                            <div class="botoesConfirmacao">
+                                <button onclick="confirmarAtualizacao(true)">Sim</button>
+                                <button onclick="confirmarAtualizacao(false)">Não</button>
+                            </div>
+                        </div>
+
                         <!-- Passo 2: Selecionar dado -->
                         <div id="stepDado" style="display:none;">
                             <label for="tipoAtualizacaoDadoCliente" id="labelClienteCarteira">Dado para Atualizar</label>
@@ -279,19 +326,38 @@
                             </div>
                         </div>
 
-                        <!-- Passo 2.5: Selecionar parte do endereço -->
-                        <div id="stepEndereco" style="display: none;">
-                            <h4 class="tituloDadoParaAtualizar">Dado para atualizar:</h4>
-                            <label for="parteEndereco">Qual parte do endereço deseja atualizar?</label>
-                            <select name="parteEndereco" id="parteEndereco">
-                                <option value="">Selecione</option>
-                                <option value="estado">Estado</option>
-                                <option value="cidade">Cidade</option>
-                                <option value="bairro">Bairro</option>
-                                <option value="rua">Rua</option>
-                                <option value="numero">Número</option>
-                            </select>
-                            <button onclick="proximoPasso(3)">Próximo</button>
+                        <!-- Passo 2.5: Atualizar endereço completo -->
+                        <div id="stepEndereco" class="cardEndereco" style="display: none;">
+                            <h4 class="tituloDadoParaAtualizar">Atualizar Endereço</h4>
+
+                            <div class="grupoEndereco">
+                                <div class="campoEndereco">
+                                    <label>Estado</label>
+                                    <select id="enderecoEstado">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+
+                                <div class="campoEndereco">
+                                    <label>Cidade</label>
+                                    <input type="text" id="enderecoCidade" placeholder="Ex: São Paulo">
+                                </div>
+
+                                <div class="campoEndereco">
+                                    <label>Bairro</label>
+                                    <input type="text" id="enderecoBairro" placeholder="Ex: Centro">
+                                </div>
+
+                                <div class="campoEndereco campoRua">
+                                    <label>Rua</label>
+                                    <input type="text" id="enderecoRua" placeholder="Ex: Rua das Flores">
+                                </div>
+
+                                <div class="campoEndereco campoNumero">
+                                    <label>Número</label>
+                                    <input type="text" id="enderecoNumero" placeholder="123">
+                                </div>
+                            </div>
                         </div>
 
 
@@ -352,29 +418,71 @@
 
                                 <form action="#">
                                     <!--DOCUMENTO FRENTE-->
-                                    <label class="tituloDocCliente" for="iDocFrenteCliente">DOC FRENTE</label>
+                                    <label class="tituloDocCliente">DOC FRENTE</label>
 
-                                    <label class="inputDocCliente" for="iDocFrenteCliente">
-                                        <input type="file" id="iDocFrenteClienteCarteira" accept="image/*,.pdf">
-                                        <i class="material-symbols-outlined" id="simboloUploadDocFrenteCarteira">upload</i>
-                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    <label class="inputDocCliente" for="iDocFrenteClienteCarteira">
+                                        <input
+                                            type="file"
+                                            name="docFrente" 
+                                            id="iDocFrenteClienteCarteira" 
+                                            accept="image/*,.pdf" 
+                                            onchange="previewArquivo(this, 'previewDocFrente')"
+                                        >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadDocFrenteCarteira">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewDocFrente"></div>
+                                        </div>
+
                                     </label>
+
+                                    
+
+                                    
+
                                     <!--DOCUMENTO VERSO-->
-                                    <label class="tituloDocCliente" for="iDocVersoCliente">DOC VERSO</label>
+                                    <label class="tituloDocCliente">DOC VERSO</label>
 
-                                    <label class="inputDocCliente" for="iDocVersoCliente">
-                                        <input type="file" id="iDocVersoClienteCarteira" accept="image/*,.pdf">
-                                        <i class="material-symbols-outlined" id="simboloUploadDocVersoCarteira">upload</i>
-                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    <label class="inputDocCliente" for="iDocVersoClienteCarteira">
+                                        <input
+                                            type="file" 
+                                            name="docVerso"
+                                            id="iDocVersoClienteCarteira" 
+                                            accept="image/*,.pdf" 
+                                            onchange="previewArquivo(this, 'previewDocVerso')"
+                                        >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadDocVersoCarteira">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewDocVerso"></div>
+                                        </div>
+
+                                        
                                     </label>
+
+                                    
+
                                     <!--VIDEO CLIENTE-->
-                                    <label class="tituloDocCliente" for="iVideoCliente">VIDEO CLIENTE</label>
+                                    <label class="tituloDocCliente">VIDEO CLIENTE</label>
 
-                                    <label class="inputDocCliente" for="iVideoCliente">
-                                        <input type="file" id="iVideoClienteCarteira" accept="video/*">
-                                        <i class="material-symbols-outlined" id="simboloUploadVideoCarteira">upload</i>
-                                        <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                    <label class="inputDocCliente" for="iVideoClienteCarteira">
+                                        <input
+                                            type="file" 
+                                            name="videoCliente"
+                                            id="iVideoClienteCarteira" 
+                                            accept="video/*" 
+                                            onchange="previewArquivo(this, 'previewVideo')"
+                                        >
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadVideoCarteira">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewVideo"></div>
+                                        </div>
                                     </label>
+
+                                    
                                 </form>
                                 
                                 <div class="acoesOperacao">
