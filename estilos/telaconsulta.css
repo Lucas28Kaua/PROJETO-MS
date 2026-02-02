@@ -119,9 +119,14 @@
     border: 1px solid black;
 }
 
-
-#btnBuscar {
+.botoes{
     display: flex;
+    gap: 10px; /* espaço entre os botões */
+}
+
+#btnBuscar,
+#btnLimpar{
+    
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -138,7 +143,8 @@
     box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.496);
 }
 
-#btnBuscar:hover{
+#btnBuscar:hover,
+#btnLimpar:hover{
     transition:
         background 0.3s ease,
         transform 0.2s ease,
@@ -148,7 +154,8 @@
     transform:scale(1.02); 
 }
 
-#btnBuscar:active{
+#btnBuscar:active,
+#btnLimpar:active{
     transform: scale(0.98);
 }
 

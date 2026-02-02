@@ -109,10 +109,12 @@
                     </div>
                  </div>
 
-                <button type="button" id="btnBuscar" style="display:none;" onclick="buscar()">
-                    <span>Buscar</span>
-                </button>
-
+                <div class="botoes">
+                    <button type="button" id="btnBuscar" style="display:none;" onclick="buscar()">
+                        <span>Buscar</span>
+                    </button>
+                    <button type="reset" style="display:none;" id="btnLimpar" onclick="limpar()">Limpar</button>
+                </div>
             </form>
         </div>
 
@@ -177,9 +179,9 @@
             </div>
         </div>
 
-             <div class="telaDetalhesCliente" style="display:none;">
-                 <!-- DETALHE DO CLIENTE -->
-                         <div id="detalheCliente" class="boxDetalhe" style="display:block;">
+            <div class="telaDetalhesCliente" style="display:none;">
+                <!-- DETALHE DO CLIENTE -->
+                        <div id="detalheCliente" class="boxDetalhe" style="display:block;">
                     <div class="dados-cliente">
                         <h2>DADOS CLIENTE</h2>
                         <div class="detalheGrid">
@@ -284,7 +286,7 @@
                     </div>
                  
                         </div>
-             </div>    
+            </div>    
     </main> 
 
      <!-- NOVO: Botão hambúrguer mobile -->

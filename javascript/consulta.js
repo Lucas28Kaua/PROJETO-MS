@@ -3,6 +3,24 @@ const sidebar = document.querySelector('.sidebar');
 const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
 
+// Função para formatar CPF
+function formatarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, ''); // remove tudo que não é dígito
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona ponto após 3 dígitos
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona ponto   após mais 3
+    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // adiciona traço antes dos últimos 2
+    return cpf;
+}
+
+// Função para formatar benefício
+function formatarBeneficio(beneficio) {
+    beneficio = beneficio.replace(/\D/g, ''); // remove não dígitos
+    beneficio = beneficio.replace(/(\d{3})(\d)/, '$1.$2'); // XXX.
+    beneficio = beneficio.replace(/(\d{3})(\d)/, '$1.$2'); // XXX.XXX.
+    beneficio = beneficio.replace(/(\d{3})(\d{1})$/, '$1-$2'); // XXX.XXX.XXX-X
+    return beneficio;
+}
+
 // Toggle do botão normal da sidebar (desktop)
 if (toggleBtn) {
     toggleBtn.addEventListener('click', function () {
@@ -32,6 +50,7 @@ const tipoBusca = window.document.getElementById('tipoBusca')
 const campoSimples = window.document.getElementById('campoSimples')
 const blocoEndereco = window.document.getElementById('blocoEndereco')
 const botaoBuscar = window.document.getElementById('btnBuscar')
+const botaoLimpar = window.document.getElementById('btnLimpar')
 const labelBusca = window.document.getElementById('labelBusca')
 const buscaSimples = window.document.getElementById('buscaSimples')
 
@@ -65,37 +84,59 @@ function atualizarCampos() {
     labelBusca.textContent = "Nome:"
     botaoBuscar.style.display = "block"
     buscaSimples.placeholder = "Ex.: João da Silva"
-  }
-  else if (tipoBusca.value === "cpf") {
+  } else if (tipoBusca.value === "cpf") {
     campoSimples.style.display = "block";
     labelBusca.textContent = "CPF:"
     botaoBuscar.style.display = "block"
     buscaSimples.placeholder = "000.000.000-00"
-  }
-  else if (tipoBusca.value === "dn") {
+    // Configurações específicas para CPF
+    buscaSimples.setAttribute("inputmode", "numeric"); // Abre teclado numérico no celular
+    buscaSimples.maxLength = 14; 
+
+    // Aplica a sua função formatarCPF
+    buscaSimples.oninput = function() {
+      this.value = formatarCPF(this.value);
+    };
+  } else if (tipoBusca.value === "nbeneficio") {
     campoSimples.style.display = "block";
-    labelBusca.textContent = "Data de nascimento:"
+    labelBusca.textContent = "N. Benefício:"
     botaoBuscar.style.display = "block"
-    buscaSimples.placeholder = "DD/MM/AAAA"
-  }
-  else {
+    buscaSimples.placeholder = "123.456.789-0"
+    buscaSimples.setAttribute("inputmode", "numeric"); // Abre teclado numérico no celular
+    buscaSimples.maxLength = 13; 
+
+    // Aplica a sua função formatarCPF
+    buscaSimples.oninput = function() {
+      this.value = formatarBeneficio(this.value);
+    };
+  } else {
 
     labelBusca.textContent = "Pesquisar"
   }
 }
 
-
+const telaRetornoConsulta = document.querySelector('.telaRetornoConsulta')
 
 function buscar() {
-  const telaRetornoConsulta = document.querySelector('.telaRetornoConsulta')
+  
   const listaClientes = document.getElementById('listaClientes')
   const detalheCliente = document.getElementById('detalheCliente')
   telaRetornoConsulta.style.display = 'block';
   
   telaRetornoConsulta.style.display='block'
-  
+  botaoLimpar.style.display="block";
 }
 
+const telaDetalhesCliente = document.querySelector('.telaDetalhesCliente')
+
+function limpar(){
+  telaRetornoConsulta.style.display ="none"
+  telaDetalhesCliente.style.display = "none"
+  botaoLimpar.style.display="none"
+  campoSimples.style.display="none"
+  botaoBuscar.style.display="none"
+  blocoEndereco.style.display="none"
+}
 
 const tbody=document.getElementById('tabelaClientes');
 
