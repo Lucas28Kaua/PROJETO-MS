@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema MS CRED</title>
+  <link rel="stylesheet" href="../estilos/minhaproducao.css">
+  <link rel="stylesheet" href="../estilos/global.css">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="shortcut icon" href="../imagens/favicon3.ico" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <img src="../imagens/logo-mscred-menor.png" alt="logo mscred">
+
+        <a href="../paginashtml/telalogin.html" class="btn-sair">
+            <i class="material-symbols-outlined">exit_to_app</i>
+            <span class="text-button">Sair</span>
+        </a>
+    </header>
+
+    <aside class="sidebar">
+        <!-- Botão toggle -->
+        <button class="toggle-btn" id="toggleMenu">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <!--MENU LATERAL-->
+        <nav>
+            <ul class="menu">
+                <li>
+                    <a href="telahome.html" class="menu-link">
+                        <i class="material-symbols-outlined">home</i>
+                        <span class="menu-text">HOME</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="telaconsulta.html" class="menu-link">
+                        <i class="material-symbols-outlined">search</i>
+                        <span class="menu-text">CONSULTA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="telacadastro.html" class="menu-link">
+                        <i class="material-symbols-outlined">person</i>
+                        <span class="menu-text">CADASTRO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="telaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">trending_up</i>
+                        <span class="menu-text">RELATÓRIOS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="telaminhaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">dashboard</i>
+                        <span class="menu-text">PRODUÇÃO</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="meio">
+
+        <h2 class="h2DoMain">ACOMPANHAMENTO PESSOAL</h2>
+      <div class=containerMeio>
+          <!-- Barra de Filtros -->
+            <div class="filter-bar">
+            <span class="filter-count">Filtrando 46 propostas</span>
+            <div class="filter-actions">
+                <input type="text" class="search-input" placeholder="Pesquise por uma proposta, cliente...">
+                <button class="btn-filter">🔍 Filtros</button>
+                <button class="btn-export">Exportar relatório</button>
+            </div>
+            </div>
+            <!-- Kanban Board -->
+            <div class="kanban-board">
+          
+            <!-- Coluna Nova Proposta -->
+            <div class="kanban-column">
+                <div class="column-header">
+                <span class="column-icon nova">✓</span>
+                <span class="column-title">Nova proposta</span>
+                <span class="column-count">2</span>
+                </div>
+                <div class="column-total">R$ 27.602,85</div>
+          
+                <div class="kanban-cards">
+                <div class="proposal-card status-nova">
+                    <div class="card-header">
+                    <span class="proposal-id">📋 #1901929633</span>
+                    <button class="btn-menu">⋯</button>
+                    </div>
+                    <h3 class="client-name">TEREZA MACIEL DOS SANTOS</h3>
+                    <div class="card-field">
+                    <span class="field-label">Produto</span>
+                    <span class="field-value">🏦 Refinanciamento</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Convênio:</span>
+                    <span class="field-value bold">INSS</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Valor da Operação</span>
+                    <span class="field-value bold">R$ 13.147,40</span>
+                    </div>
+                    <div class="card-status">
+                    <span class="status-dot nova"></span>
+                    <span class="status-text">Nova proposta</span>
+                    </div>
+                    <div class="card-dates">
+                    <div class="date-item">
+                        <span class="date-label">Última atualização</span>
+                        <span class="date-value">1 mês atrás</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">Criado em</span>
+                        <span class="date-value">12 dez 25</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- Coluna Em Análise -->
+            <div class="kanban-column">
+                <div class="column-header">
+                <span class="column-icon analise">⏳</span>
+                <span class="column-title">Em análise</span>
+                <span class="column-count">9</span>
+                </div>
+                <div class="column-total">R$ 50.537,14</div>
+          
+                <div class="kanban-cards">
+                <div class="proposal-card status-analise">
+                    <div class="card-header">
+                    <span class="proposal-id">📋 #1902189146</span>
+                    <button class="btn-menu">⋯</button>
+                    </div>
+                    <h3 class="client-name">DIRCE AULISIO CATHARINO</h3>
+                    <div class="card-field">
+                    <span class="field-label">Produto</span>
+                    <span class="field-value">🏦 Novo</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Convênio:</span>
+                    <span class="field-value bold">INSS</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Valor da Operação</span>
+                    <span class="field-value bold">R$ 18.435,99</span>
+                    </div>
+                    <div class="card-status">
+                    <span class="status-dot analise"></span>
+                    <span class="status-text">Formalização cliente</span>
+                    </div>
+                    <div class="card-dates">
+                    <div class="date-item">
+                        <span class="date-label">Última atualização</span>
+                        <span class="date-value">10 dias atrás</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">Criado em</span>
+                        <span class="date-value">23 jan 26</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- Coluna Em Aprovação -->
+            <div class="kanban-column">
+                <div class="column-header">
+                <span class="column-icon aprovacao">⏱</span>
+                <span class="column-title">Em aprovação</span>
+                <span class="column-count">1</span>
+                </div>
+                <div class="column-total">R$ 14.455,45</div>
+          
+                <div class="kanban-cards">
+                <div class="proposal-card status-aprovacao">
+                    <div class="card-header">
+                    <span class="proposal-id">📋 #1901490881</span>
+                    <button class="btn-menu">⋯</button>
+                    </div>
+                    <h3 class="client-name">MANOEL FELICIANO DA SILVA</h3>
+                    <div class="card-field">
+                    <span class="field-label">Produto</span>
+                    <span class="field-value">🏦 Portabilidade e Refinanciamento</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Convênio:</span>
+                    <span class="field-value bold">INSS</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Valor da Operação</span>
+                    <span class="field-value bold">R$ 14.455,45</span>
+                    </div>
+                    <div class="card-status">
+                    <span class="status-dot aprovacao"></span>
+                    <span class="status-text">Ag. aprovação do convênio</span>
+                    </div>
+                    <div class="card-dates">
+                    <div class="date-item">
+                        <span class="date-label">Última atualização</span>
+                        <span class="date-value">4 meses atrás</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">Criado em</span>
+                        <span class="date-value">10 set 25</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- Coluna Finalizado -->
+            <div class="kanban-column">
+                <div class="column-header">
+                <span class="column-icon finalizado">✅</span>
+                <span class="column-title">Finalizado</span>
+                <span class="column-count">34</span>
+                </div>
+                <div class="column-total">R$ 285.053,49</div>
+          
+                <div class="kanban-cards">
+                <div class="proposal-card status-finalizado">
+                    <div class="card-header">
+                    <span class="proposal-id">📋 #1901888140</span>
+                    <button class="btn-menu">⋯</button>
+                    </div>
+                    <h3 class="client-name">FRANCISCA FIDELIS DE ARAUJO SANTOS</h3>
+                    <div class="card-field">
+                    <span class="field-label">Produto</span>
+                    <span class="field-value">🏦 Aumento</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Convênio:</span>
+                    <span class="field-value bold">INSS</span>
+                    </div>
+                    <div class="card-field">
+                    <span class="field-label">Valor da Operação</span>
+                    <span class="field-value bold">R$ 1.613,65</span>
+                    </div>
+                    <div class="card-status">
+                    <span class="status-dot finalizado"></span>
+                    <span class="status-text">Pago</span>
+                    </div>
+                    <div class="card-dates">
+                    <div class="date-item">
+                        <span class="date-label">Última atualização</span>
+                        <span class="date-value">7 horas atrás</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">Criado em</span>
+                        <span class="date-value">4 dez 25</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+      </div>
+    </main>
+  <script src="../javascript/minhaproducao.js"></script>
+</body>
+</html>
