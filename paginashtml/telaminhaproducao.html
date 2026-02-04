@@ -66,117 +66,139 @@
     <main class="meio">
 
     <h2 class="h2DoMain">ACOMPANHAMENTO PESSOAL</h2>
-    <div class="containerMeio">
-        <!-- Barra de Filtros -->
-        <div class="filter-bar">
-            <span class="filter-count">Filtrando 0 propostas</span>
-            <div class="filter-actions">
-                <input type="text" class="search-input" placeholder="Pesquise por uma proposta, cliente...">
-                <button class="btn-filter">🔍 Filtros</button>
-                <button class="btn-export">Exportar relatório</button>
+        <div class="containerMeio">
+
+            <div class="colunaStatus">
+                <div class="headerColunaNovo">
+                    <h3>Nova Proposta</h3>
+                </div>
+                <div id="linhaStatusNova" class="cardsDivisao">
+                    <!--AQUI FICA OS CARDS-->
+  
+                </div>
+            </div>
+
+            <div class="colunaStatus">
+                <div class="headerColunaAnalise">
+                    <h3>Em Análise</h3>
+                </div>
+                <div id="linhaStatusAnalise" class="cardsDivisao">
+                    <!--AQUI FICA OS CARDS-->
+                    
+                </div>
+            </div>
+
+            <div class="colunaStatus">
+                <div class="headerColunaFinalizado">
+                    <h3>Finalizado</h3>
+                </div>
+                <div id="linhaStatusFinalizado" class="cardsDivisao">
+                    <!--AQUI FICA OS CARDS-->
+                    
+                </div>
             </div>
         </div>
+    </main>
 
-        <!-- Kanban Board -->
-        <div class="kanban-board">
-
-            <!-- Coluna Nova Proposta -->
-            <div class="kanban-column">
-                <div class="column-header">
-                    <span class="column-icon nova">✓</span>
-                    <span class="column-title">Nova proposta</span>
-                    <span class="column-count">0</span>
-                </div>
-                <div class="column-total">R$ 0,00</div>
-                <div class="kanban-cards">
-                    <!-- Cards serão adicionados pelo JS -->
-                </div>
+    <div id="modalProposta" class="modal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h3>Nova Proposta</h3>
+                <button id="fecharModal">×</button>
             </div>
 
-            <!-- Coluna Em Análise -->
-            <div class="kanban-column">
-                <div class="column-header">
-                    <span class="column-icon analise">⏳</span>
-                    <span class="column-title">Em análise</span>
-                    <span class="column-count">0</span>
+            <form id="formProposta">
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="iNome">Nome do Cliente</label>
+                        <input type="text" name="nome" id="iNome" required>
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="iCPF">CPF do Cliente</label>
+                        <input type="text" name="cpf" id="iCPF">
+                    </div>
                 </div>
-                <div class="column-total">R$ 0,00</div>
-                <div class="kanban-cards">
-                    <!-- Cards serão adicionados pelo JS -->
+
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="modalConvenio">Convênio</label>
+                        <select name="convenio" id="modalConvenio" required>
+                            <option value="">Selecione</option>
+                            <option value="inss">INSS</option>
+                            <option value="siape">SIAPE</option>
+                            <option value="clt">CLT</option>
+                            <option value="bolsaFamilia">Bolsa Família</option>
+                            <option value="crefaz">CREFAZ</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="modalOperacao">Operação Feita</label>
+                        <select name="operacao" id="modalOperacao" required>
+                            <option value="">Selecione</option>
+                            <option value="margemNovo">Margem Novo</option>
+                            <option value="margemRMC">Margem RMC</option>
+                            <option value="margemRCC">Margem RCC</option>
+                            <option value="portRefin">Portabilidade</option>
+                            <option value="refin">Refinanciamento</option>
+                            <option value="saque">Saque</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Coluna Em Aprovação -->
-            <div class="kanban-column">
-                <div class="column-header">
-                    <span class="column-icon aprovacao">⏱</span>
-                    <span class="column-title">Em aprovação</span>
-                    <span class="column-count">0</span>
+                <div id="camposPortabilidade" style="display: none; margin-top: 2px;">
+                    <div class="linhaDupla">
+                        <div class="campo">
+                            <label for="valorParcela">Valor da Parcela</label>
+                            <input type="text" id="valorParcela" placeholder="R$ 0,00">
+                        </div>
+                        <div class="campo">
+                            <label for="trocoEstimado">Troco Estimado</label>
+                            <input type="text" id="trocoEstimado" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+                    <div class="linhaDupla">
+                        <div class="campo">
+                            <label for="saldoDevedor">Saldo Devedor Estimado</label>
+                            <input type="text" id="saldoDevedor" placeholder="R$ 0,00">
+                        </div>
+                        <div class="campo">
+                            <label for="dataRetorno">Data Retorno Saldo</label>
+                            <input type="date" id="dataRetorno">
+                        </div>
+                    </div>
                 </div>
-                <div class="column-total">R$ 0,00</div>
-                <div class="kanban-cards">
-                    <!-- Cards serão adicionados pelo JS -->
+
+                <div class="linhaTripla">
+                    <div class="campo">
+                        <label for="valorLiberado">valor da Operação</label>
+                        <input type="text" name="liberado" id="valorLiberado">
+                    </div>
+                    <div class="campo">
+                        <label for="statusProposta">Status Proposta</label>
+                        <select name="status" id="statusProposta">
+                            <option value="">Selecione</option>
+                            <option value="Novo">Nova Proposta</option>
+                            <option value="Processando">processando</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="detalheStatus">Detalhe Status</label>
+                        <input type="text" name="detalhamento" id="detalheStatus">
+                    </div>
                 </div>
-            </div>
-
-            <!-- Coluna Finalizado -->
-            <div class="kanban-column">
-                <div class="column-header">
-                    <span class="column-icon finalizado">✅</span>
-                    <span class="column-title">Finalizado</span>
-                    <span class="column-count">0</span>
-                </div>
-                <div class="column-total">R$ 0,00</div>
-                <div class="kanban-cards">
-                    <!-- Cards serão adicionados pelo JS -->
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Modal de Adicionar Cliente -->
-    <div class="modal-overlay" id="modalOverlay" style="display:none;">
-        <div class="modal-card">
-            <h2>Adicionar Cliente</h2>
-            <form id="clientForm">
-                <label>Nome do Cliente:</label>
-                <input type="text" id="clientName" required>
-
-                <label>Produto:</label>
-                <input type="text" id="clientProduct" required>
-
-                <label>Convênio:</label>
-                <input type="text" id="clientAgreement" required>
-
-                <label>Valor da Operação:</label>
-                <input type="text" id="clientValue" required>
-
-                <label>Status:</label>
-                <select id="clientStatus">
-                    <option value="status-nova">Nova proposta</option>
-                    <option value="status-analise">Em análise</option>
-                    <option value="status-aprovacao">Em aprovação</option>
-                    <option value="status-finalizado">Finalizado</option>
-                </select>
-
-                <div class="modal-actions">
-                    <button type="button" id="cancelBtn">Cancelar</button>
-                    <button type="submit" id="saveBtn">Salvar</button>
-                </div>
+                <button type="submit" class="btn-salvar">Criar Proposta</button>
             </form>
         </div>
+
     </div>
 
-    <!-- Botão flutuante de ações -->
-    <div class="floating-btn-container">
-        <button class="floating-btn" id="mainActionBtn">+</button>
-        <div class="action-options" id="actionOptions">
-            <button class="action-btn" id="addClientBtn">Adicionar Cliente</button>
-        </div>
-    </div>
+    <button class="botao-flutuante" id="btnAbrirModal" onclick="abrirModal()">
+        <span>+</span>
+    </button>
 
-    </main>
   <script src="../javascript/minhaproducao.js"></script>
 </body>
 </html>
