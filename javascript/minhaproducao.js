@@ -30,6 +30,32 @@ function mascaraMoeda(input) {
     input.value = v;
 }
 
+function calcularTempoDecorrido(dataIso) {
+    const criacao = new Date(dataIso);
+    const agora = new Date();
+    const diferencaEmSegundos = Math.floor((agora - criacao) / 1000);
+
+    if (diferencaEmSegundos < 60) return "Agora mesmo";
+    
+    const minutos = Math.floor(diferencaEmSegundos / 60);
+    if (minutos < 60) return `Há ${minutos} min`;
+    
+    const horas = Math.floor(minutos / 60);
+    if (horas < 24) return `Há ${horas}h`;
+    
+    const dias = Math.floor(horas / 24);
+    return `Há ${dias} dias`;
+}
+
+
+setInterval(() => {
+    const logs = document.querySelectorAll('.tempo-log');
+    logs.forEach(log => {
+        const dataCriacao = log.getAttribute('data-criacao');
+        log.innerText = `🕒 ${calcularTempoDecorrido(dataCriacao)}`;
+    });
+}, 60000); // Atualiza a cada 1 minuto
+
 if (toggleBtn) {
     toggleBtn.addEventListener('click', function () {
         sidebar.classList.toggle('aberto');
@@ -110,7 +136,8 @@ function pegarValoresDoFormulario(event) {
         detalhamento: detalheStatusProposta.value,
         retornoSaldo: dataSaldoPortCliente.value,
         saldoCliente: saldoPortCliente.value,
-        troco: trocoPortCliente.value 
+        troco: trocoPortCliente.value,
+        dataCriacao: currentEditingCard ? JSON.parse(currentEditingCard.getAttribute('data-dados')).dataCriacao : new Date().toISOString()
     };
 
     // 2. Lógica de Sobrescrita e Validação Específica para Portabilidade
@@ -239,10 +266,14 @@ function gerarCardNoDashboard(dados){
         </div>
         ` : ''}
 
-        <div class="card-footer" style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div class="card-footer" style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center;">
             <div class="status-badge">
                 <span style="font-size: 0.75rem; color: #666;">CPF: ${dados.cpf}</span>
             </div>
+            
+            <span class="tempo-log" data-criacao="${dados.dataCriacao}" style="font-size: 0.7rem; color: #888; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: 500;">
+                🕒 ${calcularTempoDecorrido(dados.dataCriacao)}
+            </span>
         </div>
     `; 
 
