@@ -284,8 +284,7 @@
     width: 100%;
     height: 100%;
     
-    /* CENTRALIZAÇÃO TOTAL */
-    display: flex; 
+    /* CENTRALIZAÇÃO TOTAL */ 
     justify-content: center;
     align-items: center;
 
@@ -297,7 +296,19 @@
     z-index: 9999;
 }
 
+@keyframes surgirModal {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px); /* Começa menor e um pouco acima */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);       /* Termina no tamanho real e posição certa */
+    }
+}
+
 .modalContent {
+    animation: surgirModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     background-color: rgba(211, 211, 211, 0.95); /* Um pouco menos transparente para leitura */
     border: 1px solid #30363d;
     border-radius: 18px;
@@ -307,7 +318,16 @@
     overflow: hidden; /* Importante para o ::before não vazar */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     color: black;
-    animation: modalEntrada 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(0); }
+    to { background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); }
+}
+
+.modal.mostrar {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modalHeader {

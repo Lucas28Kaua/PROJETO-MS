@@ -80,7 +80,7 @@
 
             <div class="colunaStatus">
                 <div class="headerColunaAnalise">
-                    <h3>Em Análise</h3>
+                    <h3>Processando</h3>
                 </div>
                 <div id="linhaStatusAnalise" class="cardsDivisao">
                     <!--AQUI FICA OS CARDS-->
@@ -100,11 +100,12 @@
         </div>
     </main>
 
+    <!--MODAL PARA CRIAR O CARD-->
     <div id="modalProposta" class="modal">
         <div class="modalContent">
             <div class="modalHeader">
                 <h3>Nova Proposta</h3>
-                <button id="fecharModal">×</button>
+                <button id="fecharModal" onclick="fecharModal()">×</button>
             </div>
 
             <form id="formProposta">
@@ -145,12 +146,12 @@
                         </select>
                     </div>
                 </div>
-
+                
                 <div id="camposPortabilidade" style="display: none; margin-top: 2px;">
                     <div class="linhaDupla">
                         <div class="campo">
-                            <label for="valorParcela">Valor da Parcela</label>
-                            <input type="text" id="valorParcela" placeholder="R$ 0,00">
+                            <label for="valorParcelaPort">Valor da Parcela</label>
+                            <input type="text" id="valorParcelaPort" placeholder="R$ 0,00">
                         </div>
                         <div class="campo">
                             <label for="trocoEstimado">Troco Estimado</label>
@@ -169,11 +170,29 @@
                     </div>
                 </div>
 
-                <div class="linhaTripla">
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="modalBanco">Banco</label>
+                        <input type="text" id="modalBanco" placeholder="Ex: Daycoval, BMG, C6">
+                    </div>
+                    <div class="campo">
+                        <label for="modalPromotora">Promotora</label>
+                        <input type="text" id="modalPromotora" placeholder="Ex: Facilita, Ideia, Valor">
+                    </div>
+                </div>
+
+                <div class="linhaDupla">
                     <div class="campo">
                         <label for="valorLiberado">valor da Operação</label>
                         <input type="text" name="liberado" id="valorLiberado">
                     </div>
+                    <div class="campo">
+                        <label for="valorParcela">valor da Parcela</label>
+                        <input type="text" name="parcela" id="valorParcela">
+                    </div>
+                </div>
+
+                <div class="linhaDupla">
                     <div class="campo">
                         <label for="statusProposta">Status Proposta</label>
                         <select name="status" id="statusProposta">
@@ -183,13 +202,13 @@
                             <option value="Finalizado">Finalizado</option>
                         </select>
                     </div>
-
                     <div class="campo">
                         <label for="detalheStatus">Detalhe Status</label>
                         <input type="text" name="detalhamento" id="detalheStatus">
                     </div>
                 </div>
-                <button type="submit" class="btn-salvar">Criar Proposta</button>
+                
+                <button type="submit" class="btn-salvar" onclick="pegarValoresDoFormulario(event)">Criar Proposta</button>
             </form>
         </div>
 
