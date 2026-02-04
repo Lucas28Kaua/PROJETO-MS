@@ -51,9 +51,16 @@
             <div class="secao-titulo-relatorio">
                 <h2>RELATÓRIO DE PRODUÇÃO</h2>
                 <div class="filtros-relatorio">
-                    <input type="month" id="filtroMes" class="input-data-relatorio">
-                    <button class="btn-export" onclick="window.print()">
-                        <i class="material-symbols-outlined">download</i> Exportar
+                    <div class="campo-data">
+                        <label>De:</label>
+                        <input type="date" id="dataInicio" class="input-data-relatorio">
+                    </div>
+                    <div class="campo-data">
+                        <label>Até:</label>
+                        <input type="date" id="dataFim" class="input-data-relatorio">
+                    </div>
+                    <button class="btn-filtrar" onclick="filtrarProducao()">
+                        <i class="material-symbols-outlined">filter_list</i> Filtrar
                     </button>
                 </div>
             </div>
@@ -90,35 +97,41 @@
                 </div>
             </div>
 
-            <div class="painel-detalhes-grid">
-                <div class="secao-grafico caixa-branca">
-                    <div class="header-interna">
-                        <h4>Evolução Mensal</h4>
-                        <i class="material-symbols-outlined" style="color: #666;">show_chart</i>
-                    </div>
-                    <div class="area-canvas">
-                        <canvas id="graficoProducao"></canvas>
-                    </div>
+            <div class="secao-grafico-total caixa-branca">
+                <div class="header-interna">
+                    <h4>Evolução Mensal de Produção</h4>
+                    <i class="material-symbols-outlined" style="color: #666;">show_chart</i>
                 </div>
+                <div class="area-canvas-total">
+                    <canvas id="graficoProducao"></canvas>
+                </div>
+            </div>
 
-                <div class="secao-tabela caixa-branca">
-                    <div class="header-interna">
-                        <h4>Últimas Propostas</h4>
-                        <i class="material-symbols-outlined" style="color: #666;">list_alt</i>
-                    </div>
-                    <div class="tabela-rolagem">
-                        <table id="tabelaFinalizados">
-                            <thead>
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Cliente</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpoTabelaRelatorio"></tbody>
-                        </table>
+            <div class="secao-tabela-detalhada caixa-branca">
+                <div class="header-interna">
+                    <h4>Detalhamento de Propostas Finalizadas</h4>
+                    <div class="acoes-tabela">
+                        <i class="material-symbols-outlined" style="color: #666;">inventory_2</i>
                     </div>
                 </div>
+                <div class="tabela-rolagem">
+                    <table id="tabelaFinalizados">
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Cliente</th>
+                                <th>Banco</th>
+                                <th>Convênio</th>
+                                <th>Promotora</th>
+                                <th>Funcionário</th>
+                                <th>Valor Realizado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoTabelaRelatorio">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
             </div> 
         </div> 
     </main>

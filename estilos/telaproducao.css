@@ -1,9 +1,11 @@
 @charset "UTF-8";
 
-/* Layout Principal */
+/* ==========================================================================
+   1. LAYOUT PRINCIPAL
+   ========================================================================== */
 .content {
     margin-top: 133px;
-    margin-left: 70px; /* Ajuste conforme a largura da sua sidebar */
+    margin-left: 70px; /* Ajuste conforme sua sidebar */
     padding: 30px;
     background-color: #f8f9fa;
     min-height: 100vh;
@@ -15,24 +17,42 @@
     margin: 0 auto;
 }
 
-/* Cabeçalho */
+/* ==========================================================================
+   2. CABEÇALHO E FILTROS
+   ========================================================================== */
 .secao-titulo-relatorio {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .secao-titulo-relatorio h2 {
     color: #333;
     font-size: 1.5rem;
     font-weight: 700;
+    margin: 0;
 }
 
 .filtros-relatorio {
     display: flex;
     gap: 15px;
-    align-items: center;
+    align-items: flex-end;
+}
+
+.campo-data {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.campo-data label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
 }
 
 .input-data-relatorio {
@@ -41,27 +61,47 @@
     border-radius: 8px;
     outline: none;
     font-family: inherit;
+    height: 40px; /* Padronizando altura */
+    box-sizing: border-box;
 }
 
-.btn-export {
+/* Botões */
+.btn-filtrar, .btn-export {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: #224CBA;
-    color: white;
-    border: none;
-    padding: 8px 16px;
+    padding: 0 16px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
+    height: 40px; /* Mesma altura dos inputs */
     transition: 0.3s;
+    border: none;
+    box-sizing: border-box;
+}
+
+.btn-filtrar {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.btn-filtrar:hover {
+    background-color: #e2e2e2;
+}
+
+.btn-export {
+    background-color: #224CBA;
+    color: white;
 }
 
 .btn-export:hover {
     background-color: #1a3a8f;
 }
 
-/* Grid de Cards (Resumo) */
+/* ==========================================================================
+   3. GRID DE CARDS (RESUMO)
+   ========================================================================== */
 .resumo-producao-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -102,19 +142,16 @@
     color: #333;
 }
 
-/* Painel de Baixo (Gráfico e Tabela) */
-.painel-detalhes-grid {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr; /* Gráfico maior */
-    gap: 20px;
-}
-
+/* ==========================================================================
+   4. BLOCOS DE CONTEÚDO (GRÁFICO E TABELA)
+   ========================================================================== */
 .caixa-branca {
     background: white;
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     border: 1px solid #f0f0f0;
+    margin-bottom: 25px; /* Espaço entre gráfico e tabela */
 }
 
 .header-interna {
@@ -130,48 +167,90 @@
     font-size: 1.1rem;
 }
 
-/* Tabela Personalizada */
+/* Gráfico Largura Total */
+.area-canvas-total {
+    position: relative;
+    height: 350px;
+    width: 100%;
+}
+
+/* Tabela Detalhada */
 .tabela-rolagem {
-    max-height: 350px;
+    max-height: 450px;
     overflow-y: auto;
+    overflow-x: auto; /* Scroll lateral se houver muitas colunas no mobile */
 }
 
 #tabelaFinalizados {
     width: 100%;
     border-collapse: collapse;
+    min-width: 800px; /* Garante que a tabela não esmague os dados */
 }
 
 #tabelaFinalizados th {
+    position: sticky;
+    top: 0;
+    background-color: #fcfcfc;
     text-align: left;
     padding: 12px;
-    background-color: #fcfcfc;
     border-bottom: 2px solid #eee;
     color: #666;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    z-index: 1;
 }
 
 #tabelaFinalizados td {
     padding: 12px;
     border-bottom: 1px solid #f5f5f5;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #444;
+    white-space: nowrap; /* Mantém os dados em uma linha */
 }
 
-/* Gráfico */
-.area-canvas {
-    position: relative;
-    height: 300px;
-    width: 100%;
+/* Estilização de colunas específicas */
+.nome-funcionario {
+    color: #224CBA;
+    font-weight: 600;
 }
 
-/* Responsividade */
+#tabelaFinalizados td:last-child {
+    font-weight: 700;
+    color: #2e7d32; /* Valor em verde */
+}
+
+/* Customização da Barra de Rolagem */
+.tabela-rolagem::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.tabela-rolagem::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.tabela-rolagem::-webkit-scrollbar-thumb:hover {
+    background: #FB8D20;
+}
+
+/* ==========================================================================
+   5. RESPONSIVIDADE
+   ========================================================================== */
 @media (max-width: 1024px) {
-    .painel-detalhes-grid {
-        grid-template-columns: 1fr;
-    }
-    
     .content {
         margin-left: 0;
         padding: 15px;
+    }
+
+    .secao-titulo-relatorio {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filtros-relatorio {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
     }
 }
