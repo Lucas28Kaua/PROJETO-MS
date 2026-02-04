@@ -1,605 +1,177 @@
 @charset "UTF-8";
 
-.meio{
-    margin-left: 120px;
-    transition: margin-left 0.3s ease;
+/* Layout Principal */
+.content {
+    margin-top: 133px;
+    margin-left: 70px; /* Ajuste conforme a largura da sua sidebar */
+    padding: 30px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    transition: all 0.3s ease;
 }
 
-.box-tabela{
-    min-height:0vh;
-    margin-top:133px;
-    background-color: rgba(187, 187, 187, 0.327);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
-    margin-left:0px;
-    margin-right:20px;
-    border-radius:20px;
-    padding-bottom:10px;
+.relatorio-container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.box-tabela h2.tituloBoxTabela{
-    background-color: #eb6505;
-    text-align: center;
-    padding:5px;
-    border-radius:20px 20px 0px 0px;
-    margin-bottom:18px
+/* Cabeçalho */
+.secao-titulo-relatorio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
-.escolherDataProd{
-    margin-top:25px
-}
-
-.escolherDataProdQuinzena{
-    margin-top:25px
-}
-
-.mesAtualDataProd{
-    margin-top:30px;
-    margin-left:72px;
-    font-size: 1.2em;
+.secao-titulo-relatorio h2 {
+    color: #333;
+    font-size: 1.5rem;
     font-weight: 700;
 }
 
-.mesAtualDataProdQuinzena{
-    margin-top:30px;
-    margin-left:72px;
-    font-size: 1.2em;
-    font-weight: 700;
+.filtros-relatorio {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
-#dataProd{
-    padding:6px;
-    border-radius:6px;
-    border:1px solid black
+.input-data-relatorio {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
 }
 
-#dataProdQuinzena{
-    padding:6px;
-    border-radius:6px;
-    border:1px solid black
-}
-
-.tabela30Dias{
-    margin: 0px 30px 40px 20px;
-    border-radius:20px;
-    background-color: rgba(187, 187, 187, 0.327);
-    box-shadow:2px 2px 8px rgba(0, 0, 0, 0.463);
-}
-
-.toggle-producao,
-.toggle-producao-quinzena{
-  width: calc(100% - 24px);
-  margin: 12px auto 0 auto;
-
-  background: rgba(255,255,255,0.55);
-  color: #111;
-  border: 1px solid rgba(0,0,0,0.12);
-
-  font-size: 1em;
-  font-weight: 800;
-
-  padding: 12px 14px;
-  border-radius: 16px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  cursor: pointer;
-  user-select: none;
-
-  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
-  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-/* “bolinha” laranja de status */
-.toggle-producao::before,
-.toggle-producao-quinzena::before{
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border:1px solid rgba(0, 0, 0, 0.603);
-  margin-right: 10px;
-}
-
-.toggle-producao.ativo::before,
-.toggle-producao-quinzena.ativo::before {
-  background: #eb6505;
-  box-shadow: 0 0 0 4px rgba(235, 101, 5, 0.18);
-}
-
-.toggle-producao,
-.toggle-producao-quinzena{
-  gap: 10px;
-}
-.toggle-producao:hover,
-.toggle-producao-quinzena:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.16);
-  border-color: rgba(235, 101, 5, 0.35);
-  background-color: #eb65055f;
-}
-.toggle-producao:active,
-.toggle-producao-quinzena:active{
-  transform: translateY(0px);
-}
-.toggle-producao:focus-visible
-.toggle-producao-quinzena:focus-visible{
-  outline: 3px solid rgba(235, 101, 5, 0.35);
-  outline-offset: 3px;
-}
-
-
-.conteudoProducao{
-    max-height: 0;
-    margin-top:0px;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-}
-
-.conteudoProducao.aberto{
-    max-height: 3000px; /* suficiente pra tabela */
-}
-
-.conteudoProducaoQuinzena{
-    max-height: 0;
-    margin-top:0px;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-}
-
-.conteudoProducaoQuinzena.aberto{
-    max-height: 950px; /* suficiente pra tabela */
-}
-
-.contagemProd,
-.contagemProdQuinzena{
-    border-collapse:collapse;
-    margin:10px auto 20px auto;
-    width:90%;
-    padding:8px;
-}
-
-.subtable{
-    border-collapse:collapse;
-    width:100%;
-}
-/* Para a subtabela "crescer" suavemente */
-.subtable-row {
-    transition: max-height 0.4s ease, opacity 0.4s ease;
-    overflow: hidden;
-    max-height: 0; /* Inicialmente fechada */
-    opacity: 0;
-}
-
-/* Quando a subtabela estiver aberta */
-.subtable-row.open {
-    max-height: 1000px; /* Valor grande suficiente para caber todo o conteúdo */
-    opacity: 1;
-}
-
-/* Setinha girando */
-.toggle-subtable {
-    cursor: pointer;
+.btn-export {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #224CBA;
+    color: white;
     border: none;
-    background: transparent;
-    font-size: 0.8em;
-    transition: transform 0.3s ease;
-}
-
-.toggle-subtable.open {
-    transform: rotate(180deg); /* gira a setinha pra cima */
-}
-
-.contagemProd tr, th, td,
-.contagemProdQuinzena tr, th, td{
-    border:1px solid black;
-    padding:25px;
-    text-align:center;
-    background-color:white;
-}
-
-.contagemProd th.espaco,
-.contagemProdQuinzena th.espaco{
-    width:10%
-}
-
-.contagemProd th.maior,
-.contagemProdQuinzena th.maior{
-    width:15%
-}
-
-.contagemProd td,
-.contagemProdQuinzena td{
-    font-weight: bold;
-    position: relative;
+    padding: 8px 16px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
-.contagemProd td input,
-.contagemProdQuinzena td input{
-    position: absolute;
-    inset: 0;               /* ocupa td inteiro */
-    width: 100%;
-    height: 100%;
-    margin:0px;
-    padding:0px;
-    box-sizing: border-box;
-    text-align: center;
-
-    border: none;
-    background-color: transparent;
-    border-radius: 6px;
-    padding: 4px;
-
-    color: black;
-    font-size: 18px;
-    font-weight: bold;
-    cursor:pointer;
+.btn-export:hover {
+    background-color: #1a3a8f;
 }
 
-        /*PARA TIRAR AS SETINHAS DO INPUT COM TYPE NUMBER*/
-.contagemProd input[type="number"]::-webkit-inner-spin-button,
-.contagemProd input[type="number"]::-webkit-outer-spin-button,
-.contagemProdQuinzena input[type="number"]::-webkit-inner-spin-button,
-.contagemProdQuinzena input[type="number"]::-webkit-outer-spin-button{
-    -webkit-appearance: none;
+/* Grid de Cards (Resumo) */
+.resumo-producao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.resumo-producao-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+}
+
+.resumo-producao-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resumo-producao-info span {
+    display: block;
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 4px;
+}
+
+.resumo-producao-info h3 {
     margin: 0;
+    font-size: 1.5rem;
+    color: #333;
 }
 
-.contagemProd input[type="number"],
-.contagemProdQuinzena input[type="number"] {
-    -moz-appearance: textfield;
+/* Painel de Baixo (Gráfico e Tabela) */
+.painel-detalhes-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr; /* Gráfico maior */
+    gap: 20px;
 }
 
-.contagemProd th, td.produto,
-.contagemProdQuinzena th, td.produto{
-    background-color: #eb6505b3;
-    font-weight: bolder;
-}
-.totalFuncionario>td,
-.totalFuncionarioQuinzena>td{
-    background-color: rgba(0, 128, 0, 0.681);
+.caixa-branca {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
 }
 
-.ultimo>td,
-.ultimoQuinzena>td{
-    background-color: rgb(0, 128, 0);
-    border:2px solid black;
-    font-weight: bolder;
+.header-interna {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-
-.btnRegistrar,
-.btnRegistrarQuinzena{
-    text-align: right;
-    margin:20px 50px 15px 0px ;
+.header-interna h4 {
+    margin: 0;
+    color: #444;
+    font-size: 1.1rem;
 }
 
-.btnRegistrar button:hover,
-.btnRegistrarQuinzena button:hover{
-    transform: scale(1.05) translateY(-3px);
-    background-color: #ff7a1a;
-    box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.45);
-    border: none;
+/* Tabela Personalizada */
+.tabela-rolagem {
+    max-height: 350px;
+    overflow-y: auto;
 }
 
-.btnRegistrar button:active,
-.btnRegistrarQuinzena button:active {
-    transform: scale(0.97) translateY(1px);
-    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+#tabelaFinalizados {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.btnRegistrar button:focus-visible,
-.btnRegistrarQuinzena button:focus-visible {
-    outline: 2px solid #ff9a4d;
-    outline-offset: 3px;
-}
-.btnRegistrar button,
-.btnRegistrarQuinzena button{
-    background-color: #eb6505;
-    color:white;
-    font-weight: bolder;
-    font-size: 1.2em;
-    padding:15px;
-    border:1px solid black;
-    border-radius:10px;
-    box-shadow: 2px 2px 8px #EB721C;
-    cursor:pointer;
-
-    transition: 
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background-color 0.25s ease;
+#tabelaFinalizados th {
+    text-align: left;
+    padding: 12px;
+    background-color: #fcfcfc;
+    border-bottom: 2px solid #eee;
+    color: #666;
+    font-size: 0.85rem;
 }
 
-.tabelaQuinzena{
-    margin: 0px 30px 40px 20px;
-    border-radius:20px;
-    background-color: rgba(187, 187, 187, 0.327);
-    box-shadow:2px 2px 8px rgba(0, 0, 0, 0.463);
+#tabelaFinalizados td {
+    padding: 12px;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 0.9rem;
+    color: #444;
 }
 
-.visualizarTabela{
-    margin:auto;
-    margin-top:20px;
-    max-width:1000px;
-    overflow-x: auto;
-    min-height: 200px;
-    background-color: rgba(187, 187, 187, 0.327);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
-    border-radius:15px;
-}
-.visualizarTabela>h2{
-    text-align: center;
-    padding:8px;
-    background-color: #eb6505;
-    border-radius:15px 15px 0px 0px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
-    margin-bottom:20px;
+/* Gráfico */
+.area-canvas {
+    position: relative;
+    height: 300px;
+    width: 100%;
 }
 
-.labelProducao{
-    margin-left:20px;
-    font-size: 1.2em;
-    font-weight: 700;
-}
-
-#dataProducaoMes{
-    padding:6px;
-    border-radius:6px;
-    border:1px solid black
-}
-
-
-
-.btnBuscarTabela{
-    padding:10px 18px;
-    margin: 5px 0px 0px 20px;
-    border:1px solid black;
-    border-radius:9px;
-    background-color: #eb6505;
-    color:white;
-    font-weight: 700;
-    font-size: 1.2em;
-    box-shadow:2px 2px 8px #EB721C;
-    cursor: pointer;
-    transition: 
-        background-color 0.2s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
-}
-
-.btnBuscarTabela:hover {
-    background-color: #f17312;
-    box-shadow: 3px 3px 10px #EB721C;
-    transform: translateY(-1px);
-}
-
-.btnBuscarTabela:active {
-    transform: translateY(1px);
-    box-shadow: 1px 1px 4px #EB721C;
-}
-
-.btnBuscarTabela:focus-visible {
-    outline: 3px solid rgba(235, 101, 5, 0.6);
-    outline-offset: 2px;
-}
-footer{
-    height:20px;
-}
-
-
-/* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
-
-/* Tablet e telas menores */
-@media screen and (max-width: 768px) {
-    
-    /* AJUSTE: Header menor no mobile */
-    header {
-        height: 80px;
-        padding: 0 15px;
-        justify-content: space-between; /* ADICIONA ISSO */
+/* Responsividade */
+@media (max-width: 1024px) {
+    .painel-detalhes-grid {
+        grid-template-columns: 1fr;
     }
     
-    header img {
-        width: 100px;
-        margin-right:auto
-    }
-    
-    /* AJUSTE: Botão sair fica só com ícone */
-    .btn-sair .text-button {
-        display: none;
-    }
-    
-    .btn-sair {
-        padding: 10px;
-        min-width: auto;
-        margin-right: 60px; /* ADICIONA ISSO - dá espaço pro hambúrguer */
+    .content {
         margin-left: 0;
-    }
-    
-    /* AJUSTE: Sidebar escondida por padrão */
-    .sidebar {
-        transform: translateX(-100%);
-        width: 250px;
-        top: 0;
-        height: 100vh;
-        border-radius: 0;
-        transition: transform 0.3s ease;
-        z-index: 2000;
-    }
-    
-    .sidebar.aberto {
-        transform: translateX(0);
-    }
-    
-    /* NOVO: Botão hambúrguer (adiciona no HTML antes do </body>) */
-    .menu-hamburguer {
-        display: block;
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        top: 20px; /* AJUSTA PRA ALINHAR COM O HEADER */
-        background-color: #eb6505;
-        border: 2px solid black;
-        border-radius: 8px;
-        cursor: pointer;
-        z-index: 3000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-        padding: 8px;
-    }
-    
-    .menu-hamburguer span {
-        width: 25px;
-        height: 3px;
-        background-color: white;
-        transition: all 0.3s ease;
-        display: block;
-    }
-    
-    .menu-hamburguer.ativo span:nth-child(1) {
-        transform: rotate(45deg) translate(7px, 7px);
-    }
-    
-    .menu-hamburguer.ativo span:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .menu-hamburguer.ativo span:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
-    }
-    
-    /* NOVO: Overlay escuro (adiciona no HTML antes do </body>) */
-    .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1500;
-    }
-    
-    .overlay.ativo {
-        display: block;
-    }
-    
-    /* AJUSTE: Esconde botão toggle da sidebar */
-    .toggle-btn {
-        display: none;
-    }
-    
-    /* AJUSTE: Menu sempre expandido no mobile */
-    .menu li {
-        width: 100%;
-        justify-content: flex-start;
         padding: 15px;
-    }
-    
-    .menu-text {
-        opacity: 1;
-    }
-    
-    /* AJUSTE: Conteúdo principal sem margem lateral */
-    .meio {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-    
-    .sidebar.aberto ~ .meio {
-        margin-left: 10px;
-    }
-    
-    /* AJUSTE: Box da tabela */
-    .box-tabela {
-        margin-top: 100px;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding: 10px;
-        overflow-x: auto;
-    }
-    
-    /* AJUSTE: Tabela responsiva com scroll horizontal */
-    .contagemProd {
-        display: block;
-        overflow-x: auto;
-        width: 100%;
-        margin: 10px 0;
-    }
-    
-    .contagemProd thead,
-    .contagemProd tbody,
-    .contagemProd tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-    }
-    
-    /* AJUSTE: Células menores */
-    .contagemProd tr, 
-    .contagemProd th, 
-    .contagemProd td {
-        padding: 10px;
-        font-size: 0.85em;
-    }
-    
-    .contagemProd td input {
-        font-size: 14px;
-    }
-    
-    /* AJUSTE: Botão registrar centralizado */
-    .btnRegistrar {
-        text-align: center;
-        margin: 20px 10px;
-    }
-    
-    .btnRegistrar button {
-        width: 90%;
-        font-size: 1em;
-        padding: 12px;
-    }
-}
-
-/* Celular pequeno */
-@media screen and (max-width: 480px) {
-    
-    /* AJUSTE: Header ainda menor */
-    header {
-        height: 70px;
-    }
-    
-    header img {
-        width: 80px;
-    }
-    
-    /* AJUSTE: Título da tabela menor */
-    .box-tabela h1 {
-        font-size: 1.2em;
-        padding: 8px;
-    }
-    
-    /* AJUSTE: Tabela ainda mais compacta */
-    .contagemProd tr, 
-    .contagemProd th, 
-    .contagemProd td {
-        padding: 6px;
-        font-size: 0.75em;
-    }
-    
-    .contagemProd td input {
-        font-size: 12px;
-    }
-    
-    /* AJUSTE: Margem do conteúdo */
-    .box-tabela {
-        margin-top: 85px;
     }
 }

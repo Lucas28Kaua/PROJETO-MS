@@ -6,17 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../imagens/favicon3.ico" type="image/x-icon">
     <link rel="stylesheet" href="../estilos/telaproducao.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../estilos/global.css">
     <title>Sistema MS CRED</title>
 </head>
 
 <body>
 
-    <header>
+    <header class="header-principal">
         <img src="../imagens/logo-mscred-menor.png" alt="logo mscred">
-
         <a href="../paginashtml/telalogin.html" class="btn-sair">
             <i class="material-symbols-outlined">exit_to_app</i>
             <span class="text-button">Sair</span>
@@ -24,440 +22,115 @@
     </header>
 
     <aside class="sidebar">
-        <!-- Botão toggle -->
         <button class="toggle-btn" id="toggleMenu">
             <i class="material-symbols-outlined">chevron_right</i>
         </button>
-        <!--MENU LATERAL-->
         <nav>
             <ul class="menu">
                 <li>
-                    <a href="telahome.html" class="menu-link">
-                        <i class="material-symbols-outlined">home</i>
-                        <span class="menu-text">HOME</span>
-                    </a>
+                    <a href="telahome.html" class="menu-link"><i class="material-symbols-outlined">home</i><span class="menu-text">HOME</span></a>
                 </li>
                 <li>
-                    <a href="telaconsulta.html" class="menu-link">
-                        <i class="material-symbols-outlined">search</i>
-                        <span class="menu-text">CONSULTA</span>
-                    </a>
+                    <a href="telaconsulta.html" class="menu-link"><i class="material-symbols-outlined">search</i><span class="menu-text">CONSULTA</span></a>
                 </li>
                 <li>
-                    <a href="telacadastro.html" class="menu-link">
-                        <i class="material-symbols-outlined">person</i>
-                        <span class="menu-text">CADASTRO</span>
-                    </a>
+                    <a href="telacadastro.html" class="menu-link"><i class="material-symbols-outlined">person</i><span class="menu-text">CADASTRO</span></a>
                 </li>
                 <li>
-                    <a href="telaproducao.html" class="menu-link">
-                        <i class="material-symbols-outlined">trending_up</i>
-                        <span class="menu-text">RELATÓRIOS</span>
-                    </a>
+                    <a href="telaproducao.html" class="menu-link"><i class="material-symbols-outlined">trending_up</i><span class="menu-text">RELATÓRIOS</span></a>
                 </li>
                 <li>
-                    <a href="telaminhaproducao.html" class="menu-link">
-                        <i class="material-symbols-outlined">dashboard</i>
-                        <span class="menu-text">PRODUÇÃO</span>
-                    </a>
+                    <a href="telaminhaproducao.html" class="menu-link"><i class="material-symbols-outlined">dashboard</i><span class="menu-text">PRODUÇÃO</span></a>
                 </li>
             </ul>
         </nav>
     </aside>
 
-    <main class="meio">
-
-        <div class="box-tabela">
-            <h2 class="tituloBoxTabela">PRODUÇÃO</h2>
-            
-            <div class="tabela30Dias">
-
-                <button class="toggle-producao" onclick="abreToggleProd()">
-                    <h2 >Produção Mensal</h2>
-                    <span class="icone-toggle">▼</span>
-                </button>
-
-                <form id="formMensal">
-                    <div class="conteudoProducao">
-                        <div class="escolherDataProd">
-                            <label for="dataProd" class="mesAtualDataProd">Data da Produção:</label>
-                            <input type="month" name="producao" id="dataProd" required>
-                        </div>
-                                <!--TABELA PRODUCAO MENSAL-->
-                        <table class="contagemProd" data-tipo="mensal">
-                            <thead>
-                                <tr>
-                                    <th class="espaco"></th>
-                                    <th class="maior" data-funcionario="iraneide">IRANEIDE</th>
-                                    <th data-funcionario="carla">CARLA</th>
-                                    <th class="maior" data-funcionario="joaovitor">JOÃO VITOR</th>
-                                    <th data-funcionario="kaua">KAUÃ</th>
-                                    <th data-funcionario="sueli">SUELI</th>
-                                    <th class="maior" data-funcionario="djullian">DJULLIAN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="linha-convenio" data-convenio="INSS">
-                                    <td class="produto"> INSS <button class="toggle-subtable">▼</button> </td>
-                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                    <td><input type="text" data-funcionario="carla"></td>
-                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" data-funcionario="kaua"></td>
-                                    <td><input type="text" data-funcionario="sueli"></td>
-                                    <td><input type="text" data-funcionario="djullian"></td>
-                                </tr> <!-- Linha da subtabela (inicialmente escondida) -->
-                                <tr class="subtable-row" data-convenio="INSS" style="display: none;">
-                                    <td colspan="7">
-                                        <table class="subtable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Produto</th>
-                                                    <th>IRANEIDE</th>
-                                                    <th>CARLA</th>
-                                                    <th>JOÃO VITOR</th>
-                                                    <th>KAUÃ</th>
-                                                    <th>SUELI</th>
-                                                    <th>DJULLIAN</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="produto">Margem Novo</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">RMC</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">RCC</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">Port+Refin</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">Crédito Pessoal</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr class="linha-convenio" data-convenio="SIAPE">
-                                    <td class="produto"> SIAPE <button class="toggle-subtable">▼</button> </td>
-                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                    <td><input type="text" data-funcionario="carla"></td>
-                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" data-funcionario="kaua"></td>
-                                    <td><input type="text" data-funcionario="sueli"></td>
-                                    <td><input type="text" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr class="subtable-row" data-convenio="SIAPE" style="display: none;">
-                                    <td colspan="7">
-                                        <table class="subtable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Produto</th>
-                                                    <th>IRANEIDE</th>
-                                                    <th>CARLA</th>
-                                                    <th>JOÃO VITOR</th>
-                                                    <th>KAUÃ</th>
-                                                    <th>SUELI</th>
-                                                    <th>DJULLIAN</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="produto">Margem Novo</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">RMC</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">RCC</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">Port+Refin</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="produto">Crédito Pessoal</td>
-                                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                                    <td><input type="text" data-funcionario="carla"></td>
-                                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                                    <td><input type="text" data-funcionario="kaua"></td>
-                                                    <td><input type="text" data-funcionario="sueli"></td>
-                                                    <td><input type="text" data-funcionario="djullian"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">CLT</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">FGTS</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">ESTADO</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">MUNICÍPIO</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">Bolsa Fam.</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">CREFAZ</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr class="totalFuncionario">
-                                    <td class="produto">TOTAL/FUNC</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="ultimo">
-                                    <td colspan="6">TOTAL</td>
-                                    <td class="ultimoTd"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="btnRegistrar">
-                            <button type="submit" onclick="registrarProd()">REGISTRAR</button>
-                        </div>
-                    </div>
-                </form>
+    <main class="content">
+        <div class="relatorio-container"> 
+            <div class="secao-titulo-relatorio">
+                <h2>RELATÓRIO DE PRODUÇÃO</h2>
+                <div class="filtros-relatorio">
+                    <input type="month" id="filtroMes" class="input-data-relatorio">
+                    <button class="btn-export" onclick="window.print()">
+                        <i class="material-symbols-outlined">download</i> Exportar
+                    </button>
+                </div>
             </div>
 
-            <div class="tabelaQuinzena">
+            <div class="resumo-producao-grid">
+                <div class="resumo-producao-card">
+                    <div class="resumo-producao-icon" style="background: #e8f5e9; color: #2e7d32;">
+                        <i class="material-symbols-outlined">payments</i>
+                    </div>
+                    <div class="resumo-producao-info">
+                        <span>Total Produzido</span>
+                        <h3 id="resumoTotal">R$ 0,00</h3>
+                    </div>
+                </div>
 
-                <button class="toggle-producao-quinzena" onclick="abreToggleProdQuinzena()">
-                    <h2 >Produção Quinzena</h2>
-                    <span class="icone-toggle">▼</span>
-                </button>
+                <div class="resumo-producao-card">
+                    <div class="resumo-producao-icon" style="background: #e3f2fd; color: #1565c0;">
+                        <i class="material-symbols-outlined">assignment_turned_in</i>
+                    </div>
+                    <div class="resumo-producao-info">
+                        <span>Propostas Finalizadas</span>
+                        <h3 id="resumoQtd">0</h3>
+                    </div>
+                </div>
 
-                <form id="formQuinzena">
-                    <div class="conteudoProducaoQuinzena">
-                        <div class="escolherDataProdQuinzena">
-                            <label for="dataProd" class="mesAtualDataProdQuinzena">Data da Produção:</label>
-                            <input type="month" name="producao" id="dataProdQuinzena" required>
-                        </div>
-                                    <!--TABELA PRODUCAO QUINZENAL-->
-                        <table class="contagemProdQuinzena" data-tipo="quinzena">
+                <div class="resumo-producao-card">
+                    <div class="resumo-producao-icon" style="background: #fff3e0; color: #ef6c00;">
+                        <i class="material-symbols-outlined">leaderboard</i>
+                    </div>
+                    <div class="resumo-producao-info">
+                        <span>Ticket Médio</span>
+                        <h3 id="resumoTicket">R$ 0,00</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="painel-detalhes-grid">
+                <div class="secao-grafico caixa-branca">
+                    <div class="header-interna">
+                        <h4>Evolução Mensal</h4>
+                        <i class="material-symbols-outlined" style="color: #666;">show_chart</i>
+                    </div>
+                    <div class="area-canvas">
+                        <canvas id="graficoProducao"></canvas>
+                    </div>
+                </div>
+
+                <div class="secao-tabela caixa-branca">
+                    <div class="header-interna">
+                        <h4>Últimas Propostas</h4>
+                        <i class="material-symbols-outlined" style="color: #666;">list_alt</i>
+                    </div>
+                    <div class="tabela-rolagem">
+                        <table id="tabelaFinalizados">
                             <thead>
                                 <tr>
-                                    <th class="espaco"></th>
-                                    <th class="maior" data-funcionario="iraneide">IRANEIDE</th>
-                                    <th data-funcionario="carla">CARLA</th>
-                                    <th class="maior" data-funcionario="joaovitor">JOÃO VITOR</th>
-                                    <th data-funcionario="kaua">KAUÃ</th>
-                                    <th data-funcionario="sueli">SUELI</th>
-                                    <th class="maior" data-funcionario="djullian">DJULLIAN</th>
+                                    <th>Data</th>
+                                    <th>Cliente</th>
+                                    <th>Valor</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="linha-convenio" data-convenio="INSS">
-                                    <td class="produto"> INSS </td>
-                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                    <td><input type="text" data-funcionario="carla"></td>
-                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" data-funcionario="kaua"></td>
-                                    <td><input type="text" data-funcionario="sueli"></td>
-                                    <td><input type="text" data-funcionario="djullian"></td>
-                                </tr> <!-- Linha da subtabela (inicialmente escondida) -->
-                    
-                                <tr class="linha-convenio" data-convenio="SIAPE">
-                                    <td class="produto"> SIAPE </td>
-                                    <td><input type="text" data-funcionario="iraneide"></td>
-                                    <td><input type="text" data-funcionario="carla"></td>
-                                    <td><input type="text" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" data-funcionario="kaua"></td>
-                                    <td><input type="text" data-funcionario="sueli"></td>
-                                    <td><input type="text" data-funcionario="djullian"></td>
-                                </tr>
-                    
-                                <tr>
-                                    <td class="produto">CLT</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">FGTS</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">ESTADO</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">MUNICÍPIO</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">Bolsa Fam.</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr>
-                                    <td class="produto">CREFAZ</td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="iraneide"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="carla"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="joaovitor"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="kaua"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="sueli"></td>
-                                    <td><input type="text" min ="0" step="1" data-funcionario="djullian"></td>
-                                </tr>
-                                <tr class="totalFuncionarioQuinzena">
-                                    <td class="produto">TOTAL/FUNC</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="ultimoQuinzena">
-                                    <td colspan="6">TOTAL</td>
-                                    <td class="ultimoTd"></td>
-                                </tr>
-                            </tbody>
+                            <tbody id="corpoTabelaRelatorio"></tbody>
                         </table>
-                        <div class="btnRegistrarQuinzena">
-                            <button type="submit" onclick="registrarProdQuinzena()">REGISTRAR</button>
-                        </div>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+            </div> 
+        </div> 
     </main>
 
-
-        <!-- NOVO: Botão hambúrguer mobile -->
     <div class="menu-hamburguer" id="menuToggle">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
     </div>
 
-    <!-- NOVO: Overlay escuro -->
     <div class="overlay" id="overlay"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../javascript/producao.js"></script>
 
-    <footer></footer>
 </body>
-
 </html>
