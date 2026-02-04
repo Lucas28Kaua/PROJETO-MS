@@ -5,6 +5,31 @@ const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
 let currentEditingCard = null; // null significa que vamos adicionar novo
 // Toggle do botão normal da sidebar (desktop)
+
+function mascaraCPF(input) {
+    let v = input.value.replace(/\D/g, ""); // Remove tudo que não é número
+    if (v.length > 11) v = v.slice(0, 11);  // Limita a 11 dígitos
+    
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");       // Ponto após o terceiro dígito
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");       // Ponto após o sexto dígito
+    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Traço após o nono dígito
+    
+    input.value = v;
+}
+
+// MÁSCARA DE DINHEIRO (1.250,00)
+function mascaraMoeda(input) {
+    let v = input.value.replace(/\D/g, ""); // Remove tudo que não é número
+    
+    // Transforma em decimal
+    v = (v / 100).toFixed(2).replace(".", ",");
+    
+    // Adiciona os pontos de milhar
+    v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    
+    input.value = v;
+}
+
 if (toggleBtn) {
     toggleBtn.addEventListener('click', function () {
         sidebar.classList.toggle('aberto');
@@ -36,8 +61,21 @@ function abrirModal(){
     modal.classList.add('mostrar');
 }
 
-function fecharModal(){
-    modal.style.display="none";
+function prepararNovoCard() {
+    currentEditingCard = null; // Libera a memória: agora o JS sabe que é um NOVO card
+    
+    const formulario = document.getElementById('formProposta');
+    if (formulario) formulario.reset(); // Limpa os campos
+    
+    // Esconde a div de portabilidade por padrão
+    if (divPortabilidade) divPortabilidade.style.display = 'none';
+    
+    abrirModal();
+}
+
+function fecharModal() {
+    modal.style.display = "none";
+    currentEditingCard = null; // Reset por segurança ao sair
 }
 
 const nomeDoCliente = document.getElementById('iNome')
@@ -92,9 +130,15 @@ function pegarValoresDoFormulario(event) {
         return null;
     }
 
+    // SE estivermos editando, remove o card antigo antes de gerar o novo
+    if (currentEditingCard) {
+        currentEditingCard.remove();
+        currentEditingCard = null; // Limpa a variável para a próxima
+    }
+
     // --- AÇÕES DE EXECUÇÃO ---
     gerarCardNoDashboard(dados);
-
+    atualizarIndicadores();
     // 5. Limpeza e Fechamento
     const formulario = document.getElementById('formProposta');
     if (formulario) formulario.reset();
@@ -124,11 +168,20 @@ function gerarCardNoDashboard(dados){
 
     const card = document.createElement('div');
     card.className = config.classe;
+    card.setAttribute('data-dados', JSON.stringify(dados));
 
     card.innerHTML = `
-        <div class="card-header">
+
+        <div class="card-header" style="position: relative;">
             <span class="proposta-id">ID: #${Math.floor(Math.random() * 10000)}</span>
-            <button class="btn-menu" onclick="this.closest('.${config.classe}').remove()">⋮</button>
+    
+            <div class="menu-container">
+                <button class="btn-menu-dots" onclick="toggleMais(this)">⋮</button>
+                <div class="menu-dropdown" style="display: none;">
+                    <button onclick="editarCard('${dados.cpf}', this)">✏️ Editar</button>
+                    <button onclick="excluirCard(this)" class="btn-delete">🗑️ Excluir</button>
+                </div>
+            </div>
         </div>
 
         <h4 class="cliente-nome">${dados.nome}</h4>
@@ -177,11 +230,11 @@ function gerarCardNoDashboard(dados){
             </div>
         ` : ''}
 
-        ${dados.detalheStatus ? `
+        ${dados.detalhamento ? `
         <div class="info-grupo" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px;">
             <label>Detalhe Status</label>
             <div style="font-size: 0.82rem; font-weight: 500; color: #333; max-height: 80px; overflow-y: auto; word-break: break-word;">
-                ${dados.detalheStatus}
+                ${dados.detalhamento}
             </div>
         </div>
         ` : ''}
@@ -193,8 +246,145 @@ function gerarCardNoDashboard(dados){
         </div>
     `; 
 
+    
     colunaAlvo.appendChild(card);
+    atualizarIndicadores();
+}
 
+function atualizarIndicadores() {
+    // MAPEAMENTO: Relaciona a linha dos cards com os IDs que você criou no HTML
+    const colunas = [
+        { linha: 'linhaStatusNova', count: 'countNova', sum: 'sumNova' },
+        { linha: 'linhaStatusAnalise', count: 'countAnalise', sum: 'sumAnalise' },
+        { linha: 'linhaStatusFinalizado', count: 'countFinalizado', sum: 'sumFinalizado' }
+    ];
+
+    colunas.forEach(col => {
+        const elementoLinha = document.getElementById(col.linha);
+        // Pega todos os cards que estão dentro dessa div agora
+        const cards = elementoLinha.querySelectorAll('[data-dados]');
+        
+        let somaTotal = 0;
+
+        cards.forEach(card => {
+            const dados = JSON.parse(card.getAttribute('data-dados'));
+            if (dados.valorOperacao) {
+                // TRATAMENTO DO VALOR: Remove "R$", pontos de milhar e troca vírgula por ponto
+                let valorLimpo = dados.valorOperacao.replace(/[^\d,]/g, '').replace(',', '.');
+                somaTotal += parseFloat(valorLimpo) || 0;
+            }
+        });
+
+        // 1. Atualiza a bolinha (Quantidade de cards)
+        document.getElementById(col.count).innerText = cards.length;
+
+        // 2. Atualiza o texto da soma (Valor total em R$)
+        document.getElementById(col.sum).innerText = somaTotal.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+    });
+}
+
+function toggleMais(button) {
+    // Pega o dropdown que está logo após o botão
+    const menu = button.nextElementSibling;
+    
+    // Fecha qualquer outro "toggleMais" que esteja aberto na tela (evita poluição visual)
+    document.querySelectorAll('.menu-dropdown').forEach(m => {
+        if (m !== menu) m.style.display = 'none';
+    });
+
+    // Alterna o atual
+    const isVisible = menu.style.display === 'block';
+    menu.style.display = isVisible ? 'none' : 'block';
+
+    // Fecha se clicar em qualquer outro lugar da tela
+    const fecharAoClicarFora = (e) => {
+        if (!button.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = 'none';
+            document.removeEventListener('click', fecharAoClicarFora);
+        }
+    };
+    document.addEventListener('click', fecharAoClicarFora);
+}
+
+function excluirCard(button){
+    // 1. Localiza o card pai usando as classes que você criou no configStatus
+    const card = button.closest('.cardStatusNovo, .cardStatusAnalise, .cardStatusFinalizado');
+    
+    // 2. Puxa o nome do cliente de dentro desse card específico
+    const nome = card.querySelector('.cliente-nome').innerText;
+
+    // 3. Confirmação para evitar exclusão acidental
+    if (confirm(`Tem certeza que deseja excluir a proposta de ${nome}?`)) {
+        
+        // Efeito visual de saída 
+        card.style.transition = "0.3s";
+        card.style.opacity = "0";
+        card.style.transform = "scale(0.8)";
+        
+        setTimeout(() => {
+            card.remove();
+            atualizarIndicadores();
+            console.log(`Proposta de ${nome} removida.`);
+        }, 300);
+    }
+}
+
+function editarCard(cpf, button) {
+    // 1. Acha o card e puxa os dados que guardamos nele
+    const card = button.closest('.cardStatusNovo, .cardStatusAnalise, .cardStatusFinalizado');
+    const dados = JSON.parse(card.getAttribute('data-dados'));
+
+    // 2. Avisa ao sistema qual card estamos editando
+    currentEditingCard = card;
+
+    // 3. Preenche o formulário com os IDs que você já criou
+    nomeDoCliente.value = dados.nome;
+    cpfDoCliente.value = dados.cpf;
+    convenioDoCliente.value = dados.convenio;
+    operacaoDoCliente.value = dados.operacao;
+    statusPropostaCliente.value = dados.status;
+    valorOperacaoCliente.value = dados.valorOperacao;
+    valorParcelaCliente.value = dados.valorParcela;
+    bancoOperacao.value = dados.banco;
+    promotoraOperacao.value = dados.promotora;
+    detalheStatusProposta.value = dados.detalhamento;
+    dataSaldoPortCliente.value = dados.retornoSaldo;
+    saldoPortCliente.value = dados.saldoCliente;
+    trocoPortCliente.value = dados.troco;
+
+    // Dispara o evento de mudança para mostrar campos de portabilidade se necessário
+    operacaoDoCliente.dispatchEvent(new Event('change'));
+
+    // 4. Abre o modal
+    abrirModal();
+}
+
+function filtrarCards() {
+    // 1. Pega o que foi digitado
+    const termoBusca = document.getElementById('inputBusca').value.toLowerCase().trim();
+    
+    // 2. Pega todos os cards
+    const todosCards = document.querySelectorAll('[data-dados]');
+
+    todosCards.forEach(card => {
+        const dados = JSON.parse(card.getAttribute('data-dados'));
+        const nome = (dados.nome || "").toLowerCase();
+        const cpf = (dados.cpf || "").toLowerCase();
+
+        // 3. Se o nome ou CPF baterem, ele fica visível, senão, some.
+        // O display "" garante que ele volte para o layout original (flex/grid)
+        if (nome.includes(termoBusca) || cpf.includes(termoBusca)) {
+            card.style.display = ""; 
+        } else {
+            card.style.display = "none";
+        }
+    });
+    
+    // AQUI NÃO CHAMAMOS A ATUALIZAÇÃO DE INDICADORES.
+    // Assim, os valores lá em cima continuam fixos no total geral.
 }
 
 //JS escutando o select operação e atuando sobre a portabilidade

@@ -66,11 +66,17 @@
     <main class="meio">
 
     <h2 class="h2DoMain">ACOMPANHAMENTO PESSOAL</h2>
-        <div class="containerMeio">
+        <div class="container-busca">
+            <input type="text" id="inputBusca" placeholder="🔍 Pesquise por nome ou CPF..." onkeyup="filtrarCards()">
+        </div>
 
+        <div class="containerMeio">
             <div class="colunaStatus">
                 <div class="headerColunaNovo">
-                    <h3>Nova Proposta</h3>
+                    <div class="titulo-e-badge">
+                        <h3>Nova Proposta <span id="countNova" class="badge-contador-novo">0</span></h3>
+                    </div>
+                    <p id="sumNova" class="valor-total-header-novo">R$ 0,00</p>
                 </div>
                 <div id="linhaStatusNova" class="cardsDivisao">
                     <!--AQUI FICA OS CARDS-->
@@ -80,7 +86,10 @@
 
             <div class="colunaStatus">
                 <div class="headerColunaAnalise">
-                    <h3>Processando</h3>
+                    <div class="titulo-e-badge">
+                        <h3>Processando <span id="countAnalise" class="badge-contador-analise">0</span></h3>
+                    </div>
+                    <p id="sumAnalise" class="valor-total-header-analise">R$ 0,00</p>
                 </div>
                 <div id="linhaStatusAnalise" class="cardsDivisao">
                     <!--AQUI FICA OS CARDS-->
@@ -90,7 +99,10 @@
 
             <div class="colunaStatus">
                 <div class="headerColunaFinalizado">
-                    <h3>Finalizado</h3>
+                    <div class="titulo-e-badge">
+                        <h3>Finalizado <span id="countFinalizado" class="badge-contador-finalizado">0</span></h3>
+                    </div>
+                    <p id="sumFinalizado" class="valor-total-header-finalizado">R$ 0,00</p>
                 </div>
                 <div id="linhaStatusFinalizado" class="cardsDivisao">
                     <!--AQUI FICA OS CARDS-->
@@ -117,7 +129,7 @@
                     
                     <div class="campo">
                         <label for="iCPF">CPF do Cliente</label>
-                        <input type="text" name="cpf" id="iCPF">
+                        <input type="text" name="cpf" id="iCPF" oninput="mascaraCPF(this)">
                     </div>
                 </div>
 
@@ -151,17 +163,17 @@
                     <div class="linhaDupla">
                         <div class="campo">
                             <label for="valorParcelaPort">Valor da Parcela</label>
-                            <input type="text" id="valorParcelaPort" placeholder="R$ 0,00">
+                            <input type="text" id="valorParcelaPort" oninput="mascaraMoeda(this)" placeholder="R$ 0,00">
                         </div>
                         <div class="campo">
                             <label for="trocoEstimado">Troco Estimado</label>
-                            <input type="text" id="trocoEstimado" placeholder="R$ 0,00">
+                            <input type="text" id="trocoEstimado"  oninput="mascaraMoeda(this)" placeholder="R$ 0,00">
                         </div>
                     </div>
                     <div class="linhaDupla">
                         <div class="campo">
                             <label for="saldoDevedor">Saldo Devedor Estimado</label>
-                            <input type="text" id="saldoDevedor" placeholder="R$ 0,00">
+                            <input type="text" id="saldoDevedor" oninput="mascaraMoeda(this)" placeholder="R$ 0,00">
                         </div>
                         <div class="campo">
                             <label for="dataRetorno">Data Retorno Saldo</label>
@@ -184,11 +196,11 @@
                 <div class="linhaDupla">
                     <div class="campo">
                         <label for="valorLiberado">valor da Operação</label>
-                        <input type="text" name="liberado" id="valorLiberado">
+                        <input type="text" name="liberado" oninput="mascaraMoeda(this)" id="valorLiberado">
                     </div>
                     <div class="campo">
                         <label for="valorParcela">valor da Parcela</label>
-                        <input type="text" name="parcela" id="valorParcela">
+                        <input type="text" name="parcela" oninput="mascaraMoeda(this)" id="valorParcela">
                     </div>
                 </div>
 
@@ -214,7 +226,7 @@
 
     </div>
 
-    <button class="botao-flutuante" id="btnAbrirModal" onclick="abrirModal()">
+    <button class="botao-flutuante" id="btnAbrirModal" onclick="prepararNovoCard()">
         <span>+</span>
     </button>
 

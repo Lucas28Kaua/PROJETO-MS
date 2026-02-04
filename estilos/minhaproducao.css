@@ -5,9 +5,10 @@
     transition: margin-left 0.3s ease;
     min-height:0vh;
     margin:133px 20px 5px 120px;
-    padding:0px 0px 15px 0px;
+    padding:0px 0px 0px 0px;
     border-radius: 20px 20px 20px 20px;
     box-shadow:2px 2px 8px rgba(0, 0, 0, 0.332);
+    background-color: rgba(211, 211, 211, 0.463);
 }
 
 .h2DoMain{
@@ -27,6 +28,34 @@
     width: 100%;
 }
 
+.container-busca {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Mágica: Alinha na direita */
+    margin-top:20px;
+    margin-bottom: 2px;
+    padding-right: 10px; /* Distância da borda da tela */
+}
+
+/* Input menor e mais discreto */
+#inputBusca {
+    width: 250px; /* Tamanho fixo menor */
+    padding: 8px 15px;
+    border-radius: 8px; /* Menos arredondado, mais "clean" */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+#inputBusca:focus {
+    outline: none;
+    width: 300px; /* Ele cresce um pouquinho quando você clica */
+    border-color: #ff8c00;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 .colunaStatus {
     flex: 1;                 /* A MÁGICA: distribui o espaço igual para as 3 colunas */
     max-width: 400px;        /* Evita que elas fiquem largas demais em monitores gigantes */
@@ -36,7 +65,7 @@
     padding: 15px;
 }
 
-.headerColunaNovo>h3{
+.headerColunaNovo h3{
     background-color: #EBEBEB;
     box-shadow:2px 2px 8px rgba(0, 0, 0, 0.323);
     border-radius:15px;
@@ -48,7 +77,36 @@
     margin-bottom: 15px;
 }
 
-.headerColunaAnalise>h3 {
+.badge-contador-novo,
+.badge-contador-analise,
+.badge-contador-finalizado {
+    /* Resetando estilos que vêm do H3 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Estilo da Bolinha */
+    background-color: rgba(0, 0, 0, 0.15); /* Cinza escuro suave da foto */
+    color: #444;                          /* Cor do número */
+    font-size: 0.75rem;                   /* Número menor que o título */
+    font-weight: 700;
+    min-width: 22px;                      /* Garante que seja um círculo/oval */
+    height: 22px;
+    border-radius: 50%;                   /* Deixa redondinho */
+    padding: 0 5px;
+}
+
+.valor-total-header-novo,
+.valor-total-header-analise,
+.valor-total-header-finalizado {
+    margin: 5px 0 0 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555; /* Cor do R$ que fica embaixo */
+    display: block;
+}
+
+.headerColunaAnalise h3 {
     background-color: #EBEBEB;
     box-shadow:2px 2px 8px rgba(0, 0, 0, 0.323);
     border-radius:15px;
@@ -60,7 +118,7 @@
     margin-bottom: 15px;
 }
 
-.headerColunaFinalizado>h3 {
+.headerColunaFinalizado h3 {
     background-color: #EBEBEB;
     box-shadow:2px 2px 8px rgba(0, 0, 0, 0.323);
     border-radius:15px;
@@ -175,6 +233,90 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+}
+
+/* Container do Menu */
+.menu-dropdown {
+    position: absolute;
+    right: 5px;
+    top: 35px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 150px;
+    padding: 6px;
+    border: 1px solid rgba(0,0,0,0.05);
+    /* Animação de entrada aplicada aqui */
+    animation: menuAparecer 0.2s ease-out;
+}
+
+/* Estilo Base dos Botões (Reset e Transição) */
+.menu-dropdown button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #444;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de Hover: Editar (Azul) */
+.btn-edit-option:hover {
+    background-color: #eef2ff; 
+    color: #224CBA;
+    padding-left: 18px; /* Efeito de deslocamento */
+}
+
+/* Efeito de Hover: Excluir (Vermelho) */
+.btn-delete-option {
+    color: #d93025 !important;
+    margin-top: 4px;
+}
+
+.btn-delete-option:hover {
+    background-color: #fce8e6;
+    padding-left: 18px; /* Efeito de deslocamento */
+}
+
+/* Feedback de clique (Botão afunda) */
+.menu-dropdown button:active {
+    transform: scale(0.96);
+}
+
+/* Ícone dentro do botão */
+.menu-dropdown button span {
+    font-size: 1.1rem;
+}
+
+/* Botão de 3 pontinhos no Card */
+.btn-menu-dots {
+    border: none;
+    background: none;
+    font-size: 1.3em;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Definição da Animação */
+@keyframes menuAparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .proposta-id {
@@ -314,8 +456,13 @@
     border-radius: 18px;
     padding: 25px;
     width: 450px;
+    max-height: 85vh;
     position: relative;
-    overflow: hidden; /* Importante para o ::before não vazar */
+
+    display: flex;         
+    flex-direction: column; 
+    overflow: hidden;
+
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     color: black;
 }
@@ -335,8 +482,9 @@
     justify-content: space-between; 
     align-items: center;            
     width: 100%;                    
-    margin-bottom: 25px;            
+    margin-bottom: 15px;            
     padding-bottom: 10px;
+    flex-shrink: 0; /* ADICIONE ISSO: Impede o header de "encolher" */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Linha sutil opcional */
 }
 
@@ -356,6 +504,22 @@
     color: #444;          
     padding: 5px;
     transition: color 0.2s, transform 0.2s;
+}
+
+#formProposta {
+    overflow-y: auto;   /* Ativa o scroll */
+    padding-right: 10px; /* Espaço para a barra de scroll não cobrir o texto */
+    flex: 1;            /* Faz o form ocupar todo o espaço central */
+    display: block;     /* Garante que os inputs fiquem em bloco */
+}
+
+/* OPCIONAL: Deixar o scroll mais fino para não ficar feio */
+#formProposta::-webkit-scrollbar {
+    width: 8px;
+}
+#formProposta::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
 }
 
 #fecharModal:hover {
@@ -455,5 +619,7 @@
     text-transform: uppercase;
     cursor: pointer;
     margin-top: 10px;
+    position: sticky;
+    bottom: 0;
     box-shadow: 0 4px 10px rgba(230, 126, 0, 0.3);
 }
