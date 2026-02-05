@@ -64,7 +64,17 @@
                     </button>
                 </div>
             </div>
-
+            <div class="usuario-filtro-container">
+                <div class="scroll-usuarios" id="listaUsuariosFiltro">
+                    <button class="btn-usuario active" onclick="filtrarPorUsuario('mscred', this)">Ms Cred (Total)</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario('Iraneide', this)">Iraneide</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario('Carla', this)">Carla</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario('João Vitor', this)">João Vitor</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario('Kauã', this)">Kauã</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario('Sueli', this)">Sueli</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario('Djullian', this)">Djullian</button>
+                </div>
+            </div>
             <div class="resumo-producao-grid">
                 <div class="resumo-producao-card">
                     <div class="resumo-producao-icon" style="background: #e8f5e9; color: #2e7d32;">
@@ -102,6 +112,11 @@
                     <h4>Evolução Mensal de Produção</h4>
                     <i class="material-symbols-outlined" style="color: #666;">show_chart</i>
                 </div>
+                <div class="controle-grafico">
+                    <button class="btn-view active" onclick="mudarVisaoGrafico('dias', this)">Dias</button>
+                    <button class="btn-view" onclick="mudarVisaoGrafico('meses', this)">Meses</button>
+                    <button class="btn-view" onclick="mudarVisaoGrafico('anos', this)">Anos</button>
+                </div>
                 <div class="area-canvas-total">
                     <canvas id="graficoProducao"></canvas>
                 </div>
@@ -122,6 +137,7 @@
                                 <th>Cliente</th>
                                 <th>Banco</th>
                                 <th>Convênio</th>
+                                <th>Produto</th> 
                                 <th>Promotora</th>
                                 <th>Funcionário</th>
                                 <th>Valor Realizado</th>
@@ -132,7 +148,16 @@
                     </table>
                 </div>
             </div>
-            </div> 
+
+            <div class="secao-pizza-e-regras">
+                <div class="secao-grafico-pizza">
+                    <canvas id="graficoPizzaBancos"></canvas>
+                </div>
+
+                <div class="secao-regras-banco">
+                </div>
+            </div>
+        </div> 
         </div> 
     </main>
 
