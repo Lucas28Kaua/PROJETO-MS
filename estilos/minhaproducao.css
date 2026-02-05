@@ -29,12 +29,42 @@
 }
 
 .container-busca {
-    width: 100%;
     display: flex;
-    justify-content: flex-end; /* Mágica: Alinha na direita */
-    margin-top:20px;
-    margin-bottom: 2px;
-    padding-right: 10px; /* Distância da borda da tela */
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.popups-topo-meio{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing:border-box;
+}
+
+.popupProdTotal {
+    background-color: #e8f5e9; /* Um verde bem clarinho */
+    border-left: 5px solid green; /* Detalhe lateral que remete ao status */
+    padding: 8px 15px;
+    margin: 10px 0; /* Espaçamento entre o título e o que vem abaixo */
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+}
+#valorTotalProd{
+    font-size:1.1em;
+    font-weight: 800;
+}
+
+.popupProdTotal p {
+    color: #2e7d32; /* Verde escuro para o texto */
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.popupProdTotal strong {
+    font-size: 1.1em;
+    margin-left: 5px;
 }
 
 /* Input menor e mais discreto */
@@ -98,7 +128,8 @@
 
 .valor-total-header-novo,
 .valor-total-header-analise,
-.valor-total-header-finalizado {
+.valor-total-header-finalizado,
+.saldo-header-finalizado {
     margin: 5px 0 0 0;
     font-size: 1.1rem;
     font-weight: 600;

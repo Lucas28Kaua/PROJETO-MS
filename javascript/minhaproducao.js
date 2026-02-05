@@ -47,7 +47,6 @@ function calcularTempoDecorrido(dataIso) {
     return `Há ${dias} dias`;
 }
 
-
 setInterval(() => {
     const logs = document.querySelectorAll('.tempo-log');
     logs.forEach(log => {
@@ -61,6 +60,27 @@ if (toggleBtn) {
         sidebar.classList.toggle('aberto');
     });
 }
+
+function validarExibicaoPorMes(dataIso, status){
+    const dataCriacao = new Date(dataIso)
+    const agora = new Date()
+
+    // REGRA 1: Se o card NÃO estiver finalizado, ele SEMPRE aparece (não importa a idade)
+    if (status !== "Finalizado"){
+        return true;
+    }
+
+    // REGRA 2: Se estiver finalizado, verificamos se é do mês e ano atual
+    const mesAtual = agora.getMonth();
+    const anoAtual = agora.getFullYear();
+
+    const mesCard = dataCriacao.getMonth();
+    const anoCard = dataCriacao.getFullYear();
+
+    return(mesCard === mesAtual && anoCard === anoAtual);
+
+}
+
 
 // Menu hambúrguer mobile
 if (menuToggle) {
@@ -179,6 +199,11 @@ function pegarValoresDoFormulario(event) {
 
 function gerarCardNoDashboard(dados){
     
+    if (!validarExibicaoPorMes(dados.dataCriacao, dados.status)){
+        console.warn(`Card de ${dados.nome} ocultado por pertencer a um fechamento de mês anterior`)
+        return;
+    }
+
     const configStatus = {
         "Novo": { coluna: "linhaStatusNova", classe: "cardStatusNovo" },
         "Processando": { coluna: "linhaStatusAnalise", classe: "cardStatusAnalise" },
@@ -282,39 +307,82 @@ function gerarCardNoDashboard(dados){
     atualizarIndicadores();
 }
 
+const totalProducao = document.getElementById('valorTotalProd')
+
 function atualizarIndicadores() {
-    // MAPEAMENTO: Relaciona a linha dos cards com os IDs que você criou no HTML
+    // 1. MAPEAMENTO: Adicionamos a propriedade 'saldo' apenas na coluna finalizada
     const colunas = [
         { linha: 'linhaStatusNova', count: 'countNova', sum: 'sumNova' },
         { linha: 'linhaStatusAnalise', count: 'countAnalise', sum: 'sumAnalise' },
-        { linha: 'linhaStatusFinalizado', count: 'countFinalizado', sum: 'sumFinalizado' }
+        { linha: 'linhaStatusFinalizado', count: 'countFinalizado', sum: 'sumFinalizado', saldo: 'saldoFinalizado' }
     ];
+
+    // Variável para a "Produção Real" (Operação + Saldo dos finalizados)
+    let totalParaOPopup = 0;
 
     colunas.forEach(col => {
         const elementoLinha = document.getElementById(col.linha);
-        // Pega todos os cards que estão dentro dessa div agora
+        if (!elementoLinha) return; // Evita erro se a coluna não existir na tela
+
         const cards = elementoLinha.querySelectorAll('[data-dados]');
         
-        let somaTotal = 0;
+        let somaTotalColuna = 0;
+        let somaSaldoColuna = 0;
 
         cards.forEach(card => {
             const dados = JSON.parse(card.getAttribute('data-dados'));
+            
+            // Valor da Operação (Produção Bruta)
+            let valorOp = 0;
             if (dados.valorOperacao) {
-                // TRATAMENTO DO VALOR: Remove "R$", pontos de milhar e troca vírgula por ponto
                 let valorLimpo = dados.valorOperacao.replace(/[^\d,]/g, '').replace(',', '.');
-                somaTotal += parseFloat(valorLimpo) || 0;
+                valorOp = parseFloat(valorLimpo) || 0;
+                somaTotalColuna += valorOp;
+            }
+
+            // Valor do Saldo (Portabilidade)
+            let valorSl = 0;
+            if (dados.saldoCliente) {
+                let saldoLimpo = String(dados.saldoCliente).replace(/[^\d,]/g, '').replace(',', '.')
+                valorSl = parseFloat(saldoLimpo) || 0;
+                somaSaldoColuna += valorSl;
+            }
+
+            // MÁGICA: Se estiver na coluna Finalizado, acumula os dois para o popup
+            if (col.linha === 'linhaStatusFinalizado') {
+                totalParaOPopup += (valorOp + valorSl);
             }
         });
 
-        // 1. Atualiza a bolinha (Quantidade de cards)
+        // Atualiza a bolinha (Quantidade)
         document.getElementById(col.count).innerText = cards.length;
 
-        // 2. Atualiza o texto da soma (Valor total em R$)
-        document.getElementById(col.sum).innerText = somaTotal.toLocaleString('pt-br', {
+        // Atualiza a soma da Operação na coluna
+        document.getElementById(col.sum).innerText = somaTotalColuna.toLocaleString('pt-br', {
             style: 'currency',
             currency: 'BRL'
         });
+
+        // Se for a coluna que tem o campo saldo, atualiza o texto do saldo nela
+        if (col.saldo) {
+            const campoSaldo = document.getElementById(col.saldo);
+            if (campoSaldo) {
+                campoSaldo.innerText = "Saldo: " + somaSaldoColuna.toLocaleString('pt-br', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+            }
+        }
     });
+
+    // ATUALIZAÇÃO DO POPUP VERDE (Soma de tudo que foi finalizado)
+    const valorTotalProdElement = document.getElementById('valorTotalProd');
+    if (valorTotalProdElement) {
+        valorTotalProdElement.innerText = totalParaOPopup.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+    }
 }
 
 function toggleMais(button) {
