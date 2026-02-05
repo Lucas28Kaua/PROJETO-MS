@@ -227,7 +227,23 @@ function renderizarGraficoPizza(dados) {
             labels: Object.keys(resumo),
             datasets: [{
                 data: Object.values(resumo),
-                backgroundColor: ['#FB8D20', '#2ecc71', '#3498db', '#9b59b6', '#f1c40f'],
+                backgroundColor: [
+                    '#FB8D20', // 1. Laranja (Principal MS Cred)
+                    '#2ecc71', // 2. Verde (Margem Livre)
+                    '#3498db', // 3. Azul (FGTS)
+                    '#9b59b6', // 4. Roxo (Cartão RMC/RCC)
+                    '#f1c40f', // 5. Amarelo (Pessoal)
+                    '#e74c3c', // 6. Vermelho (Portabilidade)
+                    '#1abc9c', // 7. Turquesa (Siape)
+                    '#34495e', // 8. Azul Marinho (Exército)
+                    '#d35400', // 9. Abóbora (Refinanciamento)
+                    '#27ae60', // 10. Verde Esmeralda (INSS Especial)
+                    '#2980b9', // 11. Azul Royal (Consignado Privado)
+                    '#8e44ad', // 12. Roxo Escuro (Loas)
+                    '#7f8c8d', // 13. Cinza (Outros Convênios)
+                    '#c0392b', // 14. Vinho (Seguros)
+                    '#16a085'  // 15. Verde Água (Crédito na Conta)
+                ],
                 borderWidth: 2
             }]
         },
@@ -243,6 +259,25 @@ function renderizarGraficoPizza(dados) {
         }
     });
 }
+
+
+/* ==========================================================================
+   FUNÇÕES DO PAINEL DE CONTROLE (DIRETORIA)
+   ========================================================================== */
+
+function adicionarLinhaRegra(){
+    const tbody = document.getElementById('corpoRegrasInput')
+    const novaLinha = document.createElement('tr');
+
+    novaLinha.innerHTML = `
+        <td><input type="text" class="in-op"></td>
+        <td><input type="text" class="in-ba"></td>
+        <td><input type="text" class="in-re"></td>
+    `;
+
+    tbody.appendChild(novaLinha);
+}
+
 
 /* ==========================================================================
    4. LÓGICA DE FILTROS E RESUMO

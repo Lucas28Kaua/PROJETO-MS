@@ -155,6 +155,45 @@
                 </div>
 
                 <div class="secao-regras-banco">
+                    <h3 class="titulo-card">⚙️ Painel de Controle (Diretoria)</h3>
+
+                    <div class="container-metas-input">
+                        <div class="campo-grupo">
+                            <label>🎯 Meta Geral da Loja (R$)</label>
+                            <input type="number" id="metaGeral" placeholder="Ex: 1000000" class="input-meta meta-geral">
+                        </div>
+
+                        <div class="campo-grupo">
+                            <label>👤 Meta Individual (R$)</label>
+                            <input type="number" id="metaIndividual" placeholder="Ex: 150000" class="input-meta meta-ind">
+                        </div>
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>📋 Regras Mensais</label>
+                        <div class="tabela-input-container">
+                            <table id="tabelaRegrasInput">
+                                <thead>
+                                    <tr>
+                                        <th>Operação</th>
+                                        <th>Banco</th>
+                                        <th>Promotora</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoRegrasInput">
+                                    <tr>
+                                        <td><input type="text" class="in-op"></td>
+                                        <td><input type="text" class="in-ba"></td>
+                                        <td><input type="text" class="in-re"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="button" onclick="adicionarLinhaRegra()" class="btn-add-linha">+ Linha</button>
+                        </div>
+                    </div>
+
+                    <button onclick="salvarTudoParaHome()" class="btn-salvar-regras">🚀 Publicar na Home</button>
+                    <span id="feedbackSalvo" class="msg-sucesso">✔ Publicado com sucesso!</span>
                 </div>
             </div>
         </div> 
