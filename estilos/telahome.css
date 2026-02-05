@@ -21,7 +21,7 @@
 }
 
 div.card-grande{
-    background: #101115;
+    background: #12141d;
     border-radius: 20px;
     padding: 20px 25px;
     margin-bottom:0px;
@@ -51,11 +51,57 @@ div.cards-menores{
 div.card{
     flex:1 1 250px;
     min-height: 150px;
-    background: #eb6505;
+    max-height:255px;
+    background: linear-gradient(135deg, #fb8d20 0%, #ff7b1a 100%);
     color: white;
     padding: 20px;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+.card-inner {
+    display: flex;
+    flex-direction: column; /* Empilha um em cima do outro */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center;     /* Centraliza horizontalmente */
+    text-align: center;
+    padding: 15px;
+    height: 100%;
+}
+
+.card-inner h3 {
+    font-size: 0.95rem;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px; /* Espaço entre título e número */
+    font-weight: 600;
+}
+
+.valor-principal {
+    font-size: 1.5rem; /* Tamanho de destaque */
+    font-weight: 800;  /* Bem negrito para passar autoridade */
+    color: #101115;    /* Cor escura para contraste */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    
+    /* Efeito sutil para parecer um painel real */
+    background: linear-gradient(135deg, #1b5e20, #43a047);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1));
+}
+
+/* Pequeno detalhe decorativo opcional: uma linha embaixo do h3 */
+.card-inner h3::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #fb7020; /* Laranja MS Cred */
+    margin: 4px auto 0;
+    border-radius: 2px;
 }
 
 div.card:hover{ 
@@ -93,6 +139,73 @@ div.metames>h3, h1, p{
     padding:4px
 }
 
+.metas-display {
+    display: flex;
+    flex-direction: column; /* Coloca uma meta embaixo da outra */
+    gap: 12px;              /* Cria a distância que você pediu */
+    width: 100%;
+    padding: 10px 0;
+}
+
+.meta-item {
+    display: flex;
+    justify-content: space-between; /* Texto na esquerda, Valor na direita */
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fa;      /* Fundo cinza bem clarinho */
+    border-radius: 10px;
+    border-left: 4px solid #ddd; /* Bordinha padrão */
+    transition: all 0.3s ease;
+}
+
+/* Design específico para a Meta Geral */
+.meta-item:has(#meta-geral-home) {
+    border-left-color: #fb5e20; /* Laranja MS Cred */
+}
+
+/* Design específico para a Meta Individual */
+.meta-item:has(#meta-individual-home) {
+    border-left-color: #2ecc71; /* Verde Meta */
+}
+
+.meta-item span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.meta-item strong {
+    font-size: 1rem;
+    color: #1a1c24;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Efeito ao passar o mouse */
+.meta-item:hover {
+    transform: scale(1.02);
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.progresso-container {
+    width: 100%;
+    height: 12px;           /* Um pouco mais grossinha para dar destaque */
+    background: #e0e0e0;    /* Fundo da barra (vazio) */
+    border-radius: 20px;
+    margin-top: 2px;
+    overflow: hidden;       /* Garante que o preenchimento não saia da borda */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* Sombra interna para profundidade */
+}
+
+.barra-progresso {
+    height: 100%;
+    background: linear-gradient(90deg, #43a047, #1b5e20);
+    border-radius: 20px;
+    transition: width 1s ease-in-out; /* Animação suave quando o valor mudar */
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4); /* Brilho no progresso */
+}
+
 div.bancomes{
     background-color: white;
     min-height: 115px;
@@ -104,6 +217,99 @@ div.bancomes> h3, h4 {
     color:black;
     text-align: center;
     padding:4px
+}
+
+
+/* Container que segura a tabela */
+.tabela-regras-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden; 
+    border: 1px solid #e0e0e0;
+}
+
+/* Cabeçalho Fixo (Não sobe no scroll) */
+.regras-header {
+    background: #1a1c24;
+    color: #fb8d20;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Área de Scroll */
+.regras-body {
+    max-height: 180px; /* Ajuste essa altura conforme o tamanho do seu card */
+    overflow-y: auto;
+    scrollbar-width: thin; /* Para Firefox */
+}
+
+/* Estilização da Barra de Scroll (Chrome/Edge/Safari) */
+.regras-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.regras-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.regras-body::-webkit-scrollbar-thumb {
+    background: #fb8d20; /* Laranja da MS Cred */
+    border-radius: 10px;
+}
+
+.regras-body::-webkit-scrollbar-thumb:hover {
+    background: #e67e22;
+}
+
+/* Linhas da Tabela */
+.regra-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 12px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.75rem;
+    color: #333;
+    text-align: center;
+    align-items: center;
+}
+
+.regra-linha:nth-child(even) {
+    background-color: #fafafa; /* Efeito "zebrado" para facilitar leitura */
+}
+
+.regra-linha span {
+    font-weight: 500;
+}
+
+.regra-linha:last-child {
+    border-bottom: none;
+}
+
+.regra-linha:hover {
+    background-color: #fff5ed; /* Um toque de laranja ao passar o mouse */
+}
+
+.regra-linha span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Se o nome for grande, ele coloca "..." */
+}
+
+/* Estilo do Scrollbar (Para ficar bonitinho) */
+.regras-body::-webkit-scrollbar {
+    width: 4px;
+}
+.regras-body::-webkit-scrollbar-thumb {
+    background: #fb8d20;
+    border-radius: 10px;
 }
 
 div.foto-container{

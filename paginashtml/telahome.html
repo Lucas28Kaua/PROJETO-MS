@@ -68,35 +68,83 @@
 
     <main class="meio">
         <div class="card-grande">
-
-            <h2 class="titulo-card">RESUMO DO MÊS</h2>
+            <h2 class="titulo-card">RESUMO MENSAL</h2>
 
             <div class="cards-menores">
-
                 <div class="card">
-                    <div class="prodmes">
-                        <h3>PRODUÇÃO- MÊS ANTERIOR 📊</h3>
-                        <h1 id="prod-mes-anterior">--</h1>
-                        <p><strong id="ref-prod-mes">--</strong></p>
+                    <div class="card-inner">
+                        <h3>Minha Produção 📊</h3>
+                        <div class="valor-principal" id="prod-mes-anterior">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="card meta-card">
+                    <div class="card-inner">
+                        <h3>METAS DO MÊS 📈</h3>
+                        <div class="metas-display">
+                            <div class="meta-item">
+                                <span>Geral:</span>
+                                <strong id="meta-geral-home">R$ 0,00</strong>
+                            </div>
+                            <div class="meta-item">
+                                <span>Individual:</span>
+                                <strong id="meta-individual-home">R$ 0,00</strong>
+                            </div>
+                        </div>
+                        <div class="meta-info-extra" style="text-align: center; margin-top: 8px;">
+                            <small style="color: white; font-size: 0.85rem; font-weight: 800;">
+                                Progresso: <strong id="porcentagem-valor" style="color: #2ecc71;">0%</strong>
+                            </small>
+                        </div>
+                        <div class="progresso-container">
+                            <div class="barra-progresso" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="metames">
-                        <h3>META DO MÊS 📈</h3>
-                        <h1 id="meta-mes">--</h1>
-                        <p> <strong>Até aqui nos ajudou o Senhor!🙏</strong></p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="bancomes">
-                        <h3>REGRA BANCO MÊS 📋</h3>
-                        <h4>Margem Novo- Daycoval Prime</h4>
+                    <div class="card-inner aviso-container">
+                        <h3>REGRAS DO MÊS 📋</h3>
+                        
+                        <div class="tabela-regras-wrapper">
+                            <div class="regras-header">
+                                <span>Produto</span>
+                                <span>Banco</span>
+                                <span>Prom.</span>
+                            </div>
+                            <div id="lista-regras-home" class="regras-body">
+                                <div class="regra-linha">
+                                    <span>Portabilidade</span>
+                                    <span>Itaú</span>
+                                    <span>MS Cred</span>
+                                </div>
+                                <div class="regra-linha">
+                                    <span>Margem Livre</span>
+                                    <span>Daycoval</span>
+                                    <span>Prime</span>
+                                </div>
+                                <div class="regra-linha">
+                                    <span>FGTS</span>
+                                    <span>Safra</span>
+                                    <span>Master</span>
+                                </div>
+                                <div class="regra-linha">
+                                    <span>RMC</span>
+                                    <span>BMG</span>
+                                    <span>MS Cred</span>
+                                </div>
+                                <div class="regra-linha">
+                                    <span>Cartão Benefício</span>
+                                    <span>Facta</span>
+                                    <span>Master</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="foto-container"></div>
     </main>
 
