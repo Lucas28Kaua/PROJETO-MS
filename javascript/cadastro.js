@@ -102,39 +102,76 @@ if (selectEstado) {
 const formClienteNovo=document.getElementById('formClienteNovo')
 const botaoClicado=document.getElementById('botaoClicado')
 
-function cadClienteNovo(event) {
-    event.preventDefault(); // impede reload
-    console.log("Formulário validado, enviando...");
-    formClienteNovo.reset()
-
-    // força reset da animação
+async function cadClienteNovo(event) {
+    event.preventDefault(); 
     
-    void botaoClicado.offsetWidth;
+    const form = document.getElementById('formClienteNovo');
+    const formData = new FormData(form); // Isso captura os textos E os arquivos (rg_frente, etc)
 
-    botaoClicado.textContent = "✅ Cliente cadastrado com sucesso!";
-    botaoClicado.classList.remove('sumir');
-    botaoClicado.classList.add('ativo');
+    // Pegamos o botão para fazer a animação de sucesso depois
+    const botaoClicado = document.getElementById('botaoClicado');
 
-    // some após o tempo da barra
-    setTimeout(() => {
-        botaoClicado.classList.remove('ativo');
-        botaoClicado.classList.add('sumir');
-        
-    }, 4000);
+    try {
+        const response = await fetch("http://127.0.0.1:5000/clientes", {
+            method: "POST",
+            body: formData // Não precisa de headers aqui, o navegador resolve!
+        });
+
+        const resultado = await response.json();
+
+        if (response.ok) {
+            console.log("Sucesso:", resultado.mensagem);
+            form.reset();
+            // Reseta os previews de imagem também
+            document.querySelectorAll('.previewArquivo').forEach(p => p.innerHTML = "");
+
+            // Sua animação de sucesso
+            botaoClicado.textContent = "✅ Cliente cadastrado com sucesso!";
+            botaoClicado.classList.remove('sumir');
+            botaoClicado.classList.add('ativo');
+            setTimeout(() => {
+                botaoClicado.classList.remove('ativo');
+                botaoClicado.classList.add('sumir');
+            }, 4000);
+        } else {
+            alert("Erro ao cadastrar: " + resultado.erro);
+        }
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Servidor desligado ou erro de rede.");
+    }
 }
 
-function proximoPasso(passoAtual){
-    if (passoAtual===1){
-        const cpf = document.getElementById('icliente').value;
-        const cpfNumeros = cpf.replace(/\D/g, '');
-        if (cpfNumeros.length !== 11){
-            alert('Digite um CPF válido com 11 dígitos!');
+async function proximoPasso(passoAtual){
+    if (passoAtual === 1) {
+        const cpfRaw = document.getElementById('icliente').value;
+        const cpfNumeros = cpfRaw.replace(/\D/g, '');
+        
+        if (cpfNumeros.length !== 11) {
+            alert('Digite um CPF válido!');
             return;
         }
-        document.getElementById('stepCPF').style.display="none";
-        document.getElementById('stepClienteCarteiraRetornado').style.display="block";
-        document.getElementById('stepConfirmarAtualizacao').style.display = "block";
 
+        try {
+            // Chamada ao seu Python para buscar dados do cliente
+            const response = await fetch(`http://127.0.0.1:5000/clientes/${cpfNumeros}`);
+            const cliente = await response.json();
+
+            if (response.ok) {
+                // Preenche os <p> do seu HTML com os dados do Banco
+                document.querySelector('.dadoRetornadoNome p').textContent = cliente.nome;
+                document.querySelector('.dadoRetornadoCPF p').textContent = formatarCPF(cliente.cpf);
+                document.querySelector('.dadoRetornadoDN p').textContent = cliente.data_nascimento;
+
+                document.getElementById('stepCPF').style.display = "none";
+                document.getElementById('stepClienteCarteiraRetornado').style.display = "block";
+                document.getElementById('stepConfirmarAtualizacao').style.display = "block";
+            } else {
+                alert("Cliente não encontrado na base!");
+            }
+        } catch (error) {
+            alert("Erro ao conectar com o servidor.");
+        }
     } else if (passoAtual===2){
         const dadoSelecionado = document.getElementById('tipoAtualizacaoDadoCliente').value;
         if (!dadoSelecionado){
@@ -258,44 +295,58 @@ function confirmarAtualizacao(resposta) {
 }
 
 // Função para atualizar o dado (simula a atualização)
-function atualizarDado() {
+async function atualizarDado() {
+    const cpfOriginal = document.getElementById('icliente').value.replace(/\D/g, '');
+    const formData = new FormData();
+    
+    formData.append('cpf_original', cpfOriginal);
+    formData.append('vai_atualizar_dado', vaiAtualizarDado);
 
-    // 👉 NÃO vai atualizar dado
-    if (vaiAtualizarDado === false) {
-        finalizarFluxo();
-        return;
-    }
-
-    // 👉 VALIDAÇÃO
-    if (tipoSelecionado === 'endereco') {
-
-        const estado  = document.getElementById('enderecoEstado').value;
-        const cidade  = document.getElementById('enderecoCidade').value;
-        const bairro  = document.getElementById('enderecoBairro').value;
-        const rua     = document.getElementById('enderecoRua').value;
-        const numero  = document.getElementById('enderecoNumero').value;
-
-        if (!estado || !cidade || !bairro || !rua || !numero) {
-            alert('Preencha todos os campos do endereço!');
-            return;
-        }
-
-    } else {
-
-        let novoValor = parteEndereco === 'estado'
-            ? document.getElementById('selectEstado').value
-            : document.getElementById('novoValor').value;
-
-        if (!novoValor || !novoValor.trim()) {
-            alert('Digite o novo valor!');
-            return;
+    // Se o usuário escolheu atualizar algum dado (Sim)
+    if (vaiAtualizarDado) {
+        formData.append('tipo_campo', tipoSelecionado);
+        
+        if (tipoSelecionado === 'endereco') {
+            formData.append('estado', document.getElementById('enderecoEstado').value);
+            formData.append('cidade', document.getElementById('enderecoCidade').value);
+            formData.append('bairro', document.getElementById('enderecoBairro').value);
+            formData.append('rua', document.getElementById('enderecoRua').value);
+            formData.append('numero', document.getElementById('enderecoNumero').value);
+        } else {
+            formData.append('novo_valor', document.getElementById('novoValor').value);
         }
     }
 
-    // 👉 DAQUI PRA BAIXO: SEMPRE EXECUTA
-    console.log('Atualização válida, resetando fluxo');
+    // Captura a Operação (Primeira linha da tabela)
+    formData.append('operacao', document.getElementById('iOperacao').value);
+    formData.append('data_operacao', document.getElementById('iData').value);
+    formData.append('banco_promotora', document.getElementById('iBanco').value);
 
-    finalizarFluxo();
+    // Captura Arquivos
+    const fFrente = document.getElementById('iDocFrenteClienteCarteira').files[0];
+    const fVerso = document.getElementById('iDocVersoClienteCarteira').files[0];
+    const fVideo = document.getElementById('iVideoClienteCarteira').files[0];
+
+    if (fFrente) formData.append('docFrente', fFrente);
+    if (fVerso) formData.append('docVerso', fVerso);
+    if (fVideo) formData.append('videoCliente', fVideo);
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/clientes/atualizar", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            finalizarFluxo(); // Chama sua animação de sucesso
+        } else {
+            alert("Erro: " + result.erro);
+        }
+    } catch (error) {
+        alert("Erro na rede ao tentar atualizar.");
+    }
 }
 
 function finalizarFluxo() {

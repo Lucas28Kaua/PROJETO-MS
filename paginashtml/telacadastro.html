@@ -184,19 +184,19 @@
                                 </div>
                                 <div class="campo">
                                     <label for="ioperacao">Operação</label>
-                                    <input type="text" name="produto" id="ioperacao" placeholder="Margem Novo" required
+                                    <input type="text" name="tipo_operacao" id="ioperacao" placeholder="Margem Novo" required
                                         autocomplete="on">
                                 </div>
                                 <!--DATA-->
                                 <div class="campo">
                                     <label for="dataProd">Data</label>
-                                    <input type="date" name="data-prod" id="dataProd" placeholder="01/01/2026" required
+                                    <input type="date" name="data-operacao" id="dataProd" placeholder="01/01/2026" required
                                         autocomplete="on">
                                 </div>
                                 <!--BANCO-->
                                 <div class="campo">
                                     <label for="bancoProd">Banco Operação</label>
-                                    <input type="text" name="banco" id="bancoProd" required autocomplete="on">
+                                    <input type="text" name="banco_promotora" id="bancoProd" required autocomplete="on">
                                 </div>
                             </div>
 
@@ -204,7 +204,7 @@
                             <div class="subBoxDocEVideoClienteNovo">
                                 <div class="docEVideosClienteNovo">
                                     <h3 class="h3ClienteNovo">Documentos e vídeo</h3>
-                                    <form action="#">
+                                    
                                         <!--DOCUMENTO FRENTE-->
                                         <label class="tituloDocCliente">DOC FRENTE</label>
                                         <label class="inputDocCliente" for="iDocFrenteClienteNovo">
@@ -253,7 +253,7 @@
                                                 <div class="previewArquivo" id="previewVideoClienteNovo"></div>
                                             </div>
                                         </label>
-                                    </form>
+                                    
                                 </div>
                             </div>
 
@@ -333,7 +333,7 @@
 
                             <div class="grupoEndereco">
                                 <div class="campoEndereco">
-                                    <label>Estado</label>
+                                    <label for="enderecoEstado">Estado</label>
                                     <select id="enderecoEstado">
                                         <option value="">Selecione</option>
                                     </select>
@@ -368,7 +368,6 @@
                             <label id="labelNovoDado" for="novoValor">Novo valor:</label>
                             <input type="text" id="novoValor">
                             <select id="selectEstado" style="display: none;"></select>
-
                         </div>
 
 
@@ -502,9 +501,10 @@
     <div id="overlay" class="overlay"></div>
 
     <script src="../javascript/cadastro.js"></script>
+    <footer>
+        <div></div>
+    </footer>
 </body>
-<footer>
-    <div></div>
-</footer>
+
 
 </html>

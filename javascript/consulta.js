@@ -1,168 +1,267 @@
-toggleBtn = document.getElementById('toggleMenu');
-const sidebar = document.querySelector('.sidebar');
-const menuToggle = document.getElementById('menuToggle');
-const overlay = document.getElementById('overlay');
+  toggleBtn = document.getElementById('toggleMenu');
+  const sidebar = document.querySelector('.sidebar');
+  const menuToggle = document.getElementById('menuToggle');
+  const overlay = document.getElementById('overlay');
 
-// Função para formatar CPF
-function formatarCPF(cpf) {
-    cpf = cpf.replace(/\D/g, ''); // remove tudo que não é dígito
-    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona ponto após 3 dígitos
-    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona ponto   após mais 3
-    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // adiciona traço antes dos últimos 2
-    return cpf;
-}
-
-// Função para formatar benefício
-function formatarBeneficio(beneficio) {
-    beneficio = beneficio.replace(/\D/g, ''); // remove não dígitos
-    beneficio = beneficio.replace(/(\d{3})(\d)/, '$1.$2'); // XXX.
-    beneficio = beneficio.replace(/(\d{3})(\d)/, '$1.$2'); // XXX.XXX.
-    beneficio = beneficio.replace(/(\d{3})(\d{1})$/, '$1-$2'); // XXX.XXX.XXX-X
-    return beneficio;
-}
-
-// Toggle do botão normal da sidebar (desktop)
-if (toggleBtn) {
-    toggleBtn.addEventListener('click', function () {
-        sidebar.classList.toggle('aberto');
-    });
-}
-
-// Menu hambúrguer mobile
-if (menuToggle) {
-    menuToggle.addEventListener('click', function () {
-        sidebar.classList.toggle('aberto');
-        menuToggle.classList.toggle('ativo');
-        if (overlay) overlay.classList.toggle('ativo');
-    });
-}
-
-// Fecha ao clicar no overlay
-if (overlay) {
-    overlay.addEventListener('click', function () {
-        sidebar.classList.remove('aberto');
-        if (menuToggle) menuToggle.classList.remove('ativo');
-        overlay.classList.remove('ativo');
-    });
-}
-
-const tipoBusca = window.document.getElementById('tipoBusca')
-const campoSimples = window.document.getElementById('campoSimples')
-const blocoEndereco = window.document.getElementById('blocoEndereco')
-const botaoBuscar = window.document.getElementById('btnBuscar')
-const botaoLimpar = window.document.getElementById('btnLimpar')
-const labelBusca = window.document.getElementById('labelBusca')
-const buscaSimples = window.document.getElementById('buscaSimples')
-
-function atualizarCampos() {
-
-  campoSimples.style.display = "none";
-  blocoEndereco.style.display = "none";
-  botaoBuscar.style.display = "none";
-
-  buscaSimples.value = ""
-  buscaSimples.type = "text"
-  buscaSimples.placeholder = ""
-  buscaSimples.removeAttribute("inputmode")
-
-  if (tipoBusca.value === "") {
-    labelBusca.textContent = ""
-    return;
+  // Função para formatar CPF
+  function formatarCPF(cpf) {
+      cpf = cpf.replace(/\D/g, ''); // remove tudo que não é dígito
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona ponto após 3 dígitos
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona ponto   após mais 3
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // adiciona traço antes dos últimos 2
+      return cpf;
   }
 
-
-  if (tipoBusca.value === "endereco") {
-    blocoEndereco.style.display = "grid";
-    botaoBuscar.style.display = "block";
-    labelBusca.textContent = "" // não usa label no endereço
-    return
+  // Função para formatar benefício
+  function formatarBeneficio(beneficio) {
+      beneficio = beneficio.replace(/\D/g, ''); // remove não dígitos
+      beneficio = beneficio.replace(/(\d{3})(\d)/, '$1.$2'); // XXX.
+      beneficio = beneficio.replace(/(\d{3})(\d)/, '$1.$2'); // XXX.XXX.
+      beneficio = beneficio.replace(/(\d{3})(\d{1})$/, '$1-$2'); // XXX.XXX.XXX-X
+      return beneficio;
   }
 
+  // Toggle do botão normal da sidebar (desktop)
+  if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+          sidebar.classList.toggle('aberto');
+      });
+  }
 
-  if (tipoBusca.value === "nome") {
-    campoSimples.style.display = "block";
-    labelBusca.textContent = "Nome:"
-    botaoBuscar.style.display = "block"
-    buscaSimples.placeholder = "Ex.: João da Silva"
-  } else if (tipoBusca.value === "cpf") {
-    campoSimples.style.display = "block";
-    labelBusca.textContent = "CPF:"
-    botaoBuscar.style.display = "block"
-    buscaSimples.placeholder = "000.000.000-00"
-    // Configurações específicas para CPF
-    buscaSimples.setAttribute("inputmode", "numeric"); // Abre teclado numérico no celular
-    buscaSimples.maxLength = 14; 
+  // Menu hambúrguer mobile
+  if (menuToggle) {
+      menuToggle.addEventListener('click', function () {
+          sidebar.classList.toggle('aberto');
+          menuToggle.classList.toggle('ativo');
+          if (overlay) overlay.classList.toggle('ativo');
+      });
+  }
 
-    // Aplica a sua função formatarCPF
-    buscaSimples.oninput = function() {
-      this.value = formatarCPF(this.value);
-    };
-  } else if (tipoBusca.value === "nbeneficio") {
-    campoSimples.style.display = "block";
-    labelBusca.textContent = "N. Benefício:"
-    botaoBuscar.style.display = "block"
-    buscaSimples.placeholder = "123.456.789-0"
-    buscaSimples.setAttribute("inputmode", "numeric"); // Abre teclado numérico no celular
-    buscaSimples.maxLength = 13; 
+  // Fecha ao clicar no overlay
+  if (overlay) {
+      overlay.addEventListener('click', function () {
+          sidebar.classList.remove('aberto');
+          if (menuToggle) menuToggle.classList.remove('ativo');
+          overlay.classList.remove('ativo');
+      });
+  }
 
-    // Aplica a sua função formatarCPF
-    buscaSimples.oninput = function() {
-      this.value = formatarBeneficio(this.value);
-    };
+  const tipoBusca = window.document.getElementById('tipoBusca')
+  const campoSimples = window.document.getElementById('campoSimples')
+  const blocoEndereco = window.document.getElementById('blocoEndereco')
+  const botaoBuscar = window.document.getElementById('btnBuscar')
+  const botaoLimpar = window.document.getElementById('btnLimpar')
+  const labelBusca = window.document.getElementById('labelBusca')
+  const buscaSimples = window.document.getElementById('buscaSimples')
+
+  function atualizarCampos() {
+
+    campoSimples.style.display = "none";
+    blocoEndereco.style.display = "none";
+    botaoBuscar.style.display = "none";
+
+    buscaSimples.value = ""
+    buscaSimples.type = "text"
+    buscaSimples.placeholder = ""
+    buscaSimples.removeAttribute("inputmode")
+
+    if (tipoBusca.value === "") {
+      labelBusca.textContent = ""
+      return;
+    }
+
+
+    if (tipoBusca.value === "endereco") {
+      blocoEndereco.style.display = "grid";
+      botaoBuscar.style.display = "block";
+      labelBusca.textContent = "" // não usa label no endereço
+      return
+    }
+
+
+    if (tipoBusca.value === "nome") {
+      campoSimples.style.display = "block";
+      labelBusca.textContent = "Nome:"
+      botaoBuscar.style.display = "block"
+      buscaSimples.placeholder = "Ex.: João da Silva"
+    } else if (tipoBusca.value === "cpf") {
+      campoSimples.style.display = "block";
+      labelBusca.textContent = "CPF:"
+      botaoBuscar.style.display = "block"
+      buscaSimples.placeholder = "000.000.000-00"
+      // Configurações específicas para CPF
+      buscaSimples.setAttribute("inputmode", "numeric"); // Abre teclado numérico no celular
+      buscaSimples.maxLength = 14; 
+
+      // Aplica a sua função formatarCPF
+      buscaSimples.oninput = function() {
+        this.value = formatarCPF(this.value);
+      };
+    } else if (tipoBusca.value === "nbeneficio") {
+      campoSimples.style.display = "block";
+      labelBusca.textContent = "N. Benefício:"
+      botaoBuscar.style.display = "block"
+      buscaSimples.placeholder = "123.456.789-0"
+      buscaSimples.setAttribute("inputmode", "numeric"); // Abre teclado numérico no celular
+      buscaSimples.maxLength = 13; 
+
+      // Aplica a sua função formatarCPF
+      buscaSimples.oninput = function() {
+        this.value = formatarBeneficio(this.value);
+      };
+    } else {
+
+      labelBusca.textContent = "Pesquisar"
+    }
+  }
+
+  const telaRetornoConsulta = document.querySelector('.telaRetornoConsulta')
+
+  async function buscar() {
+    
+    const tipoBusca = document.getElementById('tipoBusca').value
+    let buscaSimples = document.getElementById('buscaSimples').value;
+
+    if (tipoBusca === 'cpf' || tipoBusca === 'nbeneficio') {
+        buscaSimples = buscaSimples.replace(/\D/g, ''); 
+    }
+
+    const estado = document.getElementById('estado').value;
+    const cidade = document.getElementById('cidade').value;
+    const bairro = document.getElementById('bairro').value;
+    const rua = document.getElementById('rua').value;
+
+    let url = "http://127.0.0.1:5000/clientes?";
+
+    if (tipoBusca === 'endereco'){
+      url += `estado=${estado}&cidade=${cidade}&bairro=${bairro}&rua=${rua}`
+    } else{
+      const parametro = tipoBusca === 'nbeneficio' ? 'beneficio' : tipoBusca;
+      url += `${parametro}=${buscaSimples}`;
+    }
+
+    try {
+        const response = await fetch(url);
+        const dados = await response.json();
+
+        if (!response.ok) {
+            alert(dados.mensagem || "Erro ao buscar cliente");
+            return;
+        }
+
+        // 2. Limpa a tabela e preenche com os novos dados
+          const tbody = document.getElementById('tabelaClientes');
+          tbody.innerHTML = '';
+
+          dados.forEach(cliente => {
+              const tr = document.createElement('tr');
+              tr.className = 'linhaClicavel';
+              // Guardamos o objeto completo no elemento para usar nos detalhes depois
+              tr.dataset.cliente = JSON.stringify(cliente); 
+              
+              tr.innerHTML = `
+                  <td>${cliente.nome}</td>
+                  <td>${formatarCPF(cliente.cpf)}</td>
+                  <td>${cliente.data_nascimento}</td>
+                  <td>${cliente.cidade}/${cliente.estado}</td>
+              `;
+              tbody.appendChild(tr);
+          });
+
+          // 3. Mostra a tela de resultados
+          document.querySelector('.telaRetornoConsulta').style.display = 'block';
+          document.getElementById('btnLimpar').style.display = "block";
+
+      } catch (error) {
+          console.error("Erro na requisição:", error);
+          alert("Erro ao conectar com o servidor.");
+      }
+  }
+
+  const telaDetalhesCliente = document.querySelector('.telaDetalhesCliente')
+
+function limpar() {
+    // 1. Limpa o formulário (apaga o que foi digitado)
+    const form = document.getElementById('formConsulta');
+    if (form) form.reset();
+
+    // 2. Esconde as seções de dados
+    telaRetornoConsulta.style.display = "none";
+    telaDetalhesCliente.style.display = "none";
+
+    // 3. Esconde os controles e blocos dinâmicos
+    botaoLimpar.style.display = "none";
+    campoSimples.style.display = "none";
+    botaoBuscar.style.display = "none";
+    blocoEndereco.style.display = "none";
+    
+    // 4. Limpa o label de busca (opcional, para garantir)
+    if (labelBusca) labelBusca.textContent = "";
+}
+
+  const tbody=document.getElementById('tabelaClientes');
+
+  tbody.addEventListener('click', function (e) {
+    const linha = e.target.closest('tr');
+    if (!linha) return;
+
+  // Recupera os dados que salvamos na linha
+    const dadosCliente = JSON.parse(linha.dataset.cliente);
+
+    preencherDetalhes(dadosCliente);
+    abrirDetalhesCliente();
+
+  });
+
+function preencherDetalhes(cliente) {
+  const tela = document.querySelector('.telaDetalhesCliente');
+
+  // 1. Dados Pessoais (Usando IDs únicos para precisão total)
+  document.getElementById('det_nome').textContent = cliente.nome || "---";
+  document.getElementById('det_cpf').textContent = cliente.cpf ? formatarCPF(cliente.cpf) : "---";
+  document.getElementById('det_nascimento').textContent = cliente.data_nascimento || "---";
+  document.getElementById('det_beneficio').textContent = cliente.num_beneficio ? formatarBeneficio(cliente.num_beneficio) : "---";
+
+  // 2. Endereço
+  document.getElementById('det_estado').textContent = cliente.estado || "---";
+  document.getElementById('det_cidade').textContent = cliente.cidade || "---";
+  document.getElementById('det_bairro').textContent = cliente.bairro || "---";
+  document.getElementById('det_rua').textContent = cliente.rua || "---";
+
+  // 3. Contato e Segurança
+  document.getElementById('det_telefone').textContent = cliente.telefone || "---";
+  document.getElementById('det_senha').textContent = cliente.senha_inss || "---";
+
+  // 4. Tabela de Operações Recentes
+  const tabelaOp = document.getElementById('tabelaOperacoesCliente');
+  tabelaOp.innerHTML = ''; // Limpa a tabela anterior
+
+  if (cliente.operacao) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+          <td>${cliente.operacao}</td>
+          <td>${cliente.data_operacao || '---'}</td>
+          <td>${cliente.banco_promotora || '---'}</td>
+      `;
+      tabelaOp.appendChild(tr);
   } else {
-
-    labelBusca.textContent = "Pesquisar"
+      tabelaOp.innerHTML = '<tr><td colspan="3" style="text-align:center;">Nenhuma operação registrada</td></tr>';
   }
 }
 
-const telaRetornoConsulta = document.querySelector('.telaRetornoConsulta')
-
-function buscar() {
-  
-  const listaClientes = document.getElementById('listaClientes')
-  const detalheCliente = document.getElementById('detalheCliente')
-  telaRetornoConsulta.style.display = 'block';
-  
-  telaRetornoConsulta.style.display='block'
-  botaoLimpar.style.display="block";
-}
-
-const telaDetalhesCliente = document.querySelector('.telaDetalhesCliente')
-
-function limpar(){
-  telaRetornoConsulta.style.display ="none"
-  telaDetalhesCliente.style.display = "none"
-  botaoLimpar.style.display="none"
-  campoSimples.style.display="none"
-  botaoBuscar.style.display="none"
-  blocoEndereco.style.display="none"
-}
-
-const tbody=document.getElementById('tabelaClientes');
-
-tbody.addEventListener('click', function (e) {
-  const linha = e.target.closest('tr');
-  if (!linha) return;
-  console.log('linha Clicada');
-
-
-  abrirDetalhesCliente();
-
-});
-
-function abrirDetalhesCliente() {
-  document.querySelector('.telaRetornoConsulta').style.display = 'none';
-  document.querySelector('.telaDetalhesCliente').style.display = 'block';
-}
-
-
-function abrefecha(botao, url = null){
-  const bloco=botao.parentElement;
-  const img=bloco.querySelector('.doc-imagem');
-
-  if (url){
-    img.src=url;
+  function abrirDetalhesCliente() {
+    document.querySelector('.telaRetornoConsulta').style.display = 'none';
+    document.querySelector('.telaDetalhesCliente').style.display = 'block';
   }
 
-  bloco.classList.toggle('ativo');
-}
+
+  function abrefecha(botao, url = null){
+    const bloco=botao.parentElement;
+    const img=bloco.querySelector('.doc-imagem');
+
+    if (url){
+      img.src=url;
+    }
+
+    bloco.classList.toggle('ativo');
+  }
