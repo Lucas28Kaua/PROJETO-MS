@@ -232,7 +232,25 @@ function preencherDetalhes(cliente) {
   document.getElementById('det_telefone').textContent = cliente.telefone || "---";
   document.getElementById('det_senha').textContent = cliente.senha_inss || "---";
 
-  // 4. Tabela de Operações Recentes
+  // 4. Tabela de documentos
+  const documentos = cliente.documentos;
+
+  const docFrente = documentos.find(d => d.tipo_documento === 'RG_FRENTE')
+  const docVerso = documentos.find(d => d.tipo_documento === 'RG_VERSO');
+
+  if (docFrente){
+    document.getElementById('rgFrenteCliente').src = `/uploads/${docFrente.url_documento}`;
+  } else {
+    document.getElementById('rgFrenteCliente').src = ''; // Limpa se não tiver
+  }
+
+  if (docVerso) {
+    document.getElementById('rgVersoCliente').src = `/uploads/${docVerso.url_documento}`;
+  } else {
+      document.getElementById('rgVersoCliente').src = ''; // Limpa se não tiver
+  }
+
+  // 5. Tabela de Operações Recentes
   const tabelaOp = document.getElementById('tabelaOperacoesCliente');
   tabelaOp.innerHTML = ''; // Limpa a tabela anterior
 
