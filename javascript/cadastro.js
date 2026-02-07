@@ -157,6 +157,22 @@ async function proximoPasso(passoAtual){
             const response = await fetch(`http://127.0.0.1:5000/clientes/${cpfNumeros}`);
             const cliente = await response.json();
 
+            if (cliente.documentos && cliente.documentos.length >0) {
+                cliente.documentos.forEach(doc => {
+                    if (doc.tipo_documento === 'RG_FRENTE') {
+                        document.getElementById('statusFrente').innerHTML = "📄 Doc já enviado";
+                        document.getElementById('linkFrente').href = `http://127.0.0.1:5000/${doc.url_documento}`;
+                    }
+                    if (doc.tipo_documento === 'RG_VERSO') {
+                        document.getElementById('statusVerso').innerHTML = "📄 Doc já enviado";
+                        document.getElementById('linkVerso').href = `http://127.0.0.1:5000/${doc.url_documento}`;
+                    }
+                    if (doc.tipo_documento === 'VIDEO') {
+                        document.getElementById('statusVideo').innerHTML = "📄 Doc já enviado";
+                        document.getElementById('linkVideo').href = `http://127.0.0.1:5000/${doc.url_documento}`;
+                    }
+                })
+            }
             if (response.ok) {
                 // Preenche os <p> do seu HTML com os dados do Banco
                 document.querySelector('.dadoRetornadoNome p').textContent = cliente.nome;
@@ -318,10 +334,24 @@ async function atualizarDado() {
     }
 
     // Captura a Operação (Primeira linha da tabela)
-    formData.append('operacao', document.getElementById('iOperacao').value);
-    formData.append('data_operacao', document.getElementById('iData').value);
-    formData.append('banco_promotora', document.getElementById('iBanco').value);
+    const linhasTabela = document.querySelectorAll('.tabelaOp tbody tr');
+    const listaOperacoes = [];
 
+    linhasTabela.forEach(linha=>{
+        const operacao = linha.querySelector('input[name="operacao"]').value;
+        const data = linha.querySelector('input[name="data"]').value;
+        const banco = linha.querySelector('input[name="banco"]').value;
+
+        if (operacao.trim() !=="") {
+            listaOperacoes.push({
+                operacao:operacao,
+                data:data,
+                banco: banco
+            });
+        };
+    })
+
+    formData.append('operacoes', JSON.stringify(listaOperacoes));
     // Captura Arquivos
     const fFrente = document.getElementById('iDocFrenteClienteCarteira').files[0];
     const fVerso = document.getElementById('iDocVersoClienteCarteira').files[0];
