@@ -157,18 +157,18 @@
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-.subBoxOperacoesClienteNovo{
-    width:100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 COLUNAS */
-    gap: 12px 15px; /* ESPAÇO ENTRE LINHAS E COLUNAS */
-    margin-bottom: 15px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 14px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+.tabela-wrapper{
+
+}
+
+.tabelaCadastroOp{
+    border-collapse:collapse;
+    
+
+}
+
+.tabelaCadastroOp .colunaOperacao{
+    width: 30%
 }
 
 .subBoxDocEVideoClienteNovo{
@@ -274,6 +274,41 @@ select:active,
 .campo:focus-within label,
 .campo-grande:focus-within label {
     color: #eb6505;
+}
+
+.linha-operacao-item{
+    grid-column: 1 / -1; 
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Mantém o padrão de 2 colunas interno */
+    gap: 12px 15px;
+}
+
+
+/* Faz o botão ocupar as duas colunas e não ficar "espremido" */
+.btn-add-operacao {
+    grid-column: 1 / -1;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    max-width: 230px;
+    background-color: #eb5d05;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+    align-self: flex-start;
+}
+
+.btn-add-operacao:hover {
+    filter: brightness(1.1);
+    box-shadow: 2px 2px 8px #eb5d057e;
+    transform: translateY(-1px);
+}
+
+.btn-add-operacao button:active {
+    transform: scale(0.98);
 }
 
 .tituloDocCliente{

@@ -178,26 +178,40 @@
                             </div>
                             <!--OPERAÇÕES RECENTES-->
                             <!--PRODUTO-->
-                            <div class="subBoxOperacoesClienteNovo">
+                            <div class="subBoxOperacoesClienteNovo" id="containerOperacoes">
                                 <div class="operacoesClienteNovo">
                                     <h3 class="h3ClienteNovo">Operações Feitas</h3>
                                 </div>
-                                <div class="campo">
-                                    <label for="ioperacao">Operação</label>
-                                    <input type="text" name="tipo_operacao" id="ioperacao" placeholder="Margem Novo" required
-                                        autocomplete="on">
+
+                                <div class="tabela-wrapper" style="grid-column: 1 / -1;">
+                                    <table class="tabelaCadastroOp">
+                                        <thead>
+                                            <tr>
+                                                <th class="colunaOperacao">OPERAÇÃO</th>
+                                                <th>DATA</th>
+                                                <th>BANCO/PROMOTORA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="corpoTabelaOperacoes">
+                                            <tr class="linha-operacao-item">
+                                                <td>
+                                                    <input type="text" name="tipo_operacao" class="ioperacao" placeholder="Margem Novo" required>
+                                                </td>
+                                                <td>
+                                                    <input type="date" name="data_operacao" class="dataProd" required>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="banco_promotora" class="bancoProd" required>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!--DATA-->
-                                <div class="campo">
-                                    <label for="dataProd">Data</label>
-                                    <input type="date" name="data_operacao" id="dataProd" placeholder="01/01/2026" required
-                                        autocomplete="on">
-                                </div>
-                                <!--BANCO-->
-                                <div class="campo">
-                                    <label for="bancoProd">Banco Operação</label>
-                                    <input type="text" name="banco_promotora" id="bancoProd" required autocomplete="on">
-                                </div>
+
+                                <button type="button" onclick="adicionarLinhaOperacao()" 
+                                class="btn-add-operacao">
+                                    + Adicionar Outra Operação
+                                </button>
                             </div>
 
                                 <!--ÁREA DE DOCUMENTOS E VÍDEOS-->
@@ -404,7 +418,7 @@
                             </div>
 
                             <div class="acoesOperacao">
-                                <button id="addLinha">+ Adicionar linha</button>
+                                <button id="addLinha">+ Adicionar Outra Operação</button>
                             </div>
                         </div>
 

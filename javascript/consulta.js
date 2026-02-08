@@ -2,7 +2,7 @@
   const sidebar = document.querySelector('.sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const overlay = document.getElementById('overlay');
-
+  let URL_BASE = "http://127.0.0.1:5000"
   // Função para formatar CPF
   function formatarCPF(cpf) {
       cpf = cpf.replace(/\D/g, ''); // remove tudo que não é dígito
@@ -131,17 +131,17 @@
     const bairro = document.getElementById('bairro').value;
     const rua = document.getElementById('rua').value;
 
-    let url = "http://127.0.0.1:5000/clientes?";
+    let endpoint = `${URL_BASE}/clientes?`
 
     if (tipoBusca === 'endereco'){
-      url += `estado=${estado}&cidade=${cidade}&bairro=${bairro}&rua=${rua}`
+      endpoint += `estado=${estado}&cidade=${cidade}&bairro=${bairro}&rua=${rua}`
     } else{
       const parametro = tipoBusca === 'nbeneficio' ? 'beneficio' : tipoBusca;
-      url += `${parametro}=${buscaSimples}`;
+      endpoint += `${parametro}=${buscaSimples}`;
     }
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(endpoint);
         const dados = await response.json();
 
         if (!response.ok) {
@@ -239,13 +239,13 @@ function preencherDetalhes(cliente) {
   const docVerso = documentos.find(d => d.tipo_documento === 'RG_VERSO');
 
   if (docFrente){
-    document.getElementById('rgFrenteCliente').src = `/uploads/${docFrente.url_documento}`;
+    document.getElementById('rgFrenteCliente').src = `${URL_BASE}/uploads/${docFrente.url_documento}`;
   } else {
     document.getElementById('rgFrenteCliente').src = ''; // Limpa se não tiver
   }
 
   if (docVerso) {
-    document.getElementById('rgVersoCliente').src = `/uploads/${docVerso.url_documento}`;
+    document.getElementById('rgVersoCliente').src = `${URL_BASE}/uploads/${docVerso.url_documento}`;
   } else {
       document.getElementById('rgVersoCliente').src = ''; // Limpa se não tiver
   }
@@ -254,14 +254,16 @@ function preencherDetalhes(cliente) {
   const tabelaOp = document.getElementById('tabelaOperacoesCliente');
   tabelaOp.innerHTML = ''; // Limpa a tabela anterior
 
-  if (cliente.operacao) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-          <td>${cliente.operacao}</td>
-          <td>${cliente.data_operacao || '---'}</td>
-          <td>${cliente.banco_promotora || '---'}</td>
-      `;
-      tabelaOp.appendChild(tr);
+  if (cliente.operacoes && cliente.operacoes.length >0) {
+      cliente.operacoes.forEach(op =>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${op.tipo_operacao || '---'}</td>
+            <td>${op.data_operacao || '---'}</td>
+            <td>${op.banco_promotora || '---'}</td>
+        `;
+        tabelaOp.appendChild(tr);
+      })
   } else {
       tabelaOp.innerHTML = '<tr><td colspan="3" style="text-align:center;">Nenhuma operação registrada</td></tr>';
   }
