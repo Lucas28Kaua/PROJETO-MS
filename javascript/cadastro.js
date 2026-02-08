@@ -108,6 +108,24 @@
         const form = document.getElementById('formClienteNovo');
         const formData = new FormData(form); // Isso captura os textos E os arquivos (rg_frente, etc)
 
+        const operacoes = [];
+        const linhas = document.querySelectorAll('#corpoTabelaOperacoes .linha-operacao-item');
+
+        linhas.forEach(linha => {
+            const tipo = linha.querySelector('.ioperacao').value;
+            const data = linha.querySelector('.dataProd').value;
+            const banco = linha.querySelector('.bancoProd').value;
+            
+            if (tipo.trim() !== "") {
+                operacoes.push({
+                    tipo_operacao: tipo,
+                    data_operacao: data,
+                    banco_promotora: banco
+                })
+            }
+        })
+
+        formData.append('operacoes_json', JSON.stringify(operacoes));
         // Pegamos o botão para fazer a animação de sucesso depois
         const botaoClicado = document.getElementById('botaoClicado');
 
@@ -122,6 +140,16 @@
             if (response.ok) {
                 console.log("Sucesso:", resultado.mensagem);
                 form.reset();
+
+                // NOVO: Volta a tabela para apenas uma linha vazia após o sucesso
+                const corpoTabela = document.getElementById('corpoTabelaOperacoes');
+                corpoTabela.innerHTML = `
+                    <tr class="linha-operacao-item">
+                        <td><input type="text" name="tipo_operacao" class="ioperacao" placeholder="Margem Novo" required></td>
+                        <td><input type="date" name="data_operacao" class="dataProd" required></td>
+                        <td><input type="text" name="banco_promotora" class="bancoProd" required></td>
+                    </tr>`;
+
                 // Reseta os previews de imagem também
                 document.querySelectorAll('.previewArquivo').forEach(p => p.innerHTML = "");
 
@@ -143,23 +171,30 @@
     }
 
     function adicionarLinhaOperacao() {
-    // 1. Pega o container e a linha modelo
-    const container = document.getElementById('containerOperacoes');
-    const linhas = container.querySelectorAll('.linha-operacao-item');
-    const modelo = linhas[0]; // Pega a primeira como molde
 
-    // 2. Clona a linha
-    const novaLinha = modelo.cloneNode(true);
+    const tbody = document.getElementById('corpoTabelaOperacoes');
+    const modelo = tbody.querySelector('.linha-operacao-item');
 
-    // 3. Limpa os valores dos inputs da nova linha
-    novaLinha.querySelectorAll('input').forEach(input => {
-        input.value = '';
-    });
+    if (modelo) {
+        // 3. Clona a linha inteira (true = leva os filhos, ou seja, os TDs e Inputs)
+        const novaLinha = modelo.cloneNode(true);
 
-    // 4. Insere a nova linha antes do botão de "Adicionar"
-    const botao = container.querySelector('button');
-    container.insertBefore(novaLinha, botao);
+        // 4. Limpa os valores para a nova linha não vir "suja" com os dados da anterior
+        const inputs = novaLinha.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+
+        // 5. Adiciona a nova linha no final da tabela
+        tbody.appendChild(novaLinha);
+
+        // 6. FOCO AUTOMÁTICO: Coloca o cursor no primeiro campo da nova linha
+        // Assim o usuário já sai digitando sem precisar clicar
+        inputs[0].focus();
+    } else {
+        console.error("Mano, não achei a linha modelo '.linha-operacao-item' dentro do tbody!");
     }
+}
 
     async function proximoPasso(passoAtual){
         if (passoAtual === 1) {
