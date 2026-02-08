@@ -31,7 +31,14 @@ function mascaraMoeda(input) {
 }
 
 function calcularTempoDecorrido(dataIso) {
+    // 1. Se não vier data, não deixa dar NaN, retorna um aviso
+    if (!dataIso || dataIso === "undefined") return "Agora";
+
     const criacao = new Date(dataIso);
+    
+    // 2. Verifica se o JS conseguiu transformar o texto em uma data real
+    if (isNaN(criacao.getTime())) return "Agora";
+
     const agora = new Date();
     const diferencaEmSegundos = Math.floor((agora - criacao) / 1000);
 
@@ -51,7 +58,9 @@ setInterval(() => {
     const logs = document.querySelectorAll('.tempo-log');
     logs.forEach(log => {
         const dataCriacao = log.getAttribute('data-criacao');
-        log.innerText = `🕒 ${calcularTempoDecorrido(dataCriacao)}`;
+        if(dataCriacao) {
+            log.innerText = `🕒 ${calcularTempoDecorrido(dataCriacao)}`;
+        }
     });
 }, 60000); // Atualiza a cada 1 minuto
 
@@ -139,11 +148,14 @@ const detalheStatusProposta = document.getElementById('detalheStatus')
 const bancoOperacao = document.getElementById('modalBanco')
 const promotoraOperacao = document.getElementById('modalPromotora')
 
-function pegarValoresDoFormulario(event) {
+async function pegarValoresDoFormulario(event) {
     if (event) event.preventDefault();
+
+    const usuarioId = localStorage.getItem('usuarioId');
 
     // 1. Captura inicial
     const dados = {
+        usuario_id: usuarioId,
         nome: nomeDoCliente.value,
         cpf: cpfDoCliente.value,
         convenio: convenioDoCliente.value,
@@ -167,7 +179,7 @@ function pegarValoresDoFormulario(event) {
         // A validação PRECISA estar dentro do IF da portabilidade
         if (!dados.valorParcela || !dados.retornoSaldo || !dados.saldoCliente) {
             alert('Para Portabilidade, preencha Parcela, Saldo e Retorno.');
-            return null;
+            return;
         }
     }
 
@@ -177,25 +189,93 @@ function pegarValoresDoFormulario(event) {
         return null;
     }
 
-    // SE estivermos editando, remove o card antigo antes de gerar o novo
-    if (currentEditingCard) {
-        currentEditingCard.remove();
-        currentEditingCard = null; // Limpa a variável para a próxima
+    try {
+        const response = await fetch("http://127.0.0.1:5000/propostas/criar", {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados)
+        });
+
+        if (response.ok) {
+            // Se salvou no banco, aí sim a gente faz o que você já fazia no front
+            if (currentEditingCard) {
+                currentEditingCard.remove();
+                currentEditingCard = null;
+            }
+
+            gerarCardNoDashboard(dados);
+            atualizarIndicadores();
+            
+            const formulario = document.getElementById('formProposta');
+            if (formulario) formulario.reset();
+            document.getElementById('camposPortabilidade').style.display = 'none';
+            fecharModal();
+            
+            alert("Proposta criada com sucesso!");
+        }
+    } catch (error) {
+        alert("Erro ao conectar com o servidor!");
     }
-
-    // --- AÇÕES DE EXECUÇÃO ---
-    gerarCardNoDashboard(dados);
-    atualizarIndicadores();
-    // 5. Limpeza e Fechamento
-    const formulario = document.getElementById('formProposta');
-    if (formulario) formulario.reset();
-
-    document.getElementById('camposPortabilidade').style.display = 'none';
-    fecharModal();
-
-    console.log("✅ Sucesso!", dados);
 }
 
+async function carregarPropostasDoBanco() {
+    const usuarioId = localStorage.getItem('usuarioId');
+    
+    if (!usuarioId) {
+        console.error("Usuário não identificado. Redirecionando...");
+        return;
+    }
+
+    try {
+        // 1. Chama a sua rota GET que acabamos de ajustar
+        const response = await fetch(`http://127.0.0.1:5000/propostas?usuario_id=${usuarioId}`);
+        
+        if (!response.ok) throw new Error("Erro ao buscar dados do servidor");
+
+        const propostas = await response.json();
+
+        // 2. Limpa as colunas antes de renderizar (para não duplicar no F5)
+        document.getElementById('linhaStatusNova').innerHTML = '';
+        document.getElementById('linhaStatusAnalise').innerHTML = '';
+        document.getElementById('linhaStatusFinalizado').innerHTML = '';
+
+        // 3. Itera sobre cada proposta vinda do MySQL
+        propostas.forEach(p => {
+            // Transformamos os nomes das colunas do banco nos nomes que o seu Card espera
+            const dadosParaCard = {
+                nome: p.nome_cliente,
+                cpf: p.cpf_cliente,
+                convenio: p.convenio,
+                operacao: p.operacao_feita,
+                status: p.status_proposta,
+                banco: p.banco,
+                promotora: p.promotora,
+                detalhamento: p.detalhe_status,
+                // O banco manda números, o JS formata para R$
+                valorOperacao: p.valor_operacao.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                valorParcela: p.valor_parcela_geral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                valorParcelaPort: p.valor_parcela_port ? p.valor_parcela_port.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '',
+                // A DATA que o MySQL criou automaticamente:
+                dataCriacao: p.data_criacao, 
+                retornoSaldo: p.data_retorno_saldo,
+                saldoCliente: p.saldo_devedor_estimado,
+                troco: p.troco_estimado
+            };
+
+            // 4. Chama a sua função que já existe para desenhar na tela
+            gerarCardNoDashboard(dadosParaCard);
+        });
+
+        // 5. Atualiza os números do topo (Total, Nova, etc)
+        atualizarIndicadores();
+
+    } catch (error) {
+        console.error("❌ Erro ao carregar dashboard:", error);
+    }
+}
+
+// EXECUÇÃO AUTOMÁTICA: Roda assim que a página abre
+document.addEventListener('DOMContentLoaded', carregarPropostasDoBanco);
 
 function gerarCardNoDashboard(dados){
     

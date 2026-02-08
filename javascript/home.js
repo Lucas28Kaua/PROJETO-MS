@@ -1,3 +1,36 @@
+async function carregarDashboardDoBanco() {
+    const idDono = localStorage.getItem('usuarioId');
+
+    const response = await fetch(`http://127.0.0.1:5000/propostas?usuario_id=${idDono}`);
+    const propostas = await response.json();
+
+    propostas.forEach(p => {
+        // Converte os nomes das colunas do banco (snake_case) 
+        // para os nomes que sua função 'gerarCardNoDashboard' espera
+        const dadosParaCard = {
+            nome: p.nome_cliente,
+            cpf: p.cpf_cliente,
+            convenio: p.convenio,
+            operacao: p.operacao_feita,
+            status: p.status_proposta,
+            valorOperacao: p.valor_operacao,
+            valorParcela: p.valor_parcela_geral,
+            banco: p.banco,
+            promotora: p.promotora,
+            detalhamento: p.detalhe_status,
+            dataCriacao: p.data_criacao,
+            retornoSaldo: p.data_retorno_saldo,
+            saldoCliente: p.saldo_devedor_estimado,
+            troco: p.troco_estimado
+        };
+        
+        gerarCardNoDashboard(dadosParaCard);
+    });
+}
+
+// Chama a função ao carregar a página
+window.addEventListener('DOMContentLoaded', carregarDashboardDoBanco);
+
 const toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
 
