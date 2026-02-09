@@ -34,13 +34,20 @@ function calcularTempoDecorrido(dataIso) {
     // 1. Se não vier data, não deixa dar NaN, retorna um aviso
     if (!dataIso || dataIso === "undefined") return "Agora";
 
-    const criacao = new Date(dataIso);
+    const criacao = new Date(dataIso.replace(' ', 'T'));
+    const agora = new Date();
     
+    const diffMs = agora - criacao;
+
+    if (diffMs < 0) return "Agora mesmo";
+
     // 2. Verifica se o JS conseguiu transformar o texto em uma data real
     if (isNaN(criacao.getTime())) return "Agora";
 
-    const agora = new Date();
-    const diferencaEmSegundos = Math.floor((agora - criacao) / 1000);
+    
+    let diferencaEmSegundos = Math.floor((agora - criacao) / 1000);
+
+    if (diferencaEmSegundos < 0) diferencaEmSegundos = 0;
 
     if (diferencaEmSegundos < 60) return "Agora mesmo";
     
@@ -151,6 +158,14 @@ const promotoraOperacao = document.getElementById('modalPromotora')
 async function pegarValoresDoFormulario(event) {
     if (event) event.preventDefault();
 
+    // FUNÇÃO AUXILIAR PARA LIMPAR MOEDA
+    const limpar = (valor) => {
+        if (!valor) return 0;
+        // Remove pontos de milhar e troca vírgula por ponto
+        let str = String(valor).replace(/\./g, '').replace(',', '.');
+        return parseFloat(str) || 0;
+    };
+
     const usuarioId = localStorage.getItem('usuarioId');
 
     let idProposta = null;
@@ -201,6 +216,12 @@ async function pegarValoresDoFormulario(event) {
     
     const metodo = currentEditingCard ? 'PUT' : 'POST';
 
+    const idEditarProposta = currentEditingCard ? JSON.parse(currentEditingCard.getAttribute('data-dados')).id : null;
+
+    if (currentEditingCard && !idProposta) {
+        console.error("Erro: Tentando editar um card sem ID!");
+        return;
+    }
     try {
         const response = await fetch(url, {
             method: metodo,
@@ -211,18 +232,23 @@ async function pegarValoresDoFormulario(event) {
         const resultado = await response.json();
 
         if (response.ok) {
-            // Se salvou no banco, aí sim a gente faz o que você já fazia no front
-            if (!currentEditingCard) {
-                dados.id = resultado.id;
-            } else {
-                dados.id = idProposta;
+            if (currentEditingCard) {
                 currentEditingCard.remove();
             }
 
-            gerarCardNoDashboard(dados);
+            // IMPORTANTE: Use o 'resultado' que vem do Python! 
+            // Se o seu Python retorna o objeto atualizado, use: gerarCardNoDashboard(resultado);
+            // Se o seu Python só retorna mensagem, use o objeto 'dados' mas garanta que o ID esteja nele:
+            dados.id = idProposta || resultado.id;
+            
+            gerarCardNoDashboard(dados); 
+            
             fecharModal();
             alert(metodo === 'PUT' ? "Editado com sucesso!" : "Criado com sucesso!");
             currentEditingCard = null;
+            atualizarIndicadores(); // Recalcula o topo verde
+        } else {
+            alert("Erro ao salvar: " + (resultado.mensagem || "Erro desconhecido"));
         }
     } catch (error) {
         console.error("Erro na requisição:", error);
@@ -270,8 +296,12 @@ async function carregarPropostasDoBanco() {
                 valorParcela: p.valor_parcela_geral || 0,
                 valorParcelaPort: p.valor_parcela_port || 0,
                 
-                dataCriacao: p.data_criacao, 
-                retornoSaldo: p.data_retorno_saldo,
+                dataCriacao: p.data_criacao.includes('Z') || p.data_criacao.includes    ('GMT') 
+                    ? p.data_criacao 
+                    : p.data_criacao.replace(' ', 'T'), 
+               
+                // Dentro do seu propostas.forEach, altere APENAS a linha do retornoSaldo:
+                retornoSaldo: p.data_retorno_saldo ? new Date(p.data_retorno_saldo).toISOString().split('T')[0] : null,
                 saldoCliente: p.saldo_devedor_estimado || 0,
                 troco: p.troco_estimado || 0
             };
@@ -287,6 +317,43 @@ async function carregarPropostasDoBanco() {
     }
 }
 
+function formatarDataRetorno(dataString) {
+    if (!dataString || dataString === "undefined" || dataString === null) return "---";
+    
+    // 1. Extrai apenas os números (Ano, Mês, Dia) ignorando o resto (GMT, Horas, etc)
+    const partes = dataString.match(/(\d{4})-(\d{2})-(\d{2})/);
+    
+    if (!partes) {
+        // Se não vier no formato YYYY-MM-DD, tenta limpar strings tipo "Mon, 09 Feb..."
+        const dataGenérica = new Date(dataString);
+        if (isNaN(dataGenérica.getTime())) return dataString;
+        
+        // Se a data genérica funcionar, pegamos os componentes locais dela
+        var ano = dataGenérica.getFullYear();
+        var mes = dataGenérica.getMonth();
+        var dia = dataGenérica.getDate();
+    } else {
+        var ano = parseInt(partes[1]);
+        var mes = parseInt(partes[2]) - 1; // Meses no JS começam em 0
+        var dia = parseInt(partes[3]);
+    }
+
+    // 2. Cria a data usando os componentes LOCAIS (isso trava o dia)
+    const data = new Date(ano, mes, dia, 0, 0, 0);
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    data.setHours(0, 0, 0, 0);
+
+    const dataFormatada = data.toLocaleDateString('pt-BR');
+
+    // 3. Comparação exata para o foguinho
+    if (data.getTime() === hoje.getTime()) {
+        return `<span class="urgente-hoje">🔥 HOJE (${dataFormatada})</span>`;
+    }
+
+    return dataFormatada;
+}
 // EXECUÇÃO AUTOMÁTICA: Roda assim que a página abre
 document.addEventListener('DOMContentLoaded', carregarPropostasDoBanco);
 
@@ -318,7 +385,27 @@ function gerarCardNoDashboard(dados) {
     card.setAttribute('data-dados', JSON.stringify(dados));
 
     const formatar = (v) => {
-    let n = typeof v === 'string' ? parseFloat(v.replace(/\./g, '').replace(',', '.')) : v;
+    if (v === null || v === undefined) return "0,00";
+
+    let n;
+    if (typeof v === 'number') {
+        // Se já for número (vinda do banco no F5), usa direto!
+        n = v;
+    } else {
+        // Se for string, limpa os símbolos antes de converter
+        let limpo = String(v)
+            .replace('R$', '')
+            .replace(/\s/g, '');
+        
+        // Se a string tem vírgula, é formato BR (ex: 1.200,50)
+        if (limpo.includes(',')) {
+            n = parseFloat(limpo.replace(/\./g, '').replace(',', '.'));
+        } else {
+            // Se não tem vírgula, ou já é ponto ou é número puro em string
+            n = parseFloat(limpo);
+        }
+    }
+    
     return (n || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
 
@@ -368,13 +455,13 @@ function gerarCardNoDashboard(dados) {
                 ${dados.retornoSaldo ? `
                     <div class="info-grupo" style="flex: 1; border-left: 3px solid #ff6a00; padding-left: 8px; margin-bottom: 0;">
                         <label style="color: #ff6a00; font-size: 0.65rem;">📅 RETORNO</label>
-                        <span style="font-size: 0.85rem;">${dados.retornoSaldo.split('-').reverse().join('/')}</span>
+                        <span style="font-size: 0.85rem;">${formatarDataRetorno(dados.retornoSaldo)}</span>
                     </div>
                 ` : ''}
                 ${dados.saldoCliente ? `
                     <div class="info-grupo" style="flex: 1; border-left: 3px solid #224CBA; padding-left: 8px; margin-bottom: 0;">
                         <label style="color: #224CBA; font-size: 0.65rem;">💰 SALDO DEV.</label>
-                        <span style="font-size: 0.85rem;">R$ ${dados.saldoCliente}</span>
+                        <span style="font-size: 0.85rem;">R$ ${formatar(dados.saldoCliente)}</span>
                     </div>
                 ` : ''}
             </div>
@@ -415,19 +502,7 @@ function atualizarIndicadores() {
     let totalGeralFinalizado = 0;
 
     // Função interna para garantir que qualquer coisa vire número real
-    const limparParaNumero = (valor) => {
-        if (typeof valor === 'number') return valor;
-        if (!valor || valor === '---') return 0;
-        
-        // Remove R$, espaços e pontos de milhar, depois troca a vírgula por ponto
-        let limpo = String(valor)
-            .replace('R$', '')
-            .replace(/\s/g, '')
-            .replace(/\./g, '')
-            .replace(',', '.');
-        
-        return parseFloat(limpo) || 0;
-    };
+    
 
     colunas.forEach(col => {
         const elementoLinha = document.getElementById(col.linha);
@@ -438,23 +513,24 @@ function atualizarIndicadores() {
         let somaSaldoColuna = 0;
 
         cards.forEach(card => {
-            const dados = JSON.parse(card.getAttribute('data-dados'));
+            const dadosDoCard = JSON.parse(card.getAttribute('data-dados'));
             
             // Usando a nossa função de limpeza segura
-            const valorOp = limparParaNumero(dados.valorOperacao);
-            const valorSaldo = limparParaNumero(dados.saldoCliente);
+            const valorOp = parseFloat(dadosDoCard.valorOperacao) || 0;
+            const valorSaldo = parseFloat(dadosDoCard.saldoCliente) || 0;
 
             somaOperacaoColuna += valorOp;
             somaSaldoColuna += valorSaldo;
 
             // Alimenta o total do topo se estiver na coluna Finalizado
             if (col.linha === 'linhaStatusFinalizado') {
-                totalGeralFinalizado += valorOp; // Se quiser somar o saldo no topo também, use: (valorOp + valorSaldo)
+                totalGeralFinalizado += (valorOp + valorSaldo); // Se quiser somar o saldo no topo também, use: (valorOp + valorSaldo)
             }
         });
 
         // Atualiza os indicadores da coluna específica
         if (document.getElementById(col.count)) document.getElementById(col.count).innerText = cards.length;
+        
         if (document.getElementById(col.sum)) {
             document.getElementById(col.sum).innerText = somaOperacaoColuna.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
         }
@@ -543,7 +619,11 @@ function editarCard(cpf, button) {
     saldoPortCliente.value = dados.saldoCliente;
     trocoPortCliente.value = dados.troco;
 
-    // Dispara o evento de mudança para mostrar campos de portabilidade se necessário
+    mascaraMoeda(valorOperacaoCliente);
+    mascaraMoeda(valorParcelaCliente);
+    mascaraMoeda(saldoPortCliente);
+    mascaraMoeda(trocoPortCliente);
+        // Dispara o evento de mudança para mostrar campos de portabilidade se necessário
     operacaoDoCliente.dispatchEvent(new Event('change'));
 
     // 4. Abre o modal
