@@ -44,6 +44,23 @@ main>section>section#foto{
     border-radius: 20px;
 }
 
+#mensagem-feedback {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+    display: none; /* Começa escondido */
+}
+
+.sucesso { background-color: #2ecc71; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
+.erro { background-color: #fa391f; box-shadow: 0 4px 8px rgba(231, 77, 60, 0.459); }
+
 main>section>section#login{
     background-color: #f79730;
     border: 1px solid rgba(0, 0, 0, 0.738);

@@ -466,3 +466,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const primeiroDoMes = hoje.substring(0, 8) + '01';
     document.getElementById('dataInicio').value = primeiroDoMes;
 });
+
+function fazerLogout() {
+    // 1. Limpa tudo que salvamos no login
+    localStorage.removeItem('usuarioId');
+    localStorage.setItem('usuarioNome', ''); // Opcional: limpa o nome também
+    localStorage.clear(); // Se quiser garantir, limpa TUDO do storage
+
+    // 2. Agora sim, manda para a tela de login
+    window.location.replace("telalogin.html"); 
+}

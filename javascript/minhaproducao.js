@@ -34,22 +34,17 @@ function calcularTempoDecorrido(dataIso) {
     // 1. Se não vier data, não deixa dar NaN, retorna um aviso
     if (!dataIso || dataIso === "undefined") return "Agora";
 
-    const criacao = new Date(dataIso.replace(' ', 'T'));
+    let dataFormatada = dataIso.replace(' ', 'T');
+
+    const criacao = new Date(dataFormatada);
     const agora = new Date();
-    
-    const diffMs = agora - criacao;
-
-    if (diffMs < 0) return "Agora mesmo";
-
     // 2. Verifica se o JS conseguiu transformar o texto em uma data real
     if (isNaN(criacao.getTime())) return "Agora";
 
-    
     let diferencaEmSegundos = Math.floor((agora - criacao) / 1000);
 
-    if (diferencaEmSegundos < 0) diferencaEmSegundos = 0;
-
-    if (diferencaEmSegundos < 60) return "Agora mesmo";
+    if (diferencaEmSegundos < 30) return "Agora mesmo";
+    if (diferencaEmSegundos < 60) return `Há ${diferencaEmSegundos} seg`;
     
     const minutos = Math.floor(diferencaEmSegundos / 60);
     if (minutos < 60) return `Há ${minutos} min`;
@@ -176,29 +171,35 @@ async function pegarValoresDoFormulario(event) {
     
     // 1. Captura inicial
     const dados = {
-        usuario_id: usuarioId,
-        nome: nomeDoCliente.value,
-        cpf: cpfDoCliente.value,
-        convenio: convenioDoCliente.value,
-        operacao: operacaoDoCliente.value,
-        status: statusPropostaCliente.value,
-        valorOperacao: valorOperacaoCliente.value,
-        valorParcela: valorParcelaCliente.value, 
-        banco: bancoOperacao.value,
-        promotora: promotoraOperacao.value,
-        detalhamento: detalheStatusProposta.value,
-        retornoSaldo: dataSaldoPortCliente.value,
-        saldoCliente: saldoPortCliente.value,
-        troco: trocoPortCliente.value,
-        dataCriacao: currentEditingCard ? JSON.parse(currentEditingCard.getAttribute('data-dados')).dataCriacao : new Date().toISOString()
+    usuario_id: usuarioId,
+    nome: nomeDoCliente.value,
+    cpf: cpfDoCliente.value,
+    convenio: convenioDoCliente.value,
+    operacao: operacaoDoCliente.value,
+    status: statusPropostaCliente.value,
+    banco: bancoOperacao.value,
+    promotora: promotoraOperacao.value,
+    detalhamento: detalheStatusProposta.value,
+    retornoSaldo: dataSaldoPortCliente.value || null,
+    
+    // Limpamos os valores aqui para o Python não receber "R$"
+    valorOperacao: limpar(valorOperacaoCliente.value),
+    valorParcela: limpar(valorParcelaCliente.value),
+    saldoCliente: limpar(saldoPortCliente.value),
+    troco: limpar(trocoPortCliente.value),
+    // AQUI O PULO DO GATO: Capturar a parcela de portabilidade
+    valorParcelaPort: limpar(parcelaPortCliente.value), 
+    
+    dataCriacao: currentEditingCard ? JSON.parse(currentEditingCard.getAttribute('data-dados')).dataCriacao : new Date().toISOString()
     };
 
     // 2. Lógica de Sobrescrita e Validação Específica para Portabilidade
     if (dados.operacao === 'portRefin') {
-        dados.valorParcela = parcelaPortCliente.value; 
-        
-        // A validação PRECISA estar dentro do IF da portabilidade
-        if (!dados.valorParcela || !dados.retornoSaldo || !dados.saldoCliente) {
+    // CORREÇÃO 1: Use o valor LIMPO (dados.valorParcelaPort) em vez do valor com máscara
+    dados.valorParcela = dados.valorParcelaPort; 
+    
+        // CORREÇÃO 2: Verifique o nome correto das chaves que estão DENTRO do objeto 'dados'
+        if (!dados.valorParcelaPort || !dados.retornoSaldo || !dados.saldoCliente) {
             alert('Para Portabilidade, preencha Parcela, Saldo e Retorno.');
             return;
         }
@@ -235,6 +236,7 @@ async function pegarValoresDoFormulario(event) {
             if (currentEditingCard) {
                 currentEditingCard.remove();
             }
+            window.location.reload();
 
             // IMPORTANTE: Use o 'resultado' que vem do Python! 
             // Se o seu Python retorna o objeto atualizado, use: gerarCardNoDashboard(resultado);
@@ -299,7 +301,6 @@ async function carregarPropostasDoBanco() {
                 dataCriacao: p.data_criacao.includes('Z') || p.data_criacao.includes    ('GMT') 
                     ? p.data_criacao 
                     : p.data_criacao.replace(' ', 'T'), 
-               
                 // Dentro do seu propostas.forEach, altere APENAS a linha do retornoSaldo:
                 retornoSaldo: p.data_retorno_saldo ? new Date(p.data_retorno_saldo).toISOString().split('T')[0] : null,
                 saldoCliente: p.saldo_devedor_estimado || 0,
@@ -363,6 +364,7 @@ function gerarCardNoDashboard(dados) {
         return;
     }
 
+    
     const configStatus = {
         "Novo": { coluna: "linhaStatusNova", classe: "cardStatusNovo" },
         "Processando": { coluna: "linhaStatusAnalise", classe: "cardStatusAnalise" },
@@ -453,8 +455,8 @@ function gerarCardNoDashboard(dados) {
         ${dados.retornoSaldo || dados.saldoCliente ? `
             <div style="display: flex; gap: 10px; margin-top: 8px; background: rgba(0,0,0,0.02); padding: 8px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05);">
                 ${dados.retornoSaldo ? `
-                    <div class="info-grupo" style="flex: 1; border-left: 3px solid #ff6a00; padding-left: 8px; margin-bottom: 0;">
-                        <label style="color: #ff6a00; font-size: 0.65rem;">📅 RETORNO</label>
+                    <div class="info-grupo" style="flex: 1; border-left: 3px solid #ff6200; padding-left: 8px; margin-bottom: 0;">
+                        <label style="color: #ff6200; font-size: 0.65rem;">📅 RETORNO</label>
                         <span style="font-size: 0.85rem;">${formatarDataRetorno(dados.retornoSaldo)}</span>
                     </div>
                 ` : ''}
@@ -480,9 +482,6 @@ function gerarCardNoDashboard(dados) {
             <div class="status-badge">
                 <span style="font-size: 0.75rem; color: #666;">CPF: ${dados.cpf}</span>
             </div>
-            <span class="tempo-log" data-criacao="${dados.dataCriacao}" style="font-size: 0.7rem; color: #888; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: 500;">
-                🕒 ${calcularTempoDecorrido(dados.dataCriacao)}
-            </span>
         </div>
     `; 
 
@@ -618,11 +617,13 @@ function editarCard(cpf, button) {
     dataSaldoPortCliente.value = dados.retornoSaldo;
     saldoPortCliente.value = dados.saldoCliente;
     trocoPortCliente.value = dados.troco;
+    parcelaPortCliente.value = dados.valorParcelaPort
 
     mascaraMoeda(valorOperacaoCliente);
     mascaraMoeda(valorParcelaCliente);
     mascaraMoeda(saldoPortCliente);
     mascaraMoeda(trocoPortCliente);
+    mascaraMoeda(parcelaPortCliente);
         // Dispara o evento de mudança para mostrar campos de portabilidade se necessário
     operacaoDoCliente.dispatchEvent(new Event('change'));
 
@@ -666,3 +667,13 @@ operacaoDoCliente.addEventListener('change', function() {
         divPortabilidade.style.display = "none";
     }
 })
+
+function fazerLogout() {
+    // 1. Limpa tudo que salvamos no login
+    localStorage.removeItem('usuarioId');
+    localStorage.setItem('usuarioNome', ''); // Opcional: limpa o nome também
+    localStorage.clear(); // Se quiser garantir, limpa TUDO do storage
+
+    // 2. Agora sim, manda para a tela de login
+    window.location.replace("telalogin.html"); 
+}

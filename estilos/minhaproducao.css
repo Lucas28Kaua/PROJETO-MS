@@ -103,14 +103,14 @@
     color:#2d66f8;
     font-weight: 800;
     padding: 10px;
-    border-top: 2px solid #2d66f8;
+    border-top: 2px solid #3669e9;
     margin-bottom: 15px;
 }
 
 @keyframes pulsarRetorno {
     0% { background-color: rgba(255, 106, 0, 0.1); }
-    50% { background-color: rgba(255, 106, 0, 0.4); }
-    100% { background-color: rgba(255, 106, 0, 0.1); }
+    50% { background-color: rgba(255, 106, 0, 0.577); }
+    100% { background-color: rgba(255, 68, 0, 0.1); }
 }
 
 .urgente-hoje {
