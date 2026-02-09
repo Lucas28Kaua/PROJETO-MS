@@ -153,6 +153,12 @@ async function pegarValoresDoFormulario(event) {
 
     const usuarioId = localStorage.getItem('usuarioId');
 
+    let idProposta = null;
+    if (currentEditingCard) {
+        const dadosAntigos = JSON.parse(currentEditingCard.getAttribute('data-dados'));
+        idProposta = dadosAntigos.id;
+    }
+    
     // 1. Captura inicial
     const dados = {
         usuario_id: usuarioId,
@@ -189,31 +195,37 @@ async function pegarValoresDoFormulario(event) {
         return null;
     }
 
+    const url = currentEditingCard 
+        ? `http://127.0.0.1:5000/propostas/editar/${idProposta}` 
+        : "http://127.0.0.1:5000/propostas/criar";
+    
+    const metodo = currentEditingCard ? 'PUT' : 'POST';
+
     try {
-        const response = await fetch("http://127.0.0.1:5000/propostas/criar", {
-            method: 'POST',
+        const response = await fetch(url, {
+            method: metodo,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados)
         });
 
+        const resultado = await response.json();
+
         if (response.ok) {
             // Se salvou no banco, aí sim a gente faz o que você já fazia no front
-            if (currentEditingCard) {
+            if (!currentEditingCard) {
+                dados.id = resultado.id;
+            } else {
+                dados.id = idProposta;
                 currentEditingCard.remove();
-                currentEditingCard = null;
             }
 
             gerarCardNoDashboard(dados);
-            atualizarIndicadores();
-            
-            const formulario = document.getElementById('formProposta');
-            if (formulario) formulario.reset();
-            document.getElementById('camposPortabilidade').style.display = 'none';
             fecharModal();
-            
-            alert("Proposta criada com sucesso!");
+            alert(metodo === 'PUT' ? "Editado com sucesso!" : "Criado com sucesso!");
+            currentEditingCard = null;
         }
     } catch (error) {
+        console.error("Erro na requisição:", error);
         alert("Erro ao conectar com o servidor!");
     }
 }
@@ -240,9 +252,10 @@ async function carregarPropostasDoBanco() {
         document.getElementById('linhaStatusFinalizado').innerHTML = '';
 
         // 3. Itera sobre cada proposta vinda do MySQL
+        // 3. Itera sobre cada proposta vinda do MySQL
         propostas.forEach(p => {
-            // Transformamos os nomes das colunas do banco nos nomes que o seu Card espera
             const dadosParaCard = {
+                id: p.id, // NÃO ESQUEÇA DO ID AQUI!
                 nome: p.nome_cliente,
                 cpf: p.cpf_cliente,
                 convenio: p.convenio,
@@ -251,18 +264,18 @@ async function carregarPropostasDoBanco() {
                 banco: p.banco,
                 promotora: p.promotora,
                 detalhamento: p.detalhe_status,
-                // O banco manda números, o JS formata para R$
-                valorOperacao: p.valor_operacao.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-                valorParcela: p.valor_parcela_geral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-                valorParcelaPort: p.valor_parcela_port ? p.valor_parcela_port.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '',
-                // A DATA que o MySQL criou automaticamente:
+                
+                // MANTER COMO NÚMERO (Remova o toLocaleString daqui)
+                valorOperacao: p.valor_operacao || 0,
+                valorParcela: p.valor_parcela_geral || 0,
+                valorParcelaPort: p.valor_parcela_port || 0,
+                
                 dataCriacao: p.data_criacao, 
                 retornoSaldo: p.data_retorno_saldo,
-                saldoCliente: p.saldo_devedor_estimado,
-                troco: p.troco_estimado
+                saldoCliente: p.saldo_devedor_estimado || 0,
+                troco: p.troco_estimado || 0
             };
 
-            // 4. Chama a sua função que já existe para desenhar na tela
             gerarCardNoDashboard(dadosParaCard);
         });
 
@@ -277,10 +290,9 @@ async function carregarPropostasDoBanco() {
 // EXECUÇÃO AUTOMÁTICA: Roda assim que a página abre
 document.addEventListener('DOMContentLoaded', carregarPropostasDoBanco);
 
-function gerarCardNoDashboard(dados){
-    
-    if (!validarExibicaoPorMes(dados.dataCriacao, dados.status)){
-        console.warn(`Card de ${dados.nome} ocultado por pertencer a um fechamento de mês anterior`)
+function gerarCardNoDashboard(dados) {
+    if (!validarExibicaoPorMes(dados.dataCriacao, dados.status)) {
+        console.warn(`Card de ${dados.nome} ocultado por pertencer a um fechamento de mês anterior`);
         return;
     }
 
@@ -298,15 +310,21 @@ function gerarCardNoDashboard(dados){
         return;
     }
 
+    // --- AQUI ESTAVA O ERRO: Primeiro criamos o elemento ---
     const card = document.createElement('div');
     card.className = config.classe;
+    
+    // Agora salvamos os dados (incluindo o ID real do banco) no atributo do card
     card.setAttribute('data-dados', JSON.stringify(dados));
 
-    card.innerHTML = `
+    const formatar = (v) => {
+    let n = typeof v === 'string' ? parseFloat(v.replace(/\./g, '').replace(',', '.')) : v;
+    return (n || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
 
+    card.innerHTML = `
         <div class="card-header" style="position: relative;">
-            <span class="proposta-id">ID: #${Math.floor(Math.random() * 10000)}</span>
-    
+            <span class="proposta-id">ID: #${dados.id || '---'}</span>
             <div class="menu-container">
                 <button class="btn-menu-dots" onclick="toggleMais(this)">⋮</button>
                 <div class="menu-dropdown" style="display: none;">
@@ -337,11 +355,11 @@ function gerarCardNoDashboard(dados){
         <div style="display: flex; gap: 10px; margin-bottom: 12px;">
             <div class="info-grupo" style="flex: 1; margin-bottom: 0;">
                 <label>Valor Operação</label>
-                <span class="valor-destaque" style="font-size: 1.1rem;">R$ ${dados.valorOperacao || '0,00'}</span>
+                <span class="valor-destaque" style="font-size: 1.1rem;">R$ ${formatar(dados.valorOperacao)}</span>
             </div>
             <div class="info-grupo" style="flex: 1; margin-bottom: 0;">
                 <label>Parcela</label>
-                <span style="color: green; font-weight: 800; font-size: 1.1rem;">R$ ${dados.valorParcela || '0,00'}</span>
+                <span style="color: green; font-weight: 800; font-size: 1.1rem;">R$ ${formatar(dados.valorParcela)}</span>
             </div>
         </div>
 
@@ -363,26 +381,24 @@ function gerarCardNoDashboard(dados){
         ` : ''}
 
         ${dados.detalhamento ? `
-        <div class="info-grupo" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px;">
-            <label>Detalhe Status</label>
-            <div style="font-size: 0.82rem; font-weight: 500; color: #333; max-height: 80px; overflow-y: auto; word-break: break-word;">
-                ${dados.detalhamento}
+            <div class="info-grupo" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px;">
+                <label>Detalhe Status</label>
+                <div style="font-size: 0.82rem; font-weight: 500; color: #333; max-height: 80px; overflow-y: auto; word-break: break-word;">
+                    ${dados.detalhamento}
+                </div>
             </div>
-        </div>
         ` : ''}
 
         <div class="card-footer" style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center;">
             <div class="status-badge">
                 <span style="font-size: 0.75rem; color: #666;">CPF: ${dados.cpf}</span>
             </div>
-            
             <span class="tempo-log" data-criacao="${dados.dataCriacao}" style="font-size: 0.7rem; color: #888; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: 500;">
                 🕒 ${calcularTempoDecorrido(dados.dataCriacao)}
             </span>
         </div>
     `; 
 
-    
     colunaAlvo.appendChild(card);
     atualizarIndicadores();
 }
@@ -390,78 +406,69 @@ function gerarCardNoDashboard(dados){
 const totalProducao = document.getElementById('valorTotalProd')
 
 function atualizarIndicadores() {
-    // 1. MAPEAMENTO: Adicionamos a propriedade 'saldo' apenas na coluna finalizada
     const colunas = [
         { linha: 'linhaStatusNova', count: 'countNova', sum: 'sumNova' },
         { linha: 'linhaStatusAnalise', count: 'countAnalise', sum: 'sumAnalise' },
         { linha: 'linhaStatusFinalizado', count: 'countFinalizado', sum: 'sumFinalizado', saldo: 'saldoFinalizado' }
     ];
 
-    // Variável para a "Produção Real" (Operação + Saldo dos finalizados)
-    let totalParaOPopup = 0;
+    let totalGeralFinalizado = 0;
+
+    // Função interna para garantir que qualquer coisa vire número real
+    const limparParaNumero = (valor) => {
+        if (typeof valor === 'number') return valor;
+        if (!valor || valor === '---') return 0;
+        
+        // Remove R$, espaços e pontos de milhar, depois troca a vírgula por ponto
+        let limpo = String(valor)
+            .replace('R$', '')
+            .replace(/\s/g, '')
+            .replace(/\./g, '')
+            .replace(',', '.');
+        
+        return parseFloat(limpo) || 0;
+    };
 
     colunas.forEach(col => {
         const elementoLinha = document.getElementById(col.linha);
-        if (!elementoLinha) return; // Evita erro se a coluna não existir na tela
+        if (!elementoLinha) return;
 
         const cards = elementoLinha.querySelectorAll('[data-dados]');
-        
-        let somaTotalColuna = 0;
+        let somaOperacaoColuna = 0;
         let somaSaldoColuna = 0;
 
         cards.forEach(card => {
             const dados = JSON.parse(card.getAttribute('data-dados'));
             
-            // Valor da Operação (Produção Bruta)
-            let valorOp = 0;
-            if (dados.valorOperacao) {
-                let valorLimpo = dados.valorOperacao.replace(/[^\d,]/g, '').replace(',', '.');
-                valorOp = parseFloat(valorLimpo) || 0;
-                somaTotalColuna += valorOp;
-            }
+            // Usando a nossa função de limpeza segura
+            const valorOp = limparParaNumero(dados.valorOperacao);
+            const valorSaldo = limparParaNumero(dados.saldoCliente);
 
-            // Valor do Saldo (Portabilidade)
-            let valorSl = 0;
-            if (dados.saldoCliente) {
-                let saldoLimpo = String(dados.saldoCliente).replace(/[^\d,]/g, '').replace(',', '.')
-                valorSl = parseFloat(saldoLimpo) || 0;
-                somaSaldoColuna += valorSl;
-            }
+            somaOperacaoColuna += valorOp;
+            somaSaldoColuna += valorSaldo;
 
-            // MÁGICA: Se estiver na coluna Finalizado, acumula os dois para o popup
+            // Alimenta o total do topo se estiver na coluna Finalizado
             if (col.linha === 'linhaStatusFinalizado') {
-                totalParaOPopup += (valorOp + valorSl);
+                totalGeralFinalizado += valorOp; // Se quiser somar o saldo no topo também, use: (valorOp + valorSaldo)
             }
         });
 
-        // Atualiza a bolinha (Quantidade)
-        document.getElementById(col.count).innerText = cards.length;
+        // Atualiza os indicadores da coluna específica
+        if (document.getElementById(col.count)) document.getElementById(col.count).innerText = cards.length;
+        if (document.getElementById(col.sum)) {
+            document.getElementById(col.sum).innerText = somaOperacaoColuna.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        }
 
-        // Atualiza a soma da Operação na coluna
-        document.getElementById(col.sum).innerText = somaTotalColuna.toLocaleString('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-        });
-
-        // Se for a coluna que tem o campo saldo, atualiza o texto do saldo nela
-        if (col.saldo) {
-            const campoSaldo = document.getElementById(col.saldo);
-            if (campoSaldo) {
-                campoSaldo.innerText = "Saldo: " + somaSaldoColuna.toLocaleString('pt-br', {
-                    style: 'currency',
-                    currency: 'BRL'
-                });
-            }
+        if (col.saldo && document.getElementById(col.saldo)) {
+            document.getElementById(col.saldo).innerText = "Saldo: " + somaSaldoColuna.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
         }
     });
 
-    // ATUALIZAÇÃO DO POPUP VERDE (Soma de tudo que foi finalizado)
+    // Atualiza o "Minha Produção" (Topo Verde)
     const valorTotalProdElement = document.getElementById('valorTotalProd');
     if (valorTotalProdElement) {
-        valorTotalProdElement.innerText = totalParaOPopup.toLocaleString('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-        });
+        // O segredo do F5: Aqui ele sempre zera e coloca o valor novo totalizado dos cards presentes
+        valorTotalProdElement.innerText = totalGeralFinalizado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
 }
 
@@ -488,26 +495,28 @@ function toggleMais(button) {
     document.addEventListener('click', fecharAoClicarFora);
 }
 
-function excluirCard(button){
-    // 1. Localiza o card pai usando as classes que você criou no configStatus
+async function excluirCard(button) {
     const card = button.closest('.cardStatusNovo, .cardStatusAnalise, .cardStatusFinalizado');
-    
-    // 2. Puxa o nome do cliente de dentro desse card específico
-    const nome = card.querySelector('.cliente-nome').innerText;
+    const dados = JSON.parse(card.getAttribute('data-dados'));
+    const idProposta = dados.id;
 
-    // 3. Confirmação para evitar exclusão acidental
-    if (confirm(`Tem certeza que deseja excluir a proposta de ${nome}?`)) {
-        
-        // Efeito visual de saída 
-        card.style.transition = "0.3s";
-        card.style.opacity = "0";
-        card.style.transform = "scale(0.8)";
-        
-        setTimeout(() => {
-            card.remove();
-            atualizarIndicadores();
-            console.log(`Proposta de ${nome} removida.`);
-        }, 300);
+    if (confirm(`Tem certeza que deseja excluir a proposta de ${dados.nome}?`)) {
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/propostas/excluir/${idProposta}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                card.style.transition = "0.3s";
+                card.style.opacity = "0";
+                setTimeout(() => {
+                    card.remove();
+                    atualizarIndicadores();
+                }, 300);
+            }
+        } catch (error) {
+            alert("Erro ao excluir no servidor.");
+        }
     }
 }
 
