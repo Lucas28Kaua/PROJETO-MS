@@ -2,7 +2,28 @@
 <html lang="pt-br">
 
 <head>
-    <script src="../javascript/auth.js"></script>
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html");
+                
+            }
+        })();
+    </script>
+    <script>
+    (function() {
+        const cargo = localStorage.getItem('usuarioCargo');
+        if (cargo !== 'admin') {
+            // Mandando o parâmetro ?erro=negado para a home
+            window.location.replace("telahome.html?erro=negado");
+        }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../imagens/favicon3.ico" type="image/x-icon">
@@ -68,12 +89,13 @@
             <div class="usuario-filtro-container">
                 <div class="scroll-usuarios" id="listaUsuariosFiltro">
                     <button class="btn-usuario active" onclick="filtrarPorUsuario('mscred', this)">Ms Cred (Total)</button>
-                    <button class="btn-usuario" onclick="filtrarPorUsuario('Iraneide', this)">Iraneide</button>
-                    <button class="btn-usuario" onclick="filtrarPorUsuario('Carla', this)">Carla</button>
-                    <button class="btn-usuario" onclick="filtrarPorUsuario('João Vitor', this)">João Vitor</button>
-                    <button class="btn-usuario" onclick="filtrarPorUsuario('Kauã', this)">Kauã</button>
-                    <button class="btn-usuario" onclick="filtrarPorUsuario('Sueli', this)">Sueli</button>
-                    <button class="btn-usuario" onclick="filtrarPorUsuario('Djullian', this)">Djullian</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(1, this)">Sueli</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(2, this)">Djullian</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(3, this)">Iraneide</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(4, this)">Carla</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(5, this)">João Vitor</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(7, this)">Kauã</button>
+                    
                 </div>
             </div>
             <div class="resumo-producao-grid">

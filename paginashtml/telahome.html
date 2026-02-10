@@ -2,7 +2,19 @@
 <html lang="pt-br">
 
 <head>
-    <script src="../javascript/auth.js"></script>
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html"); 
+                
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../estilos/telahome.css">
@@ -160,6 +172,26 @@
     <div class="overlay" id="overlay"></div>
 
     <script src="../javascript/home.js"></script>
+    <script>
+        window.onload = function() {
+            // Pega os parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.get('erro') === 'negado') {
+                // Espera um tiquinho para garantir que sua função de CSS carregou
+                setTimeout(() => {
+                    if (typeof mostrarFeedback === "function") {
+                        mostrarFeedback("Acesso restrito à diretoria!", "erro");
+                    } else {
+                        alert("Acesso restrito à diretoria!");
+                    }
+                    
+                    // Limpa a URL para ficar limpinha (sem o ?erro=negado)
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 400);
+            }
+        };
+    </script>
 </body>
 
 </html>

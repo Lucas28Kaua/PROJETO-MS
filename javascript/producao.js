@@ -1,4 +1,8 @@
 
+let meuGrafico = null;
+let meuGraficoPizza = null;
+let dadosFiltradosAtuais = [];
+
 /* ==========================================================================
    2. CONTROLE DO MENU (SIDEBAR)
    ========================================================================== */
@@ -27,154 +31,24 @@ if (menuToggle) {
     });
 }
 
-let dadosFiltradosAtuais = []; // Armazena o que está filtrado no momento
-/* ==========================================================================
-   1. BASE DE DADOS (GLOBAL PARA ACESSO DE TODAS AS FUNÇÕES)
-   ========================================================================== */
-const dadosTabela = [
-    { 
-        data: '01/01 16:45', cliente: 'Roberto Carlos Medeiros', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Portabilidade', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 15400.50, saldo: 12000.00, liberado: 3400.50 
-    },
-    { 
-        data: '03/01 14:20', cliente: 'Maria das Graças Silva', banco: 'Safra', 
-        conv: 'FGTS', produto: 'Saque Aniv.', prom: 'MS Cred', func: 'Carla', 
-        valor: 4200.00, saldo: 0, liberado: 4200.00 
-    },
-    { 
-        data: '05/01 11:30', cliente: 'José Arnaldo Ferreira', banco: 'C6 Bank', 
-        conv: 'SIAPE', produto: 'Portabilidade', prom: 'Valor Pro', func: 'João Vitor', 
-        valor: 28900.00, saldo: 20500.00, liberado: 8400.00 
-    },
-    { 
-        data: '10/01 17:10', cliente: 'Luciana Gimenez Souza', banco: 'Pan', 
-        conv: 'FGTS', produto: 'Saque Aniv.', prom: 'MS Cred', func: 'Kauã', 
-        valor: 1850.00, saldo: 0, liberado: 1850.00 
-    },
-    { 
-        data: '15/01 15:00', cliente: 'Antônio Bento Vilela', banco: 'Facta', 
-        conv: 'INSS', produto: 'Port + Refin', prom: 'Valor Pro', func: 'Sueli', 
-        valor: 12300.00, saldo: 9100.00, liberado: 3200.00 
-    },
-    { 
-        data: '20/01 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '25/01 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '01/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    },
-    { 
-        data: '02/02 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '05/02 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '09/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    },
-    { 
-        data: '25/02 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '14/02 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '10/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    },
-    { 
-        data: '23/02 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '21/02 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '29/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    },
-    { 
-        data: '05/02 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '02/02 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '25/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    },
-    { 
-        data: '20/02 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '28/02 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '14/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    },
-    { 
-        data: '12/02 09:40', cliente: 'Francisca Chagas de Lima', banco: 'Daycoval', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Djullian', 
-        valor: 9700.00, saldo: 0, liberado: 9700.00 
-    },
-    { 
-        data: '25/02 16:30', cliente: 'Ricardo Pereira Fontes', banco: 'Mercantil', 
-        conv: 'Pessoal', produto: 'Crédito Pessoal', prom: 'Valor Pro', func: 'Iraneide', 
-        valor: 5000.00, saldo: 0, liberado: 5000.00 
-    },
-    { 
-        data: '04/02 10:00', cliente: 'Sandra Helena Ramos', banco: 'Itaú', 
-        conv: 'INSS', produto: 'Margem Livre', prom: 'MS Cred', func: 'Carla', 
-        valor: 21000.00, saldo: 0, liberado: 21000.00 
-    }
-];
+ // Armazena o que está filtrado no momento
+
 
 dadosFiltradosAtuais = [...dadosTabela]; // Armazena o que está filtrado no momento
 
 /* ==========================================================================
    3. MOTOR DO GRÁFICO (CHART.JS)
    ========================================================================== */
-let meuGrafico;
+
 const ctx = document.getElementById('graficoProducao').getContext('2d');
 
 function renderizarGrafico(labels, valores) {
+    const canvas = document.getElementById('graficoProducao');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
     if (meuGrafico) {
-        meuGrafico.destroy();
+        meuGrafico.destroy(); // Isso limpa o gráfico antigo para entrar o novo
     }
 
     meuGrafico = new Chart(ctx, {
@@ -200,7 +74,9 @@ function renderizarGrafico(labels, valores) {
             scales: {
                 y: { 
                     beginAtZero: true, 
-                    ticks: { callback: (value) => 'R$ ' + value.toLocaleString('pt-br') }
+                    ticks: { 
+                        callback: (value) => 'R$ ' + value.toLocaleString('pt-br') 
+                    }
                 }
             }
         }
@@ -208,7 +84,7 @@ function renderizarGrafico(labels, valores) {
 }
 
 
-let meuGraficoPizza;
+
 
 function renderizarGraficoPizza(dados) {
     const ctx = document.getElementById('graficoPizzaBancos').getContext('2d');
@@ -216,7 +92,9 @@ function renderizarGraficoPizza(dados) {
     // Agrupar por produto
     const resumo = {};
     dados.forEach(item => {
-        resumo[item.produto] = (resumo[item.produto] || 0) + item.valor;
+        const produto = item.operacao_feita || "Outros";
+        const valor = parseFloat(item.valor_operacao) || 0;
+        resumo[produto] = (resumo[produto] || 0) + valor;
     });
 
     if (meuGraficoPizza) meuGraficoPizza.destroy();
@@ -330,97 +208,116 @@ function atualizarCardsResumo(total, quantidade) {
     document.getElementById('resumoTicket').innerText = ticketMedio.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 }
 
-function filtrarPorUsuario(nomeUsuario, elemento) {
+async function filtrarPorUsuario(idUsuario, elemento) {
     // 1. Alterna a classe ativa nos botões
     const botoes = document.querySelectorAll('.btn-usuario');
     botoes.forEach(btn => btn.classList.remove('active'));
     if(elemento) elemento.classList.add('active');
 
     // 2. Filtra os dados e guarda na nossa variável global
-    dadosFiltradosAtuais = (nomeUsuario === 'mscred')
-        ? [...dadosTabela]
-        : dadosTabela.filter(proposta => proposta.func === nomeUsuario);
+    const url = (idUsuario === 'mscred') 
+        ? 'http://127.0.0.1:5000/api/relatorios/total' 
+        : `http://127.0.0.1:5000/api/relatorios/${idUsuario}`;
 
-    // 3. AGORA A MÁGICA: Chamamos a função que desenha tudo na tela
-    // Ela vai usar aquele innerHTML que você já tem lá embaixo
-    atualizarTabelaEInterface(dadosFiltradosAtuais);
-    
-    // 4. E chamamos a do gráfico para ele atualizar junto
-    processarERenderizarGrafico(dadosFiltradosAtuais);
+    try {
+        const response = await fetch(url);
+        const resultado = await response.json();
+
+        if (resultado.vazio) {
+            // Limpa a interface se não houver dados
+            atualizarTabelaEInterface([]); 
+            return;
+        }
+
+        // 3. Alimenta a interface com os dados REAIS do banco
+        dadosFiltradosAtuais = resultado.tabela; 
+        atualizarTabelaEInterface(resultado.tabela);
+
+    } catch (erro) {
+        console.error("Erro ao buscar dados do banco:", erro);
+    }
 }
 
-function filtrarProducao(){
+async function filtrarProducao() {
     const dataInicio = document.getElementById('dataInicio').value;
     const dataFim = document.getElementById('dataFim').value;
 
-    if (!dataInicio || !dataFim){
-        window.alert('Por favor, Selecione o período inicial ou final.');
+    // 1. Validação básica (continua igual)
+    if (!dataInicio || !dataFim) {
+        alert('Selecione o período completo.');
         return;
     }
 
-    const dInicio = new Date(dataInicio + 'T00:00:00')
-    const dFim = new Date(dataFim + 'T23:59:59')
-
-    dFim.setHours(23,59,59)
-
-    const dadosFiltrados = dadosTabela.filter(item => {
-        // 3. Corrija o split para separar por ESPAÇO
-        const partes = item.data.split(' '); // Separa '03/02' de '16:45'
-        const diaMes = partes[0];
+    try {
         
-        const [dia, mes] = diaMes.split('/');
-        const anoAtual = new Date().getFullYear();
-        
-        // Criar a data do item para comparação
-        const dataItem = new Date(anoAtual, mes - 1, dia);
+        const response = await fetch(`http://127.0.0.1:5000/api/relatorios/filtro-data?inicio=${dataInicio}&fim=${dataFim}`);
+        const resultado = await response.json();
 
-        return dataItem >= dInicio && dataItem <= dFim;
-    });
+        if (resultado.tabela && resultado.tabela.length > 0) {
+            // 3. Atualiza a variável global e a tela
+            dadosFiltradosAtuais = resultado.tabela;
+            atualizarTabelaEInterface(resultado.tabela);
+        } else {
+            alert("Nenhuma proposta encontrada para este período.");
+            atualizarTabelaEInterface([]); // Limpa a tela se não achar nada
+        }
 
-    if (dadosFiltrados.length === 0) {
-        alert("Nenhuma proposta encontrada para este período.");
+    } catch (erro) {
+        console.error("Erro ao filtrar por data:", erro);
+        alert("Erro ao conectar com o servidor.");
     }
-
-    // 5. Atualiza a interface usando as funções que já criamos
-    // Passamos os dados filtrados para a renderização
-    atualizarTabelaEInterface(dadosFiltrados);
-
-    dadosFiltradosAtuais = dadosFiltrados; // Adicione isso
-    atualizarTabelaEInterface(dadosFiltrados);
 }
 
 function atualizarTabelaEInterface(dados) {
     const corpoTabela = document.getElementById('corpoTabelaRelatorio');
     
+    dadosFiltradosAtuais = dados || [];
+
+    if (!dados || dados.length === 0) {
+        if (corpoTabela) {
+            corpoTabela.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:50px;">🔍 Nenhuma proposta encontrada.</td></tr>`;
+        }
+        // Chamamos os gráficos com vazio para eles "limparem" a tela (destroy)
+        renderizarGrafico([], []);
+        renderizarGraficoPizza([]);
+        atualizarCardsResumo(0, 0);
+        return; // Agora sim pode parar
+    }
+}
     // Limpa e reconstrói as linhas da tabela
     corpoTabela.innerHTML = dados.map(item => {
-        const ePortabilidade = item.produto === 'Portabilidade';
+        const valor = parseFloat(item.valor_operacao) || 0;
+        const produto = item.operacao_feita || "Não informado";
+        const ePortabilidade = produto.includes('Portabilidade');
         
+        const dataFormatada = item.data_finalizacao ? (() => {
+            // 1. Limpa a data para formato ISO (troca espaço por T)
+            const dataObj = new Date(item.data_finalizacao);
+
+            // 2. Se a data for inválida, retorna o texto original
+            if (isNaN(dataObj.getTime())) return "---";
+
+            // 3. CORREÇÃO DO ERRO: '2-digit' em vez de '2d'
+            return dataObj.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Garante formato 24h
+            }).replace(',', ''); // Remove a vírgula chata que o JS coloca entre data e hora
+        })() : "---";
+
         return `
             <tr>
-                <td>${item.data}</td>
-                <td><strong>${item.cliente}</strong></td>
-                <td>${item.banco}</td>
-                <td>${item.conv}</td>
-                <td>${item.produto}</td>
-                <td>${item.prom}</td>
-                <td><span class="nome-funcionario">${item.func}</span></td>
+                <td>${dataFormatada}</td>
+                <td><strong>${item.nome_cliente || '---'}</strong></td>
+                <td>${item.banco || '---'}</td>
+                <td>${item.convenio || '---'}</td>
+                <td>${produto}</td>
+                <td>${item.promotora || '---'}</td>
+                <td><span class="nome-funcionario">${item.nome_consultor || 'Não atribuído'}</span></td> 
                 <td class="col-valor">
-                    ${ePortabilidade ? `
-                        <div class="celula-valor-hover">
-                            ${item.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                            <div class="balao-detalhes">
-                                <p class="balao-titulo">Detalhamento Port</p>
-                                <div class="balao-linha"><span>Saldo Dev:</span><strong>${item.saldo.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
-                                <div class="balao-linha"><span>Líquido:</span><strong>${item.liberado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
-                                <div class="balao-seta"></div>
-                            </div>
-                        </div>
-                    ` : `
-                        <span class="valor-comum">
-                            ${item.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                        </span>
-                    `}
+                    <span class="valor-comum">${valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
                 </td>
             </tr>
         `;
@@ -428,14 +325,23 @@ function atualizarTabelaEInterface(dados) {
 
     // Atualiza os Cards de Resumo (Totalizador no topo)
     if (typeof atualizarCardsResumo === 'function') {
-        const total = dados.reduce((acc, item) => acc + item.valor, 0);
+        const total = dados.reduce((acc, item) => acc + (parseFloat(item.valor_operacao) || 0), 0);
         atualizarCardsResumo(total, dados.length);
     }
 
     // Atualiza o Gráfico (se você tiver a função de gráfico pronta)
     if (typeof renderizarGrafico === 'function' && dados.length > 0) {
-        const labels = [...new Set(dados.map(i => i.data.split(' ')[0]))].reverse();
-        const valores = labels.map(d => dados.filter(i => i.data.startsWith(d)).reduce((a, b) => a + b.valor, 0));
+        // CORREÇÃO: Usar '2-digit' e não '2d'
+        const labels = [...new Set(dados.map(i => 
+            new Date(i.data_finalizacao).toLocaleDateString('pt-br', {day:'2-digit', month:'2-digit'})
+        ))].sort();
+
+        const valores = labels.map(label => {
+            return dados
+                .filter(i => new Date(i.data_finalizacao).toLocaleDateString('pt-br', {day:'2-digit', month:'2-digit'}) === label)
+                .reduce((a, b) => a + (parseFloat(b.valor_operacao) || 0), 0);
+        });
+
         renderizarGrafico(labels, valores);
     }
 

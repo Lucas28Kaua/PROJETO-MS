@@ -51,6 +51,7 @@ async function logar() {
             localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
             localStorage.setItem('usuarioId', data.usuario.id);
             localStorage.setItem('usuarioNome', data.usuario.nome);
+            localStorage.setItem('usuarioCargo', data.usuario.cargo);
 
             // CORREÇÃO AQUI: Usamos 'data.usuario.nome' em vez de 'resultado'
             mostrarFeedback(`Bem-vindo, ${data.usuario.nome}! Redirecionando...`, 'sucesso');

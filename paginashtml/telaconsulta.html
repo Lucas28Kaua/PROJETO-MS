@@ -2,7 +2,19 @@
 <html lang="pt-br">
 
 <head>
-    <script src="../javascript/auth.js"></script>
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html"); 
+                
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../estilos/telaconsulta.css">
