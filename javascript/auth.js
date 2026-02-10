@@ -5,6 +5,6 @@
     if (!usuarioId) {
         // O alert aqui é opcional, mas ajuda a entender por que foi chutado
         console.alert("Acesso negado. Redirecionando para o login...");
-        window.location.href = "telalogin.html"; 
+        window.location.href = "/telalogin.html"; 
     }
 })();

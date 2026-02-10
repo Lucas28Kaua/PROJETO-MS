@@ -38,7 +38,7 @@ main>section>section#foto{
     display:block;
     width: 46%;
     height: 100%;
-    background-image: url(../imagens/equipe-Mscred.jpeg);
+    background-image: url(/static/imagens/equipe-Mscred.jpeg);
     background-position: center;
     background-size: cover;
     border-radius: 20px;

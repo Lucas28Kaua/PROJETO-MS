@@ -316,7 +316,7 @@ div.foto-container{
     width: 100%;
     max-width: 750px; /* Tamanho máximo da logo */
     height: 350px;
-    background-image: url(../imagens/logo-transparente.png);
+    background-image: url(/static/imagens/logo-transparente.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
