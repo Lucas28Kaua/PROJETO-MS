@@ -31,16 +31,9 @@ if (menuToggle) {
     });
 }
 
- // Armazena o que está filtrado no momento
-
-
-dadosFiltradosAtuais = [...dadosTabela]; // Armazena o que está filtrado no momento
-
 /* ==========================================================================
    3. MOTOR DO GRÁFICO (CHART.JS)
    ========================================================================== */
-
-const ctx = document.getElementById('graficoProducao').getContext('2d');
 
 function renderizarGrafico(labels, valores) {
     const canvas = document.getElementById('graficoProducao');
@@ -87,14 +80,22 @@ function renderizarGrafico(labels, valores) {
 
 
 function renderizarGraficoPizza(dados) {
-    const ctx = document.getElementById('graficoPizzaBancos').getContext('2d');
+    const canvas = document.getElementById('graficoPizzaBancos');
+    if (!canvas) return; // Segurança: se o elemento não existir, para aqui.
     
-    // Agrupar por produto
+    const ctx = canvas.getContext('2d');
+    
     const resumo = {};
     dados.forEach(item => {
         const produto = item.operacao_feita || "Outros";
-        const valor = parseFloat(item.valor_operacao) || 0;
-        resumo[produto] = (resumo[produto] || 0) + valor;
+        const t = parseFloat(item.valor_operacao) || 0;
+        const s = parseFloat(item.saldo_devedor_estimado) || 0;
+        const isPort = produto.toLowerCase().includes('port');
+        
+        // Lógica de soma CORRETA:
+        const valorReal = isPort ? (t + s) : t;
+
+        resumo[produto] = (resumo[produto] || 0) + valorReal;
     });
 
     if (meuGraficoPizza) meuGraficoPizza.destroy();
@@ -106,21 +107,9 @@ function renderizarGraficoPizza(dados) {
             datasets: [{
                 data: Object.values(resumo),
                 backgroundColor: [
-                    '#FB8D20', // 1. Laranja (Principal MS Cred)
-                    '#2ecc71', // 2. Verde (Margem Livre)
-                    '#3498db', // 3. Azul (FGTS)
-                    '#9b59b6', // 4. Roxo (Cartão RMC/RCC)
-                    '#f1c40f', // 5. Amarelo (Pessoal)
-                    '#e74c3c', // 6. Vermelho (Portabilidade)
-                    '#1abc9c', // 7. Turquesa (Siape)
-                    '#34495e', // 8. Azul Marinho (Exército)
-                    '#d35400', // 9. Abóbora (Refinanciamento)
-                    '#27ae60', // 10. Verde Esmeralda (INSS Especial)
-                    '#2980b9', // 11. Azul Royal (Consignado Privado)
-                    '#8e44ad', // 12. Roxo Escuro (Loas)
-                    '#7f8c8d', // 13. Cinza (Outros Convênios)
-                    '#c0392b', // 14. Vinho (Seguros)
-                    '#16a085'  // 15. Verde Água (Crédito na Conta)
+                    '#FB8D20', '#2ecc71', '#3498db', '#9b59b6', '#f1c40f', 
+                    '#e74c3c', '#1abc9c', '#34495e', '#d35400', '#27ae60', 
+                    '#2980b9', '#8e44ad', '#7f8c8d', '#c0392b', '#16a085'
                 ],
                 borderWidth: 2
             }]
@@ -130,8 +119,29 @@ function renderizarGraficoPizza(dados) {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'right', // Legenda lateral dentro do card da pizza
-                    labels: { boxWidth: 12 }
+                    position: 'right',
+                    labels: { 
+                        boxWidth: 12,
+                        // DICA: Formata o valor na legenda se quiser
+                        generateLabels: (chart) => {
+                            const data = chart.data;
+                            return data.labels.map((label, i) => ({
+                                text: `${label}: ${data.datasets[0].data[i].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`,
+                                fillStyle: data.datasets[0].backgroundColor[i],
+                                hidden: false,
+                                index: i
+                            }));
+                        }
+                    }
+                },
+                // Adicionei um tooltip para mostrar o valor bonito ao passar o mouse
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const valor = context.raw || 0;
+                            return ` ${context.label}: ${valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+                        }
+                    }
                 }
             }
         }
@@ -178,22 +188,39 @@ function mudarVisaoGrafico(tipo, elemento) {
 }
 
 function processarERenderizarGrafico(dados) {
-    const resumo = {};
-    dados.forEach(item => {
-        const [diaMes] = item.data.split(' ');
-        const [dia, mes] = diaMes.split('/');
-        // Pega o ano se houver (ex: 01/01/2025), se não, usa o atual
-        const ano = item.data.includes('/20') ? item.data.split('/20')[1].substring(0,2) : new Date().getFullYear();
+    if (!dados || dados.length === 0) return;
 
+    const resumo = {};
+
+    dados.forEach(item => {
+        // 1. Tratamento da Data (ajustado para data_finalizacao)
+        if (!item.data_finalizacao) return;
+        const dataObj = new Date(item.data_finalizacao);
+        const dia = String(dataObj.getDate()).padStart(2, '0');
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+        const anoFull = dataObj.getFullYear();
+        const diaMes = `${dia}/${mes}`;
+
+        // 2. Cálculo do Valor Real (Lógica da Portabilidade)
+        const t = parseFloat(item.valor_operacao) || 0;
+        const s = parseFloat(item.saldo_devedor_estimado) || 0;
+        const isPort = (item.operacao_feita || "").toLowerCase().includes('port');
+        const valorReal = isPort ? (t + s) : t;
+
+        // 3. Agrupamento por Visão
         let chave;
         if (visaoAtual === 'dias') chave = diaMes;
         else if (visaoAtual === 'meses') chave = obterNomeMes(mes);
-        else chave = "20" + ano; // Visão por Ano
+        else chave = anoFull.toString();
 
-        resumo[chave] = (resumo[chave] || 0) + item.valor;
+        resumo[chave] = (resumo[chave] || 0) + valorReal;
     });
 
-    renderizarGrafico(Object.keys(resumo), Object.values(resumo));
+    // Ordenar as chaves para o gráfico não ficar bagunçado
+    const labelsOrdenados = Object.keys(resumo).sort();
+    const valoresOrdenados = labelsOrdenados.map(label => resumo[label]);
+
+    renderizarGrafico(labelsOrdenados, valoresOrdenados);
 }
 
 function obterNomeMes(numMes) {
@@ -270,41 +297,43 @@ async function filtrarProducao() {
 
 function atualizarTabelaEInterface(dados) {
     const corpoTabela = document.getElementById('corpoTabelaRelatorio');
-    
     dadosFiltradosAtuais = dados || [];
 
     if (!dados || dados.length === 0) {
         if (corpoTabela) {
             corpoTabela.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:50px;">🔍 Nenhuma proposta encontrada.</td></tr>`;
         }
-        // Chamamos os gráficos com vazio para eles "limparem" a tela (destroy)
         renderizarGrafico([], []);
         renderizarGraficoPizza([]);
         atualizarCardsResumo(0, 0);
-        return; // Agora sim pode parar
+        return;
     }
-}
+
+    let totalGeralAcumulado = 0;
+
     // Limpa e reconstrói as linhas da tabela
     corpoTabela.innerHTML = dados.map(item => {
-        const valor = parseFloat(item.valor_operacao) || 0;
+        const troco = parseFloat(item.valor_operacao) || 0;
+        const saldo = parseFloat(item.saldo_devedor_estimado) || 0;
         const produto = item.operacao_feita || "Não informado";
-        const ePortabilidade = produto.includes('Portabilidade');
+        const ePortabilidade = produto.toLowerCase().includes('port');
         
+        const producaoTotal = ePortabilidade ? (troco + saldo) : troco;
+        totalGeralAcumulado += producaoTotal; // Soma o total para os cards aqui
+
+        const classePort = ePortabilidade ? 'celula-valor-hover' : ''; 
+        const valorFormatado = producaoTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
         const dataFormatada = item.data_finalizacao ? (() => {
-            // 1. Limpa a data para formato ISO (troca espaço por T)
             const dataObj = new Date(item.data_finalizacao);
-
-            // 2. Se a data for inválida, retorna o texto original
             if (isNaN(dataObj.getTime())) return "---";
-
-            // 3. CORREÇÃO DO ERRO: '2-digit' em vez de '2d'
             return dataObj.toLocaleString('pt-BR', {
                 day: '2-digit',
                 month: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false // Garante formato 24h
-            }).replace(',', ''); // Remove a vírgula chata que o JS coloca entre data e hora
+                hour12: false
+            }).replace(',', '');
         })() : "---";
 
         return `
@@ -317,49 +346,99 @@ function atualizarTabelaEInterface(dados) {
                 <td>${item.promotora || '---'}</td>
                 <td><span class="nome-funcionario">${item.nome_consultor || 'Não atribuído'}</span></td> 
                 <td class="col-valor">
-                    <span class="valor-comum">${valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+                    <div class="${classePort}">
+                        ${valorFormatado}
+                        ${ePortabilidade ? `
+                            <div class="balao-detalhes">
+                                <span class="balao-titulo">Portabilidade</span>
+                                <div class="balao-linha"><span>Liberado:</span> <strong>${troco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
+                                <div class="balao-linha"><span>Saldo:</span> <strong>${saldo.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
+                                <div class="balao-seta"></div>
+                            </div>
+                        ` : ''}
+                    </div>
                 </td>
             </tr>
         `;
     }).join('');
 
-    // Atualiza os Cards de Resumo (Totalizador no topo)
-    if (typeof atualizarCardsResumo === 'function') {
-        const total = dados.reduce((acc, item) => acc + (parseFloat(item.valor_operacao) || 0), 0);
-        atualizarCardsResumo(total, dados.length);
-    }
+    // Atualiza os Cards com o acumulado que somamos no map acima
+    atualizarCardsResumo(totalGeralAcumulado, dados.length);
 
-    // Atualiza o Gráfico (se você tiver a função de gráfico pronta)
+    // Atualiza os Gráficos
     if (typeof renderizarGrafico === 'function' && dados.length > 0) {
-        // CORREÇÃO: Usar '2-digit' e não '2d'
         const labels = [...new Set(dados.map(i => 
             new Date(i.data_finalizacao).toLocaleDateString('pt-br', {day:'2-digit', month:'2-digit'})
         ))].sort();
 
-        const valores = labels.map(label => {
+        const valoresPorDia = labels.map(label => {
             return dados
                 .filter(i => new Date(i.data_finalizacao).toLocaleDateString('pt-br', {day:'2-digit', month:'2-digit'}) === label)
-                .reduce((a, b) => a + (parseFloat(b.valor_operacao) || 0), 0);
+                .reduce((acc, item) => {
+                    const t = parseFloat(item.valor_operacao) || 0;
+                    const s = parseFloat(item.saldo_devedor_estimado) || 0;
+                    const isPort = (item.operacao_feita || "").toLowerCase().includes('port');
+                    return acc + (isPort ? (t + s) : t);
+                }, 0);
         });
 
-        renderizarGrafico(labels, valores);
+        // CORREÇÃO AQUI: Passando 'valoresPorDia' em vez de 'valores'
+        renderizarGrafico(labels, valoresPorDia);
+        renderizarGraficoPizza(dados);
     }
-
-    renderizarGraficoPizza(dados);
 }
+    
 
 function carregarRelatorio() {
-    // Labels e valores iniciais (Geral)
-    const labelsProducao = ['20/01', '21/01', '22/01', '23/01', '24/01', '25/01', '26/01', '27/01', '28/01', '29/01', '30/01', '31/01', '01/02', '02/02', '03/02'];
-    const valoresProducao = [12000, 18500, 15000, 28000, 9000, 5000, 32000, 25000, 42000, 38000, 15000, 8000, 19000, 45000, 31000];
-
-    // Inicializa a tabela chamando o filtro 'mscred'
-    const btnTodos = document.querySelector('.btn-usuario.active');
-    filtrarPorUsuario('mscred', btnTodos);
+    // Busca o botão de "Todos" (mscred) para deixar ele marcado como ativo
+    const btnTodos = document.querySelector('.btn-usuario'); 
     
-    renderizarGrafico(labelsProducao, valoresProducao);
+    // Dispara a busca real no banco de dados
+    filtrarPorUsuario('mscred', btnTodos);
 }
 
+
+async function publicarConfiguracoes() {
+    const metaGeral = document.querySelector('input[placeholder="Ex: 1000000"]').value;
+    const metaIndividual = document.querySelector('input[placeholder="Ex: 150000"]').value;
+
+    // Captura as regras da tabela dinâmica
+    const regras = [];
+    const linhas = document.querySelectorAll('#corpoRegrasInput tr');
+    
+    linhas.forEach(linha => {
+        const op = linha.querySelector('.in-op').value;
+        const ba = linha.querySelector('.in-ba').value;
+        const re = linha.querySelector('.in-re').value;
+        
+        if(op || ba || re) { // Só salva se pelo menos um campo estiver preenchido
+            regras.push({ operacao: op, banco: ba, promotora: re });
+        }
+    });
+
+    const payload = {
+        meta_geral: metaGeral,
+        meta_individual: metaIndividual,
+        regras: regras
+    };
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/configuracoes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const res = await response.json();
+        if (res.sucesso) {
+            alert("🚀 Publicado com sucesso na Home!");
+        } else {
+            alert("Erro ao publicar: " + res.erro);
+        }
+    } catch (error) {
+        console.error("Erro na request:", error);
+    }
+}
 /* ==========================================================================
    5. INICIALIZAÇÃO
    ========================================================================== */

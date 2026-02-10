@@ -1,61 +1,116 @@
-async function carregarDashboardDoBanco() {
-    const idDono = localStorage.getItem('usuarioId');
+// --- CONFIGURAÇÕES INICIAIS ---
+const idDono = localStorage.getItem('usuarioId');
 
-    const response = await fetch(`http://127.0.0.1:5000/propostas?usuario_id=${idDono}`);
-    const propostas = await response.json();
+async function inicializarHome() {
+    await carregarConfiguracoes(); // Primeiro carrega as metas
+    await carregarDashboardDoBanco(); // Depois carrega a produção e cards
+}
 
-    propostas.forEach(p => {
-        // Converte os nomes das colunas do banco (snake_case) 
-        // para os nomes que sua função 'gerarCardNoDashboard' espera
-        const dadosParaCard = {
-            nome: p.nome_cliente,
-            cpf: p.cpf_cliente,
-            convenio: p.convenio,
-            operacao: p.operacao_feita,
-            status: p.status_proposta,
-            valorOperacao: p.valor_operacao,
-            valorParcela: p.valor_parcela_geral,
-            banco: p.banco,
-            promotora: p.promotora,
-            detalhamento: p.detalhe_status,
-            dataCriacao: p.data_criacao,
-            retornoSaldo: p.data_retorno_saldo,
-            saldoCliente: p.saldo_devedor_estimado,
-            troco: p.troco_estimado
-        };
+// 1. BUSCA METAS E ATUALIZA OS DISPLAYS
+async function carregarConfiguracoes() {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/configuracoes');
+        if (!response.ok) return;
+
+        const config = await response.json();
+
+        // Atualiza o display da Meta Geral
+        const displayMetaGeral = document.getElementById('meta-geral-home');
+        if(displayMetaGeral) {
+            displayMetaGeral.innerText = parseFloat(config.meta_geral).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Atualiza o display da Meta Individual (que a barra usa)
+        const displayMetaInd = document.getElementById('meta-individual-home');
+        if(displayMetaInd) {
+            displayMetaInd.innerText = parseFloat(config.meta_individual).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        }
+
+        const containerRegras = document.getElementById('lista-regras-home');
         
-        gerarCardNoDashboard(dadosParaCard);
-    });
+        if (containerRegras && config.regras_json) {
+            containerRegras.innerHTML = ""; // Limpa as regras antigas estáticas
+
+            config.regras_json.forEach(regra => {
+                const linha = document.createElement('div');
+                linha.className = 'regra-linha';
+                
+                linha.innerHTML = `
+                    <span>${regra.operacao || '-'}</span>
+                    <span>${regra.banco || '-'}</span>
+                    <span>${regra.promotora || '-'}</span>
+                `;
+                
+                containerRegras.appendChild(linha);
+            });
+        }
+        
+    } catch (error) {
+        console.error("Erro ao carregar configurações:", error);
+    }
 }
 
-// Chama a função ao carregar a página
-window.addEventListener('DOMContentLoaded', carregarDashboardDoBanco);
+// 2. BUSCA PRODUÇÃO E GERA OS CARDS
+async function carregarDashboardDoBanco() {
+    try {
+        // Buscamos as propostas do usuário logado
+        const response = await fetch(`http://127.0.0.1:5000/propostas?usuario_id=${idDono}`);
+        const propostas = await response.json();
 
-const toggleBtn = document.getElementById('toggleMenu');
-const sidebar = document.querySelector('.sidebar');
+        let somaTotalUsuario = 0;
+        const container = document.getElementById('containerCardsHome'); // Certifique-se que esse ID existe no HTML
+        if(container) container.innerHTML = ""; 
 
-toggleBtn.addEventListener('click', function() {
-    sidebar.classList.toggle('aberto');
-});
+        propostas.forEach(p => {
+            // Cálculo do Valor Real (Lógica que arrumamos antes)
+            const t = parseFloat(p.valor_operacao) || 0;
+            const s = parseFloat(p.saldo_devedor_estimado) || 0;
+            const isPort = (p.operacao_feita || "").toLowerCase().includes('port');
+            const valorReal = isPort ? (t + s) : t;
 
-const menuToggle = document.getElementById('menuToggle');
-const overlay = document.getElementById('overlay');
+            // Se a proposta estiver finalizada, soma na produção do mês
+            if(p.status_proposta === 'Finalizado') {
+                somaTotalUsuario += valorReal;
+            }
 
-if (menuToggle) {
-    menuToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('aberto');
-        menuToggle.classList.toggle('ativo');
-        overlay.classList.toggle('ativo');
-    });
-    
-    // Fecha ao clicar no overlay
-    overlay.addEventListener('click', function() {
-        sidebar.classList.remove('aberto');
-        menuToggle.classList.remove('ativo');
-        overlay.classList.remove('ativo');
-    });
+            gerarCardNoDashboard(p, valorReal);
+        });
+
+        // Atualiza o texto da produção na tela
+        const elProd = document.getElementById('prod-mes-anterior');
+        if(elProd) {
+            elProd.innerText = somaTotalUsuario.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        }
+
+        // AGORA SIM, com os valores na tela, atualiza a barra!
+        atualizarProgressoMeta();
+
+    } catch (error) {
+        console.error("Erro ao carregar dashboard:", error);
+    }
 }
 
+// 3. FUNÇÃO QUE DESENHA O CARD (A que estava faltando!)
+function gerarCardNoDashboard(p, valorReal) {
+    const container = document.getElementById('containerCardsHome');
+    if(!container) return;
+
+    const div = document.createElement('div');
+    div.className = 'card-item'; // Use a classe do seu CSS
+    div.innerHTML = `
+        <div class="info">
+            <strong>${p.nome_cliente}</strong>
+            <span>${p.banco} - ${p.operacao_feita}</span>
+        </div>
+        <div class="valor-status">
+            <span class="v">${valorReal.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}</span>
+            <span class="s status-${p.status_proposta.toLowerCase()}">${p.status_proposta}</span>
+        </div>
+    `;
+    container.appendChild(div);
+}
+
+// 4. LÓGICA DA BARRA DE PROGRESSO
 function atualizarProgressoMeta() {
     const producaoTexto = document.getElementById('prod-mes-anterior').innerText;
     const metaTexto = document.getElementById('meta-individual-home').innerText;
@@ -67,43 +122,26 @@ function atualizarProgressoMeta() {
     const producao = limparMoeda(producaoTexto);
     const meta = limparMoeda(metaTexto);
 
-    let porcentagem = 0;
-    if (meta > 0) {
-        porcentagem = (producao / meta) * 100;
-    }
-
-    // Arredonda para 1 casa decimal (ex: 70.5%)
-    const porcentagemFormatada = porcentagem.toFixed(1);
-    const porcentagemLimitada = Math.min(porcentagem, 100);
-
-    // 1. Atualiza a largura da barra
+    let porcentagem = meta > 0 ? (producao / meta) * 100 : 0;
+    
     const barra = document.querySelector('.barra-progresso');
-    if (barra) {
-        barra.style.width = porcentagemLimitada + "%";
-    }
-
-    // 2. Atualiza o texto da porcentagem
     const labelPorcentagem = document.getElementById('porcentagem-valor');
+
+    if (barra) barra.style.width = Math.min(porcentagem, 100) + "%";
     if (labelPorcentagem) {
-        labelPorcentagem.innerText = porcentagemFormatada + "%";
-        
-        // Se bater a meta, muda a cor do texto pra dar um destaque
-        if (porcentagem >= 100) {
-            labelPorcentagem.style.background = "linear-gradient(90deg, #20613b, #114a29)"
-            labelPorcentagem.innerText += " 🔥"; // Emoji de meta batida!
-        }
+        labelPorcentagem.innerText = porcentagem.toFixed(1) + "%";
+        if (porcentagem >= 100) labelPorcentagem.innerText += " 🔥";
     }
 }
 
-// Rodar quando a página carregar
-document.addEventListener('DOMContentLoaded', atualizarProgressoMeta);
+// --- EVENTOS DE INTERFACE ---
+document.addEventListener('DOMContentLoaded', inicializarHome);
+
+document.getElementById('toggleMenu').addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.toggle('aberto');
+});
 
 function fazerLogout() {
-    // 1. Limpa tudo que salvamos no login
-    localStorage.removeItem('usuarioId');
-    localStorage.setItem('usuarioNome', ''); // Opcional: limpa o nome também
-    localStorage.clear(); // Se quiser garantir, limpa TUDO do storage
-
-    // 2. Agora sim, manda para a tela de login
-    window.location.replace("telalogin.html"); 
+    localStorage.clear();
+    window.location.replace("telalogin.html");
 }

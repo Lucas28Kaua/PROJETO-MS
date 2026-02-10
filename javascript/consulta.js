@@ -162,7 +162,9 @@
               tr.innerHTML = `
                   <td>${cliente.nome}</td>
                   <td>${formatarCPF(cliente.cpf)}</td>
-                  <td>${cliente.data_nascimento}</td>
+                  <td>${cliente.data_nascimento 
+                      ? new Date(cliente.data_nascimento).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
+                      : '---'}</td>
                   <td>${cliente.cidade}/${cliente.estado}</td>
               `;
               tbody.appendChild(tr);
@@ -219,7 +221,9 @@ function preencherDetalhes(cliente) {
   // 1. Dados Pessoais (Usando IDs únicos para precisão total)
   document.getElementById('det_nome').textContent = cliente.nome || "---";
   document.getElementById('det_cpf').textContent = cliente.cpf ? formatarCPF(cliente.cpf) : "---";
-  document.getElementById('det_nascimento').textContent = cliente.data_nascimento || "---";
+  document.getElementById('det_nascimento').textContent = cliente.data_nascimento 
+    ? new Date(cliente.data_nascimento).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
+    : "---";
   document.getElementById('det_beneficio').textContent = cliente.num_beneficio ? formatarBeneficio(cliente.num_beneficio) : "---";
 
   // 2. Endereço
