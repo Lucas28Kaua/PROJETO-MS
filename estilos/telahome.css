@@ -328,33 +328,34 @@ div.foto-container{
 /* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
 
 /* Tablet e telas menores */
+/* ========== RESPONSIVIDADE COMPLETA ========== */
+
 @media screen and (max-width: 768px) {
     
-    /* Header ajustado */
+    /* 1. Header e Botão Sair */
     header {
         padding: 0 15px;
         justify-content: space-between;
-        height: 80px; /* ADICIONA ISSO */
+        height: 80px;
     }
     
     header img {
         width: 100px;
-        margin-right: auto; /* ADICIONA ISSO */
+        margin-right: auto;
     }
     
-    /* AJUSTE: Botão sair só com ícone e espaço pro hambúrguer */
     .btn-sair {
         padding: 8px;
         min-width: auto;
-        margin-right: 60px; /* ADICIONA ISSO - dá espaço pro hambúrguer */
+        margin-right: 60px; /* Espaço para o botão hambúrguer fixo */
         margin-left: 0;
     }
 
     .btn-sair .text-button {
-        display: none; /* ADICIONA ISSO - esconde o texto "Sair" */
+        display: none; /* Esconde o texto "Sair" */
     }
 
-    /* Esconde a sidebar normal */
+    /* 2. Sidebar (Menu Mobile) */
     .sidebar {
         transform: translateX(-100%);
         width: 250px;
@@ -363,144 +364,91 @@ div.foto-container{
         border-radius: 0;
         transition: transform 0.3s ease;
         z-index: 2000;
+        padding-top: 90px; /* Para os itens não começarem atrás do header */
     }
     
-    /* Quando o menu tá aberto */
     .sidebar.aberto {
         transform: translateX(0);
         width: 250px;
+        border-right: 2px solid #eb6505;
     }
     
-    /* Botão hambúrguer */
-    .menu-hamburguer {
-        display: block;
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        background-color: #eb6505;
-        border: 2px solid black;
-        border-radius: 8px;
-        cursor: pointer;
-        z-index: 3000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-        padding:8px;
-    }
-    
-    .menu-hamburguer span {
-        width: 25px;
-        height: 3px;
-        background-color: white;
-        transition: all 0.3s ease;
-        display: block;
-    }
-    
-    /* Animação do X quando aberto */
-    .menu-hamburguer.ativo span:nth-child(1) {
-        transform: rotate(45deg) translate(7px, 7px);
-    }
-    
-    .menu-hamburguer.ativo span:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .menu-hamburguer.ativo span:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
-    }
-    
-    /* Overlay escuro quando menu aberto */
-    .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1500;
-    }
-    
-    .overlay.ativo {
-        display: block;
-    }
-    
-    /* Esconde o botão toggle da sidebar */
     .toggle-btn {
-        display: none;
+        display: none; /* Esconde a setinha de PC */
     }
-    
-    /* Menu sempre expandido no mobile */
+
     .menu li {
-        width: 100%;
+        width: 90% !important;
+        opacity: 1;
         justify-content: flex-start;
         padding: 15px;
     }
     
     .menu-text {
-        opacity: 1;
+        opacity: 1 !important;
     }
-    
-    /* Conteúdo principal */
+
+    /* 3. Conteúdo Principal (Ajuste de Margens) */
     .meio {
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-top: 130px;
+        margin-left: 10px !important; /* Remove a folga da sidebar de PC */
+        margin-right: 10px !important;
+        margin-top: 100px !important; /* Ajuste para o header mais baixo */
         padding: 15px;
+        width: calc(100% - 20px);
     }
     
+    /* Garante que ao abrir o menu o conteúdo não se mova no mobile */
     .sidebar.aberto ~ .meio {
-        margin-left: 10px;
+        margin-left: 10px !important;
     }
-    
-    /* Título do card */
+
+    /* 4. Cards e Tabelas */
     h2.titulo-card {
         width: 100%;
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
     
-    /* Cards em coluna */
     div.cards-menores {
-        flex-direction: column;
+        flex-direction: column; /* Empilha os cards */
+        gap: 15px;
     }
     
     div.card {
         width: 100%;
-        min-height: 150px;
+        min-height: auto;
+        max-height: none;
+    }
+
+    div.foto-container {
+        height: 180px; /* Logo transparente menor no celular */
+    }
+
+    .regras-header, .regra-linha {
+        font-size: 0.65rem; /* Fonte menor para a tabela caber */
     }
 }
 
-/* Celular pequeno */
+/* Celular Pequeno */
 @media screen and (max-width: 480px) {
-    header {
-        height: 80px;
-    }
-    
     header img {
         width: 80px;
     }
     
     .meio {
-        margin-top: 100px;
+        margin-top: 95px !important;
         padding: 10px;
-        min-height: calc(100vh - 80px);
+    }
+    
+    .valor-principal {
+        font-size: 1.2rem;
     }
     
     h2.titulo-card {
         font-size: 1em;
-        padding: 8px;
     }
-    
-    div.card {
-        padding: 15px;
-    }
-    
-    div.prodmes, div.metames, div.bancomes {
-        height: auto;
-        min-height: 100px;
+
+    /* Ajuste para os itens da meta não ficarem muito apertados */
+    .meta-item {
+        padding: 10px;
     }
 }

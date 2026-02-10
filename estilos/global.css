@@ -229,3 +229,56 @@ header img:hover {
     margin-left: 253px;
     /* mesma distância */
 }
+
+/* ========== GLOBAL RESPONSIVO ========== */
+
+@media screen and (max-width: 768px) {
+    header {
+        height: 80px;
+        padding: 0 15px;
+    }
+
+    header img {
+        width: 100px;
+    }
+
+    /* Esconde o texto do botão sair para ganhar espaço */
+    .btn-sair {
+        margin-right: 50px; /* Abre espaço para o hambúrguer que vai ficar no canto */
+    }
+    .btn-sair span {
+        display: none;
+    }
+
+    /* Sidebar vira um menu lateral móvel */
+    .sidebar {
+        top: 0;
+        height: 100vh;
+        width: 250px;
+        transform: translateX(-100%); /* Esconde para a esquerda */
+        border-radius: 0;
+        border-right: 2px solid #eb721c;
+        z-index: 2000;
+        padding-top: 80px; /* Para não ficar atrás do botão hambúrguer */
+    }
+
+    .sidebar.aberto {
+        transform: translateX(0);
+        width: 260px;
+    }
+
+    /* Esconde o botão de "setinha" no mobile, vamos usar o hambúrguer */
+    .toggle-btn {
+        display: none;
+    }
+
+    /* Menu da Sidebar mais largo para toque do dedo */
+    .menu li {
+        width: 90% !important;
+        margin: 10px auto;
+    }
+
+    .menu-text {
+        opacity: 1 !important;
+    }
+}
