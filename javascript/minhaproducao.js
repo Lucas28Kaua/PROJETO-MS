@@ -22,7 +22,7 @@ function mascaraMoeda(input) {
     let v = input.value.replace(/\D/g, ""); // Remove tudo que não é número
     
     // Transforma em decimal
-    v = (v / 100).toFixed(2).replace(".", ",");
+    v = (parseInt(v) / 100).toFixed(2).replace(".", ",");
     
     // Adiciona os pontos de milhar
     v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -155,10 +155,23 @@ async function pegarValoresDoFormulario(event) {
 
     // FUNÇÃO AUXILIAR PARA LIMPAR MOEDA
     const limpar = (valor) => {
-        if (!valor) return 0;
-        // Remove pontos de milhar e troca vírgula por ponto
-        let str = String(valor).replace(/\./g, '').replace(',', '.');
-        return parseFloat(str) || 0;
+        if (valor === null || valor === undefined || valor === "") return 0;
+        if (typeof valor === 'number') return valor;
+
+        // 1. Remove "R$" e espaços
+        let str = String(valor).replace(/R\$\s?| /g, '');
+
+        // 2. O segredo: Remove todos os PONTOS que servem de milhar
+        // (aqueles que têm 3 números depois deles ou que aparecem antes da vírgula)
+        str = str.replace(/\.(?=\d{3,}(\,|$))/g, ''); 
+        // Se a estratégia acima for complexa, use esta mais agressiva:
+        str = str.split('.').join(''); // Remove todos os pontos
+
+        // 3. Agora troca a vírgula decimal por ponto
+        str = str.replace(',', '.');
+
+        const num = parseFloat(str);
+        return isNaN(num) ? 0 : num;
     };
 
     const usuarioId = localStorage.getItem('usuarioId');
@@ -386,30 +399,35 @@ function gerarCardNoDashboard(dados) {
     // Agora salvamos os dados (incluindo o ID real do banco) no atributo do card
     card.setAttribute('data-dados', JSON.stringify(dados));
 
-    const formatar = (v) => {
-    if (v === null || v === undefined) return "0,00";
+        const formatar = (v) => {
+            // 1. Tratamento de nulos/undefined
+            if (v === null || v === undefined || v === "") return "0,00";
 
-    let n;
-    if (typeof v === 'number') {
-        // Se já for número (vinda do banco no F5), usa direto!
-        n = v;
-    } else {
-        // Se for string, limpa os símbolos antes de converter
-        let limpo = String(v)
-            .replace('R$', '')
-            .replace(/\s/g, '');
-        
-        // Se a string tem vírgula, é formato BR (ex: 1.200,50)
-        if (limpo.includes(',')) {
-            n = parseFloat(limpo.replace(/\./g, '').replace(',', '.'));
-        } else {
-            // Se não tem vírgula, ou já é ponto ou é número puro em string
-            n = parseFloat(limpo);
-        }
-    }
-    
-    return (n || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    };
+            let n;
+
+            // 2. Se já for um número (que vem do banco de dados)
+            if (typeof v === 'number') {
+                n = v;
+            } 
+            // 3. Se for uma string (que vem do formulário ou campo formatado)
+            else {
+                let limpo = String(v).replace(/R\$\s?| /g, ''); // Remove R$ e espaços
+                
+                // Se tem vírgula, removemos os pontos de milhar e trocamos a vírgula por ponto
+                if (limpo.includes(',')) {
+                    n = parseFloat(limpo.split('.').join('').replace(',', '.'));
+                } else {
+                    // Se não tem vírgula, tratamos como número puro
+                    n = parseFloat(limpo);
+                }
+            }
+
+            // 4. Retorno final formatado para o padrão brasileiro
+            return (n || 0).toLocaleString('pt-BR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+        };
 
     card.innerHTML = `
         <div class="card-header" style="position: relative;">
