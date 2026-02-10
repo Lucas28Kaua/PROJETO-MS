@@ -9,7 +9,7 @@ async function inicializarHome() {
 // 1. BUSCA METAS E ATUALIZA OS DISPLAYS
 async function carregarConfiguracoes() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/configuracoes');
+        const response = await fetch('http://129.121.38.104:5000/api/configuracoes');
         if (!response.ok) return;
 
         const config = await response.json();
@@ -54,7 +54,7 @@ async function carregarConfiguracoes() {
 async function carregarDashboardDoBanco() {
     try {
         // Buscamos as propostas do usuário logado
-        const response = await fetch(`http://127.0.0.1:5000/propostas?usuario_id=${idDono}`);
+        const response = await fetch(`http://129.121.38.104:5000/propostas?usuario_id=${idDono}`);
         const propostas = await response.json();
 
         let somaTotalUsuario = 0;

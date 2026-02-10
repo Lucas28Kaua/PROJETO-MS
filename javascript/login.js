@@ -39,7 +39,7 @@ async function logar() {
         senha: senha
     };
 
-    fetch("http://127.0.0.1:5000/login", {
+    fetch("http://129.121.38.104:5000/login", {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dados)

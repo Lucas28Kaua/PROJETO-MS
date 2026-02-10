@@ -225,8 +225,8 @@ async function pegarValoresDoFormulario(event) {
     }
 
     const url = currentEditingCard 
-        ? `http://127.0.0.1:5000/propostas/editar/${idProposta}` 
-        : "http://127.0.0.1:5000/propostas/criar";
+        ? `http://129.121.38.104:5000/propostas/editar/${idProposta}` 
+        : "http://129.121.38.104:5000/propostas/criar";
     
     const metodo = currentEditingCard ? 'PUT' : 'POST';
 
@@ -281,7 +281,7 @@ async function carregarPropostasDoBanco() {
 
     try {
         // 1. Chama a sua rota GET que acabamos de ajustar
-        const response = await fetch(`http://127.0.0.1:5000/propostas?usuario_id=${usuarioId}`);
+        const response = await fetch(`http://129.121.38.104:5000/propostas?usuario_id=${usuarioId}`);
         
         if (!response.ok) throw new Error("Erro ao buscar dados do servidor");
 
@@ -595,7 +595,7 @@ async function excluirCard(button) {
 
     if (confirm(`Tem certeza que deseja excluir a proposta de ${dados.nome}?`)) {
         try {
-            const response = await fetch(`http://127.0.0.1:5000/propostas/excluir/${idProposta}`, {
+            const response = await fetch(`http://129.121.38.104:5000/propostas/excluir/${idProposta}`, {
                 method: 'DELETE'
             });
 

@@ -243,8 +243,8 @@ async function filtrarPorUsuario(idUsuario, elemento) {
 
     // 2. Filtra os dados e guarda na nossa variável global
     const url = (idUsuario === 'mscred') 
-        ? 'http://127.0.0.1:5000/api/relatorios/total' 
-        : `http://127.0.0.1:5000/api/relatorios/${idUsuario}`;
+        ? 'http://129.121.38.104:5000/api/relatorios/total' 
+        : `http://129.121.38.104:5000/api/relatorios/${idUsuario}`;
 
     try {
         const response = await fetch(url);
@@ -277,7 +277,7 @@ async function filtrarProducao() {
 
     try {
         
-        const response = await fetch(`http://127.0.0.1:5000/api/relatorios/filtro-data?inicio=${dataInicio}&fim=${dataFim}`);
+        const response = await fetch(`http://129.121.38.104:5000/api/relatorios/filtro-data?inicio=${dataInicio}&fim=${dataFim}`);
         const resultado = await response.json();
 
         if (resultado.tabela && resultado.tabela.length > 0) {
@@ -423,7 +423,7 @@ async function publicarConfiguracoes() {
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/configuracoes', {
+        const response = await fetch('http://129.121.38.104:5000/api/configuracoes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

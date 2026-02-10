@@ -2,7 +2,7 @@
   const sidebar = document.querySelector('.sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const overlay = document.getElementById('overlay');
-  let URL_BASE = "http://127.0.0.1:5000"
+  let URL_BASE = "http://129.121.38.104:5000"
   // Função para formatar CPF
   function formatarCPF(cpf) {
       cpf = cpf.replace(/\D/g, ''); // remove tudo que não é dígito

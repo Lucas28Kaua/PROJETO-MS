@@ -130,7 +130,7 @@
         const botaoClicado = document.getElementById('botaoClicado');
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/clientes", {
+            const response = await fetch("http://129.121.38.104:5000/clientes", {
                 method: "POST",
                 body: formData // Não precisa de headers aqui, o navegador resolve!
             });
@@ -208,22 +208,22 @@
 
             try {
                 // Chamada ao seu Python para buscar dados do cliente
-                const response = await fetch(`http://127.0.0.1:5000/clientes/dados_edicao/${cpfNumeros}`);
+                const response = await fetch(`http://129.121.38.104:5000/clientes/dados_edicao/${cpfNumeros}`);
                 const cliente = await response.json();
 
                 if (cliente.documentos && cliente.documentos.length >0) {
                     cliente.documentos.forEach(doc => {
                         if (doc.tipo_documento === 'RG_FRENTE') {
                             document.getElementById('statusFrente').innerHTML = "📄 Doc já enviado";
-                            document.getElementById('linkFrente').href = `http://127.0.0.1:5000/${doc.url_documento}`;
+                            document.getElementById('linkFrente').href = `http://129.121.38.104:5000/${doc.url_documento}`;
                         }
                         if (doc.tipo_documento === 'RG_VERSO') {
                             document.getElementById('statusVerso').innerHTML = "📄 Doc já enviado";
-                            document.getElementById('linkVerso').href = `http://127.0.0.1:5000/${doc.url_documento}`;
+                            document.getElementById('linkVerso').href = `http://129.121.38.104:5000/${doc.url_documento}`;
                         }
                         if (doc.tipo_documento === 'VIDEO') {
                             document.getElementById('statusVideo').innerHTML = "📄 Doc já enviado";
-                            document.getElementById('linkVideo').href = `http://127.0.0.1:5000/${doc.url_documento}`;
+                            document.getElementById('linkVideo').href = `http://129.121.38.104:5000/${doc.url_documento}`;
                         }
                     })
                 }
@@ -416,7 +416,7 @@
         if (fVideo) formData.append('videoCliente', fVideo);
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/clientes/atualizar", {
+            const response = await fetch("http://129.121.38.104:5000/clientes/atualizar", {
                 method: "POST",
                 body: formData
             });
