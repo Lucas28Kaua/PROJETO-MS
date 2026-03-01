@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head><meta name="google" content="notranslate">
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html"); 
+                
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/imagens/favicon3.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/estilos/telacadastro.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/estilos/global.css">
+    <title>Sistema MS CRED</title>
+</head>
+
+<body>
+    <header>
+        <img src="/static/imagens/logo-mscred-menor.png" alt="logo mscred">
+
+        <a href="#" class="btn-sair" onclick="fazerLogout()">
+            <i class="material-symbols-outlined">exit_to_app</i>
+            <span class="text-button">Sair</span>
+        </a>
+
+        <!-- Menu hambúrguer para mobile -->
+        <div class="menu-hamburguer" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <aside class="sidebar">
+        <!-- Botão toggle -->
+        <button class="toggle-btn" id="toggleMenu">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <!--MENU LATERAL-->
+        <nav>
+            <ul class="menu">
+                <li>
+                    <a href="/telahome.html" class="menu-link">
+                        <i class="material-symbols-outlined">home</i>
+                        <span class="menu-text">HOME</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaconsulta.html" class="menu-link">
+                        <i class="material-symbols-outlined">search</i>
+                        <span class="menu-text">CONSULTA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telacadastro.html" class="menu-link">
+                        <i class="material-symbols-outlined">person</i>
+                        <span class="menu-text">CADASTRO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">trending_up</i>
+                        <span class="menu-text">RELATÓRIOS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaminhaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">dashboard</i>
+                        <span class="menu-text">PRODUÇÃO</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="meio">
+        <div class="boxCadastrar">
+            <h2>CADASTRO/ATUALIZAÇÃO</h2>
+
+            <div class="clientes">
+                <div class="clienteNovo">
+                    <button class="btnClienteNovo" onclick="abreFechaNovo()">
+                        <h3>CLIENTE NOVO</h3>
+                    </button>
+
+                    <div class="conteudoClienteNovo">
+                        <form id="formClienteNovo" action="#" onsubmit="cadClienteNovo(event)">
+                            <!--NOME-->
+                            <div class="subBoxDadosPessoaisClienteNovo">
+                                <div class="dadosPessoaisClienteNovo">
+                                    <h3 class="h3ClienteNovo">Dados Pessoais</h3>
+                                </div>
+                                <div class="campo-grande">
+                                    <label for="inome">Nome:</label>
+                                    <input type="text" name="nome" id="inome" placeholder="João Da Silva" required
+                                        autocomplete="on">
+                                </div>
+                                <!--CPF-->
+                                <div class="campo">
+                                    <label for="icpf">CPF:</label>
+                                    <input type="text" name="cpf" id="icpf" placeholder="000.000.000-00" required
+                                        autocomplete="on" oninput="this.value = formatarCPF(this.value)">
+                                </div>
+                                <!--DATA NASC-->
+                                <div class="campo">
+                                    <label for="idataNasc">Data de Nascimento</label>
+                                    <input type="date" name="dataNasc" id="idataNasc" placeholder="000.000.000-00" required
+                                        autocomplete="on">
+                                </div>
+                                <!--N BENEFICIO-->
+                                <div class="campo">
+                                    <label for="ibeneficio">N° Benefício</label>
+                                    <input type="text" name="beneficio" id="ibeneficio" placeholder="000.000.000-0" required
+                                        autocomplete="on" maxlength="13"
+                                        oninput="this.value = formatarBeneficio(this.value)">
+                                </div>
+                                <!--N° TELEFONE-->
+                                <div class="campo">
+                                    <label for="itelefone">N° Telefone</label>
+                                    <input type="tel" name="telefone" id="itelefone" placeholder="(99) 99999-9999" required
+                                        autocomplete="on" oninput="this.value = formatarTelefone(this.value)">
+                                </div>
+                                <!--SENHA INSS-->
+                                <div class="campo">
+                                    <label for="senhaInss">Senha INSS</label>
+                                    <input type="text" name="senha" id="senhaInss" placeholder="Joao@1234" required
+                                        autocomplete="on">
+                                </div>
+                                <!--TIPO BENEFICIO-->
+                                <div class="campo">
+                                    <label for="tipoBeneficio">Convênio</label>
+                                    <select name="tipoBeneficio" id="tipoConvenio" required>
+                                        <option value="">Selecione</option>
+                                        <option value="INSS">INSS</option>
+                                        <option value="SIAPE">SIAPE</option>
+                                        <option value="SERV. PÚBLICO MUN">SERV. PÚBLICO MUN</option>
+                                        <option value="SERV. PÚBLICO EST">SERV. PÚBLICO EST</option>
+                                        <option value="CLT">CLT</option>
+					<option value="fgts">FGTS</option>
+					<option value="forcas">FORÇAS ARMADAS</option>
+					<option value="bolsaFamilia">BOLSA FAMÍLIA</option>
+					<option value="crefaz">CREFAZ</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--ENDEREÇO-->
+                            <!--ESTADO-->
+                            <div class="subBoxEderecoClienteNovo">
+                                <div class="enderecoClienteNovo">
+                                    <h3 class="h3ClienteNovo">Endereço</h3>
+                                </div>
+                                <div class="campo-grande">
+                                    <label for="estado">Estado</label>
+                                    <select name="estado" id="estado" required autocomplete="on">
+                                        <option value="">Selecione o estado</option>
+                                    </select>
+                                </div>
+                                <!-- FIM ESTADO-->
+                                <!--CIDADE-->
+                                <div class="campo-grande">
+                                    <label for="cidade">Cidade</label>
+                                    <input type="text" name="cidade" id="cidade" placeholder="Santa Cruz" required
+                                        autocomplete="on">
+                                </div>
+                                <!--BAIRRO-->
+                                <div class="campo-grande">
+                                    <label for="bairro">Bairro</label>
+                                    <input type="text" name="bairro" id="bairro" placeholder="Centro" required
+                                        autocomplete="on">
+                                </div>
+                                <!--RUA-->
+                                <div class="campo-grande">
+                                    <label for="rua">Rua</label>
+                                    <input type="text" name="rua" id="irua" placeholder="João Bianor Bezerra" required
+                                        autocomplete="on">
+                                </div>
+                                <!--Número-->
+                                <div class="campo">
+                                    <label for="inumero" id="labelNumero">N°</label>
+                                    <input type="text" name="numero" id="inumero" placeholder="00" required
+                                        autocomplete="on">
+                                </div>
+                            </div>
+                            <!--OPERAÇÕES RECENTES-->
+                            <!--PRODUTO-->
+                            <div class="subBoxOperacoesClienteNovo" id="containerOperacoes">
+                                <div class="operacoesClienteNovo">
+                                    <h3 class="h3ClienteNovo">Operações Feitas</h3>
+                                </div>
+
+                                <div class="tabela-wrapper">
+                                    <table class="tabelaCadastroOp">
+                                        <thead>
+                                            <tr>
+                                                <th class="th-operacao">OPERAÇÃO</th>
+                                                <th class="th-data">DATA</th>
+                                                <th class="th-banco">BANCO/PROMOTORA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="corpoTabelaOperacoes">
+                                            <tr class="linha-operacao-item">
+                                                <td>
+                                                    <input type="text" name="tipo_operacao" class="ioperacao" placeholder="Ex.:Portabilidade" required>
+                                                </td>
+                                                <td>
+                                                    <input type="date" name="data_operacao" class="dataProd" required>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="banco_promotora" placeholder="Banco... promotora" class="bancoProd" required>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <button type="button" onclick="adicionarLinhaOperacao()" 
+                                class="btn-add-operacao">
+                                    + Adicionar Outra Operação
+                                </button>
+                            </div>
+
+                                <!--ÁREA DE DOCUMENTOS E VÍDEOS-->
+                            <div class="subBoxDocEVideoClienteNovo">
+                                <div class="docEVideosClienteNovo">
+                                    <h3 class="h3ClienteNovo">Documentos e vídeo</h3>
+                                    
+                                        <!--DOCUMENTO FRENTE-->
+                                        <label class="tituloDocCliente">DOC FRENTE</label>
+                                        <label class="inputDocCliente" for="iDocFrenteClienteNovo">
+                                            <input
+                                                type="file"
+                                                id="iDocFrenteClienteNovo"
+                                                name="docFrenteClienteNovo"
+                                                accept="image/*,.pdf"
+                                                onchange="previewArquivo(this, 'previewDocFrenteClienteNovo')"
+                                            >
+                                            <div class="conteudoUpload">
+                                                <i class="material-symbols-outlined" id="simboloUploadDocFrente">upload</i>
+                                                <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                                <div class="previewArquivo" id="previewDocFrenteClienteNovo"></div>
+                                            </div>
+                                        </label>
+                                        <!--DOCUMENTO VERSO-->
+                                        <label class="tituloDocCliente">DOC VERSO</label>
+                                        <label class="inputDocCliente" for="iDocVersoClienteNovo">
+                                            <input
+                                                type="file"
+                                                id="iDocVersoClienteNovo"
+                                                name="docVersoClienteNovo"
+                                                accept="image/*,.pdf"
+                                                onchange="previewArquivo(this, 'previewDocVersoClienteNovo')"
+                                                >
+                                            <div class="conteudoUpload">
+                                                <i class="material-symbols-outlined" id="simboloUploadDocVerso">upload</i>
+                                                <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                                <div class="previewArquivo" id="previewDocVersoClienteNovo"></div>
+                                            </div>
+                                        </label>
+                                        <!--VIDEO CLIENTE-->
+                                        <label class="tituloDocCliente">VIDEO CLIENTE</label>
+                                        <label class="inputDocCliente" for="iVideoClienteNovo">
+                                            <input
+                                            type="file"
+                                            id="iVideoClienteNovo"
+                                            name="VideoClienteNovo"
+                                            accept="video/*"
+                                            onchange="previewArquivo(this, 'previewVideoClienteNovo')"
+                                            >
+                                            <div class="conteudoUpload">
+                                                <i class="material-symbols-outlined" id="simboloUploadVideo">upload</i>
+                                                <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                                <div class="previewArquivo" id="previewVideoClienteNovo"></div>
+                                            </div>
+                                        </label>
+                                    
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <input type="submit" value="Cadastrar" class="cadastroClienteNovo" form="formClienteNovo">
+
+                    </div>
+                    <h4 id="botaoClicado"></h4>
+                </div>
+
+                <div class="clienteCarteira">
+
+                    <button class="btnClienteCarteira" onclick="abreFechaCarteira()">
+                        <h3>CLIENTE CARTEIRA</h3>
+                    </button>
+
+                    <div class="conteudoClienteCarteira">
+
+                        <!-- Passo 1: Digitar CPF -->
+                        <div id="stepCPF" style="display:block;">
+                            <label for="icliente">Digite o CPF do cliente que deseja atualizar:</label>
+                            <input type="text" name="cliente" id="icliente" placeholder="000.000.000-00" required
+                                minlength="11" maxlength="14" oninput="this.value = formatarCPF(this.value)">
+                            <button onclick="proximoPasso(1)">Próximo</button>
+                        </div>
+
+                        <div id="stepClienteCarteiraRetornado" style="display:none;">
+                            <h4>Cliente Retornado</h4>
+                            <div class="dadoRetornadoNome">
+                                <h5>Nome:</h5>
+                                <p></p>
+                            </div>
+                            <div class="boxDivsPequenas">
+                                <div class="dadoRetornadoCPF">
+                                    <h5>CPF:</h5>
+                                    <p></p>
+                                </div>
+                                <div class="dadoRetornadoDN">
+                                    <h5>Data de Nascimento:</h5>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="stepConfirmarAtualizacao" style="display:none;">
+                            <h4>Atualização de dados</h4>
+                            <p>Deseja atualizar algum dado deste cliente?</p>
+
+                            <div class="botoesConfirmacao">
+                                <button onclick="confirmarAtualizacao(true)">Sim</button>
+                                <button onclick="confirmarAtualizacao(false)">Não</button>
+                            </div>
+                        </div>
+
+                        <!-- Passo 2: Selecionar dado -->
+                        <div id="stepDado" style="display:none;">
+                            <label for="tipoAtualizacaoDadoCliente" id="labelClienteCarteira">Dado para Atualizar</label>
+
+                            <div class="gridAtualizacao">
+                                <select name="atualizar" id="tipoAtualizacaoDadoCliente" class="linhaAtualizacao">
+                                    <option value="">Selecione</option>
+                                    <option value="nome">Nome</option>
+                                    <option value="cpf">CPF</option>
+                                    <option value="dataNascimento">Data de Nascimento</option>
+                                    <option value="telefone">N° de Telefone</option>
+                                    <option value="senhaINSS">Senha INSS</option>
+                                    <option value="endereco">Endereço</option>
+                                </select>
+                                <button onclick="proximoPasso(2)" class="btnProximoDoDado">Próximo</button>
+                            </div>
+                        </div>
+
+                        <!-- Passo 2.5: Atualizar endereço completo -->
+                        <div id="stepEndereco" class="cardEndereco" style="display: none;">
+                            <h4 class="tituloDadoParaAtualizar">Atualizar Endereço</h4>
+
+                            <div class="grupoEndereco">
+                                <div class="campoEndereco">
+                                    <label for="enderecoEstado">Estado</label>
+                                    <select id="enderecoEstado">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+
+                                <div class="campoEndereco">
+                                    <label>Cidade</label>
+                                    <input type="text" id="enderecoCidade" placeholder="Ex: São Paulo">
+                                </div>
+
+                                <div class="campoEndereco">
+                                    <label>Bairro</label>
+                                    <input type="text" id="enderecoBairro" placeholder="Ex: Centro">
+                                </div>
+
+                                <div class="campoEndereco campoRua">
+                                    <label>Rua</label>
+                                    <input type="text" id="enderecoRua" placeholder="Ex: Rua das Flores">
+                                </div>
+
+                                <div class="campoEndereco campoNumero">
+                                    <label>Número</label>
+                                    <input type="text" id="enderecoNumero" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Passo 3: Atualizar dado -->
+                        <div id="stepAtualizar" style="display: none;">
+                            <h4 class="tituloDadoParaAtualizar">Dado para atualizar:</h4>
+                            <label id="labelNovoDado" for="novoValor">Novo valor:</label>
+                            <input type="text" id="novoValor">
+                            <select id="selectEstado" style="display: none;"></select>
+                        </div>
+
+
+                        <div id="stepOperacao" style="display: none;">
+                            <div class="subBoxOperacoes">
+                                <h4>Operações feitas</h4>
+                            </div>
+                            <div class="tabela-container">
+                                <table class="tabelaOp">
+                                    <thead>
+                                        <tr>
+                                            <th>OPERAÇÃO</th>
+                                            <th>DATA</th>
+                                            <th>BANCO/PROMOTORA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="operacao" id="iOperacao"
+                                                    placeholder="Ex.:Portabilidade" required>
+                                            </td>
+                                            <td>
+                                                <input type="date" name="data" id="iData" placeholder="Ex.:01/01/2026"
+                                                    required>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="banco" id="iBanco"
+                                                    placeholder="Banco... promotora..." required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="acoesOperacao">
+                                <button id="addLinha">+ Adicionar Outra Operação</button>
+                            </div>
+                        </div>
+
+                        
+                        <!--ÁREA DE DOCUMENTOS E VÍDEOS-->
+                            <div class="docEVideosClienteCarteira" style="display:none;">
+
+                                <div class="operacoesClienteCarteira">
+                                    <h3 class="h3ClienteCarteira">Documentos e vídeo</h3>
+                                </div>
+
+                                <form action="#">
+                                    <!--DOCUMENTO FRENTE-->
+                                    <label class="tituloDocCliente">DOC FRENTE</label>
+
+                                    <label class="inputDocCliente" for="iDocFrenteClienteCarteira">
+                                        <input
+                                            type="file"
+                                            name="docFrente" 
+                                            id="iDocFrenteClienteCarteira" 
+                                            accept="image/*,.pdf" 
+                                            onchange="previewArquivo(this, 'previewDocFrente')"
+                                        >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadDocFrenteCarteira">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewDocFrente"></div>
+                                            <span id="statusFrente" style="color: blue; font-size: 12px;"></span>
+                                            <a id="linkFrente" href="#" target="_blank" style="display: none;">Visualizar atual</a>
+                                        </div>
+
+                                    </label>
+
+                                    
+
+                                    
+
+                                    <!--DOCUMENTO VERSO-->
+                                    <label class="tituloDocCliente">DOC VERSO</label>
+
+                                    <label class="inputDocCliente" for="iDocVersoClienteCarteira">
+                                        <input
+                                            type="file" 
+                                            name="docVerso"
+                                            id="iDocVersoClienteCarteira" 
+                                            accept="image/*,.pdf" 
+                                            onchange="previewArquivo(this, 'previewDocVerso')"
+                                        >
+
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadDocVersoCarteira">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewDocVerso"></div>
+                                            <span id="statusVerso" style="color: blue; font-size: 12px;"></span>
+                                            <a id="linkVerso" href="#" target="_blank" style="display: none;">Visualizar atual</a>
+                                        </div>
+
+                                        
+                                    </label>
+
+                                    
+
+                                    <!--VIDEO CLIENTE-->
+                                    <label class="tituloDocCliente">VIDEO CLIENTE</label>
+
+                                    <label class="inputDocCliente" for="iVideoClienteCarteira">
+                                        <input
+                                            type="file" 
+                                            name="videoCliente"
+                                            id="iVideoClienteCarteira" 
+                                            accept="video/*" 
+                                            onchange="previewArquivo(this, 'previewVideo')"
+                                        >
+                                        <div class="conteudoUpload">
+                                            <i class="material-symbols-outlined" id="simboloUploadVideoCarteira">upload</i>
+                                            <span class="indicarDoc">Clique ou arraste o arquivo</span>
+                                            <div class="previewArquivo" id="previewVideo"></div>
+                                            <span id="statusVideo" style="color: blue; font-size: 12px;"></span>
+                                            <a id="linkVideo" href="#" target="_blank" style="display: none;">Visualizar atual</a>
+                                        </div>
+                                    </label>
+
+                                    
+                                </form>
+                                
+                                <div class="acoesOperacao">
+                                    <button onclick="atualizarDado()" class="btnAtualizar">Atualizar</button>
+                                </div>
+                            </div>
+
+
+                    </div>
+                    <h4 id="mensagemAtualizacao"></h4>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="overlay" class="overlay"></div>
+
+    <script src="/javascript/cadastro.js"></script>
+    <footer>
+        <div></div>
+    </footer>
+</body>
+
+
+</html>

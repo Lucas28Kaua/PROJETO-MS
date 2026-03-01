@@ -1,0 +1,822 @@
+@charset "UTF-8";
+
+.meio{
+    margin-left: 120px;
+    transition: margin-left 0.3s ease;
+}
+
+.formulario {
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 133px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    padding: 20px;
+}
+
+.formulario>h1 {
+    text-align: center;
+    background-color: #eb6505;
+    max-width: 500px;
+    margin: auto;
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.441);
+    margin-bottom: 15px;
+}
+
+.formulario>h1:hover {
+    transition: opacity 0.3s ease;
+}
+
+.campo-select{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-width:260px;
+    position: relative;
+}
+
+.labelBusca {
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.campo-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;  
+    color: #000000;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 10px 40px 10px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}  
+
+.campo-select select:focus {
+    outline: none;
+    border-color: #4da3ff;
+    box-shadow: 0 0 0 2px rgba(77, 163, 255, 0.3);
+}
+
+/* setinha */
+.campo-select::after {
+    content: "▼";
+    position: absolute;
+    right: 12px;
+    top: 38px;
+    font-size: 0.7rem;
+    color: #aaa;
+    pointer-events: none;
+}
+
+#campoSimples{
+    margin:20px;
+}
+#labelBusca{
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+#buscaSimples{
+    padding:5px;
+    border-radius:10px;
+    border:1px solid black
+}
+
+#blocoEndereco{
+    max-width:600px;
+    margin:30px 20px 20px 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* duas colunas */
+    gap: 16px 30px; /* linha / coluna */
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    max-width:240px;
+}
+
+
+.campo label {
+    margin-bottom: 4px;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.campo input {
+    padding: 11px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.botoes{
+    display: flex;
+    gap: 10px; /* espaço entre os botões */
+}
+
+#btnBuscar,
+#btnLimpar{
+    
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+
+    background-color: #eb6505;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.496);
+}
+
+#btnBuscar:hover,
+#btnLimpar:hover{
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    box-shadow:2px 2px 8px #eb641c8e;
+    transform: translateY(-2px);
+    transform:scale(1.02); 
+}
+
+#btnBuscar:active,
+#btnLimpar:active{
+    transform: scale(0.98);
+}
+
+.telaRetornoConsulta{
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 70px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+.sidebar.aberto~.telaRetornoConsulta {
+    margin-left: 253px;
+}
+
+.telaRetornoConsulta h1{
+    text-align:center;
+    background-color: #eb6505;
+    max-width: 500px;
+    margin: auto;
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.441);
+}
+
+.boxMenor{
+    transition: margin-left 0.3s ease;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 35px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    padding: 20px;
+}
+
+div.cliente-info{
+    overflow-Y:auto;
+    max-height: 200px;
+    overflow-Y:auto;
+    border:1px solid black;
+    margin:20px auto 0px auto;
+    padding:0px;
+}
+.tabela-clientes{
+    position:relative;
+    width:100%;
+    border-collapse:collapse;
+    table-layout: fixed;
+}
+
+#tabelaClientes tr.linhaClicavel:hover{
+    background-color: #eb650570;
+    font-size:1.2em;
+    transition: 0.2s ease;
+}
+
+.tabela-clientes tr,
+.tabela-clientes th,
+.tabela-clientes td{
+    border:1px solid black;
+    padding:7px;
+    text-align: center;
+}
+
+.tabela-clientes tr{
+    cursor:pointer
+}
+
+.tabela-clientes tr:nth-child(2n){
+    background-color: lightgray;
+}
+
+.tabela-clientes thead>th.maior, th{
+    position:sticky;
+    top:0;
+    color:#0a0a0c;
+    font-weight: bolder;
+    background-color: #EB721C;
+}
+
+
+
+.tabela-clientes th.maior{
+    width:30%
+}
+
+.tabela-clientes th{
+    width:15%
+}
+
+#detalheCliente{
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 70px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+.dados-cliente{
+    width:100%;
+    min-height: 40vh;
+    background-color: rgba(211, 211, 211, 0.44);
+    margin: 8px auto 15px auto;
+    border-radius:20px;
+    box-shadow:2px 2px 9px rgba(0,0,0,0.463)
+}
+
+.dados-cliente>h2{
+    text-align:center;
+    background-color: #eb6505;
+    border-radius:20px 20px 0px 0px;
+    color:black;
+    padding:4px;
+}
+
+.detalheGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.campoDetalhe{
+    background-color: #ffffff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 9px rgba(3, 3, 3, 0.407);
+    min-height: 65px;
+    margin-top:15px;
+    margin-left:10px;
+    margin-right:10px;
+    margin-bottom:20px;
+}
+
+.campoDetalhe:hover{
+    cursor: pointer;
+    transform: scale(0.98);
+    box-shadow:0px 0px 9px #eb65059f;
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    
+}
+
+.dadosPessoais, .dadosEndereco, .dadosTel, .dadosSenhaINSS{
+    background-color: white;
+    margin:15px;
+    border-radius:12px;
+    box-shadow: 2px 2px 9px rgba(3, 3, 3, 0.407)
+}
+
+.dadosPessoais h3, .dadosEndereco h3, .dadosTel h3, .dadosSenhaINSS h3{
+    padding:10px;
+    font-size:1.3em;
+    text-align:center;
+    background-color: #eb6505;
+    border-radius:12px 12px 0px 0px;
+}
+
+.campoDetalhe .label {
+    display: block;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.campoDetalhe .valor {
+    font-size: 1.10em;
+    color: #000;
+}
+
+.box-documentos{
+    background-color: rgba(211, 211, 211, 0.326);
+    margin:20px 20px 0px 0px;
+    border-radius:15px;
+    box-shadow:2px 2px 8px rgba(0,0,0,0.463);
+    padding-bottom:15px
+}
+
+.box-documentos h2{
+    background-color: #eb6505;
+    width:100%;
+    border-radius:15px 15px 0px 0px;
+    padding:8px;
+    text-align: center;
+}
+.box-documentos .lista-docs{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin:20px;
+}
+
+.box-documentos .lista-docs .doc-item{
+    margin-top:0px;
+    background-color: rgb(163, 163, 163);
+    color: #0a0a0c;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px 8px 0px 0px;
+    text-align: center;
+}
+
+
+.doc-bloco{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.doc-bloco.ativo .doc-conteudo{
+    max-height:450px;
+    padding:12px;
+
+}
+
+.doc-imagem{
+    width:100%;
+    max-height:380px;
+    object-fit:contain;
+    border-radius:8px;
+    background-color: #fff;
+}
+
+.botao-rg{
+    border:none;
+}
+
+.doc-conteudo {
+    margin-top: 0px;
+    max-height: 0;
+    overflow:hidden;
+    padding:0 12px;
+    transition:
+        max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.3s ease;
+    background-color: lightgray;
+    border-radius: 0px 0px 8px 8px;
+}
+
+.doc-imagem-frente,
+.doc-imagem-verso {
+    width: 100%;          
+    height: 300px;     
+    object-fit: contain;  
+    background-color: #f0f0f0; 
+    border-radius: 8px;
+    margin-top: 10px;
+} 
+
+.lista-docs .doc-item:hover{
+    background-color: #eb6505;
+    cursor: pointer;
+    box-shadow:2px 2px 9px #eb5d0583;
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#OperacaoRecenteCliente{
+    transition: margin-left 0.3s ease;
+    margin-left: 0px;
+    margin-right: 20px;
+    background-color: rgba(211, 211, 211, 0.326);
+    min-height: 110px;
+    margin-top: 70px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+#OperacaoRecenteCliente>h2{
+    background-color: #eb6505;
+    max-width:500px;
+    margin:auto;
+    text-align: center;
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.441);
+}
+
+.tabela-operacoesCliente table{
+    border-collapse: collapse;
+    margin:auto;
+    width:100%;
+    table-layout: fixed;
+}
+
+.tabela-operacoesCliente table th{
+    border:2px solid black;
+    padding:10px;
+    width:300px;
+    position:sticky;
+    top:0;
+    color:#0a0a0c;
+    font-weight: bolder;
+    background-color: #EB721C;
+}
+
+.tabela-operacoesCliente table td{
+    border:2px solid black;
+    padding:7px
+}
+
+.tabela-operacoesCliente tr:nth-child(2n){
+    background-color: lightgray;
+}
+
+.tabela-operacoesCliente{
+    overflow-Y:auto;
+    max-height: 200px;
+    overflow-Y:auto;
+    border:1px solid black;
+    margin:20px auto 0px auto;
+    padding:0px;
+}
+
+
+footer>div{
+    height: 20px;
+}
+
+
+/* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
+
+/* Tablet e telas menores */
+@media screen and (max-width: 768px) {
+    
+    /* AJUSTE: Header menor */
+    header {
+        height: 80px;
+        padding: 0 15px;
+        justify-content: space-between;
+    }
+    
+    header img {
+        width: 100px;
+        margin-right: auto;
+    }
+    
+    /* AJUSTE: Botão sair só com ícone */
+    .btn-sair {
+        padding: 8px;
+        min-width: auto;
+        margin-right: 60px;
+        margin-left: 0;
+    }
+    
+    .btn-sair .text-button {
+        display: none;
+    }
+    
+    /* AJUSTE: Sidebar escondida */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+        top: 0;
+        height: 100vh;
+        border-radius: 0;
+        transition: transform 0.3s ease;
+        z-index: 2000;
+    }
+    
+    .sidebar.aberto {
+        transform: translateX(0);
+    }
+    
+    /* NOVO: Botão hambúrguer */
+    .menu-hamburguer {
+        display: block;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background-color: #eb6505;
+        border: 2px solid black;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 3000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+    }
+    
+    .menu-hamburguer span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: all 0.3s ease;
+        display: block;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-hamburguer.ativo span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+    
+    /* NOVO: Overlay */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1500;
+    }
+    
+    .overlay.ativo {
+        display: block;
+    }
+    
+    /* AJUSTE: Esconde botão toggle */
+    .toggle-btn {
+        display: none;
+    }
+    
+    /* AJUSTE: Menu sempre expandido no mobile */
+    .menu li {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 15px;
+    }
+    
+    .menu-text {
+        opacity: 1;
+    }
+    
+    /* AJUSTE: Conteúdo sem margem lateral */
+    .meio {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .sidebar.aberto ~ .meio {
+        margin-left: 10px;
+    }
+    
+    /* AJUSTE: Formulário */
+    .formulario {
+        margin-top: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    .formulario > h1 {
+        font-size: 1.3em;
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Campos de busca */
+    .campo-select {
+        max-width: 100%;
+    }
+    
+    #blocoEndereco {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        gap: 12px;
+        margin: 20px 10px;
+    }
+    
+    .campo {
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Botão buscar */
+    #btnBuscar {
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    /* AJUSTE: Tela de retorno */
+    .telaRetornoConsulta {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    .sidebar.aberto ~ .telaRetornoConsulta {
+        margin-left: 10px;
+    }
+    
+    .telaRetornoConsulta h1 {
+        font-size: 1.2em;
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Tabela de clientes com scroll */
+    div.cliente-info {
+        overflow-x: auto;
+        max-height: 300px;
+    }
+    
+    .tabela-clientes {
+        min-width: 600px;
+    }
+    
+    .tabela-clientes tr,
+    .tabela-clientes th,
+    .tabela-clientes td {
+        padding: 8px;
+        font-size: 0.85em;
+    }
+    
+    /* AJUSTE: Detalhe do cliente */
+    #detalheCliente {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    /* AJUSTE: Grid de detalhes em coluna única */
+    .detalheGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .campoDetalhe {
+        margin: 10px 5px;
+    }
+    
+    /* AJUSTE: Boxes de dados */
+    .dadosPessoais,
+    .dadosEndereco,
+    .dadosTel,
+    .dadosSenhaINSS {
+        margin: 10px 5px;
+    }
+    
+    .dadosPessoais h3,
+    .dadosEndereco h3,
+    .dadosTel h3,
+    .dadosSenhaINSS h3 {
+        font-size: 1.1em;
+    }
+    
+    /* AJUSTE: Documentos */
+    .box-documentos {
+        margin: 20px 10px 0px 10px;
+    }
+    
+    .box-documentos .lista-docs {
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        gap: 10px;
+        margin: 15px 10px;
+    }
+    
+    .doc-imagem {
+        max-height: 300px;
+    }
+    
+    /* AJUSTE: Operações recentes */
+    #OperacaoRecenteCliente {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    #OperacaoRecenteCliente > h2 {
+        font-size: 1.2em;
+        max-width: 100%;
+    }
+    
+    /* AJUSTE: Tabela de operações com scroll */
+    .tabela-operacoesCliente {
+        overflow-x: auto;
+    }
+    
+    .tabela-operacoesCliente table {
+        min-width: 600px;
+    }
+    
+    .tabela-operacoesCliente table th,
+    .tabela-operacoesCliente table td {
+        padding: 8px;
+        font-size: 0.85em;
+    }
+}
+
+/* Celular pequeno */
+@media screen and (max-width: 480px) {
+    
+    /* AJUSTE: Header ainda menor */
+    header {
+        height: 70px;
+    }
+    
+    header img {
+        width: 80px;
+    }
+    
+    /* AJUSTE: Títulos menores */
+    .formulario > h1,
+    .telaRetornoConsulta h1,
+    #OperacaoRecenteCliente > h2 {
+        font-size: 1em;
+        padding: 6px;
+    }
+    
+    /* AJUSTE: Margens ajustadas */
+    .formulario,
+    .telaRetornoConsulta,
+    #detalheCliente,
+    #OperacaoRecenteCliente {
+        margin-top: 85px;
+        padding: 10px;
+    }
+    
+    /* AJUSTE: Campos menores */
+    .campo input,
+    #buscaSimples {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+    
+    /* AJUSTE: Tabelas mais compactas */
+    .tabela-clientes tr,
+    .tabela-clientes th,
+    .tabela-clientes td,
+    .tabela-operacoesCliente table th,
+    .tabela-operacoesCliente table td {
+        padding: 6px;
+        font-size: 0.75em;
+    }
+    
+    /* AJUSTE: Documentos */
+    .box-documentos .lista-docs .doc-item {
+        font-size: 1em;
+    }
+    
+    .doc-imagem {
+        max-height: 250px;
+    }
+}

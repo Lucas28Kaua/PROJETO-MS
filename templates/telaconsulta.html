@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head><meta name="google" content="notranslate">
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html"); 
+                
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/estilos/telaconsulta.css">
+    <link rel="shortcut icon" href="static/imagens/favicon3.ico" type="image/x-icon">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/estilos/global.css">
+    <title>Sistema MS CRED</title>
+</head>
+
+<body>
+    <header>
+        <img src="static/imagens/logo-mscred-menor.png" alt="logo mscred">
+
+        <a href="#" class="btn-sair" onclick="fazerLogout()">
+            <i class="material-symbols-outlined">exit_to_app</i>
+            <span class="text-button">Sair</span>
+        </a>
+    </header>
+
+    <aside class="sidebar">
+        <!-- Botão toggle -->
+        <button class="toggle-btn" id="toggleMenu">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <!--MENU LATERAL-->
+        <nav>
+            <ul class="menu">
+                <li>
+                    <a href="/telahome.html" class="menu-link">
+                        <i class="material-symbols-outlined">home</i>
+                        <span class="menu-text">HOME</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaconsulta.html" class="menu-link">
+                        <i class="material-symbols-outlined">search</i>
+                        <span class="menu-text">CONSULTA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telacadastro.html" class="menu-link">
+                        <i class="material-symbols-outlined">person</i>
+                        <span class="menu-text">CADASTRO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">trending_up</i>
+                        <span class="menu-text">RELATÓRIOS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaminhaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">dashboard</i>
+                        <span class="menu-text">PRODUÇÃO</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!--TELA DO MEIO, PRINCIPAL-->
+    <!--FORMULARIO TERÁ: NOME, DN, CPF, END(estado,cidade,bairro,rua,n°), 
+    DATA(escolha p/ mês e dia. (de tal dia e mes a tal dia e mes))-->
+    <main class="meio">
+
+        <div class="formulario">
+
+            <h1>CONSULTA DE CLIENTE</h1>
+            <form action="" id="formConsulta">
+
+                <div class="campo-select">
+                    <label class="labelBusca" for="tipoBusca">Tipo de Busca:</label>
+                    <select id="tipoBusca" name="tipoBusca" onchange="atualizarCampos()">
+                        <option value="">Selecione</option>
+                        <option value="nome">Nome</option>
+                        <option value="cpf">CPF</option>
+                        <option value="nbeneficio">N° Benefício</option>
+                        <option value="endereco">Endereço</option>
+                    </select>
+                </div>
+
+                <!-- CAMPO SIMPLES -->
+                <div id="campoSimples" style="display: none;">
+                    <label id="labelBusca" for="buscaSimples">Pesquisar</label>
+                    <input type="text" id="buscaSimples">
+                </div>
+
+                <!-- BLOCO ENDEREÇO -->
+                 <div id="blocoEndereco" style="display:none;">
+                    <!--ESTADO-->
+                    <div class="campo">
+                        <label for="estado">Estado:</label>
+                        <input type="text" id="estado" placeholder="Ex.: RN">
+                    </div>
+                    <!--CIDADE-->
+                    <div class="campo">
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" id="cidade" placeholder="Ex.: Santa Cruz">
+                    </div>
+                    <!--BAIRRO-->
+                    <div class="campo">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" id="bairro" placeholder="Ex.: Centro">
+                    </div>
+                    <!--RUA-->
+                    <div class="campo">
+                        <label for="rua">Rua:</label>
+                        <input type="text" id="rua" placeholder="Ex.: Joao Bianor Bezerra">
+                    </div>
+                 </div>
+
+                <div class="botoes">
+                    <button type="button" id="btnBuscar" style="display:none;" onclick="buscar()">
+                        <span>Buscar</span>
+                    </button>
+                    <button type="reset" style="display:none;" id="btnLimpar" onclick="limpar()">Limpar</button>
+                </div>
+            </form>
+        </div>
+
+            <!--CAMPO DADOS RETONADOS-->
+        <div class="telaRetornoConsulta" style="display:none;">
+
+            <h1>DADOS RETORNADOS</h1>
+            <!--DIV DE LISTA DE CLIENTES(PREVIEW)-->
+            <div id="listaClientes" class="boxLista">
+                <div class="cliente-info"> 
+                    <table class="tabela-clientes">
+                        <thead>
+                            <tr>
+                                <th class="maior">NOME</th>
+                                <th>CPF</th>
+                                <th>DATA NASCIMENTO</th>
+                                <th class="maior">ENDEREÇO</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tabelaClientes">
+                            <!-- JS vai inserir as linhas aqui -->
+                    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+            <div class="telaDetalhesCliente" style="display:none;">
+                <!-- DETALHE DO CLIENTE -->
+                        <div id="detalheCliente" class="boxDetalhe" style="display:block;">
+                            <div class="dados-cliente">
+                                <h2>DADOS CLIENTE</h2>
+                                <div class="detalheGrid">
+                                    <div class="dadosPessoais">
+                                        <h3>Dados Pessoais</h3>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Nome</span>
+                                            <span class="valor" id="det_nome"></span>
+                                        </div>
+                                        <div class="campoDetalhe">
+                                            <span class="label">CPF</span>
+                                            <span class="valor" id="det_cpf"></span>
+                                        </div>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Data de Nascimento</span>
+                                            <span class="valor" id="det_nascimento"></span>
+                                        </div>
+                                        <div class="campoDetalhe">
+                                            <span class="label">N° Benefício</span>
+                                            <span class="valor" id="det_beneficio"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="dadosEndereco">
+                                        <h3>Endereço</h3>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Estado</span>
+                                            <span class="valor" id="det_estado"></span>
+                                        </div>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Cidade</span>
+                                            <span class="valor" id="det_cidade"></span>
+                                        </div>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Bairro</span>
+                                            <span class="valor" id="det_bairro"></span>
+                                        </div>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Rua</span>
+                                            <span class="valor" id="det_rua"></span>
+                                        </div>
+                                    </div>
+                                    <div class="dadosTel">
+                                        <h3>TELEFONE</h3>
+                                        <div class="campoDetalhe">
+                                            <span class="label">N° Telefone</span>
+                                            <span class="valor" id="det_telefone"></span>
+                                      
+                                        </div>
+                                    </div>
+                                    <div class="dadosSenhaINSS">
+                                        <h3>SENHA INSS</h3>
+                                        <div class="campoDetalhe">
+                                            <span class="label">Senha INSS</span>
+                                            <span class="valor" id="det_senha"></span>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                 
+                         <!-- DOCUMENTOS DO CLIENTE -->
+                         <div class="box-documentos" style="display:block;">
+                    <h2>DOCUMENTOS</h2>
+                    <div class="lista-docs">
+                        <div class="doc-bloco">
+                            <button class="botao-rg" onclick="abrefecha(this)">
+                                <div class="doc-item">RG FRENTE</div>
+                            </button>
+                            <div class="doc-conteudo">
+                            <!-- depois entra a imagem/pdf -->
+                                <img class="doc-imagem-frente" id="rgFrenteCliente" src="" alt="Documento do Cliente">
+                            </div>
+                        </div>
+                
+                        <div class="doc-bloco">
+                            <button class="botao-rg" onclick="abrefecha(this)">
+                                <div class="doc-item">RG VERSO</div>
+                            </button>
+                            <div class="doc-conteudo">
+                                <img class="doc-imagem-verso" id ="rgVersoCliente" src="" alt="Documento do Cliente">
+                            </div>
+                        </div>
+                    </div>
+                 
+                         </div>
+                 
+                         <div id="OperacaoRecenteCliente" style="display:block;">
+                    <h2>OPERAÇÕES RECENTES CLIENTE</h2>
+                    <div class="tabela-operacoesCliente">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>OPERAÇÃO</th>
+                                    <th>DATA</th>
+                                    <th>BANCO/PROMOTORA</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaOperacoesCliente">
+                                <!-- JS vai inserir as linhas aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                 
+                        </div>
+            </div>    
+    </main> 
+
+     <!-- NOVO: Botão hambúrguer mobile -->
+    <div class="menu-hamburguer" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- NOVO: Overlay escuro -->
+    <div class="overlay" id="overlay"></div>
+
+    
+    <script src="/javascript/consulta.js"></script>
+</body>
+
+<footer>
+    <div></div>
+</footer>
+</html>

@@ -1,0 +1,734 @@
+from flask import Flask, jsonify, request, send_from_directory
+import os
+from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
+import mysql.connector
+from dotenv import load_dotenv
+from flask_cors import CORS
+import json
+from datetime import datetime, timedelta
+import pytz
+
+load_dotenv()
+
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['MAX_CONTENT_LENGTH'] = 50*1024*1024
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static', 'uploads')
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+fuso_br = pytz.timezone('America/Sao_Paulo')
+
+def conexao_db ():
+    try:
+        connection = mysql.connector.connect(
+            host = os.getenv('DB_HOST'),
+            user = os.getenv('DB_USER'),
+            password = os.getenv('DB_PASSWORD'),
+            database = os.getenv('DB_NAME')
+        )
+        return connection
+    except mysql.connector.Error as err:   
+        print(f'Erro ao conectar no banco: {err}')
+        return None
+    
+conexao = conexao_db()
+
+@app.route('/login', methods=['POST'])
+def login():
+    dados = request.json
+    email = dados.get('email')
+    senha_digitada = dados.get('senha')
+
+    conn = conexao_db()
+    try:
+        cursor = conn.cursor(dictionary = True)
+        cursor.execute("SELECT id, nome, email, senha, cargo FROM usuarios WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
+
+        if usuario and check_password_hash(usuario['senha'], senha_digitada):
+            return jsonify ({
+                "sucesso": True,
+                "usuario": {
+                    "id": usuario['id'],
+                    "nome": usuario['nome'],
+                    "cargo": usuario['cargo']
+                }
+            }), 200
+        
+        else:
+            return jsonify({"sucesso": False, "erro": "E-mail ou senha incorretos"}), 401
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/clientes', methods=['GET'])
+def buscar_clientes():
+    # 1. Mapeia tudo o que vem da URL
+    filtros = {
+        'nome': request.args.get('nome'),
+        'cpf': request.args.get('cpf'),
+        'beneficio': request.args.get('beneficio'),
+        'data_nascimento': request.args.get('data_nascimento'),
+        'telefone': request.args.get('telefone'),
+        'senha_inss': request.args.get('senha_inss'),
+        'estado': request.args.get('estado'),
+        'cidade': request.args.get('cidade'),
+        'bairro': request.args.get('bairro'),
+        'rua': request.args.get('rua'),
+        'operacao': request.args.get('operacao'),
+        'data_operacao': request.args.get('data_operacao'),
+        'banco_promotora': request.args.get('banco_promotora')
+    }
+
+    if filtros['cpf']:
+        filtros['cpf'] = ''.join(filter(str.isdigit, filtros['cpf']))
+    if filtros['beneficio']:
+        filtros['beneficio'] = ''.join(filter(str.isdigit, filtros['beneficio']))
+
+    conn = conexao_db()
+    if not conn:
+        return jsonify({"Erro": "Erro na conexão"}), 500
+    
+    try:
+        cursor = conn.cursor(dictionary=True)
+        sql = "SELECT * FROM clientes WHERE 1=1"
+        params = []
+
+        # Loop inteligente para não repetir "if" para todo mundo
+        # Filtros de busca parcial (LIKE)
+        campos_like = ['nome', 'cidade', 'bairro', 'rua', 'banco_promotora', 'senha_inss']
+        # Filtros de busca exata (=)
+        campos_exatos = {
+            'cpf': 'cpf', 
+            'beneficio': 'num_beneficio', # Chave do dict vs Nome da coluna
+            'data_nascimento': 'data_nascimento',
+            'telefone': 'telefone',
+            'operacao': 'operacao',
+            'estado': 'estado',
+            'data_operacao': 'data_operacao'
+        }
+
+        # Aplica filtros LIKE
+        for campo in campos_like:
+            if filtros[campo]:
+                sql += f" AND {campo} LIKE %s"
+                params.append(f"%{filtros[campo]}%")
+
+        # Aplica filtros Exatos
+        for chave, coluna in campos_exatos.items():
+            if filtros[chave]:
+                sql += f" AND {coluna} = %s"
+                params.append(filtros[chave])
+
+        cursor.execute(sql, params)
+        lista_clientes = cursor.fetchall()
+
+        for cliente in lista_clientes:
+            cursor.execute("""
+                SELECT tipo_documento, url_documento 
+                FROM documentos_cliente 
+                WHERE cliente_id = %s
+            """, (cliente['id'],))
+
+            cliente['documentos'] = cursor.fetchall()
+
+            cursor.execute("""
+                SELECT tipo_operacao, DATE_FORMAT(data_operacao, '%d/%m/%Y') as data_operacao, banco_promotora 
+                FROM historico_operacoes 
+                WHERE cliente_id = %s
+            """, (cliente['id'],))
+            cliente['operacoes'] = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        if not lista_clientes:
+            return jsonify({"mensagem": "Nenhum cliente encontrado"}), 404
+
+        return jsonify(lista_clientes), 200
+    
+
+    except Exception as e:
+        return jsonify({"erro": f"Erro na busca: {str(e)}"}), 500
+
+
+
+
+@app.route('/uploads/<filename>')
+def servindo_arquivos(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+
+
+@app.route('/clientes', methods=['POST'])
+def cadastrar_cliente():
+    dados = request.form
+    # Limpa o CPF para garantir que tenha no máximo 14 caracteres (conforme seu banco)
+    cpf_limpo = ''.join(filter(str.isdigit, dados.get('cpf', '')))
+    
+    conn = conexao_db()
+    try:
+        cursor = conn.cursor()
+
+        # 1. INSERIR NA TABELA 'clientes'
+        # Nomes das colunas batendo 100% com o print
+        sql_cliente = """INSERT INTO clientes 
+                         (nome, cpf, num_beneficio, data_nascimento, telefone, senha_inss, estado, cidade, bairro, rua) 
+                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        
+        valores_cliente = (
+            dados.get('nome'), 
+            cpf_limpo, 
+            dados.get('beneficio'), 
+            dados.get('dataNasc'),
+            dados.get('telefone'),
+            dados.get('senha'),
+            dados.get('estado'),
+            dados.get('cidade'),
+            dados.get('bairro'),
+            dados.get('rua')
+        )
+        cursor.execute(sql_cliente, valores_cliente)
+        id_gerado = cursor.lastrowid # Este é o 'id' da tabela clientes
+
+        # 2. INSERIR NA TABELA 'historico_operacoes'
+        # Aqui o seu banco usa 'cpf_cliente' e 'banco_promotora'
+
+        operacoes_json = dados.get('operacoes_json')
+
+        if operacoes_json:
+            lista_operacoes = json.loads(operacoes_json)
+            sql_op = """INSERT INTO historico_operacoes (cliente_id, tipo_operacao, data_operacao, banco_promotora) 
+                    VALUES (%s, %s, %s, %s)"""
+            for op in lista_operacoes:
+                valores_op = (
+                    id_gerado,
+                    op.get('tipo_operacao'),
+                    op.get('data_operacao'),
+                    op.get('banco_promotora')
+                )
+                cursor.execute(sql_op, valores_op)
+
+        # 3. INSERIR NA TABELA 'documentos_cliente'
+        # Aqui o seu banco usa 'cliente_id' (que é o ID numérico)
+        mapa_docs = {
+            'docFrenteClienteNovo': 'RG_FRENTE',
+            'docVersoClienteNovo': 'RG_VERSO',
+            'VideoClienteNovo': 'VIDEO'
+        }
+
+        for campo_html, tipo_enum in mapa_docs.items():
+            if campo_html in request.files:
+                file = request.files[campo_html]
+                if file and file.filename != '':
+                    # Pega a extensão original (.jpg, .mp4, etc)
+                    extensao = os.path.splitext(file.filename)[1]
+                    # Cria um nome ÚNICO: CPF_TIPO_DOC.extensao
+                    filename = f"{cpf_limpo}_{tipo_enum}{extensao}".lower()
+                    
+                    caminho_completo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    file.save(caminho_completo)
+
+                    # No banco, salve apenas o filename (ex: 12345678900_rg_frente.jpg)
+                    sql_doc = """INSERT INTO documentos_cliente (cliente_id, tipo_documento, url_documento, status) 
+                                 VALUES (%s, %s, %s, %s)
+                                 ON DUPLICATE KEY UPDATE
+                                 url_documento = VALUES(url_documento),
+                                 status = 'ENVIADO' """
+                    cursor.execute(sql_doc, (id_gerado, tipo_enum, filename, 'ENVIADO'))
+
+        conn.commit()
+        return jsonify({"mensagem": "Cadastro realizado com sucesso!"}), 201
+
+    except mysql.connector.Error as err:
+        conn.rollback()
+        if err.errno == 1062:
+            return jsonify({"Erro": f"ErroEste CPF já está cadastrado no sistema!"}), 400
+        
+        return jsonify ({"erro": f"Erro no banco de dados: {err.msg}"}), 500
+    
+    except Exception as e:
+        conn.rollback()
+
+        return jsonify ({"erro":f"Erro interno: {str(e)}"}), 500
+    finally:
+        conn.close()
+
+
+
+@app.route('/clientes/dados_edicao/<cpf>', methods=['GET'])
+def buscar_cliente(cpf):
+    conn = conexao_db()
+    cursor = conn.cursor(dictionary=True) # Retorna como dicionário para o JS ler fácil
+    
+    cursor.execute("SELECT id, nome, cpf, DATE_FORMAT(data_nascimento, '%d/%m/%Y') as data_nascimento FROM clientes WHERE cpf = %s", (cpf,))
+    cliente = cursor.fetchone()
+    
+    if cliente:
+
+        cursor.execute("""
+            SELECT tipo_documento, url_documento, status 
+            FROM documentos_cliente 
+            WHERE cliente_id = %s
+        """, (cliente['id'],))
+
+        documentos = cursor.fetchall()
+
+        cliente['documentos'] = documentos
+
+    conn.close()
+
+    
+    if cliente:
+        return jsonify(cliente), 200
+    else:
+        return jsonify({"erro": "Cliente não encontrado"}), 404
+    
+@app.route('/clientes/atualizar', methods=['POST'])
+def atualizar_cliente():
+    dados = request.form
+    arquivos = request.files
+    cpf = dados.get('cpf_original')
+    
+    conn = conexao_db()
+    cursor = conn.cursor()
+    
+    try:
+        # 1. Atualizar dado do Perfil (se o usuário marcou 'Sim')
+        if dados.get('vai_atualizar_dado') == 'true':
+            campo = dados.get('tipo_campo')
+            
+            if campo == 'endereco':
+                # Atualize todas as colunas que você tem na tabela 'clientes'
+                sql_end = """UPDATE clientes SET 
+                            estado = %s, cidade = %s, bairro = %s, rua = %s
+                            WHERE cpf = %s"""
+                cursor.execute(sql_end, (
+                    dados.get('estado'), 
+                    dados.get('cidade'), 
+                    dados.get('bairro'), 
+                    dados.get('rua'), 
+                    cpf
+                ))
+            else:
+                novo_valor = dados.get('novo_valor')
+                # Mapeia o nome do select para a coluna real do banco
+                colunas = {'dataNascimento': 'data_nascimento', 'senhaINSS': 'senha_inss'}
+                coluna_real = colunas.get(campo, campo)
+                
+                query = f"UPDATE clientes SET {coluna_real} = %s WHERE cpf = %s"
+                cursor.execute(query, (novo_valor, cpf))
+
+        # 2. Salvar Nova Operação (Sempre salva se houver dados)
+        operacoes_json = dados.get('operacoes')
+
+        if operacoes_json:
+            try:
+                # 1. Busca o ID do cliente usando o CPF original
+                cursor.execute("SELECT id FROM clientes WHERE cpf = %s", (cpf,))
+                resultado = cursor.fetchone()
+                
+                if resultado:
+                    id_cliente = resultado[0]
+                    lista_de_operacoes = json.loads(operacoes_json)
+                    
+                    for op in lista_de_operacoes:
+                        sql_op = """INSERT INTO historico_operacoes 
+                            (cliente_id, tipo_operacao, data_operacao, banco_promotora) 
+                            VALUES (%s, %s, %s, %s)"""
+                        
+                        # 2. Usa o id_cliente (número) em vez do CPF
+                        valores_op = (
+                            id_cliente,
+                            op.get('operacao'),
+                            op.get('data'),
+                            op.get('banco')
+                        )
+                        cursor.execute(sql_op, valores_op)
+            except Exception as e:
+                print(f'Erro ao processar as operações: {e}')
+
+        # 3. Processar novos arquivos (se houver)
+        mapeamento_arquivos = {
+            'docFrente': 'RG_FRENTE', 
+            'docVerso': 'RG_VERSO', 
+            'videoCliente': 'VIDEO'
+        }
+
+        for nome_js, tipo_enum in mapeamento_arquivos.items():
+            if nome_js in arquivos:
+                file = arquivos[nome_js]
+                if file and file.filename != '':
+                    # 1. Padroniza nome e extensão (Ex: 123456_RG_FRENTE.jpg)
+                    extensao = os.path.splitext(file.filename)[1].lower()
+                    nome_final = f"{cpf}_{tipo_enum}{extensao}"
+                    
+                    caminho = os.path.join(app.config['UPLOAD_FOLDER'], nome_final)
+                    
+                    # Opcional: Remove o arquivo antigo se ele existir para não entulhar a VPS
+                    if os.path.exists(caminho):
+                        os.remove(caminho)
+                        
+                    file.save(caminho)
+
+                    # 2. Lógica de Banco de Dados (UPSERT)
+                    # Usamos o ID do cliente para garantir o vínculo correto
+                    sql_doc = """
+                        INSERT INTO documentos_cliente (cliente_id, tipo_documento, url_documento, status)
+                        VALUES ((SELECT id FROM clientes WHERE cpf = %s), %s, %s, 'ATUALIZADO')
+                        ON DUPLICATE KEY UPDATE 
+                            url_documento = VALUES(url_documento),
+                            status = 'ATUALIZADO'
+                    """
+                    cursor.execute(sql_doc, (cpf, tipo_enum, nome_final))
+        # Segue a mesma lógica que fizemos no cadastro...
+
+        conn.commit()
+        return jsonify({"mensagem": "Dados atualizados com sucesso!"}), 200
+
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/propostas/criar', methods=['POST'])
+def criar_proposta():
+    dados = request.json
+    conn = conexao_db()
+    cursor = conn.cursor()
+
+    def limpar_valor(v):
+        if not v or v == "" or v == "undefined": 
+            return 0
+        
+        v_str = str(v).replace('R$', '').strip()
+        
+        # Se o valor tem vírgula (formato BR: 1.500,50)
+        if ',' in v_str:
+            # Remove o ponto de milhar e troca a vírgula decimal por ponto
+            return float(v_str.replace('.', '').replace(',', '.'))
+        
+        # Se não tem vírgula, mas já tem ponto (formato internacional: 15322.10)
+        # ou é um número puro, apenas converte para float
+        try:
+            return float(v_str)
+        except ValueError:
+            return 0
+    
+    status_inicial = dados.get('status')
+    data_finalizacao = datetime.now() + timedelta(hours=3) if status_inicial == "Finalizado" else None
+
+    sql = """
+        INSERT INTO propostas 
+        (usuario_id, nome_cliente, cpf_cliente, convenio, operacao_feita, valor_parcela_port, troco_estimado, saldo_devedor_estimado, data_retorno_saldo,
+        banco, promotora, valor_operacao, valor_parcela_geral,  
+        status_proposta, detalhe_status, data_finalizacao)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
+    """
+    valores = (
+        dados.get('usuario_id'),
+        dados.get('nome'),
+        dados.get('cpf'),
+        dados.get('convenio'),
+        dados.get('operacao'),
+        limpar_valor(dados.get('valorParcelaPort')),
+        limpar_valor(dados.get('troco')),
+        limpar_valor(dados.get('saldoCliente')),
+        dados.get('retornoSaldo') or None,
+        dados.get('banco'),
+        dados.get('promotora'),
+        limpar_valor(dados.get('valorOperacao')),
+        limpar_valor(dados.get('valorParcela')),
+        dados.get('status'),
+        dados.get('detalhamento'),
+        data_finalizacao
+    )
+
+    try:
+        cursor.execute(sql, valores)
+        conn.commit()
+        return jsonify({"sucesso": True, "id": cursor.lastrowid}), 201
+    except Exception as e:
+        print(f"Erro no Banco{e}")
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
+    finally:
+        conn.close()
+
+
+@app.route('/propostas', methods=['GET'])
+def buscar_propostas():
+    # Pega o ID que o JS vai mandar via URL
+    usuario_id = request.args.get('usuario_id')
+    conn = conexao_db()
+    cursor = conn.cursor(dictionary=True)
+    if not usuario_id:
+        return jsonify({"erro": "Usuário não identificado"}), 400
+
+    # A "TRAVA" DE SEGURANÇA: Só pega o que for do dono logado
+    sql = "SELECT * FROM propostas WHERE usuario_id = %s ORDER BY data_criacao DESC"
+    
+    try:
+        cursor.execute(sql, (usuario_id,))
+        propostas = cursor.fetchall()
+        return jsonify(propostas), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+
+
+@app.route('/propostas/editar/<int:id>', methods=['PUT'])
+def editar_proposta(id):
+    dados = request.json
+    conn = conexao_db()
+    cursor = conn.cursor()
+
+    # Função interna para limpar os valores monetários
+    def limpar_valor(v):
+        if not v or v == "" or v == "undefined": 
+            return 0
+        
+        v_str = str(v).replace('R$', '').strip()
+        
+        # Se o valor tem vírgula (formato BR: 1.500,50)
+        if ',' in v_str:
+            # Remove o ponto de milhar e troca a vírgula decimal por ponto
+            return float(v_str.replace('.', '').replace(',', '.'))
+        
+        # Se não tem vírgula, mas já tem ponto (formato internacional: 15322.10)
+        # ou é um número puro, apenas converte para float
+        try:
+            return float(v_str)
+        except ValueError:
+            return 0
+
+    status_atual = dados.get('status')
+    data_finalizacao = datetime.now() + timedelta(hours=3) if status_atual == "Finalizado" else None
+
+    # SQL focado em atualizar apenas o que o modal de edição altera
+    sql = """
+        UPDATE propostas SET 
+            nome_cliente = %s,
+            cpf_cliente = %s,
+            convenio = %s,
+            operacao_feita = %s,
+            banco = %s,
+            promotora = %s,
+            valor_operacao = %s,
+            valor_parcela_geral = %s,
+            valor_parcela_port = %s,
+            status_proposta = %s,
+            detalhe_status = %s,
+            data_retorno_saldo = %s,
+            saldo_devedor_estimado = %s,
+            troco_estimado = %s,
+            data_finalizacao = COALESCE(data_finalizacao, %s)
+        WHERE id = %s
+    """
+    
+    valores = (
+        dados.get('nome'),
+        dados.get('cpf'),
+        dados.get('convenio'),
+        dados.get('operacao'),
+        dados.get('banco'),
+        dados.get('promotora'),
+        limpar_valor(dados.get('valorOperacao')),
+        limpar_valor(dados.get('valorParcela')),
+        limpar_valor(dados.get('valorParcelaPort')),
+        dados.get('status'),
+        dados.get('detalhamento'),
+        dados.get('retornoSaldo') or None,
+        limpar_valor(dados.get('saldoCliente')),
+        limpar_valor(dados.get('troco')),
+        data_finalizacao,
+        id # O ID que vem da URL
+    )
+
+    try:
+        cursor.execute(sql, valores)
+        conn.commit()
+        if cursor.rowcount == 0:
+            return jsonify({"sucesso": False, "mensagem": "Proposta não encontrada"}), 404
+            
+        return jsonify({"sucesso": True, "mensagem": "Proposta atualizada!"}), 200
+    except Exception as e:
+        print(f"Erro ao editar no Banco: {e}")
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/propostas/excluir/<int:id>', methods=['DELETE'])
+def excluir_proposta(id):
+    conexao = conexao_db() # Use a sua função de conexão
+    cursor = conexao.cursor()
+
+    try:
+        # 1. Verifica se a proposta existe antes de deletar
+        cursor.execute("SELECT id FROM propostas WHERE id = %s", (id,))
+        proposta = cursor.fetchone()
+
+        if not proposta:
+            return jsonify({"erro": "Proposta não encontrada"}), 404
+
+        # 2. Executa o DELETE
+        cursor.execute("DELETE FROM propostas WHERE id = %s", (id,))
+        conexao.commit()
+
+        return jsonify({"mensagem": "Proposta excluída com sucesso!"}), 200
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"Erro ao excluir: {e}")
+        return jsonify({"erro": "Erro interno ao excluir proposta"}), 500
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+
+
+@app.route('/api/relatorios/total', methods=['GET'])
+@app.route('/api/relatorios/<int:usuario_id>', methods=['GET'])
+@app.route('/api/relatorios/filtro-data', methods=['GET']) # <-- NOVA ROTA
+def obter_relatorio(usuario_id=None):
+    conn = conexao_db()
+    cursor = conn.cursor(dictionary=True)
+    
+    # 1. Pegamos os filtros da URL (se existirem)
+    data_inicio = request.args.get('inicio')
+    data_fim = request.args.get('fim')
+
+    # 2. Query completa com todos os campos que sua tabela HTML usa
+    query = """
+        SELECT 
+            p.*, 
+            u.nome as nome_consultor 
+        FROM propostas p
+        LEFT JOIN usuarios u ON p.usuario_id = u.id
+        WHERE p.status_proposta = 'Finalizado'
+    """
+    params = []
+
+    # Filtro por Usuário
+    if usuario_id:
+        query += " AND usuario_id = %s"
+        params.append(usuario_id)
+
+    # Filtro por Data (O pulo do gato!)
+    if data_inicio and data_fim:
+        query += " AND data_finalizacao BETWEEN %s AND %s"
+        params.append(f"{data_inicio} 00:00:00")
+        params.append(f"{data_fim} 23:59:59")
+
+    # Ordenar pela data mais recente
+    query += " ORDER BY data_finalizacao DESC"
+
+    cursor.execute(query, params)
+    propostas = cursor.fetchall()
+    conn.close()
+
+    if not propostas:
+        return jsonify({"vazio": True, "mensagem": "Nada encontrado."})
+
+    # --- CÁLCULOS (Igual você fez, mas garantindo float para o JSON) ---
+    total_produzido = sum(float(p['valor_operacao'] or 0) for p in propostas)
+    qtd_propostas = len(propostas)
+    ticket_medio = total_produzido / qtd_propostas if qtd_propostas > 0 else 0
+
+    return jsonify({
+        "vazio": False,
+        "cards": {
+            "total": total_produzido,
+            "quantidade": qtd_propostas,
+            "ticket": ticket_medio
+        },
+        "tabela": propostas  # Enviamos tudo, o JS filtra o que for preciso
+    })
+
+
+@app.route('/api/configuracoes', methods=['GET'])
+def obter_configuracoes():
+    conn = conexao_db()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        # Pegamos a última configuração salva (id 1)
+        cursor.execute("SELECT * FROM configuracoes_mensais WHERE id = 1")
+        config = cursor.fetchone()
+        if config:
+            # O MySQL retorna o JSON como string, o Flask precisa dele como objeto
+            if isinstance(config['regras_json'], str):
+                config['regras_json'] = json.loads(config['regras_json'])
+            return jsonify(config), 200
+        return jsonify({"mensagem": "Nenhuma config encontrada"}), 404
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/api/configuracoes', methods=['POST'])
+def salvar_configuracoes():
+    dados = request.json
+    conn = conexao_db()
+    cursor = conn.cursor()
+    
+    meta_geral = dados.get('meta_geral')
+    meta_individual = dados.get('meta_individual')
+    regras = json.dumps(dados.get('regras')) # Transforma a lista de regras em STRING JSON
+
+    try:
+        # Lógica de UPSERT: Se o ID 1 já existir, ele dá UPDATE. Se não, dá INSERT.
+        sql = """
+            INSERT INTO configuracoes_mensais (id, meta_geral, meta_individual, regras_json, ultima_atualizacao)
+            VALUES (1, %s, %s, %s, NOW())
+            ON DUPLICATE KEY UPDATE 
+                meta_geral = VALUES(meta_geral),
+                meta_individual = VALUES(meta_individual),
+                regras_json = VALUES(regras_json),
+                ultima_atualizacao = NOW()
+        """
+        cursor.execute(sql, (meta_geral, meta_individual, regras))
+        conn.commit()
+        return jsonify({"sucesso": True, "mensagem": "Configurações publicadas!"}), 200
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
+    finally:
+        conn.close()
+
+
+@app.route('/')
+def index():
+    # Aqui a gente aponta para o seu arquivo de login
+    return send_from_directory('templates', 'telalogin.html')
+
+@app.route('/estilos/<path:filename>')
+def serve_css(filename):
+    return send_from_directory('static/estilos', filename)
+
+@app.route('/javascript/<path:filename>')
+def serve_js(filename):
+    return send_from_directory('static/javascript', filename)
+
+@app.route('/static/imagens/<path:filename>')
+def serve_imagens(filename):
+    return send_from_directory('static/imagens', filename)
+
+@app.route('/<pagina>.html')
+def carregar_paginas(pagina):
+    return send_from_directory('templates', f'{pagina}.html')
+
+@app.route('/<path:filename>')
+def serve_static_html(filename):
+    if filename.endswith('.html'):
+        return send_from_directory('templates', filename)
+    return "Arquivo não encontrado", 404
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

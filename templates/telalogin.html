@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head><meta name="google" content="notranslate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/imagens/favicon3.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/estilos/telalogin.css">
+    <title>Sistema MS CRED</title>
+</head>
+<body>
+    <main>
+        <section>
+            <section id="foto"></section>
+            <section id="login">
+                <section id="box-formulario">
+                    <h1>LOGIN</h1>
+                    <p>Seja bem-vindo(a), Correspondente!</p>
+                    <form  id="formulario"action="#">
+                        <label for="iuser">Usuário:</label>
+                        <input type="email" name="user" id="iuser" placeholder="Informe seu Usuário..." autocomplete="on" required minlength="8" maxlength="30"><br>
+                        <label for="isenha">Senha:</label>
+                        <input type="password" name="senha" id="isenha" placeholder="Informe sua Senha..." required minlength="8" maxlength="20"><br>
+                        <input id='entrar' type="button" value="Entrar" onclick="logar()">
+                        <input id='esqueci_senha' type="button" value="Esqueci minha senha">
+                    </form>
+                </section>
+            </section>
+        </section>
+        <div id="mensagem-feedback" class="feedback-oculto"></div>
+    </main>
+    <script src="/javascript/login.js"></script>
+</body>
+</html>

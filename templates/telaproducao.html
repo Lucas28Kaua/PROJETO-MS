@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head><meta name="google" content="notranslate">
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html");
+                
+            }
+        })();
+    </script>
+    <script>
+    (function() {
+        const cargo = localStorage.getItem('usuarioCargo');
+        if (cargo !== 'admin') {
+            // Mandando o parâmetro ?erro=negado para a home
+            window.location.replace("telahome.html?erro=negado");
+        }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/imagens/favicon3.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/estilos/telaproducao.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/estilos/global.css">
+    <title>Sistema MS CRED</title>
+</head>
+
+<body>
+
+    <header class="header-principal">
+        <img src="/static/imagens/logo-mscred-menor.png" alt="logo mscred">
+        <a href="#" class="btn-sair" onclick="fazerLogout()">
+            <i class="material-symbols-outlined">exit_to_app</i>
+            <span class="text-button">Sair</span>
+        </a>
+    </header>
+
+    <aside class="sidebar">
+        <button class="toggle-btn" id="toggleMenu">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <nav>
+            <ul class="menu">
+                <li>
+                    <a href="/telahome.html" class="menu-link"><i class="material-symbols-outlined">home</i><span class="menu-text">HOME</span></a>
+                </li>
+                <li>
+                    <a href="/telaconsulta.html" class="menu-link"><i class="material-symbols-outlined">search</i><span class="menu-text">CONSULTA</span></a>
+                </li>
+                <li>
+                    <a href="/telacadastro.html" class="menu-link"><i class="material-symbols-outlined">person</i><span class="menu-text">CADASTRO</span></a>
+                </li>
+                <li>
+                    <a href="/telaproducao.html" class="menu-link"><i class="material-symbols-outlined">trending_up</i><span class="menu-text">RELATÓRIOS</span></a>
+                </li>
+                <li>
+                    <a href="/telaminhaproducao.html" class="menu-link"><i class="material-symbols-outlined">dashboard</i><span class="menu-text">PRODUÇÃO</span></a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <div class="relatorio-container"> 
+            <div class="secao-titulo-relatorio">
+                <h2>RELATÓRIO DE PRODUÇÃO</h2>
+                <div class="filtros-relatorio">
+                    <div class="campo-data">
+                        <label>De:</label>
+                        <input type="date" id="dataInicio" class="input-data-relatorio">
+                    </div>
+                    <div class="campo-data">
+                        <label>Até:</label>
+                        <input type="date" id="dataFim" class="input-data-relatorio">
+                    </div>
+                    <button class="btn-filtrar" onclick="filtrarProducao()">
+                        <i class="material-symbols-outlined">filter_list</i> Filtrar
+                    </button>
+                </div>
+            </div>
+            <div class="usuario-filtro-container">
+                <div class="scroll-usuarios" id="listaUsuariosFiltro">
+                    <button class="btn-usuario active" onclick="filtrarPorUsuario('mscred', this)">Ms Cred (Total)</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(1, this)">Sueli</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(2, this)">Djullian</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(3, this)">Iraneide</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(4, this)">Carla</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(5, this)">João Vitor</button>
+                    <button class="btn-usuario" onclick="filtrarPorUsuario(7, this)">Kauã</button>
+                    
+                </div>
+            </div>
+            <div class="resumo-producao-grid">
+                <div class="resumo-producao-card">
+                    <div class="resumo-producao-icon" style="background: #e8f5e9; color: #2e7d32;">
+                        <i class="material-symbols-outlined">payments</i>
+                    </div>
+                    <div class="resumo-producao-info">
+                        <span>Total Produzido</span>
+                        <h3 id="resumoTotal">R$ 0,00</h3>
+                    </div>
+                </div>
+
+                <div class="resumo-producao-card">
+                    <div class="resumo-producao-icon" style="background: #e3f2fd; color: #1565c0;">
+                        <i class="material-symbols-outlined">assignment_turned_in</i>
+                    </div>
+                    <div class="resumo-producao-info">
+                        <span>Propostas Finalizadas</span>
+                        <h3 id="resumoQtd">0</h3>
+                    </div>
+                </div>
+
+                <div class="resumo-producao-card">
+                    <div class="resumo-producao-icon" style="background: #fff3e0; color: #ef6c00;">
+                        <i class="material-symbols-outlined">leaderboard</i>
+                    </div>
+                    <div class="resumo-producao-info">
+                        <span>Ticket Médio</span>
+                        <h3 id="resumoTicket">R$ 0,00</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secao-grafico-total caixa-branca">
+                <div class="header-interna">
+                    <h4>Evolução Mensal de Produção</h4>
+                    <i class="material-symbols-outlined" style="color: #666;">show_chart</i>
+                </div>
+                <div class="controle-grafico">
+                    <button class="btn-view active" onclick="mudarVisaoGrafico('dias', this)">Dias</button>
+                    <button class="btn-view" onclick="mudarVisaoGrafico('meses', this)">Meses</button>
+                    <button class="btn-view" onclick="mudarVisaoGrafico('anos', this)">Anos</button>
+                </div>
+                <div class="area-canvas-total">
+                    <canvas id="graficoProducao"></canvas>
+                </div>
+            </div>
+
+            <div class="secao-tabela-detalhada caixa-branca">
+                <div class="header-interna">
+                    <h4>Detalhamento de Propostas Finalizadas</h4>
+                    <div class="acoes-tabela">
+                        <i class="material-symbols-outlined" style="color: #666;">inventory_2</i>
+                    </div>
+                </div>
+                <div class="tabela-rolagem">
+                    <table id="tabelaFinalizados">
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Cliente</th>
+                                <th>Banco</th>
+                                <th>Convênio</th>
+                                <th>Produto</th> 
+                                <th>Promotora</th>
+                                <th>Funcionário</th>
+                                <th>Valor Realizado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoTabelaRelatorio">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="secao-pizza-e-regras">
+                <div class="secao-grafico-pizza">
+                    <canvas id="graficoPizzaBancos"></canvas>
+                </div>
+
+                <div class="secao-regras-banco">
+                    <h3 class="titulo-card">⚙️ Painel de Controle (Diretoria)</h3>
+
+                    <div class="container-metas-input">
+                        <div class="campo-grupo">
+                            <label>🎯 Meta Geral da Loja (R$)</label>
+                            <input type="number" id="metaGeral" placeholder="Ex: 1000000" class="input-meta meta-geral">
+                        </div>
+
+                        <div class="campo-grupo">
+                            <label>👤 Meta Individual (R$)</label>
+                            <input type="number" id="metaIndividual" placeholder="Ex: 150000" class="input-meta meta-ind">
+                        </div>
+                    </div>
+
+                    <div class="campo-grupo">
+                        <label>📋 Regras Mensais</label>
+                        <div class="tabela-input-container">
+                            <table id="tabelaRegrasInput">
+                                <thead>
+                                    <tr>
+                                        <th>Operação</th>
+                                        <th>Banco</th>
+                                        <th>Promotora</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoRegrasInput">
+                                    <tr>
+                                        <td><input type="text" class="in-op"></td>
+                                        <td><input type="text" class="in-ba"></td>
+                                        <td><input type="text" class="in-re"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="button" onclick="adicionarLinhaRegra()" class="btn-add-linha">+ Linha</button>
+                        </div>
+                    </div>
+
+                    <button onclick="publicarConfiguracoes()" class="btn-salvar-regras">🚀 Publicar na Home</button>
+                    <span id="feedbackSalvo" class="msg-sucesso">✔ Publicado com sucesso!</span>
+                </div>
+            </div>
+        </div> 
+        </div> 
+    </main>
+
+    <div class="menu-hamburguer" id="menuToggle">
+        <span></span><span></span><span></span>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/javascript/producao.js"></script>
+
+</body>
+</html>

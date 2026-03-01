@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head><meta name="google" content="notranslate">
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html"); 
+                
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/estilos/telahome.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="shortcut icon" href="/static/imagens/favicon3.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/estilos/global.css">
+    <title>Sistema MS CRED</title>
+</head>
+
+<body>
+    <header>
+        <img src="/static/imagens/logo-mscred-menor.png" alt="logo mscred">
+
+        <a href="#" class="btn-sair" onclick="fazerLogout()">
+            <i class="material-symbols-outlined">exit_to_app</i>
+            <span class="text-button">Sair</span>
+        </a>
+    </header>
+
+    <aside class="sidebar">
+        <!-- Botão toggle -->
+        <button class="toggle-btn" id="toggleMenu">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+
+        <div class="logo"></div>
+
+        <nav>
+            <ul class="menu">
+                <li>
+                    <a href="/telahome.html" class="menu-link">
+                        <i class="material-symbols-outlined">home</i>
+                        <span class="menu-text">HOME</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaconsulta.html" class="menu-link">
+                        <i class="material-symbols-outlined">search</i>
+                        <span class="menu-text">CONSULTA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telacadastro.html" class="menu-link">
+                        <i class="material-symbols-outlined">person</i>
+                        <span class="menu-text">CADASTRO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">trending_up</i>
+                        <span class="menu-text">RELATÓRIOS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaminhaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">dashboard</i>
+                        <span class="menu-text">PRODUÇÃO</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="meio">
+        <div class="card-grande">
+            <h2 class="titulo-card">RESUMO MENSAL</h2>
+
+            <div class="cards-menores">
+                <div class="card">
+                    <div class="card-inner">
+                        <h3>Minha Produção 📊</h3>
+                        <div class="valor-principal" id="prod-mes-anterior">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="card meta-card">
+                    <div class="card-inner">
+                        <h3>METAS DO MÊS 📈</h3>
+                        <div class="metas-display">
+                            <div class="meta-item">
+                                <span>Geral:</span>
+                                <strong id="meta-geral-home">R$ 0,00</strong>
+                            </div>
+                            <div class="meta-item">
+                                <span>Individual:</span>
+                                <strong id="meta-individual-home">R$ 0,00</strong>
+                            </div>
+                        </div>
+                        <div class="meta-info-extra" style="text-align: center; margin-top: 8px;">
+                            <small style="color: white; font-size: 0.85rem; font-weight: 800;">
+                                Progresso: <strong id="porcentagem-valor" style="color: #2ecc71;">0%</strong>
+                            </small>
+                        </div>
+                        <div class="progresso-container">
+                            <div class="barra-progresso" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner aviso-container">
+                        <h3>REGRAS DO MÊS 📋</h3>
+                        
+                        <div class="tabela-regras-wrapper">
+                            <div class="regras-header">
+                                <span>Produto</span>
+                                <span>Banco</span>
+                                <span>Prom.</span>
+                            </div>
+                            <div id="lista-regras-home" class="regras-body">
+                                <!--AQUI VEM AS REGRAS MENSAIS-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foto-container"></div>
+    </main>
+
+    <!-- Botão hambúrguer -->
+    <div class="menu-hamburguer" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Overlay escuro -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="/javascript/home.js"></script>
+    <script>
+        window.onload = function() {
+            // Pega os parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.get('erro') === 'negado') {
+                // Espera um tiquinho para garantir que sua função de CSS carregou
+                setTimeout(() => {
+                    if (typeof mostrarFeedback === "function") {
+                        mostrarFeedback("Acesso restrito à diretoria!", "erro");
+                    } else {
+                        alert("Acesso restrito à diretoria!");
+                    }
+                    
+                    // Limpa a URL para ficar limpinha (sem o ?erro=negado)
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 400);
+            }
+        };
+    </script>
+</body>
+
+</html>

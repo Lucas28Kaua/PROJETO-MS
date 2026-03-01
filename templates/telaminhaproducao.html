@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta name="google" content="notranslate">
+    <script>
+        // BLOQUEIO INSTANTÂNEO - Roda antes de carregar o CSS e o Body
+        (function() {
+            const usuarioId = localStorage.getItem('usuarioId');
+            
+            // Se o ID não existir, for nulo ou for a string "null"
+            if (!usuarioId || usuarioId === "null" || usuarioId === "undefined") {
+                // Não usamos alert aqui para ser mais rápido, redireciona direto
+                window.location.replace("telalogin.html"); 
+                
+            }
+        })();
+    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema MS CRED</title>
+  <link rel="stylesheet" href="/estilos/minhaproducao.css">
+  <link rel="stylesheet" href="/estilos/global.css">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="shortcut icon" href="/static/imagens/favicon3.ico" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <img src="/static/imagens/logo-mscred-menor.png" alt="logo mscred">
+
+        <a href="#" class="btn-sair" onclick="fazerLogout()">
+            <i class="material-symbols-outlined">exit_to_app</i>
+            <span class="text-button">Sair</span>
+        </a>
+    </header>
+
+    <aside class="sidebar">
+        <!-- Botão toggle -->
+        <button class="toggle-btn" id="toggleMenu">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <!--MENU LATERAL-->
+        <nav>
+            <ul class="menu">
+                <li>
+                    <a href="/telahome.html" class="menu-link">
+                        <i class="material-symbols-outlined">home</i>
+                        <span class="menu-text">HOME</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaconsulta.html" class="menu-link">
+                        <i class="material-symbols-outlined">search</i>
+                        <span class="menu-text">CONSULTA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telacadastro.html" class="menu-link">
+                        <i class="material-symbols-outlined">person</i>
+                        <span class="menu-text">CADASTRO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">trending_up</i>
+                        <span class="menu-text">RELATÓRIOS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/telaminhaproducao.html" class="menu-link">
+                        <i class="material-symbols-outlined">dashboard</i>
+                        <span class="menu-text">PRODUÇÃO</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="meio">
+
+    <h2 class="h2DoMain">ACOMPANHAMENTO PESSOAL</h2>
+        <div class="popups-topo-meio">
+
+            <div class="popupProdTotal">
+                <p>Minha produção: <span id="valorTotalProd">R$ 0,00</span></p>
+            </div>
+
+            <div class="container-busca">
+                <input type="text" id="inputBusca" placeholder="🔍 Pesquise por nome ou CPF..." onkeyup="filtrarCards()">
+            </div>
+        </div>
+
+        <div class="containerMeio">
+            <div class="colunaStatus">
+                <div class="headerColunaNovo">
+                    <div class="titulo-e-badge">
+                        <h3>Nova Proposta <span id="countNova" class="badge-contador-novo">0</span></h3>
+                    </div>
+                    <p id="sumNova" class="valor-total-header-novo">R$ 0,00</p>
+                </div>
+                <div id="linhaStatusNova" class="cardsDivisao">
+                    <!--AQUI FICA OS CARDS-->
+  
+                </div>
+            </div>
+
+            <div class="colunaStatus">
+                <div class="headerColunaAnalise">
+                    <div class="titulo-e-badge">
+                        <h3>Processando <span id="countAnalise" class="badge-contador-analise">0</span></h3>
+                    </div>
+                    <p id="sumAnalise" class="valor-total-header-analise">R$ 0,00</p>
+                </div>
+                <div id="linhaStatusAnalise" class="cardsDivisao">
+                    <!--AQUI FICA OS CARDS-->
+                    
+                </div>
+            </div>
+
+            <div class="colunaStatus">
+                <div class="headerColunaFinalizado">
+                    <div class="titulo-e-badge">
+                        <h3>Finalizado <span id="countFinalizado" class="badge-contador-finalizado">0</span></h3>
+                    </div>
+                    <p id="sumFinalizado" class="valor-total-header-finalizado">R$ 0,00</p>
+                    <p class="saldo-header-finalizado" id="saldoFinalizado">Saldo: R$ 0,00</p>
+                </div>
+                <div id="linhaStatusFinalizado" class="cardsDivisao">
+                    <!--AQUI FICA OS CARDS-->
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--MODAL PARA CRIAR O CARD-->
+    <div id="modalProposta" class="modal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h3>Nova Proposta</h3>
+                <button id="fecharModal" onclick="fecharModal()">×</button>
+            </div>
+
+            <form id="formProposta">
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="iNome">Nome do Cliente</label>
+                        <input type="text" name="nome" id="iNome" required>
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="iCPF">CPF do Cliente</label>
+                        <input type="text" name="cpf" id="iCPF" oninput="mascaraCPF(this)">
+                    </div>
+                </div>
+
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="modalConvenio">Convênio</label>
+                        <select name="convenio" id="modalConvenio" required>
+                            <option value="">Selecione</option>
+                            <option value="inss">INSS</option>
+                            <option value="siape">SIAPE</option>
+			    <option value="servidor Estadual">Servidor Estadual</option>
+			    <option value="servidor Municipal">Servidor Municipal</option>
+                            <option value="clt">CLT</option>
+			    <option value="fgts">FGTS</option>
+			    <option value="forcas">Forças Armadas</option>
+                            <option value="bolsaFamilia">Bolsa Família</option>
+                            <option value="crefaz">CREFAZ</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="modalOperacao">Operação Feita</label>
+                        <select name="operacao" id="modalOperacao" required>
+                            <option value="">Selecione</option>
+                            <option value="margemNovo">Margem Novo</option>
+                            <option value="margemRMC">Margem RMC</option>
+                            <option value="margemRCC">Margem RCC</option>
+                            <option value="portRefin">Portabilidade</option>
+                            <option value="refin">Refinanciamento</option>
+                            <option value="saque">Saque</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="camposPortabilidade" style="display: none; margin-top: 2px;">
+                    <div class="linhaDupla">
+                        <div class="campo">
+                            <label for="valorParcelaPort">Valor da Parcela</label>
+                            <input type="text" id="valorParcelaPort" oninput="mascaraMoeda(this)" placeholder="R$ 0,00">
+                        </div>
+                        <div class="campo">
+                            <label for="trocoEstimado">Troco Estimado</label>
+                            <input type="text" id="trocoEstimado"  oninput="mascaraMoeda(this)" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+                    <div class="linhaDupla">
+                        <div class="campo">
+                            <label for="saldoDevedor">Saldo Devedor Estimado</label>
+                            <input type="text" id="saldoDevedor" oninput="mascaraMoeda(this)" placeholder="R$ 0,00">
+                        </div>
+                        <div class="campo">
+                            <label for="dataRetorno">Data Retorno Saldo</label>
+                            <input type="date" id="dataRetorno">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="modalBanco">Banco</label>
+                        <input type="text" id="modalBanco" placeholder="Ex: Daycoval, BMG, C6">
+                    </div>
+                    <div class="campo">
+                        <label for="modalPromotora">Promotora</label>
+                        <input type="text" id="modalPromotora" placeholder="Ex: Facilita, Ideia, Valor">
+                    </div>
+                </div>
+
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="valorLiberado">valor da Operação</label>
+                        <input type="text" name="liberado" oninput="mascaraMoeda(this)" id="valorLiberado">
+                    </div>
+                    <div class="campo">
+                        <label for="valorParcela">valor da Parcela</label>
+                        <input type="text" name="parcela" oninput="mascaraMoeda(this)" id="valorParcela">
+                    </div>
+                </div>
+
+                <div class="linhaDupla">
+                    <div class="campo">
+                        <label for="statusProposta">Status Proposta</label>
+                        <select name="status" id="statusProposta">
+                            <option value="">Selecione</option>
+                            <option value="Novo">Nova Proposta</option>
+                            <option value="Processando">processando</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="detalheStatus">Detalhe Status</label>
+                        <input type="text" name="detalhamento" id="detalheStatus">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-salvar" onclick="pegarValoresDoFormulario(event)">Criar Proposta</button>
+            </form>
+        </div>
+
+    </div>
+
+    <button class="botao-flutuante" id="btnAbrirModal" onclick="prepararNovoCard()">
+        <span>+</span>
+    </button>
+
+  <script src="/javascript/minhaproducao.js"></script>
+</body>
+</html>
