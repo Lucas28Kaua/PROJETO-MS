@@ -2,3 +2,4 @@ output.log
 venv/
 output.log
 .env
+static/uploads/

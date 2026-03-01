@@ -1,5 +1,0 @@
-venv/
-*.sql
-*.log
-__pycache__/
-.env
