@@ -72,8 +72,8 @@ if (toggleBtn) {
     });
 }
 
-function validarExibicaoPorMes(dataIso, status){
-    const dataCriacao = new Date(dataIso)
+function validarExibicaoPorMes(dataCriacaoIso, dataFinalizacaoIso, status){
+    
     const agora = new Date()
 
     // REGRA 1: Se o card NÃO estiver finalizado, ele SEMPRE aparece (não importa a idade)
@@ -82,11 +82,12 @@ function validarExibicaoPorMes(dataIso, status){
     }
 
     // REGRA 2: Se estiver finalizado, verificamos se é do mês e ano atual
+    const dataFinalizacao = new Date(dataFinalizacaoIso);
     const mesAtual = agora.getMonth();
     const anoAtual = agora.getFullYear();
 
-    const mesCard = dataCriacao.getMonth();
-    const anoCard = dataCriacao.getFullYear();
+    const mesCard = dataFinalizacao.getMonth();
+    const anoCard = dataFinalizacao.getFullYear();
 
     return(mesCard === mesAtual && anoCard === anoAtual);
 
@@ -372,7 +373,7 @@ function formatarDataRetorno(dataString) {
 document.addEventListener('DOMContentLoaded', carregarPropostasDoBanco);
 
 function gerarCardNoDashboard(dados) {
-    if (!validarExibicaoPorMes(dados.dataCriacao, dados.status)) {
+    if (!validarExibicaoPorMes(dados.dataCriacao, dados.dataFinalizacao, dados.status)) {
         console.warn(`Card de ${dados.nome} ocultado por pertencer a um fechamento de mês anterior`);
         return;
     }
