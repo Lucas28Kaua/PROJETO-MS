@@ -391,6 +391,8 @@ function atualizarTabelaEInterface(dados) {
 
 function carregarRelatorio() {
     // Busca o botão de "Todos" (mscred) para deixar ele marcado como ativo
+    const dataInicio = document.getElementById('dataInicio').value;
+    const dataFim = document.getElementById('dataFim').value;
     const btnTodos = document.querySelector('.btn-usuario'); 
     
     // Dispara a busca real no banco de dados
@@ -450,6 +452,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Opcional: colocar o início do mês no dataInicio
     const primeiroDoMes = hoje.substring(0, 8) + '01';
     document.getElementById('dataInicio').value = primeiroDoMes;
+
+    const btnTodos = document.querySelector('.btn-usuario');
+    if(btnTodos) btnTodos.classList.add('active');
+
+    filtrarProducao();
 });
 
 function fazerLogout() {
