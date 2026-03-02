@@ -338,7 +338,8 @@ async function carregarPropostasDoBanco() {
                 
                 dataCriacao: p.data_criacao.includes('Z') || p.data_criacao.includes    ('GMT') 
                     ? p.data_criacao 
-                    : p.data_criacao.replace(' ', 'T'), 
+                    : p.data_criacao.replace(' ', 'T'),
+                dataFinalizacao: p.data_finalizacao,
                 // Dentro do seu propostas.forEach, altere APENAS a linha do retornoSaldo:
                 retornoSaldo: p.data_retorno_saldo ? new Date(p.data_retorno_saldo).toISOString().split('T')[0] : null,
                 saldoCliente: p.saldo_devedor_estimado || 0,
