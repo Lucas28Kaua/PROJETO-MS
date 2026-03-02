@@ -288,6 +288,17 @@ async function carregarPropostasDoBanco() {
 
         const propostas = await response.json();
 
+        const propostaTeste = propostas.find(p => p.id === 227);
+        if(propostaTeste) {
+            console.log("🔍 PROPOSTA 227 ENCONTRADA:");
+            console.log("Objeto completo:", propostaTeste);
+            console.log("data_finalizacao:", propostaTeste.data_finalizacao);
+            console.log("Tipo da data:", typeof propostaTeste.data_finalizacao);
+        } else {
+            console.log("❌ Proposta 227 NÃO encontrada no array");
+            console.log("IDs disponíveis:", propostas.map(p => p.id));
+        }
+        
         // 2. Limpa as colunas antes de renderizar (para não duplicar no F5)
         document.getElementById('linhaStatusNova').innerHTML = '';
         document.getElementById('linhaStatusAnalise').innerHTML = '';
