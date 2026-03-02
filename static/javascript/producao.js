@@ -236,6 +236,7 @@ function atualizarCardsResumo(total, quantidade) {
 }
 
 async function filtrarPorUsuario(idUsuario, elemento) {
+    console.log("🔵 filtrarPorUsuario chamado com:", idUsuario);
     // 1. Alterna a classe ativa nos botões
     const botoes = document.querySelectorAll('.btn-usuario');
     botoes.forEach(btn => btn.classList.remove('active'));
@@ -266,6 +267,10 @@ async function filtrarPorUsuario(idUsuario, elemento) {
 }
 
 async function filtrarProducao() {
+
+    console.log("🟢 filtrarProducao chamado");
+    console.log("Datas:", document.getElementById('dataInicio').value, "até", document.getElementById('dataFim').value);
+
     const dataInicio = document.getElementById('dataInicio').value;
     const dataFim = document.getElementById('dataFim').value;
 
@@ -387,18 +392,6 @@ function atualizarTabelaEInterface(dados) {
         renderizarGraficoPizza(dados);
     }
 }
-    
-
-function carregarRelatorio() {
-    // Busca o botão de "Todos" (mscred) para deixar ele marcado como ativo
-    const dataInicio = document.getElementById('dataInicio').value;
-    const dataFim = document.getElementById('dataFim').value;
-    const btnTodos = document.querySelector('.btn-usuario'); 
-    
-    // Dispara a busca real no banco de dados
-    filtrarPorUsuario('mscred', btnTodos);
-}
-
 
 async function publicarConfiguracoes() {
     const metaGeral = document.querySelector('input[placeholder="Ex: 1000000"]').value;
@@ -445,7 +438,7 @@ async function publicarConfiguracoes() {
    5. INICIALIZAÇÃO
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-    carregarRelatorio();
+    console.log("⚪ Página carregou");
     
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('dataFim').value = hoje;
@@ -455,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnTodos = document.querySelector('.btn-usuario');
     if(btnTodos) btnTodos.classList.add('active');
-
+    console.log("🟡 Vou chamar filtrarProducao");
     filtrarProducao();
 });
 
