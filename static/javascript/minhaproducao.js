@@ -73,7 +73,11 @@ if (toggleBtn) {
 }
 
 function validarExibicaoPorMes(dataCriacaoIso, dataFinalizacaoIso, status){
-    
+    console.log("🔍 DENTRO DA FUNÇÃO - Parâmetros recebidos:");
+    console.log("dataCriacaoIso:", dataCriacaoIso);
+    console.log("dataFinalizacaoIso:", dataFinalizacaoIso);
+    console.log("status:", status);
+
     const agora = new Date()
 
     // REGRA 1: Se o card NÃO estiver finalizado, ele SEMPRE aparece (não importa a idade)
@@ -85,11 +89,20 @@ function validarExibicaoPorMes(dataCriacaoIso, dataFinalizacaoIso, status){
     const dataFinalizacao = new Date(dataFinalizacaoIso);
     const mesAtual = agora.getMonth();
     const anoAtual = agora.getFullYear();
+    console.log("Criando data com:", dataFinalizacaoIso);
+    console.log("dataFinalizacao objeto:", dataFinalizacao);
+    console.log("getMonth():", dataFinalizacao.getMonth());
+    console.log("getFullYear():", dataFinalizacao.getFullYear());
 
     const mesCard = dataFinalizacao.getMonth();
     const anoCard = dataFinalizacao.getFullYear();
 
-    return(mesCard === mesAtual && anoCard === anoAtual);
+    console.log(`Comparação: ${mesCard} (card) === ${mesAtual} (atual) e ${anoCard} === ${anoAtual}`);
+
+    const resultado = (mesCard === mesAtual && anoCard === anoAtual);
+    console.log("RESULTADO FINAL:", resultado);
+    
+    return resultado;
 
 }
 
@@ -298,7 +311,7 @@ async function carregarPropostasDoBanco() {
             console.log("❌ Proposta 227 NÃO encontrada no array");
             console.log("IDs disponíveis:", propostas.map(p => p.id));
         }
-        
+
         // 2. Limpa as colunas antes de renderizar (para não duplicar no F5)
         document.getElementById('linhaStatusNova').innerHTML = '';
         document.getElementById('linhaStatusAnalise').innerHTML = '';
