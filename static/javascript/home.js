@@ -58,20 +58,34 @@ async function carregarDashboardDoBanco() {
         const propostas = await response.json();
 
         let somaTotalUsuario = 0;
-        const container = document.getElementById('containerCardsHome'); // Certifique-se que esse ID existe no HTML
+        const agora = new Date();
+        const mesAtual = agora.getMonth();
+        const anoAtual = agora.getFullYear();
+
+        const container = document.getElementById('containerCardsHome');
         if(container) container.innerHTML = ""; 
 
         propostas.forEach(p => {
-            // Cálculo do Valor Real (Lógica que arrumamos antes)
+            const dataFinalizacao = new Date(p.data_finalizacao);
+            const mesProposta = dataFinalizacao.getMonth();
+            const anoProposta = dataFinalizacao.getFullYear();
             const t = parseFloat(p.valor_operacao) || 0;
             const s = parseFloat(p.saldo_devedor_estimado) || 0;
             const isPort = (p.operacao_feita || "").toLowerCase().includes('port');
             const valorReal = isPort ? (t + s) : t;
 
-            // Se a proposta estiver finalizada, soma na produção do mês
-            if(p.status_proposta === 'Finalizado') {
-                somaTotalUsuario += valorReal;
+            if(p.status_proposta === 'Finalizado' &&
+                mesProposta === mesAtual &&
+                anoProposta === anoAtual
+            ){
+
+                somaTotalUsuario += valorReal;                
+                
             }
+            
+
+            // Se a proposta estiver finalizada, soma na produção do mês
+            
 
             gerarCardNoDashboard(p, valorReal);
         });
@@ -90,7 +104,6 @@ async function carregarDashboardDoBanco() {
     }
 }
 
-// 3. FUNÇÃO QUE DESENHA O CARD (A que estava faltando!)
 function gerarCardNoDashboard(p, valorReal) {
     const container = document.getElementById('containerCardsHome');
     if(!container) return;
