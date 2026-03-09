@@ -242,11 +242,73 @@ function obterNomeMes(numMes) {
     return meses[parseInt(numMes) - 1];
 }
 
-function atualizarCardsResumo(total, quantidade) {
+function atualizarCardsResumo(total, quantidade, totalAnterior, quantidadeAnterior) {
     const ticketMedio = quantidade > 0 ? total / quantidade : 0;
+    const ticketAnterior = quantidadeAnterior > 0 ? totalAnterior / quantidadeAnterior : 0;
+
     document.getElementById('resumoTotal').innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     document.getElementById('resumoQtd').innerText = quantidade;
     document.getElementById('resumoTicket').innerText = ticketMedio.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    renderizarSetinha('setinhaTotal', total, totalAnterior);
+    renderizarSetinha('setinhaQtd', quantidade, quantidadeAnterior);
+    renderizarSetinha('setinhaTicket', ticketMedio, ticketAnterior);
+}
+
+function renderizarSetinha(elementoId, atual, anterior) {
+    const el = document.getElementById(elementoId);
+    if (!el) return;
+
+    if (anterior === 0) { el.innerHTML = ''; return; }
+
+    const diff = ((atual - anterior) / anterior) * 100;
+    const subindo = diff >= 0;
+    const cor = subindo ? '#2ecc71' : '#e74c3c';
+    const seta = subindo ? '▲' : '▼';
+    const pct = Math.abs(diff).toFixed(1);
+
+    el.innerHTML = `<span style="color:${cor}; font-weight:600; font-size:0.85rem;">${seta} ${pct}%</span>`;
+}
+
+function calcularTotais(dados) {
+    let total = 0;
+    dados.forEach(item => {
+        const t = parseFloat(item.valor_operacao) || 0;
+        const s = parseFloat(item.saldo_devedor_estimado) || 0;
+        const isPort = (item.operacao_feita || "").toLowerCase().includes('port');
+        total += isPort ? (t + s) : t;
+    });
+    return { total, quantidade: dados.length };
+}
+
+function getPeriodoMesAnterior(inicioAtual, fimAtual) {
+    const inicio = new Date(inicioAtual);
+    const fim = new Date(fimAtual);
+    
+    inicio.setMonth(inicio.getMonth() - 1);
+    fim.setMonth(fim.getMonth() - 1);
+    
+    return {
+        inicio: inicio.toISOString().split('T')[0],
+        fim: fim.toISOString().split('T')[0]
+    };
+}
+
+async function buscarTotaisAnteriores(idUsuario, inicioAtual, fimAtual) {
+    const periodo = getPeriodoMesAnterior(inicioAtual, fimAtual);
+    
+    const url = (idUsuario === 'mscred')
+        ? `https://sistemamscred.com.br/api/relatorios/total?inicio=${periodo.inicio}&fim=${periodo.fim}`
+        : `https://sistemamscred.com.br/api/relatorios/${idUsuario}?inicio=${periodo.inicio}&fim=${periodo.fim}`;
+    
+    try {
+        const response = await fetch(url);
+        const resultado = await response.json();
+        if (resultado.vazio) return { total: 0, quantidade: 0 };
+        return calcularTotais(resultado.tabela);
+    } catch (erro) {
+        console.error("Erro ao buscar mês anterior:", erro);
+        return { total: 0, quantidade: 0 };
+    }
 }
 
 let usuarioAtual = 'mscred';
@@ -275,8 +337,9 @@ async function filtrarPorUsuario(idUsuario, elemento) {
         }
 
         // 3. Alimenta a interface com os dados REAIS do banco
-        dadosFiltradosAtuais = resultado.tabela; 
-        atualizarTabelaEInterface(resultado.tabela);
+        dadosFiltradosAtuais = resultado.tabela;
+        const anteriores = await buscarTotaisAnteriores(idUsuario, getDataInicio(), getDataFim());
+        atualizarTabelaEInterface(resultado.tabela, anteriores);
 
     } catch (erro) {
         console.error("Erro ao buscar dados do banco:", erro);
@@ -308,7 +371,8 @@ async function filtrarProducao() {
         if (resultado.tabela && resultado.tabela.length > 0) {
             // 3. Atualiza a variável global e a tela
             dadosFiltradosAtuais = resultado.tabela;
-            atualizarTabelaEInterface(resultado.tabela);
+            const anteriores = await buscarTotaisAnteriores(usuarioAtual, dataInicio, dataFim);
+            atualizarTabelaEInterface(resultado.tabela, anteriores);
         } else {
             alert("Nenhuma proposta encontrada para este período.");
             atualizarTabelaEInterface([]); // Limpa a tela se não achar nada
@@ -320,7 +384,7 @@ async function filtrarProducao() {
     }
 }
 
-function atualizarTabelaEInterface(dados) {
+function atualizarTabelaEInterface(dados, anteriores = {total: 0, quantidade: 0}) {
     const corpoTabela = document.getElementById('corpoTabelaRelatorio');
     dadosFiltradosAtuais = dados || [];
 
@@ -330,7 +394,7 @@ function atualizarTabelaEInterface(dados) {
         }
         renderizarGrafico([], []);
         renderizarGraficoPizza([]);
-        atualizarCardsResumo(0, 0);
+        atualizarCardsResumo(0, 0, 0, 0);
         return;
     }
 
@@ -387,8 +451,8 @@ function atualizarTabelaEInterface(dados) {
         `;
     }).join('');
 
-    // Atualiza os Cards com o acumulado que somamos no map acima
-    atualizarCardsResumo(totalGeralAcumulado, dados.length);
+    const totaisAtuais = calcularTotais(dados);
+    atualizarCardsResumo(totaisAtuais.total, totaisAtuais.quantidade, anteriores.total, anteriores.quantidade);
 
     // Atualiza os Gráficos
     if (typeof renderizarGrafico === 'function' && dados.length > 0) {
