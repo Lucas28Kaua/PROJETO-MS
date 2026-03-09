@@ -266,7 +266,7 @@ function renderizarSetinha(elementoId, atual, anterior) {
     const seta = subindo ? '▲' : '▼';
     const pct = Math.abs(diff).toFixed(1);
 
-    el.innerHTML = `<span style="color:${cor}; font-weight:600; font-size:0.85rem;">${seta} ${pct}%</span>`;
+    el.innerHTML = `<span style="color:${cor}; font-weight:600; font-size:1rem;">${seta} ${pct}%</span>`;
 }
 
 function calcularTotais(dados) {
