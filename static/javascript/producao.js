@@ -1,3 +1,19 @@
+function getPrimeiroDiaMesAtual() {
+    const hoje = new Date();
+    return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-01`;
+}
+
+function getHoje() {
+    return new Date().toISOString().split('T')[0];
+}
+
+function getDataInicio() {
+    return document.getElementById('dataInicio').value || getPrimeiroDiaMesAtual();
+}
+
+function getDataFim() {
+    return document.getElementById('dataFim').value || getHoje();
+}
 
 let meuGrafico = null;
 let meuGraficoPizza = null;
@@ -181,8 +197,6 @@ function mudarVisaoGrafico(tipo, elemento) {
     
     visaoAtual = tipo;
     
-    // Usa os dados que estão atualmente na tabela (filtrados ou não)
-    // Se você tiver uma variável global 'dadosFiltradosAtuais', use-a aqui
     const dadosParaExibir = (typeof dadosFiltradosAtuais !== 'undefined') ? dadosFiltradosAtuais : dadosTabela;
     processarERenderizarGrafico(dadosFiltradosAtuais);
 }
@@ -235,17 +249,20 @@ function atualizarCardsResumo(total, quantidade) {
     document.getElementById('resumoTicket').innerText = ticketMedio.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 }
 
+let usuarioAtual = 'mscred';
+
 async function filtrarPorUsuario(idUsuario, elemento) {
     console.log("🔵 filtrarPorUsuario chamado com:", idUsuario);
     // 1. Alterna a classe ativa nos botões
     const botoes = document.querySelectorAll('.btn-usuario');
     botoes.forEach(btn => btn.classList.remove('active'));
     if(elemento) elemento.classList.add('active');
+    usuarioAtual = idUsuario;
 
     // 2. Filtra os dados e guarda na nossa variável global
     const url = (idUsuario === 'mscred') 
-        ? 'https://sistemamscred.com.br/api/relatorios/total' 
-        : `https://sistemamscred.com.br/api/relatorios/${idUsuario}`;
+        ? `https://sistemamscred.com.br/api/relatorios/total?inicio=${getDataInicio()}&fim=${getDataFim()}` 
+        : `https://sistemamscred.com.br/api/relatorios/${idUsuario}?inicio=${getDataInicio()}&fim=${getDataFim()}`;
 
     try {
         const response = await fetch(url);
@@ -282,7 +299,10 @@ async function filtrarProducao() {
 
     try {
         
-        const response = await fetch(`https://sistemamscred.com.br/api/relatorios/filtro-data?inicio=${dataInicio}&fim=${dataFim}`);
+        const url = (usuarioAtual === 'mscred')
+            ? `https://sistemamscred.com.br/api/relatorios/total?inicio=${dataInicio}&fim=${dataFim}`
+            : `https://sistemamscred.com.br/api/relatorios/${usuarioAtual}?inicio=${dataInicio}&fim=${dataFim}`;
+        const response = await fetch(url);
         const resultado = await response.json();
 
         if (resultado.tabela && resultado.tabela.length > 0) {
@@ -440,16 +460,13 @@ async function publicarConfiguracoes() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log("⚪ Página carregou");
     
-    const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('dataFim').value = hoje;
-    // Opcional: colocar o início do mês no dataInicio
-    const primeiroDoMes = hoje.substring(0, 8) + '01';
-    document.getElementById('dataInicio').value = primeiroDoMes;
+    document.getElementById('dataFim').value = getHoje();
+    document.getElementById('dataInicio').value = getPrimeiroDiaMesAtual();
 
     const btnTodos = document.querySelector('.btn-usuario');
     if(btnTodos) btnTodos.classList.add('active');
     console.log("🟡 Vou chamar filtrarProducao");
-    filtrarProducao();
+    filtrarPorUsuario('mscred', document.querySelector('.btn-usuario'));
 });
 
 function fazerLogout() {
