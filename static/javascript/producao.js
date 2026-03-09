@@ -392,23 +392,8 @@ function atualizarTabelaEInterface(dados) {
 
     // Atualiza os Gráficos
     if (typeof renderizarGrafico === 'function' && dados.length > 0) {
-        const labels = [...new Set(dados.map(i => 
-            new Date(i.data_finalizacao).toLocaleDateString('pt-br', {day:'2-digit', month:'2-digit'})
-        ))].sort();
-
-        const valoresPorDia = labels.map(label => {
-            return dados
-                .filter(i => new Date(i.data_finalizacao).toLocaleDateString('pt-br', {day:'2-digit', month:'2-digit'}) === label)
-                .reduce((acc, item) => {
-                    const t = parseFloat(item.valor_operacao) || 0;
-                    const s = parseFloat(item.saldo_devedor_estimado) || 0;
-                    const isPort = (item.operacao_feita || "").toLowerCase().includes('port');
-                    return acc + (isPort ? (t + s) : t);
-                }, 0);
-        });
-
-        // CORREÇÃO AQUI: Passando 'valoresPorDia' em vez de 'valores'
-        renderizarGrafico(labels, valoresPorDia);
+        
+        processarERenderizarGrafico(dados);
         renderizarGraficoPizza(dados);
     }
 }
