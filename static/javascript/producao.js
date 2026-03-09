@@ -280,21 +280,21 @@ function calcularTotais(dados) {
     return { total, quantidade: dados.length };
 }
 
-function getPeriodoMesAnterior(inicioAtual, fimAtual) {
+function getPeriodoMesAnterior(inicioAtual) {
     const inicio = new Date(inicioAtual);
-    const fim = new Date(fimAtual);
-    
-    inicio.setMonth(inicio.getMonth() - 1);
-    fim.setMonth(fim.getMonth() - 1);
-    
+    const ano = inicio.getMonth() === 0 ? inicio.getFullYear() - 1 : inicio.getFullYear();
+    const mes = inicio.getMonth() === 0 ? 12 : inicio.getMonth();
+    const mesFormatado = String(mes).padStart(2, '0');
+    const ultimoDia = new Date(ano, mes, 0).getDate();
+     
     return {
-        inicio: inicio.toISOString().split('T')[0],
-        fim: fim.toISOString().split('T')[0]
+        inicio: `${ano}-${mesFormatado}-01`,
+        fim: `${ano}-${mesFormatado}-${ultimoDia}`
     };
 }
 
-async function buscarTotaisAnteriores(idUsuario, inicioAtual, fimAtual) {
-    const periodo = getPeriodoMesAnterior(inicioAtual, fimAtual);
+async function buscarTotaisAnteriores(idUsuario, inicioAtual) {
+    const periodo = getPeriodoMesAnterior(inicioAtual);
     
     const url = (idUsuario === 'mscred')
         ? `https://sistemamscred.com.br/api/relatorios/total?inicio=${periodo.inicio}&fim=${periodo.fim}`
