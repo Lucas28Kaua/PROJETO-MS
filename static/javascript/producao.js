@@ -281,12 +281,18 @@ function calcularTotais(dados) {
 }
 
 function getPeriodoMesAnterior(inicioAtual) {
-    const inicio = new Date(inicioAtual);
-    const ano = inicio.getMonth() === 0 ? inicio.getFullYear() - 1 : inicio.getFullYear();
-    const mes = inicio.getMonth() === 0 ? 12 : inicio.getMonth();
+    const partes = inicioAtual.split('-');
+    let ano = parseInt(partes[0]);
+    let mes = parseInt(partes[1]) - 1; // mês anterior
+
+    if (mes === 0) {
+        mes = 12;
+        ano -= 1;
+    }
+
     const mesFormatado = String(mes).padStart(2, '0');
     const ultimoDia = new Date(ano, mes, 0).getDate();
-     
+
     return {
         inicio: `${ano}-${mesFormatado}-01`,
         fim: `${ano}-${mesFormatado}-${ultimoDia}`
