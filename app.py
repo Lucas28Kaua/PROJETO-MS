@@ -751,27 +751,50 @@ def get_sessao_fullconsig():
 
 @app.route('/consulta-fullconsig/<cpf>', methods = ['GET'])
 def consulta_fullconsig(cpf):
+
+    global _sessao_fullconsig
     try:
         sessao = get_sessao_fullconsig()
-        resp = sessao.post("https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
-            data={"consulta": "inss", "valor": cpf, "valorTelefone": "", "telefone": "false"}
-        )
-        dados = resp.json()
+        convenios = ['inss', 'siape', 'federal', 'municipal', 'clt', 'bolsafamilia']
+        soup = None
 
-        # Sessão expirou? Renova e tenta de novo
-        if "loginForm" in dados.get("consulta", "") or "Olá, seja bem-vindo" in dados.get("consulta", ""):
-            import sys
-            sys.modules[__name__].__dict__['_sessao_fullconsig'] = None
-            sessao = get_sessao_fullconsig()
+        for convenio in convenios:
             resp = sessao.post(
                 "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
-                data={"consulta": "inss", "valor": cpf, "valorTelefone": "", "telefone": "false"}
+                data={"consulta": convenio, "valor": cpf, "valorTelefone": "", "telefone": "false"}
             )
-            dados = resp.json()
 
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(dados["consulta"], "html.parser")
+            try:
+                dados = resp.json()
+            except:
+                continue
 
+            # Sessão expirou? Renova
+            if "loginForm" in dados.get("consulta", "") or "Olá, seja bem-vindo" in dados.get("consulta", ""):
+                _sessao_fullconsig = None
+                sessao = get_sessao_fullconsig()
+                resp = sessao.post(
+                    "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
+                    data={"consulta": convenio, "valor": cpf, "valorTelefone": "", "telefone": "false"}
+                )
+                dados = resp.json()
+
+            from bs4 import BeautifulSoup
+            soup_temp = BeautifulSoup(dados.get("consulta", ""), "html.parser")
+
+            # Verifica se achou nome (sinal de que o convênio bateu)
+            ps = [p.get_text(separator=" ", strip=True) for p in soup_temp.find_all("p") if p.get_text(strip=True)]
+            
+            if any("Nome:" in p for p in ps):
+                print(f"✅ CPF {cpf} encontrado no convênio: {convenio}")
+                soup = soup_temp
+                break
+            else:
+                print(f"❌ CPF {cpf} não encontrado em: {convenio}")
+
+        if not soup:
+            return jsonify({"erro": "CPF não encontrado em nenhum convênio"}), 404
+    
         # Extrai dados dos <p>
         ps = [p.get_text(separator=" ", strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
 
