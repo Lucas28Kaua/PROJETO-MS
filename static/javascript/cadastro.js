@@ -98,6 +98,56 @@
         selectEstado.appendChild(option)
     })
     }
+   
+    async function buscarDadosFullConsig(cpfFormatado) {
+        const cpf = cpfFormatado.replace(/\D/g, '');
+        
+        // Só busca quando CPF estiver completo
+        if (cpf.length !== 11) return;
+
+        // Feedback visual
+        document.getElementById('inome').placeholder = '⏳ Buscando dados...';
+
+        try {
+            const response = await fetch(`https://sistemamscred.com.br/consulta-fullconsig/${cpf}`);
+            const dados = await response.json();
+
+            if (dados.nome) {
+                document.getElementById('inome').value = dados.nome;
+            }
+            if (dados.data_nascimento) {
+                document.getElementById('idataNasc').value = dados.data_nascimento; // formato YYYY-MM-DD
+            }
+            if (dados.beneficio) {
+                document.getElementById('ibeneficio').value = dados.beneficio;
+            }
+            if (dados.telefone) {
+                document.getElementById('itelefone').value = formatarTelefone(dados.telefone);
+            }
+            if (dados.estado) {
+                document.getElementById('estado').value = dados.estado;
+            }
+            if (dados.cidade) {
+                document.getElementById('cidade').value = dados.cidade;
+            }
+            if (dados.bairro) {
+                document.getElementById('bairro').value = dados.bairro;
+            }
+            if (dados.rua) {
+                document.getElementById('irua').value = dados.rua;
+            }
+            if (dados.numero) {
+                document.getElementById('inumero').value = dados.numero;
+            }
+
+            document.getElementById('inome').placeholder = 'João Da Silva';
+            console.log('✅ Dados preenchidos automaticamente!');
+
+        } catch (error) {
+            document.getElementById('inome').placeholder = 'João Da Silva';
+            console.warn('FullConsig indisponível, preencha manualmente.');
+        }
+    }
 
     const formClienteNovo=document.getElementById('formClienteNovo')
     const botaoClicado=document.getElementById('botaoClicado')

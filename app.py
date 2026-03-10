@@ -8,6 +8,7 @@ from flask_cors import CORS
 import json
 from datetime import datetime, timedelta
 import pytz
+import requests as req_http
 
 load_dotenv()
 
@@ -730,5 +731,96 @@ def serve_static_html(filename):
     if filename.endswith('.html'):
         return send_from_directory('templates', filename)
     return "Arquivo não encontrado", 404
+
+_sessao_fullconsig = None
+
+def get_sessao_fullconsig():
+    global _sessao_fullconsig
+    if _sessao_fullconsig is None:
+        _sessao_fullconsig = req_http.Session()
+        _sessao_fullconsig.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "X-Requested-With": "XMLHttpRequest",
+            "Referer": "https://sistema.fullconsig.com.br/consulta/consulta"
+        })
+        _sessao_fullconsig.post(
+            "https://sistema.fullconsig.com.br/login/login",
+            data={"login": os.getenv('FULLCONSIG_LOGIN'), "senha": os.getenv('FULLCONSIG_SENHA')}
+        )
+    return _sessao_fullconsig
+
+@app.route('/consulta-fullconsig/<cpf>', methods = ['GET'])
+def consulta_fullconsig(cpf):
+    try:
+        sessao = get_sessao_fullconsig()
+        resp = sessao.post("https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
+            data={"consulta": "inss", "valor": cpf, "valorTelefone": "", "telefone": "false"}
+        )
+        dados = resp.json()
+
+        # Sessão expirou? Renova e tenta de novo
+        if "loginForm" in dados.get("consulta", "") or "Olá, seja bem-vindo" in dados.get("consulta", ""):
+            import sys
+            sys.modules[__name__].__dict__['_sessao_fullconsig'] = None
+            sessao = get_sessao_fullconsig()
+            resp = sessao.post(
+                "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
+                data={"consulta": "inss", "valor": cpf, "valorTelefone": "", "telefone": "false"}
+            )
+            dados = resp.json()
+
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(dados["consulta"], "html.parser")
+
+        # Extrai dados dos <p>
+        ps = [p.get_text(separator=" ", strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
+
+        resultado = {
+            "nome": None,
+            "data_nascimento": None,
+            "beneficio": None,
+            "telefone": None,
+            "estado": None,
+            "cidade": None,
+            "bairro": None,
+            "rua": None,
+            "numero": None
+        }
+        for p in ps:
+            if "Nome:" in p:
+                resultado["nome"] = p.replace("Nome:", "").strip()
+            elif "CPF:" in p and "Benefício:" in p:
+                partes = p.split("/")
+                if len(partes) > 1:
+                    resultado["beneficio"] = partes[1].replace("Benefício:", "").strip()
+            elif "Data de Nascimento:" in p:
+                dn = p.replace("Data de Nascimento:", "").split("-")[0].strip()
+                # Converte DD/MM/YYYY para YYYY-MM-DD pro input date do HTML
+                try:
+                    from datetime import datetime
+                    resultado["data_nascimento"] = datetime.strptime(dn, "%d/%m/%Y").strftime("%Y-%m-%d")
+                except:
+                    resultado["data_nascimento"] = None
+            elif "Endereço:" in p:
+                endereco = p.replace("Endereço:", "").strip()
+                resultado["rua"] = endereco
+            elif "Bairro:" in p:
+                resultado["bairro"] = p.replace("Bairro:", "").strip()
+            elif "Cidade:" in p and "Estado:" in p:
+                partes = p.split("-")
+                if len(partes) >= 2:
+                    resultado["cidade"] = partes[0].replace("Cidade:", "").strip()
+                    resultado["estado"] = partes[1].replace("Estado:", "").strip()
+
+        # Telefone
+        tel_tag = soup.select_one("table td")
+        if tel_tag:
+            resultado["telefone"] = tel_tag.get_text(strip=True).replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+
+        return jsonify(resultado), 200
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
