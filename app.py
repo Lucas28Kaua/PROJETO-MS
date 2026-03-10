@@ -793,6 +793,7 @@ def consulta_fullconsig(cpf):
                 break
             else:
                 print(f"❌ CPF {cpf} não encontrado em: {convenio}")
+                print(f"   Primeiros ps: {ps[:3]}")
 
         if not soup:
             return jsonify({"erro": "CPF não encontrado em nenhum convênio"}), 404
