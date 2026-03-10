@@ -802,20 +802,44 @@ def consulta_fullconsig(cpf):
                 except:
                     resultado["data_nascimento"] = None
             elif "Endereço:" in p:
-                endereco = p.replace("Endereço:", "").strip()
-                resultado["rua"] = endereco
-            elif "Bairro:" in p:
-                resultado["bairro"] = p.replace("Bairro:", "").strip()
-            elif "Cidade:" in p and "Estado:" in p:
-                partes = p.split("-")
-                if len(partes) >= 2:
-                    resultado["cidade"] = partes[0].replace("Cidade:", "").strip()
-                    resultado["estado"] = partes[1].replace("Estado:", "").strip()
+                # Extrai rua
+                rua = p.split("Bairro:")[0].replace("Endereço:", "").strip()
+                resultado["rua"] = rua
+
+                # Extrai bairro
+                if "Bairro:" in p:
+                    bairro = p.split("Bairro:")[1].split("Cidade:")[0].strip()
+                    resultado["bairro"] = bairro
+
+                # Extrai cidade
+                if "Cidade:" in p:
+                    cidade_estado = p.split("Cidade:")[1].split("CEP:")[0].strip()
+                    if "-" in cidade_estado:
+                        partes_cidade = cidade_estado.split("-")
+                        resultado["cidade"] = partes_cidade[0].replace("Estado:", "").strip()
+                        estado_sigla = partes_cidade[1].replace("Estado:", "").strip()
+
+                        # Mapeia sigla para nome completo do estado
+                        mapa_estados = {
+                            "AC": "Acre", "AL": "Alagoas", "AP": "Amapá", "AM": "Amazonas",
+                            "BA": "Bahia", "CE": "Ceará", "DF": "Distrito Federal",
+                            "ES": "Espírito Santo", "GO": "Goiás", "MA": "Maranhão",
+                            "MT": "Mato Grosso", "MS": "Mato Grosso do Sul", "MG": "Minas Gerais",
+                            "PA": "Pará", "PB": "Paraíba", "PR": "Paraná", "PE": "Pernambuco",
+                            "PI": "Piauí", "RJ": "Rio de Janeiro", "RN": "Rio Grande do Norte",
+                            "RS": "Rio Grande do Sul", "RO": "Rondônia", "RR": "Roraima",
+                            "SC": "Santa Catarina", "SP": "São Paulo", "SE": "Sergipe",
+                            "TO": "Tocantins"
+                        }
+                        resultado["estado"] = mapa_estados.get(estado_sigla, estado_sigla)
 
         # Telefone
-        tel_tag = soup.select_one("table td")
-        if tel_tag:
-            resultado["telefone"] = tel_tag.get_text(strip=True).replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+        tel_tags = soup.select("table td")
+        for td in tel_tags:
+            texto = td.get_text(strip=True).replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+            if texto.isdigit() and len(texto) >= 10:
+                resultado["telefone"] = texto
+                break  # para no primeiro válido
 
         return jsonify(resultado), 200
 
