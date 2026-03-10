@@ -738,24 +738,21 @@ _sessao_fullconsig = None
 
 def get_sessao_fullconsig():
     global _sessao_fullconsig
-    if _sessao_fullconsig is None:
-        _sessao_fullconsig = req_http.Session()
-        _sessao_fullconsig.headers.update({
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
-            "X-Requested-With": "XMLHttpRequest",
-            "Referer": "https://sistema.fullconsig.com.br/consulta/consulta"
-        })
-        resp_login = _sessao_fullconsig.post(
-            "https://sistema.fullconsig.com.br/login/login",
-            data={"login": os.getenv('FULLCONSIG_LOGIN'), "senha": os.getenv('FULLCONSIG_SENHA')}
-        )
-        print(f"Login FullConsig - status: {resp_login.status_code} - tamanho: {len(resp_login.text)}")
-        print(f"Login OK: {'loginForm' not in resp_login.text}")
+    _sessao_fullconsig = req_http.Session()
+    _sessao_fullconsig.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "X-Requested-With": "XMLHttpRequest",
+        "Referer": "https://sistema.fullconsig.com.br/consulta/consulta"
+    })
+    resp_login = _sessao_fullconsig.post(
+        "https://sistema.fullconsig.com.br/login/login",
+        data={"login": os.getenv('FULLCONSIG_LOGIN'), "senha": os.getenv('FULLCONSIG_SENHA')}
+    )
+    print(f"Login FullConsig - status: {resp_login.status_code} - OK: {'loginForm' not in resp_login.text}")
     return _sessao_fullconsig
 
 @app.route('/consulta-fullconsig/<cpf>', methods = ['GET'])
 def consulta_fullconsig(cpf):
-
     global _sessao_fullconsig
     try:
         sessao = get_sessao_fullconsig()
@@ -772,17 +769,7 @@ def consulta_fullconsig(cpf):
                 dados = resp.json()
             except:
                 continue
-
-            # Sessão expirou? Renova
-            if "loginForm" in dados.get("consulta", "") or "Olá, seja bem-vindo" in dados.get("consulta", ""):
-                _sessao_fullconsig = None
-                sessao = get_sessao_fullconsig()
-                resp = sessao.post(
-                    "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
-                    data={"consulta": convenio, "valor": cpf, "valorTelefone": "", "telefone": "false"}
-                )
-                dados = resp.json()
-
+            
             from bs4 import BeautifulSoup
             soup_temp = BeautifulSoup(dados.get("consulta", ""), "html.parser")
 
