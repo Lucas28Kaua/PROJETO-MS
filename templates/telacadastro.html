@@ -105,12 +105,12 @@
                                 <div class="campo">
                                     <label for="icpf">CPF:</label>
                                     <input type="text" name="cpf" id="icpf" placeholder="000.000.000-00" required
-                                    autocomplete="on" oninput="this.value = formatarCPF(this.value)">
+                                    autocomplete="on" oninput="this.value = formatarCPF(this.value)" onchange="buscarDadosFullConsig(this.value)">
                                 </div>
                                 <div class="campo-grande">
                                     <label for="inome">Nome:</label>
                                     <input type="text" name="nome" id="inome" placeholder="João Da Silva" required
-                                        autocomplete="on" onchange="buscarDadosFullConsig(this.value)">
+                                        autocomplete="on">
                                 </div>
                                 <!--DATA NASC-->
                                 <div class="campo">
