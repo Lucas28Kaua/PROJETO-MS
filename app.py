@@ -745,10 +745,12 @@ def get_sessao_fullconsig():
             "X-Requested-With": "XMLHttpRequest",
             "Referer": "https://sistema.fullconsig.com.br/consulta/consulta"
         })
-        _sessao_fullconsig.post(
+        resp_login = _sessao_fullconsig.post(
             "https://sistema.fullconsig.com.br/login/login",
             data={"login": os.getenv('FULLCONSIG_LOGIN'), "senha": os.getenv('FULLCONSIG_SENHA')}
         )
+        print(f"Login FullConsig - status: {resp_login.status_code} - tamanho: {len(resp_login.text)}")
+        print(f"Login OK: {'loginForm' not in resp_login.text}")
     return _sessao_fullconsig
 
 @app.route('/consulta-fullconsig/<cpf>', methods = ['GET'])
