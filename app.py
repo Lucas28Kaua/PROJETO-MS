@@ -774,8 +774,6 @@ def consulta_fullconsig(cpf):
                 continue
 
             # Sessão expirou? Renova
-            consulta_html = dados.get("consulta", "")
-            print(f"Primeiros 200 chars da resposta: {consulta_html[:200]}")
             if "loginForm" in dados.get("consulta", "") or "Olá, seja bem-vindo" in dados.get("consulta", ""):
                 _sessao_fullconsig = None
                 sessao = get_sessao_fullconsig()
