@@ -9,6 +9,8 @@ import json
 from datetime import datetime, timedelta
 import pytz
 import requests as req_http
+import sys
+sys.stdout.reconfigure(line_buffering=True)
 
 load_dotenv()
 
