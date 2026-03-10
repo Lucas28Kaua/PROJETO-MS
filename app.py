@@ -757,7 +757,7 @@ def consulta_fullconsig(cpf):
     global _sessao_fullconsig
     try:
         sessao = get_sessao_fullconsig()
-        convenios = ['inss', 'siape', 'federal', 'municipal', 'clt', 'bolsafamilia']
+        convenios = ['inss', 'siape', 'governo', 'prefeitura', 'clt', 'forcasArmadas', 'veiculos', 'bolsa']
         soup = None
 
         for convenio in convenios:
