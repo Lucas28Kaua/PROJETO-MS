@@ -1,1 +1,35 @@
 @charset "UTF-8";
+
+.meio{
+    background-color: rgba(187, 187, 187, 0.327);
+    margin-top:133px;
+    min-height: calc(100vh - 110px);
+    height: auto;
+    margin-left: 120px; /* largura da sidebar fechada */
+    margin-right: 20px;
+    border-radius:15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    min-height: 80vh;
+}
+
+/* Quando sidebar abre, empurra o conteúdo */
+.sidebar.aberto ~ .meio{
+    margin-left: 240px; /* largura da sidebar aberta */
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+#overlay.ativo {
+    display: block;
+}
