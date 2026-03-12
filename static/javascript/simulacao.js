@@ -1,6 +1,6 @@
 const toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
-const menuToggle = document.getElementById('menuToggle');
+const menuToggle = document.getElementById('toggleMenu');
 const overlay = document.getElementById('overlay');
 
 if (toggleBtn) {
