@@ -13,3 +13,10 @@ overlay.addEventListener('click', () => {
     toggleBtn.classList.remove('ativo');
     overlay.classList.remove('ativo');
 });
+
+function trocarAba(aba, btn){
+    document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
+    document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativo'));
+    document.getElementById('painel-' + aba).classList.add('ativo');
+    btn.classList.add('ativo');
+}

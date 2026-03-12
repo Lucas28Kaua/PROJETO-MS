@@ -93,3 +93,6 @@
     color: white;
     box-shadow: 0 4px 15px rgba(235, 101, 5, 0.35);
 }
+
+.painel { display: none; }
+.painel.ativo { display: block; }
