@@ -102,7 +102,7 @@
                 Simulação em Lote
             </button>
         </div>
-        
+
         <!-- Painel Individual -->
         <div class="painel ativo" id="painel-individual">
             <p>individual</p>
@@ -110,7 +110,19 @@
 
         <!-- Painel Lote -->
         <div class="painel" id="painel-lote">
-            <p>lote</p>
+            <div class="card-planilha">
+                <h3><span class="material-symbols-outlined">upload_file</span> Upload da Planilha</h3>
+                <div class="drop-zone" id="dropZone">
+                    <input type="file" accept=".xlsx,.xls,.csv" id="fileInput" onchange="arquivoSelecionado(this)">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                    <h4>ARRASTE A PLANILHA AQUI</h4>
+                    <p>ou clique para selecionar · .xlsx, .xls, .csv</p>
+                </div>
+                <div class="arquivo-selecionado" id="arquivo-info">
+                    <span class="material-symbols-outlined">description</span>
+                    <span id="arquivo-nome">nenhum arquivo selecionado</span>
+                </div>
+            </div>
         </div>
 
     </main> 
