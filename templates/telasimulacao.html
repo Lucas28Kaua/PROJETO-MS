@@ -83,6 +83,27 @@
         </nav>
     </aside>
     <div id="overlay"></div>
+    <main class="meio">
+        <div class="page-header">
+            <span class="material-symbols-outlined">api</span>
+            <div>
+                <h1>SIMULAÇÕES VIA API</h1>
+            </div>
+        </div>
+
+        <div class="abas">
+            <button class="aba-btn ativo" onclick="trocarAba('individual', this)">
+                <span class="material-symbols-outlined">person_search</span>
+                Simulação Individual
+            </button>
+            <button class="aba-btn" onclick="trocarAba('lote', this)">
+                <span class="material-symbols-outlined">table_view</span>
+                Simulação em Lote
+            </button>
+        </div>
+
+        
+    </main> 
     <script src ="/javascript/simulacao.js"></script>
 </body>
 </html>
