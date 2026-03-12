@@ -1,22 +1,21 @@
 @charset "UTF-8";
 
-.meio{
-    background-color: rgba(187, 187, 187, 0.327);
-    margin-top:133px;
-    min-height: calc(100vh - 110px);
-    height: auto;
-    margin-left: 120px; /* largura da sidebar fechada */
+.meio {
+    background-color: rgba(211, 211, 211, 0.463);
+    margin-top: 133px;
+    margin-left: 120px;
     margin-right: 20px;
-    border-radius:15px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
-    padding: 20px;
-    transition: margin-left 0.3s ease;
+    margin-bottom: 20px;
     min-height: 80vh;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.332);
+    padding: 25px;
+    transition: margin-left 0.3s ease;
 }
 
-/* Quando sidebar abre, empurra o conteúdo */
-.sidebar.aberto ~ .meio{
-    margin-left: 240px; /* largura da sidebar aberta */
+.sidebar.aberto ~ .meio {
+    margin-left: 240px;
 }
 
 #overlay {
@@ -32,17 +31,6 @@
 
 #overlay.ativo {
     display: block;
-}
-
-/* Fundo branco */
-.meio {
-    height: 300px;
-    width: 600px;
-    background-color: rgba(211, 211, 211, 0.463);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.332);
-    margin: 133px 20px 5px 120px;
-    border-radius: 20px 20px 20px 20px;
-    transition: margin-left 0.3s ease;
 }
 
 /* Cabeçalho da página */
