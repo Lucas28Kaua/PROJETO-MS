@@ -20,3 +20,27 @@ function trocarAba(aba, btn){
     document.getElementById('painel-' + aba).classList.add('ativo');
     btn.classList.add('ativo');
 }
+
+// Arquivo selecionado
+function arquivoSelecionado(input) {
+    if (input.files && input.files[0]) {
+        document.getElementById('arquivo-nome').textContent = input.files[0].name;
+        document.getElementById('arquivo-info').classList.add('visivel');
+    }
+}
+
+// Drag and drop visual
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', e => { 
+    e.preventDefault(); 
+    dropZone.classList.add('dragover'); 
+});
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files[0]) {
+        document.getElementById('arquivo-nome').textContent = e.dataTransfer.files[0].name;
+        document.getElementById('arquivo-info').classList.add('visivel');
+    }
+}); 
