@@ -36,8 +36,11 @@
 
 /* Fundo branco */
 .meio {
-    background-color: rgba(211, 211, 211, 0.380);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+    background-color: rgba(211, 211, 211, 0.463);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.332);
+    margin: 133px 20px 5px 120px;
+    border-radius: 20px 20px 20px 20px;
+    transition: margin-left 0.3s ease;
 }
 
 /* Cabeçalho da página */
