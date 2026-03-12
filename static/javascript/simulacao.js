@@ -1,24 +1,15 @@
 const toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
-const menuToggle = document.getElementById('toggleMenu');
 const overlay = document.getElementById('overlay');
 
-if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('aberto');
-    });
-}
+toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('aberto');
+    toggleBtn.classList.toggle('ativo');
+    overlay.classList.toggle('ativo');
+});
 
-if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('aberto');
-        menuToggle.classList.toggle('ativo');
-        overlay.classList.toggle('ativo');
-    });
-
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('aberto');
-        menuToggle.classList.remove('ativo');
-        overlay.classList.remove('ativo');
-    });
-}
+overlay.addEventListener('click', () => {
+    sidebar.classList.remove('aberto');
+    toggleBtn.classList.remove('ativo');
+    overlay.classList.remove('ativo');
+});
