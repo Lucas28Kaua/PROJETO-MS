@@ -3,20 +3,22 @@ const sidebar = document.querySelector('.sidebar');
 const menuToggle = document.getElementById('menuToggle');
 const overlay = document.getElementById('overlay');
 
-// Menu hambúrguer mobile
-if (menuToggle) {
-    menuToggle.addEventListener('click', function () {
+if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('aberto');
-        menuToggle.classList.toggle('ativo');
-        if (overlay) overlay.classList.toggle('ativo');
     });
 }
 
-// Fecha ao clicar no overlay
-if (overlay) {
-    overlay.addEventListener('click', function () {
+if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('aberto');
+        menuToggle.classList.toggle('ativo');
+        overlay.classList.toggle('ativo');
+    });
+
+    overlay.addEventListener('click', () => {
         sidebar.classList.remove('aberto');
-        if (menuToggle) menuToggle.classList.remove('ativo');
+        menuToggle.classList.remove('ativo');
         overlay.classList.remove('ativo');
     });
 }
