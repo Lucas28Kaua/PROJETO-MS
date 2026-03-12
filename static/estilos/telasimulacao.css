@@ -159,3 +159,31 @@
 }
 
 .arquivo-selecionado.visivel { display: flex; }
+
+.btn-processar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    background: rgba(235, 101, 5, 0.3);
+    border: none;
+    border-radius: 10px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: not-allowed;
+    transition: all 0.3s;
+    margin-top: 15px;
+}
+
+.btn-processar.ativo {
+    background: linear-gradient(135deg, #eb6505, #ff8a3d);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(235, 101, 5, 0.35);
+}
+
+.btn-processar.ativo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(235, 101, 5, 0.45);
+}

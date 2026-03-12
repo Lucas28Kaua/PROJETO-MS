@@ -26,6 +26,7 @@ function arquivoSelecionado(input) {
     if (input.files && input.files[0]) {
         document.getElementById('arquivo-nome').textContent = input.files[0].name;
         document.getElementById('arquivo-info').classList.add('visivel');
+        document.getElementById('btn-processar').classList.add('ativo');
     }
 }
 
@@ -42,5 +43,6 @@ dropZone.addEventListener('drop', e => {
     if (e.dataTransfer.files[0]) {
         document.getElementById('arquivo-nome').textContent = e.dataTransfer.files[0].name;
         document.getElementById('arquivo-info').classList.add('visivel');
+        document.getElementById('btn-processar').classList.add('ativo');
     }
 }); 
