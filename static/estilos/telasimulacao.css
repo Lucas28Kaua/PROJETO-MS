@@ -33,3 +33,70 @@
 #overlay.ativo {
     display: block;
 }
+
+/* Fundo branco */
+.meio {
+    background-color: rgba(211, 211, 211, 0.380);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.463);
+}
+
+/* Cabeçalho da página */
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(235, 101, 5, 0.2);
+}
+
+.page-header span {
+    font-size: 2rem;
+    color: #eb6505;
+    background: rgba(235, 101, 5, 0.1);
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(235, 101, 5, 0.3);
+}
+
+.page-header h1 {
+    font-family: Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #101115;
+    letter-spacing: 2px;
+}
+
+/* Abas */
+.abas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.aba-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: white;
+    border: 1px solid rgba(235, 101, 5, 0.3);
+    border-radius: 10px;
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.aba-btn:hover {
+    border-color: #eb6505;
+    color: #eb6505;
+}
+
+.aba-btn.ativo {
+    background: linear-gradient(135deg, #eb6505, #ff8a3d);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 15px rgba(235, 101, 5, 0.35);
+}
