@@ -241,7 +241,7 @@ function carregarHistorico(){
 
 let dadosHistoricoAtual = [];
 
-function verDetalheLote(loteId){
+function verDetalheLote(loteId, btn){
     const trDetalhe = document.getElementById(`detalhe-tr-${loteId}`)
 
     if (trDetalhe){
