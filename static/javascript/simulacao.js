@@ -230,7 +230,7 @@ function carregarHistorico(){
                 <td>${data}</td>
                 <td>${lote.total_clientes}</td>
                 <td><span class="badge-aprovados">${lote.total_aprovados} aprovados</span></td>
-                <td><button class="btn-ver-lote" onclick="verDetalheLote(${lote.id})">
+                <td><button class="btn-ver-lote" onclick="verDetalheLote(${lote.id}, this)">
                     <span class="material-symbols-outlined">visibility</span> Ver
                 </button></td>
             `;
@@ -242,27 +242,70 @@ function carregarHistorico(){
 let dadosHistoricoAtual = [];
 
 function verDetalheLote(loteId){
+    const trDetalhe = document.getElementById(`detalhe-tr-${loteId}`)
+
+    if (trDetalhe){
+        const aberto = trDetalhe.style.display !== 'none';
+        trDetalhe.style.display = aberto ? 'none' : 'table-row';
+        btn.innerHTML = aberto 
+            ? '<span class="material-symbols-outlined">visibility</span> Ver'
+            : '<span class="material-symbols-outlined">visibility_off</span> Fechar';
+        return;
+    }
+
+
     fetch(`https://sistemamscred.com.br/lotes/detalhe/${loteId}`)
-    .then(r => r.json())
-    .then(resultados => {
-        dadosHistoricoAtual = resultados;
-        const tbody = document.getElementById('detalhe-body');
-        tbody.innerHTML = '';
-        resultados.forEach(r => {
+        .then(r => r.json())
+        .then(resultados => {
+            dadosHistoricoAtual = resultados;
+
+            const tbody = document.getElementById('historico-body');
+            const trPai = btn.closest('tr');
+
             const tr = document.createElement('tr');
+            tr.id = `detalhe-tr-${loteId}`;
             tr.innerHTML = `
-                <td>${String(r.cpf).padStart(11, '0')}</td>
-                <td>${r.nome}</td>
-                <td>R$ ${parseFloat(r.margem).toFixed(2)}</td>
-                <td>R$ ${parseFloat(r.valor_liberado).toFixed(2)}</td>
-                <td>R$ ${parseFloat(r.parcela).toFixed(2)}</td>
-                <td>${r.prazo}x</td>
+                <td colspan="4" style="padding:0">
+                    <div class="accordion-detalhe">
+                        <div class="accordion-acoes">
+                            <button class="btn-exportar" onclick="exportarHistoricoAtual()">
+                                <span class="material-symbols-outlined">download</span> Exportar
+                            </button>
+                        </div>
+                        <table class="tabela-interna">
+                            <thead>
+                                <tr>
+                                    <th>CPF</th>
+                                    <th>Nome</th>
+                                    <th>Margem</th>
+                                    <th>Valor Liberado</th>
+                                    <th>Parcela</th>
+                                    <th>Prazo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${resultados.map(r => `
+                                    <tr>
+                                        <td>${String(r.cpf).padStart(11, '0')}</td>
+                                        <td>${r.nome}</td>
+                                        <td>R$ ${parseFloat(r.margem).toFixed(2)}</td>
+                                        <td>R$ ${parseFloat(r.valor_liberado).toFixed(2)}</td>
+                                        <td>R$ ${parseFloat(r.parcela).toFixed(2)}</td>
+                                        <td>${r.prazo}x</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
             `;
-            tbody.appendChild(tr);
+            trPai.after(tr);
+            btn.innerHTML = '<span class="material-symbols-outlined">visibility_off</span> Fechar';
         });
-        document.getElementById('detalhe-lote').style.display = 'block';
-        document.getElementById('detalhe-lote').scrollIntoView({ behavior: 'smooth' });
-    });
+}
+
+function exportarHistoricoAtual() {
+    exportarHistorico();
 }
 
 function exportarHistorico(){
@@ -281,7 +324,7 @@ function exportarHistorico(){
         'Parcela': r.parcela,
         'Prazo': r.prazo
     }));
-    
+
     const ws = XLSX.utils.json_to_sheet(linhas);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Aprovados');

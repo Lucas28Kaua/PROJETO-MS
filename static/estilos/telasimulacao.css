@@ -363,3 +363,49 @@ tbody td {
     color: #f39c12;
     border: 1px solid rgba(241, 196, 15, 0.3);
 }
+
+.accordion-detalhe {
+    background: rgba(235, 101, 5, 0.03);
+    border-top: 1px solid rgba(235, 101, 5, 0.15);
+    padding: 15px 20px;
+}
+
+.accordion-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.tabela-interna {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.tabela-interna thead tr {
+    background: rgba(235, 101, 5, 0.08);
+}
+
+.tabela-interna tbody tr:hover {
+    background: rgba(235, 101, 5, 0.05);
+}
+
+.btn-ver-lote {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    background: rgba(235, 101, 5, 0.1);
+    border: 1px solid rgba(235, 101, 5, 0.3);
+    border-radius: 8px;
+    color: #eb6505;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-ver-lote:hover {
+    background: #eb6505;
+    color: white;
+}
