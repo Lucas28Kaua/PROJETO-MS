@@ -496,7 +496,7 @@ function gerarCardNoDashboard(dados) {
             </div>
         </div>
 
-        ${dados.retornoSaldo || dados.saldoCliente || dados.troco ? `
+        ${dados.retornoSaldo || dados.saldoCliente ? `
             <div style="display: flex; gap: 10px; margin-top: 8px; background: rgba(0,0,0,0.02); padding: 8px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05);">
                 ${dados.retornoSaldo ? `
                     <div class="info-grupo" style="flex: 1; border-left: 3px solid #ff6200; padding-left: 8px; margin-bottom: 0;">
@@ -508,12 +508,6 @@ function gerarCardNoDashboard(dados) {
                     <div class="info-grupo" style="flex: 1; border-left: 3px solid #224CBA; padding-left: 8px; margin-bottom: 0;">
                         <label style="color: #224CBA; font-size: 0.65rem;">💰 SALDO DEV.</label>
                         <span style="font-size: 0.85rem;">R$ ${formatar(dados.saldoCliente)}</span>
-                    </div>
-                ` : ''}
-                ${dados.troco ? `
-                    <div class="info-grupo" style="flex: 1; border-left: 3px solid #2ecc71; padding-left: 8px; margin-bottom: 0;">
-                        <label style="color: #2ecc71; font-size: 0.65rem;">💵 TROCO EST.</label>
-                        <span style="font-size: 0.85rem;">R$ ${formatar(dados.troco)}</span>
                     </div>
                 ` : ''}
             </div>
@@ -717,6 +711,12 @@ operacaoDoCliente.addEventListener('change', function() {
         divPortabilidade.style.display = "none";
     }
 })
+
+trocoPortCliente.addEventListener('input', function() {
+    if (operacaoDoCliente.value === 'portRefin') {
+        valorOperacaoCliente.value = this.value;
+    }
+});
 
 function fazerLogout() {
     // 1. Limpa tudo que salvamos no login
