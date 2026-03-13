@@ -27,6 +27,7 @@ function arquivoSelecionado(input) {
         document.getElementById('arquivo-nome').textContent = input.files[0].name;
         document.getElementById('arquivo-info').classList.add('visivel');
         document.getElementById('btn-processar').classList.add('ativo');
+        document.getElementById('btn-processar').disabled = false;
     }
 }
 
