@@ -718,6 +718,12 @@ trocoPortCliente.addEventListener('input', function() {
     }
 });
 
+parcelaPortCliente.addEventListener('input', function() {
+    if (operacaoDoCliente.value === 'portRefin') {
+        valorParcelaCliente.value = this.value;
+    }
+});
+
 function fazerLogout() {
     // 1. Limpa tudo que salvamos no login
     localStorage.removeItem('usuarioId');
