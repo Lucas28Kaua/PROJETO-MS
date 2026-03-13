@@ -345,7 +345,13 @@ async function filtrarPorUsuario(idUsuario, elemento) {
         // 3. Alimenta a interface com os dados REAIS do banco
         dadosFiltradosAtuais = resultado.tabela;
         const anteriores = await buscarTotaisAnteriores(idUsuario, getDataInicio(), getDataFim());
-        atualizarTabelaEInterface(resultado.tabela, anteriores);
+        
+        if (abaAtualPropostas === 'andamento') {
+            atualizarTabelaEInterface(resultado.tabela, anteriores);
+            carregarAndamento();
+        } else {
+            atualizarTabelaEInterface(resultado.tabela, anteriores);
+        }
 
     } catch (erro) {
         console.error("Erro ao buscar dados do banco:", erro);
