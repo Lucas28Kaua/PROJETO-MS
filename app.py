@@ -656,6 +656,54 @@ def obter_relatorio(usuario_id=None):
         "tabela": propostas  # Enviamos tudo, o JS filtra o que for preciso
     })
 
+@app.route('/api/relatorios/andamento', methods=['GET'])
+@app.route('/api/relatorios/andamento/<int:usuario_id>', methods=['GET'])
+def obter_relatorio_andamento(usuario_id = None):
+    conn = conexao_db()
+    cursor = conn.cursor(dictionary=True)
+
+    data_inicio = request.args.get('inicio')
+    
+    query = """
+        SELECT p.*, u.nome as nome_consultor
+        FROM propostas p
+        LEFT JOIN usuarios u ON p.usuario_id = u.id
+        WHERE p.status_proposta IN ('Novo', 'Processando')
+    """
+    params = []
+
+    if usuario_id:
+        query += " AND p.usuario_id = %s"
+        params.append(usuario_id)
+
+    if data_inicio:
+        query += " AND p.data_criacao >= %s"
+        params.append(f"{data_inicio} 00:00:00")
+
+    query += " ORDER BY p.data_criacao DESC"
+
+    cursor.execute(query, params)
+    propostas = cursor.fetchall()
+    conn.close()
+
+    if not propostas:
+        return jsonify({"vazio": True, "mensagem": "Nada encontrado."})
+
+    total = 0
+    for p in propostas:
+        valor = float(p['valor_operacao'] or 0)
+        saldo = float(p['saldo_devedor_estimado'] or 0)
+        is_port = 'port' in (p['operacao_feita'] or '').lower()
+        total += (valor + saldo) if is_port else valor
+
+    return jsonify({
+        "vazio": False,
+        "cards": {
+            "total": total,
+            "quantidade": len(propostas)
+        },
+        "tabela": propostas
+    })
 
 @app.route('/api/configuracoes', methods=['GET'])
 def obter_configuracoes():

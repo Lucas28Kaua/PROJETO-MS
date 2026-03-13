@@ -274,6 +274,77 @@
 /* ==========================================================================
    4. BLOCOS DE CONTEÚDO (GRÁFICO E TABELA)
    ========================================================================== */
+
+.abas-propostas {
+    display: flex;
+    gap: 8px;
+}
+
+.aba-proposta {
+    padding: 6px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.aba-proposta.active {
+    background: #FB8D20;
+    color: #fff;
+    border-color: #FB8D20;
+}
+
+.badge-status {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.badge-novo {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.badge-processando {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+
+.card-andamento {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 10px;
+    padding: 8px 14px;
+    gap: 2px;
+}
+
+.card-andamento-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ef6c00;
+    text-transform: uppercase;
+}
+
+.card-andamento-valor {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #e65100;
+}
+
+.card-andamento-qtd {
+    font-size: 0.75rem;
+    color: #795548;
+}
+
 .caixa-branca {
     background: white;
     padding: 25px;

@@ -156,11 +156,29 @@
 
             <div class="secao-tabela-detalhada caixa-branca">
                 <div class="header-interna">
-                    <h4>Detalhamento de Propostas Finalizadas</h4>
-                    <div class="acoes-tabela">
-                        <i class="material-symbols-outlined" style="color: #666;">inventory_2</i>
+                    <h4>Detalhamento de Propostas</h4>
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <div class="card-andamento" id="card-andamento-resumo" style="display:none">
+                            <span class="card-andamento-label">🔄 Em Andamento</span>
+                            <span class="card-andamento-valor" id="total-andamento">R$ 0,00</span>
+                            <span class="card-andamento-qtd"><span id="qtd-andamento">0</span> propostas</span>
+                        </div>
+                        
+                        <div class="abas-propostas">
+                            <button class="aba-proposta active" onclick="trocarAbaPropostas('finalizadas', this)">
+                                ✅ Finalizadas
+                            </button>
+                            <button class="aba-proposta" onclick="trocarAbaPropostas('andamento', this)">
+                                🔄 Em Andamento
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <div id="banner-andamento" style="display:none; background:#fff8e1; border:1px solid #ffe082; border-radius:8px; padding:10px 16px; margin-bottom:12px; font-size:0.85rem; color:#795548;">
+                    ⚠️ Propostas em andamento <strong>não contam na produção</strong>. Apenas o total é exibido para acompanhamento.
+                </div>
+
                 <div class="tabela-rolagem">
                     <table id="tabelaFinalizados">
                         <thead>
@@ -175,8 +193,7 @@
                                 <th>Valor Realizado</th>
                             </tr>
                         </thead>
-                        <tbody id="corpoTabelaRelatorio">
-                            </tbody>
+                        <tbody id="corpoTabelaRelatorio"></tbody>
                     </table>
                 </div>
             </div>

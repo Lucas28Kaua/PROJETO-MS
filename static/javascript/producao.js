@@ -468,6 +468,100 @@ function atualizarTabelaEInterface(dados, anteriores = {total: 0, quantidade: 0}
     }
 }
 
+let abaAtualPropostas = 'finalizadas';
+
+function trocarAbaPropostas(aba, elemento){
+    abaAtualPropostas = aba;
+
+    document.querySelectorAll('.aba-proposta').forEach(b => b.classList.remove('active'));
+    elemento.classList.add('active');
+
+    const banner = document.getElementById('banner-andamento');
+    const cardAndamento = document.getElementById('card-andamento-resumo');
+
+    if (aba === 'andamento') {
+        banner.style.display = 'block';
+        cardAndamento.style.display = 'flex';
+        carregarAndamento();
+    } else {
+        banner.style.display = 'none';
+        cardAndamento.style.display = 'none'
+        atualizarTabelaEInterface(dadosFiltradosAtuais);
+    }
+}
+
+async function carregarAndamento() {
+    const inicio = getDataInicio();
+
+    const url = (usuarioAtual === 'mscred')
+        ? `https://sistemamscred.com.br/api/relatorios/andamento?inicio=${inicio}`
+        : `https://sistemamscred.com.br/api/relatorios/andamento/${usuarioAtual}?inicio=${inicio}`;
+    
+        try {
+            const response = await fetch(url)
+            const resultado = await response.json();
+            const corpoTabela = document.getElementById('corpoTabelaRelatorio')
+
+            if (resultado.vazio) {
+                corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#aaa;">Nenhuma proposta em andamento.</td></tr>`;
+                document.getElementById('total-andamento').textContent = 'R$ 0,00';
+                document.getElementById('qtd-andamento').textContent = '0';
+                return;
+            }
+
+            document.getElementById('total-andamento').textContent = resultado.cards.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            document.getElementById('qtd-andamento').textContent = resultado.cards.quantidade;
+            renderizarLinhasTabela(resultado.tabela, corpoTabela);
+
+        } catch (erro) {
+            console.error('Erro ao buscar andamento:', erro)
+        }
+}
+
+function atualizarCardsAndamento(total, quantidade) {
+    const ticketMedio = quantidade > 0 ? total / quantidade : 0;
+    document.getElementById('resumoTotal').innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    document.getElementById('resumoQtd').innerText = quantidade;
+    document.getElementById('resumoTicket').innerText = ticketMedio.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+}
+
+function renderizarLinhasTabela(dados, corpoTabela) {
+    corpoTabela.innerHTML = dados.map(item => {
+        const troco = parseFloat(item.valor_operacao) || 0;
+        const saldo = parseFloat(item.saldo_devedor_estimado) || 0;
+        const produto = item.operacao_feita || "Não informado";
+        const ePortabilidade = produto.toLowerCase().includes('port');
+        const producaoTotal = ePortabilidade ? (troco + saldo) : troco;
+        const valorFormatado = producaoTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+        const dataFormatada = (item.data_finalizacao || item.data_criacao) ? (() => {
+            const dataObj = new Date(item.data_finalizacao || item.data_criacao);
+            if (isNaN(dataObj.getTime())) return "---";
+            return dataObj.toLocaleString('pt-BR', {
+                day: '2-digit', month: '2-digit',
+                hour: '2-digit', minute: '2-digit', hour12: false
+            }).replace(',', '');
+        })() : "---";
+
+        const badgeStatus = item.status_proposta 
+            ? `<span class="badge-status badge-${item.status_proposta.toLowerCase()}">${item.status_proposta}</span>` 
+            : '';
+
+        return `
+            <tr>
+                <td>${dataFormatada} ${badgeStatus}</td>
+                <td><strong>${item.nome_cliente || '---'}</strong></td>
+                <td>${item.banco || '---'}</td>
+                <td>${item.convenio || '---'}</td>
+                <td>${produto}</td>
+                <td>${item.promotora || '---'}</td>
+                <td><span class="nome-funcionario">${item.nome_consultor || 'Não atribuído'}</span></td>
+                <td class="col-valor"><strong>${valorFormatado}</strong></td>
+            </tr>
+        `;
+    }).join('');
+}
+
 async function publicarConfiguracoes() {
     const metaGeral = document.querySelector('input[placeholder="Ex: 1000000"]').value;
     const metaIndividual = document.querySelector('input[placeholder="Ex: 150000"]').value;
