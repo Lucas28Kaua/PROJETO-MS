@@ -552,6 +552,8 @@ function renderizarLinhasTabela(dados, corpoTabela) {
             ? `<span class="badge-status badge-${item.status_proposta.toLowerCase()}">${item.status_proposta}</span>` 
             : '';
 
+        const classePort = ePortabilidade ? 'celula-valor-hover' : '';
+
         return `
             <tr>
                 <td>${dataFormatada} ${badgeStatus}</td>
@@ -561,7 +563,19 @@ function renderizarLinhasTabela(dados, corpoTabela) {
                 <td>${produto}</td>
                 <td>${item.promotora || '---'}</td>
                 <td><span class="nome-funcionario">${item.nome_consultor || 'Não atribuído'}</span></td>
-                <td class="col-valor"><strong>${valorFormatado}</strong></td>
+                <td class="col-valor">
+                    <div class="${classePort}">
+                        ${valorFormatado}
+                        ${ePortabilidade ? `
+                            <div class="balao-detalhes">
+                                <span class="balao-titulo">Portabilidade</span>
+                                <div class="balao-linha"><span>Liberado:</span> <strong>${troco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
+                                <div class="balao-linha"><span>Saldo:</span> <strong>${saldo.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</strong></div>
+                                <div class="balao-seta"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </td>
             </tr>
         `;
     }).join('');
