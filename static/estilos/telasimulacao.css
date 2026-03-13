@@ -273,6 +273,12 @@
     margin-bottom: 15px;
 }
 
+.tabela-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .tabela-header h3 {
     display: flex;
     align-items: center;

@@ -49,6 +49,7 @@ dropZone.addEventListener('drop', e => {
 }); 
 
 //FAZENDO REQUESTS PARA A API PRA SIMULAR
+let dadosAprovados = [];
 
 function iniciarLote() {
     console.log('🟡 iniciarLote chamado');
@@ -57,7 +58,7 @@ function iniciarLote() {
     if (!fileInput.files[0]) return;
 
     let aprovados = 0;
-    let dadosAprovados = [];
+    dadosAprovados = [];
 
     // Reseta tabela e progresso
     document.getElementById('tabela-body').innerHTML = '';
@@ -80,8 +81,6 @@ function iniciarLote() {
         console.log('✅ API respondeu, status:', response.status);
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
-
-        let aprovados = 0;
 
         function ler() {
             reader.read().then(({ done, value }) => {

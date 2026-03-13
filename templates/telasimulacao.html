@@ -144,11 +144,13 @@
             <div class="card-tabela" id="tabela-resultados" style="display:none">
                 <div class="tabela-header">
                     <h3><span class="material-symbols-outlined">table_view</span> Resultados</h3>
-                    <span class="badge-aprovados" id="badge-aprovados">✓ 0 aprovados</span>
-                    <button class="btn-exportar" id="btn-exportar" style="display:none" onclick="exportarAprovados()">
-                        <span class="material-symbols-outlined">download</span>
-                        Exportar Aprovados
-                    </button>
+                    <div class="tabela-acoes">
+                        <span class="badge-aprovados" id="badge-aprovados">✓ 0 aprovados</span>
+                        <button class="btn-exportar" id="btn-exportar" style="display:none" onclick="exportarAprovados()">
+                            <span class="material-symbols-outlined">download</span>
+                            Exportar Aprovados
+                        </button>
+                    </div>
                 </div>
                 <div class="tabela-scroll">
                     <table>
