@@ -56,6 +56,9 @@ function iniciarLote() {
     console.log('📁 arquivo:', fileInput.files[0]);
     if (!fileInput.files[0]) return;
 
+    let aprovados = 0;
+    let dadosAprovados = [];
+
     // Reseta tabela e progresso
     document.getElementById('tabela-body').innerHTML = '';
     document.getElementById('badge-aprovados').textContent = '✓ 0 aprovados';
@@ -107,6 +110,7 @@ function iniciarLote() {
                     // SE APROVADO, ADICIONA NA TABELA
                     if (dados.tipo === 'aprovado') {
                         aprovados++;
+                        dadosAprovados.push(dados);
                         document.getElementById('badge-aprovados').textContent = `✓ ${aprovados} aprovados`;
 
                         const tr = document.createElement('tr');
@@ -152,6 +156,9 @@ function iniciarLote() {
                         document.getElementById('progresso-pct').textContent = '100%';
                         btn.classList.add('ativo');
                         btn.disabled = false;
+                        if (dadosAprovados.length > 0){
+                            document.getElementById('btn-exportar').style.display = 'inline-flex';
+                        }
                     }
                 });
 
@@ -165,4 +172,33 @@ function iniciarLote() {
         btn.classList.add('ativo');
         btn.disabled = false;
     });
+}
+
+function exportarAprovados (){
+    if (typeof XLSX === 'undefined') {
+        alert('Biblioteca de exportação não carregada!');
+        return;
+    }
+
+    const linhas = dadosAprovados.map(d => ({
+        'CPF': String(d.cpf).padStart(11, '0'),
+        'Nome': d.nome,
+        'Nome da Mãe': d.nome_mae || '',
+        'Data de Nascimento': d.data_nascimento || '',
+        'Sexo': d.sexo || '',
+        'Data de Admissão': d.data_admissao || '',
+        'Telefone': d.telefone || '',
+        'Email': d.email || '',
+        'Margem': d.margem,
+        'Valor Liberado': d.valor_simulado,
+        'Parcela': d.parcela,
+        'Prazo': d.prazo
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(linhas);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Aprovados');
+
+    const data = new Date().toLocaleDateString('pt-br').replace(/\//g, '-');
+    XLSX.writeFile(wb, `aprovados_${data}.xlsx`);
 }

@@ -207,6 +207,26 @@
     color: #333;
 }
 
+.btn-exportar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-exportar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+}
+
 .progresso-header span.material-symbols-outlined {
     color: #eb6505;
 }

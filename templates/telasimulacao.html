@@ -22,6 +22,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/estilos/global.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <title>Sistema MS CRED</title>
 </head>
 
@@ -144,6 +145,10 @@
                 <div class="tabela-header">
                     <h3><span class="material-symbols-outlined">table_view</span> Resultados</h3>
                     <span class="badge-aprovados" id="badge-aprovados">✓ 0 aprovados</span>
+                    <button class="btn-exportar" id="btn-exportar" style="display:none" onclick="exportarAprovados()">
+                        <span class="material-symbols-outlined">download</span>
+                        Exportar Aprovados
+                    </button>
                 </div>
                 <div class="tabela-scroll">
                     <table>
