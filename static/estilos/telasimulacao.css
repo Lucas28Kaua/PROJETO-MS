@@ -368,6 +368,18 @@ tbody td {
     background: rgba(235, 101, 5, 0.03);
     border-top: 1px solid rgba(235, 101, 5, 0.15);
     padding: 15px 20px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .accordion-acoes {

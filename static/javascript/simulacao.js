@@ -246,7 +246,13 @@ function verDetalheLote(loteId, btn){
 
     if (trDetalhe){
         const aberto = trDetalhe.style.display !== 'none';
-        trDetalhe.style.display = aberto ? 'none' : 'table-row';
+        if (aberto) {
+            trDetalhe.querySelector('.accordion-detalhe').style.animation = 'slideUp 0.3s ease forwards';
+            setTimeout(() => { trDetalhe.style.display = 'none'; }, 280);
+        } else {
+            trDetalhe.style.display = 'table-row';
+            trDetalhe.querySelector('.accordion-detalhe').style.animation = 'slideDown 0.3s ease';
+        }
         btn.innerHTML = aberto 
             ? '<span class="material-symbols-outlined">visibility</span> Ver'
             : '<span class="material-symbols-outlined">visibility_off</span> Fechar';
