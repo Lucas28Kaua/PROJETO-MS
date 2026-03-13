@@ -50,7 +50,9 @@ dropZone.addEventListener('drop', e => {
 //FAZENDO REQUESTS PARA A API PRA SIMULAR
 
 function iniciarLote() {
+    console.log('🟡 iniciarLote chamado');
     const fileInput = document.getElementById('fileInput');
+    console.log('📁 arquivo:', fileInput.files[0]);
     if (!fileInput.files[0]) return;
 
     // Reseta tabela e progresso
