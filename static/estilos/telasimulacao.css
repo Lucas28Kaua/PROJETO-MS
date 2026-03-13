@@ -209,12 +209,6 @@
 
 .progresso-header span.material-symbols-outlined {
     color: #eb6505;
-    animation: girar 1.5s linear infinite;
-}
-
-@keyframes girar {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
 }
 
 .progresso-header #progresso-pct {
@@ -330,4 +324,16 @@ tbody td {
     background: rgba(46, 204, 113, 0.1);
     color: #27ae60;
     border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.status-reprovado {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.status-pulado {
+    background: rgba(241, 196, 15, 0.1);
+    color: #f39c12;
+    border: 1px solid rgba(241, 196, 15, 0.3);
 }

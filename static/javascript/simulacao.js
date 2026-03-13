@@ -74,6 +74,7 @@ function iniciarLote() {
         method: 'POST',
         body: formData
     }).then(response => {
+        console.log('✅ API respondeu, status:', response.status);
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
 
@@ -81,14 +82,18 @@ function iniciarLote() {
 
         function ler() {
             reader.read().then(({ done, value }) => {
-                if (done) return;
+                if (done) {
+                    console.log('🏁 stream encerrado');  // ← novo
+                    return;
+                }
 
                 const texto = decoder.decode(value);
+                console.log('📨 chunk bruto recebido:', texto);
                 const linhas = texto.split('\n').filter(l => l.startsWith('data:'));
 
                 linhas.forEach(linha => {
-                    const dados = JSON.parse(linha.replace('data: ', ''));
-
+                    const dados = JSON.parse(linha.replace('data: ', ''));  
+                    console.log('📦 evento:', dados.tipo, dados);
                     // ATUALIZA PROGRESSO
                     const pct = Math.round((dados.index / dados.total) * 100);
                     document.getElementById('barra-fill').style.width = pct + '%';
@@ -114,6 +119,29 @@ function iniciarLote() {
                         document.getElementById('tabela-body').appendChild(tr);
                     }
 
+                        // SE REPROVADO
+                    if (dados.tipo === 'reprovado') {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${dados.cpf}</td>
+                            <td>${dados.nome}</td>
+                            <td><span class="status-badge status-reprovado">✗ Reprovado</span></td>
+                            <td colspan="4" style="color:#aaa;font-size:0.8rem;">${dados.motivo || ''}</td>
+                        `;
+                        document.getElementById('tabela-body').appendChild(tr);
+                    }
+
+                    // SE PULADO
+                    if (dados.tipo === 'pulado') {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${dados.cpf}</td>
+                            <td>${dados.nome || '-'}</td>
+                            <td><span class="status-badge status-pulado">⚠ Pulado</span></td>
+                            <td colspan="4" style="color:#aaa;font-size:0.8rem;">${dados.motivo || ''}</td>
+                        `;
+                        document.getElementById('tabela-body').appendChild(tr);
+                    }
                     // FINALIZADO
                     if (dados.tipo === 'finalizado') {
                         document.getElementById('status-nome').textContent = `✅ Processamento concluído! ${dados.aprovados} aprovados de ${dados.total}`;
