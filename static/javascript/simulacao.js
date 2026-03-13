@@ -14,6 +14,135 @@ overlay.addEventListener('click', () => {
     overlay.classList.remove('ativo');
 });
 
+let dadosClienteIndividual = {};
+
+function mascaraCPFIndividual(input) {
+    let v = input.value.replace(/\D/g, '').slice(0, 11);
+    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+    v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    input.value = v;
+}
+
+async function consultarIndividual(){
+    const cpfRaw = document.getElementById('cpf-individual').value.replace(/\D/g, '');
+    if (cpfRaw.length !== 11) {
+        alert('CPF inválido!');
+        return;
+    }
+
+    const btn = document.querySelector('#painel-individual .btn-processar')
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Consultando...';
+
+    try{
+        const response = await fetch(`https://sistemamscred.com.br/consulta-fullconsig/${cpfRaw}`);
+        const dados = await response.json();
+
+        if (dados.erro) {
+            alert('CPF não encontrado: ' + dados.erro);
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar';
+                return;
+        }
+
+        dadosClienteIndividual = { ...dados, cpf:cpfRaw}
+
+        document.getElementById('ind-nome').textContent = dados.nome || '---';
+        document.getElementById('ind-nascimento').textContent = dados.data_nascimento || '---';
+        document.getElementById('ind-sexo').textContent = dados.sexo || '---';
+
+        if (dados.telefone) {
+            document.getElementById('ind-telefone').textContent = dados.telefone;
+            document.getElementById('aviso-telefone').style.display = 'none';
+        } else {
+            document.getElementById('ind-telefone').textContent = 'Não encontrado';
+            document.getElementById('aviso-telefone').style.display = 'block';
+        }
+
+        document.getElementById('dados-individual').style.display = 'block';
+    } catch (err) {
+        alert('Erro ao consultar!');
+        console.error(err);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar';
+}
+
+async function simularIndividual (){
+    const telefone = dadosClienteIndividual.telefone || document.getElementById('input-telefone-manual').value.replace(/\D/g, '');
+
+    if (!telefone) {
+        alert('Preencha o telefone!');
+        return;
+    }
+
+    const btn = document.querySelector('#painel-individual button:last-child');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Simulando...';
+
+    document.getElementById('resultado-individual').style.display = 'block';
+    document.getElementById('resultado-individual-body').innerHTML = '<p style="padding:20px;color:#aaa;">⏳ Processando simulação...</p>';
+
+    try {
+        const response = await fetch('https://api.sistemamscred.com.br/simularindividual', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                cpf: dadosClienteIndividual.cpf,
+                nome: dadosClienteIndividual.nome,
+                data_nascimento: dadosClienteIndividual.data_nascimento,
+                sexo: dadosClienteIndividual.sexo,
+                telefone: telefone
+            })
+        });
+        const resultado = await response.json();
+
+        if (resultado.tipo === 'aprovado') {
+
+            document.getElementById('resultado-individual-body').innerHTML = `
+                <div style="padding:20px;">
+                    <div class="dados-grid">
+                        <div class="dado-item">
+                            <label>Status</label>
+                            <span class="status-badge status-aprovado">✓ Aprovado</span>
+                        </div>
+                        <div class="dado-item">
+                            <label>Margem</label>
+                            <span>R$ ${parseFloat(resultado.margem).toFixed(2)}</span>
+                        </div>
+                        <div class="dado-item">
+                            <label>Valor Liberado</label>
+                            <span style="color:#2ecc71; font-weight:800; font-size:1.2rem;">R$ ${parseFloat(resultado.valor_simulado).toFixed(2)}</span>
+                        </div>
+                        <div class="dado-item">
+                            <label>Parcela</label>
+                            <span>R$ ${parseFloat(resultado.parcela).toFixed(2)}</span>
+                        </div>
+                        <div class="dado-item">
+                            <label>Prazo</label>
+                            <span>${resultado.prazo}x</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            document.getElementById('resultado-individual-body').innerHTML = `
+                <div style="padding:20px;">
+                    <span class="status-badge status-reprovado">✗ ${resultado.tipo === 'reprovado' ? 'Reprovado' : 'Não aprovado'}</span>
+                    <p style="margin-top:10px; color:#aaa;">${resultado.motivo || ''}</p>
+                </div>
+            `;
+        }
+    } catch (err) {
+        document.getElementById('resultado-individual-body').innerHTML = '<p style="padding:20px;color:red;">Erro ao simular!</p>';
+        console.error(err);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined">play_circle</span> Simular';
+}
 function trocarAba(aba, btn){
     document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
     document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativo'));
