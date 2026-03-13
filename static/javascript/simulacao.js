@@ -157,6 +157,17 @@ function iniciarLote() {
                         btn.disabled = false;
                         if (dadosAprovados.length > 0){
                             document.getElementById('btn-exportar').style.display = 'inline-flex';
+
+                            fetch('https://sistemamscred.com.br/lotes/salvar', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                                usuario_id: localStorage.getItem('usuarioId'),
+                                total: dados.total,
+                                aprovados: dados.aprovados,
+                                resultados: dadosAprovados
+                                })
+                            })
                         }
                     }
                 });
@@ -200,4 +211,80 @@ function exportarAprovados (){
 
     const data = new Date().toLocaleDateString('pt-br').replace(/\//g, '-');
     XLSX.writeFile(wb, `aprovados_${data}.xlsx`);
+}
+
+function carregarHistorico(){
+    fetch('https://sistemamscred.com.br/lotes/historico')
+    .then(r => r.json())
+    .then(lotes => {
+        const tbody = document.getElementById('historico-body')
+        tbody.innerHTML = '';
+        if (!lotes.length) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;">Nenhum lote encontrado</td></tr>';
+            return;
+        }
+        lotes.forEach(lote => {
+            const data = new Date(lote.data_processamento).toLocaleString('pt-br');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${data}</td>
+                <td>${lote.total_clientes}</td>
+                <td><span class="badge-aprovados">${lote.total_aprovados} aprovados</span></td>
+                <td><button class="btn-ver-lote" onclick="verDetalheLote(${lote.id})">
+                    <span class="material-symbols-outlined">visibility</span> Ver
+                </button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    })
+}
+
+let dadosHistoricoAtual = [];
+
+function verDetalheLote(loteId){
+    fetch(`https://sistemamscred.com.br/lotes/detalhe/${loteId}`)
+    .then(r => r.json())
+    .then(resultados => {
+        dadosHistoricoAtual = resultados;
+        const tbody = document.getElementById('detalhe-body');
+        tbody.innerHTML = '';
+        resultados.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${String(r.cpf).padStart(11, '0')}</td>
+                <td>${r.nome}</td>
+                <td>R$ ${parseFloat(r.margem).toFixed(2)}</td>
+                <td>R$ ${parseFloat(r.valor_liberado).toFixed(2)}</td>
+                <td>R$ ${parseFloat(r.parcela).toFixed(2)}</td>
+                <td>${r.prazo}x</td>
+            `;
+            tbody.appendChild(tr);
+        });
+        document.getElementById('detalhe-lote').style.display = 'block';
+        document.getElementById('detalhe-lote').scrollIntoView({ behavior: 'smooth' });
+    });
+}
+
+function exportarHistorico(){
+    if (!dadosHistoricoAtual.length) return;
+    const linhas = dadosHistoricoAtual.map(r => ({
+        'CPF': String(r.cpf).padStart(11, '0'),
+        'Nome': r.nome,
+        'Nome da Mãe': r.nome_mae || '',
+        'Data de Nascimento': r.data_nascimento || '',
+        'Sexo': r.sexo || '',
+        'Data de Admissão': r.data_admissao || '',
+        'Telefone': r.telefone || '',
+        'Email': r.email || '',
+        'Margem': r.margem,
+        'Valor Liberado': r.valor_liberado,
+        'Parcela': r.parcela,
+        'Prazo': r.prazo
+    }));
+    
+    const ws = XLSX.utils.json_to_sheet(linhas);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Aprovados');
+    const data = new Date().toLocaleDateString('pt-br').replace(/\//g, '-');
+    XLSX.writeFile(wb, `lote_${data}.xlsx`);
 }

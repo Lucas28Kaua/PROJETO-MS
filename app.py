@@ -861,5 +861,100 @@ def consulta_fullconsig(cpf):
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+
+@app.route('/lotes/salvar', methods=['POST'])
+def salvar_lote():
+    dados = request.json
+    usuario_id = dados.get('usuario_id')
+    total = dados.get('total')
+    aprovados = dados.get('aprovados')
+    resultados = dados.get('resultados', [])
+
+    conn = conexao_db()
+    if not conn:
+        return jsonify({"Erro": "Erro na conexão"}), 500
+    
+    try:
+        cursor = conn.cursor()
+
+        # CRIA O LOTE
+        cursor.execute("""
+            INSERT INTO lotes (usuario_id, total_clientes, total_aprovados)
+            VALUES (%s, %s, %s)
+        """, (usuario_id, total, aprovados))
+        lote_id = cursor.lastrowid
+
+        # SALVA CADA APROVADO
+        for r in resultados:
+            cursor.execute("""
+                INSERT INTO lote_resultados 
+                (lote_id, cpf, nome, nome_mae, data_nascimento, sexo, data_admissao, telefone, email, status, margem, valor_liberado, parcela, prazo)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (
+                lote_id,
+                r.get('cpf'),
+                r.get('nome'),
+                r.get('nome_mae'),
+                r.get('data_nascimento'),
+                r.get('sexo'),
+                r.get('data_admissao'),
+                r.get('telefone'),
+                r.get('email'),
+                'aprovado',
+                r.get('margem'),
+                r.get('valor_simulado'),
+                r.get('parcela'),
+                r.get('prazo')
+            ))
+
+        conn.commit()
+        return jsonify({"sucesso": True, "lote_id": lote_id}), 201
+    except Exception as e:
+        conn.rollback()
+        print(f'❌ Erro ao salvar o lote: {e}')
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/lotes/historico', methods = ['GET'])
+def buscar_historico_lotes():
+    conn = conexao_db()
+    if not conn:
+        return jsonify({"erro": "Erro na conexão"}), 500
+    try:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT id, data_processamento, total_clientes, total_aprovados
+            FROM lotes
+            ORDER BY data_processamento DESC
+            LIMIT 20
+        """)
+        lotes = cursor.fetchall()
+        return jsonify(lotes), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/lotes/detalhe/<int:lote_id>', methods=['GET'])
+def buscar_detalhe_lote(lote_id):
+    conn = conexao_db()
+    if not conn:
+        return jsonify({"erro": "Erro na conexão"}), 500
+    try:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT cpf, nome, nome_mae, data_nascimento, sexo, data_admissao,
+                   telefone, email, margem, valor_liberado, parcela, prazo
+            FROM lote_resultados
+            WHERE lote_id = %s
+        """, (lote_id,))
+        resultados = cursor.fetchall()
+        return jsonify(resultados), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        conn.close()
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
