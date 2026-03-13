@@ -496,7 +496,7 @@ function gerarCardNoDashboard(dados) {
             </div>
         </div>
 
-        ${dados.retornoSaldo || dados.saldoCliente ? `
+        ${dados.retornoSaldo || dados.saldoCliente || dados.troco ? `
             <div style="display: flex; gap: 10px; margin-top: 8px; background: rgba(0,0,0,0.02); padding: 8px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05);">
                 ${dados.retornoSaldo ? `
                     <div class="info-grupo" style="flex: 1; border-left: 3px solid #ff6200; padding-left: 8px; margin-bottom: 0;">
@@ -508,6 +508,12 @@ function gerarCardNoDashboard(dados) {
                     <div class="info-grupo" style="flex: 1; border-left: 3px solid #224CBA; padding-left: 8px; margin-bottom: 0;">
                         <label style="color: #224CBA; font-size: 0.65rem;">💰 SALDO DEV.</label>
                         <span style="font-size: 0.85rem;">R$ ${formatar(dados.saldoCliente)}</span>
+                    </div>
+                ` : ''}
+                ${dados.troco ? `
+                    <div class="info-grupo" style="flex: 1; border-left: 3px solid #2ecc71; padding-left: 8px; margin-bottom: 0;">
+                        <label style="color: #2ecc71; font-size: 0.65rem;">💵 TROCO EST.</label>
+                        <span style="font-size: 0.85rem;">R$ ${formatar(dados.troco)}</span>
                     </div>
                 ` : ''}
             </div>
@@ -537,8 +543,8 @@ const totalProducao = document.getElementById('valorTotalProd')
 
 function atualizarIndicadores() {
     const colunas = [
-        { linha: 'linhaStatusNova', count: 'countNova', sum: 'sumNova' },
-        { linha: 'linhaStatusAnalise', count: 'countAnalise', sum: 'sumAnalise' },
+        { linha: 'linhaStatusNova', count: 'countNova', sum: 'sumNova', saldo: 'saldoNovo'},
+        { linha: 'linhaStatusAnalise', count: 'countAnalise', sum: 'sumAnalise', saldo: 'saldoProcessando' },
         { linha: 'linhaStatusFinalizado', count: 'countFinalizado', sum: 'sumFinalizado', saldo: 'saldoFinalizado' }
     ];
 

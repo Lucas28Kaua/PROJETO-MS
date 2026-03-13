@@ -143,7 +143,9 @@
 .valor-total-header-novo,
 .valor-total-header-analise,
 .valor-total-header-finalizado,
-.saldo-header-finalizado {
+.saldo-header-finalizado,
+.saldo-header-processando,
+.saldo-header-novo {
     margin: 5px 0 0 0;
     font-size: 1.1rem;
     font-weight: 600;
