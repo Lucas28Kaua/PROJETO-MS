@@ -266,6 +266,11 @@
     padding: 20px;
 }
 
+#tabela-resultados .tabela-scroll {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
 .tabela-header {
     display: flex;
     align-items: center;
