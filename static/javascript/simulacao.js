@@ -95,11 +95,14 @@ function iniciarLote() {
                     const dados = JSON.parse(linha.replace('data: ', ''));  
                     console.log('📦 evento:', dados.tipo, dados);
                     // ATUALIZA PROGRESSO
-                    const pct = Math.round((dados.index / dados.total) * 100);
-                    document.getElementById('barra-fill').style.width = pct + '%';
-                    document.getElementById('progresso-pct').textContent = pct + '%';
-                    document.getElementById('progresso-texto').textContent = `Processando cliente ${dados.index} de ${dados.total}`;
-                    document.getElementById('status-nome').textContent = `Consultando: ${dados.nome || ''}...`;
+                    // ATUALIZA PROGRESSO
+                    if (dados.index && dados.total) {
+                        const pct = Math.round((dados.index / dados.total) * 100);
+                        document.getElementById('barra-fill').style.width = pct + '%';
+                        document.getElementById('progresso-pct').textContent = pct + '%';
+                        document.getElementById('progresso-texto').textContent = `Processando cliente ${dados.index} de ${dados.total}`;
+                        document.getElementById('status-nome').textContent = `Consultando: ${dados.nome || ''}...`;
+                    }
 
                     // SE APROVADO, ADICIONA NA TABELA
                     if (dados.tipo === 'aprovado') {
