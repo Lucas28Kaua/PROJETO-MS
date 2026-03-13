@@ -338,7 +338,10 @@ async function filtrarPorUsuario(idUsuario, elemento) {
 
         if (resultado.vazio) {
             // Limpa a interface se não houver dados
-            atualizarTabelaEInterface([]); 
+            atualizarTabelaEInterface([]);
+            if (abaAtualPropostas === 'andamento') {
+                carregarAndamento();
+            } 
             return;
         }
 
