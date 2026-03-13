@@ -127,6 +127,41 @@
                     Processar Lote
                 </button>
             </div>
+            <!-- PROGRESSO -->
+            <div class="card-progresso" id="progresso-wrapper" style="display:none">
+                <div class="progresso-header">
+                    <span class="material-symbols-outlined">sync</span>
+                    <span id="progresso-texto">Aguardando...</span>
+                    <span id="progresso-pct">0%</span>
+                </div>
+                <div class="barra-bg">
+                    <div class="barra-fill" id="barra-fill"></div>
+                </div>
+                <p id="status-nome" class="status-nome"></p>
+            </div>
+            <!-- TABELA DE RESULTADOS -->
+            <div class="card-tabela" id="tabela-resultados" style="display:none">
+                <div class="tabela-header">
+                    <h3><span class="material-symbols-outlined">table_view</span> Resultados</h3>
+                    <span class="badge-aprovados" id="badge-aprovados">✓ 0 aprovados</span>
+                </div>
+                <div class="tabela-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CPF</th>
+                                <th>Nome</th>
+                                <th>Status</th>
+                                <th>Margem</th>
+                                <th>Valor na Conta</th>
+                                <th>Parcela</th>
+                                <th>Prazo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
     </main> 

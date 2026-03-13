@@ -59,8 +59,8 @@ function iniciarLote() {
     // Reseta tabela e progresso
     document.getElementById('tabela-body').innerHTML = '';
     document.getElementById('badge-aprovados').textContent = '✓ 0 aprovados';
-    document.getElementById('progresso-wrapper').classList.add('visivel');
-    document.getElementById('tabela-resultados').classList.add('visivel');
+    document.getElementById('progresso-wrapper').style.display = 'block';
+    document.getElementById('tabela-resultados').style.display = 'block';
 
     const formData = new FormData();
     formData.append('planilha', fileInput.files[0]);
