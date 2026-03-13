@@ -491,11 +491,10 @@ function trocarAbaPropostas(aba, elemento){
 }
 
 async function carregarAndamento() {
-    const inicio = getDataInicio();
 
     const url = (usuarioAtual === 'mscred')
-        ? `https://sistemamscred.com.br/api/relatorios/andamento?inicio=${inicio}`
-        : `https://sistemamscred.com.br/api/relatorios/andamento/${usuarioAtual}?inicio=${inicio}`;
+        ? `https://sistemamscred.com.br/api/relatorios/andamento`
+        : `https://sistemamscred.com.br/api/relatorios/andamento/${usuarioAtual}`;
     
         try {
             const response = await fetch(url)

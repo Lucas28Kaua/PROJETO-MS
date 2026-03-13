@@ -676,10 +676,6 @@ def obter_relatorio_andamento(usuario_id = None):
         query += " AND p.usuario_id = %s"
         params.append(usuario_id)
 
-    if data_inicio:
-        query += " AND p.data_criacao >= %s"
-        params.append(f"{data_inicio} 00:00:00")
-
     query += " ORDER BY p.data_criacao DESC"
 
     cursor.execute(query, params)
