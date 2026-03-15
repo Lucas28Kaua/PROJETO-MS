@@ -892,14 +892,13 @@ def consulta_fullconsig(cpf):
             data_nascimento = None
             for fmt in ('%d/%m/%Y', '%d-%b-%y', '%d-%b-%Y'):
                 try:
-                    data_nascimento = datetime.strptime(dn_raw.strip(), fmt).strftime('%d-%m-%Y')
+                    data_nascimento = datetime.strptime(dn_raw.strip(), fmt).strftime('%d/%m/%Y')
                     break
                 except:
                     continue
 
             # Sexo: "Feminino"/"Masculino" → "F"/"M"
-            sexo_raw = view.get('SEXO', '')
-            sexo = 'Feminino' if 'fem' in sexo_raw.lower() else 'Masculino'
+            sexo = view.get('SEXO', '')
 
             # Telefones
             telefones = []
@@ -945,12 +944,7 @@ def consulta_fullconsig(cpf):
                 return el['value'].strip() if el and el.get('value', '').strip() else None
 
             # Data nascimento
-            dn_raw = val_input('data_nascimento_prefeitura_cadastro') or ''
-            data_nascimento = None
-            try:
-                data_nascimento = datetime.strptime(dn_raw.strip(), '%d/%m/%Y').strftime('%Y-%m-%d')
-            except:
-                pass
+            data_nascimento = val_input('data_nascimento_prefeitura_cadastro') or None
 
             # Sexo via select
             sexo = None
@@ -959,7 +953,7 @@ def consulta_fullconsig(cpf):
                 opt = sel.find('option', selected=True)
                 if opt:
                     sexo_raw = opt.get_text(strip=True)
-                    sexo = 'F' if 'FEM' in sexo_raw.upper() else 'M'
+                    sexo = sexo_raw
 
             # Tabela "Informações": órgão, CNPJ, admissão, salário, nome_mae, email, sexo
             orgao = cnpj = data_admissao = salario = nome_mae = None
@@ -1047,7 +1041,7 @@ def consulta_fullconsig(cpf):
             elif "Data de Nascimento:" in p:
                 dn = p.replace("Data de Nascimento:", "").split("-")[0].strip()
                 try:
-                    resultado["data_nascimento"] = datetime.strptime(dn, "%d/%m/%Y").strftime("%Y-%m-%d")
+                    resultado["data_nascimento"] = dn
                 except:
                     pass
             elif "Endereço:" in p:
