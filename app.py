@@ -806,6 +806,8 @@ def consulta_fullconsig(cpf):
         for convenio in convenios:
             if convenio == 'clt':
                 url_consulta = "https://sistema.fullconsig.com.br/clt/promosysClt"
+            elif convenio == 'prefeitura':
+                url_consulta == "https://sistema.fullconsig.com.br/prefeitura/promosysPrefeitura"
             else:
                 url_consulta = "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline"
 
