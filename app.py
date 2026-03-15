@@ -805,7 +805,7 @@ def consulta_fullconsig(cpf):
         import re, json
 
         sessao = get_sessao_fullconsig()
-        convenios = ['inss', 'siape', 'governo', 'prefeitura', 'clt', 'forcasArmadas', 'veiculos', 'bolsa']
+        convenios = ['inss', 'siape', 'governo', 'clt', 'prefeitura', 'forcasArmadas', 'veiculos', 'bolsa']
 
         soup = None
         convenio_encontrado = None
