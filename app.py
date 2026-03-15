@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory
 import os
+import re
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
@@ -795,21 +796,26 @@ def get_sessao_fullconsig():
     print(f"Login FullConsig - status: {resp_login.status_code} - OK: {'loginForm' not in resp_login.text}")
     return _sessao_fullconsig
 
-@app.route('/consulta-fullconsig/<cpf>', methods = ['GET'])
+@app.route('/consulta-fullconsig/<cpf>', methods=['GET'])
 def consulta_fullconsig(cpf):
     global _sessao_fullconsig
     try:
+        from bs4 import BeautifulSoup
+        from datetime import datetime
+        import re, json
+
         sessao = get_sessao_fullconsig()
         convenios = ['inss', 'siape', 'governo', 'prefeitura', 'clt', 'forcasArmadas', 'veiculos', 'bolsa']
+
         soup = None
+        convenio_encontrado = None
+        dados_raw = None  # guarda o json cru para CLT
 
         for convenio in convenios:
             if convenio == 'clt':
                 url_consulta = "https://sistema.fullconsig.com.br/clt/promosysClt"
-                print('encontrado na aba de clt')
             elif convenio == 'prefeitura':
                 url_consulta = "https://sistema.fullconsig.com.br/prefeitura/promosysPrefeitura"
-                print('encontrado na aba de prefeitura')
             else:
                 url_consulta = "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline"
 
@@ -822,72 +828,239 @@ def consulta_fullconsig(cpf):
                 dados = resp.json()
             except:
                 continue
-            
-            from bs4 import BeautifulSoup
-            soup_temp = BeautifulSoup(dados.get("consulta", ""), "html.parser")
 
-            # Verifica se achou nome (sinal de que o convênio bateu)
-            ps = [p.get_text(separator=" ", strip=True) for p in soup_temp.find_all("p") if p.get_text(strip=True)]
-            
-            if any("Nome:" in p for p in ps):
-                print(f"✅ CPF {cpf} encontrado no convênio: {convenio}")
-                soup = soup_temp
-                break
+            html_consulta = dados.get("consulta", "")
+
+            # --- Detecção do convênio encontrado ---
+            if convenio == 'clt':
+                # CLT encontrado: tem o objeto `var consulta = {...}` com CLT_VIEW
+                if 'var consulta' in html_consulta and 'CLT_VIEW' in html_consulta:
+                    print(f"✅ CPF {cpf} encontrado no convênio: clt")
+                    convenio_encontrado = 'clt'
+                    dados_raw = html_consulta
+                    break
+                else:
+                    print(f"❌ CPF {cpf} não encontrado em: clt")
+                    continue
+
+            elif convenio == 'prefeitura':
+                # Prefeitura encontrado: tem input com id começando em cpf_prefeitura_cadastro com value preenchido
+                soup_temp = BeautifulSoup(html_consulta, "html.parser")
+                inp = soup_temp.find('input', id=lambda x: x and x.startswith('cpf_prefeitura_cadastro'))
+                if inp and inp.get('value', '').strip():
+                    print(f"✅ CPF {cpf} encontrado no convênio: prefeitura")
+                    convenio_encontrado = 'prefeitura'
+                    soup = soup_temp
+                    break
+                else:
+                    print(f"❌ CPF {cpf} não encontrado em: prefeitura")
+                    continue
+
             else:
-                print(f"❌ CPF {cpf} não encontrado em: {convenio}")
-                print(f"   Primeiros ps: {ps[:3]}")
+                # INSS e demais: verifica "Nome:" nos <p>
+                soup_temp = BeautifulSoup(html_consulta, "html.parser")
+                ps = [p.get_text(separator=" ", strip=True) for p in soup_temp.find_all("p") if p.get_text(strip=True)]
+                if any("Nome:" in p for p in ps):
+                    print(f"✅ CPF {cpf} encontrado no convênio: {convenio}")
+                    convenio_encontrado = convenio
+                    soup = soup_temp
+                    break
+                else:
+                    print(f"❌ CPF {cpf} não encontrado em: {convenio}")
+                    continue
 
-        if not soup:
+        if not convenio_encontrado:
             return jsonify({"erro": "CPF não encontrado em nenhum convênio"}), 404
-    
-        # Extrai dados dos <p>
+
+        # =============================================
+        # PARSER CLT
+        # =============================================
+        if convenio_encontrado == 'clt':
+            match = re.search(r'var consulta\s*=\s*(\{.*?\});\s*\n', dados_raw, re.DOTALL)
+            if not match:
+                return jsonify({"erro": "Não foi possível extrair dados CLT"}), 500
+
+            try:
+                consulta_obj = json.loads(match.group(1))
+            except Exception as e:
+                return jsonify({"erro": f"Erro ao parsear JSON CLT: {str(e)}"}), 500
+
+            view = consulta_obj.get('CLT_VIEW') or {}
+
+            # Data nascimento: formato "04-AUG-74" ou "04/08/1974"
+            dn_raw = view.get('DATA_NASCIMENTO_BR') or view.get('DATA_NASCIMENTO') or ''
+            data_nascimento = None
+            for fmt in ('%d/%m/%Y', '%d-%b-%y', '%d-%b-%Y'):
+                try:
+                    data_nascimento = datetime.strptime(dn_raw.strip(), fmt).strftime('%Y-%m-%d')
+                    break
+                except:
+                    continue
+
+            # Sexo: "Feminino"/"Masculino" → "F"/"M"
+            sexo_raw = view.get('SEXO', '')
+            sexo = 'F' if 'fem' in sexo_raw.lower() else 'M'
+
+            # Telefones
+            telefones = []
+            for i in range(1, 6):
+                tel = consulta_obj.get(f'TEL_{i}')
+                if tel and tel.strip():
+                    tel_limpo = re.sub(r'\D', '', tel)
+                    if len(tel_limpo) >= 10:
+                        telefones.append(tel_limpo)
+
+            # Salário: limpa "R$ 1.942,92" → "1942.92"
+            salario_raw = str(view.get('SALARIO_CONTRATADO') or view.get('REM_ULTIMO') or '')
+            salario_limpo = re.sub(r'[^\d,]', '', salario_raw).replace(',', '.')
+
+            return jsonify({
+                "convenio": "CLT",
+                "nome": view.get('NOME'),
+                "cpf": consulta_obj.get('CPF'),
+                "data_nascimento": data_nascimento,
+                "sexo": sexo,
+                "telefone": telefones[0] if telefones else None,
+                "telefones": telefones,
+                "beneficio": None,
+                "orgao": view.get('RAZAO_SOCIAL'),
+                "cnpj_empresa": view.get('CNPJ_EMPRESA'),
+                "data_admissao": view.get('DATA_ADMISSAO_BR'),
+                "salario": salario_limpo,
+                "nome_mae": None,
+                "municipio": view.get('MUNICIPIO_TRABALHADOR'),
+                "estado": None,
+                "cidade": None,
+                "bairro": None,
+                "rua": None,
+                "numero": None,
+            }), 200
+
+        # =============================================
+        # PARSER PREFEITURA
+        # =============================================
+        if convenio_encontrado == 'prefeitura':
+            def val_input(id_prefix):
+                el = soup.find('input', id=lambda x: x and x.startswith(id_prefix))
+                return el['value'].strip() if el and el.get('value', '').strip() else None
+
+            # Data nascimento
+            dn_raw = val_input('data_nascimento_prefeitura_cadastro') or ''
+            data_nascimento = None
+            try:
+                data_nascimento = datetime.strptime(dn_raw.strip(), '%d/%m/%Y').strftime('%Y-%m-%d')
+            except:
+                pass
+
+            # Sexo via select
+            sexo = None
+            sel = soup.find('select', id=lambda x: x and x.startswith('genero_prefeitura_cadastro'))
+            if sel:
+                opt = sel.find('option', selected=True)
+                if opt:
+                    sexo_raw = opt.get_text(strip=True)
+                    sexo = 'F' if 'FEM' in sexo_raw.upper() else 'M'
+
+            # Tabela "Informações": órgão, CNPJ, admissão, salário, nome_mae, email, sexo
+            orgao = cnpj = data_admissao = salario = nome_mae = None
+            h3_info = soup.find('h3', string=lambda s: s and 'Informa' in s)
+            if h3_info:
+                tbody = h3_info.find_next('tbody')
+                if tbody:
+                    tds = tbody.find_all('td')
+                    if len(tds) >= 5:
+                        orgao        = tds[0].get_text(strip=True) or None
+                        cnpj         = tds[1].get_text(strip=True) or None
+                        data_admissao = tds[2].get_text(strip=True) or None
+                        salario_raw  = tds[3].get_text(strip=True)
+                        # "R$ 0,00" → limpa
+                        salario = re.sub(r'[^\d,]', '', salario_raw).replace(',', '.') or None
+                        nome_mae     = tds[4].get_text(strip=True) or None
+                        if not sexo and len(tds) >= 7:
+                            sexo_raw = tds[6].get_text(strip=True)
+                            sexo = 'F' if sexo_raw.upper() == 'F' else 'M'
+
+            # Telefones via inputs tel1/tel2
+            telefones = []
+            for prefix in ['tel1_prefeitura_cadastro', 'tel2_prefeitura_cadastro']:
+                tel = val_input(prefix)
+                if tel:
+                    tel_limpo = re.sub(r'\D', '', tel)
+                    if len(tel_limpo) >= 10:
+                        telefones.append(tel_limpo)
+
+            return jsonify({
+                "convenio": "PREFEITURA",
+                "nome": val_input('nome_prefeitura_cadastro'),
+                "cpf": (val_input('cpf_prefeitura_cadastro') or '').replace('.', '').replace('-', ''),
+                "data_nascimento": data_nascimento,
+                "sexo": sexo,
+                "telefone": telefones[0] if telefones else None,
+                "telefones": telefones,
+                "beneficio": val_input('numero_beneficio_prefeitura_cadastro'),
+                "orgao": orgao,
+                "cnpj_empresa": cnpj,
+                "data_admissao": data_admissao,
+                "salario": salario,
+                "nome_mae": nome_mae,
+                "municipio": None,
+                "estado": None,
+                "cidade": None,
+                "bairro": None,
+                "rua": None,
+                "numero": None,
+            }), 200
+
+        # =============================================
+        # PARSER INSS/SIAPE/GOVERNO/etc (original)
+        # =============================================
         ps = [p.get_text(separator=" ", strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
 
         resultado = {
+            "convenio": convenio_encontrado.upper(),
             "nome": None,
+            "cpf": cpf,
             "data_nascimento": None,
             "beneficio": None,
+            "sexo": None,
             "telefone": None,
+            "telefones": [],
+            "orgao": None,
+            "data_admissao": None,
+            "salario": None,
+            "nome_mae": None,
+            "municipio": None,
             "estado": None,
             "cidade": None,
             "bairro": None,
             "rua": None,
-            "numero": None
+            "numero": None,
         }
+
         for p in ps:
             if "Nome:" in p:
                 resultado["nome"] = p.replace("Nome:", "").strip()
-            elif "CPF:" in p and "Benefício:" in p:
+            elif "Benefício:" in p:
                 partes = p.split("/")
                 if len(partes) > 1:
                     resultado["beneficio"] = partes[1].replace("Benefício:", "").strip()
             elif "Data de Nascimento:" in p:
                 dn = p.replace("Data de Nascimento:", "").split("-")[0].strip()
-                # Converte DD/MM/YYYY para YYYY-MM-DD pro input date do HTML
                 try:
-                    from datetime import datetime
                     resultado["data_nascimento"] = datetime.strptime(dn, "%d/%m/%Y").strftime("%Y-%m-%d")
                 except:
-                    resultado["data_nascimento"] = None
+                    pass
             elif "Endereço:" in p:
-                # Extrai rua
                 rua = p.split("Bairro:")[0].replace("Endereço:", "").strip()
                 resultado["rua"] = rua
-
-                # Extrai bairro
                 if "Bairro:" in p:
-                    bairro = p.split("Bairro:")[1].split("Cidade:")[0].strip()
-                    resultado["bairro"] = bairro
-
-                # Extrai cidade
+                    resultado["bairro"] = p.split("Bairro:")[1].split("Cidade:")[0].strip()
                 if "Cidade:" in p:
                     cidade_estado = p.split("Cidade:")[1].split("CEP:")[0].strip()
                     if "-" in cidade_estado:
                         partes_cidade = cidade_estado.split("-")
                         resultado["cidade"] = partes_cidade[0].replace("Estado:", "").strip()
                         estado_sigla = partes_cidade[1].replace("Estado:", "").strip()
-
-                        # Mapeia sigla para nome completo do estado
                         mapa_estados = {
                             "AC": "Acre", "AL": "Alagoas", "AP": "Amapá", "AM": "Amazonas",
                             "BA": "Bahia", "CE": "Ceará", "DF": "Distrito Federal",
@@ -902,12 +1075,12 @@ def consulta_fullconsig(cpf):
                         resultado["estado"] = mapa_estados.get(estado_sigla, estado_sigla)
 
         # Telefone
-        tel_tags = soup.select("table td")
-        for td in tel_tags:
-            texto = td.get_text(strip=True).replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+        for td in soup.select("table td"):
+            texto = re.sub(r'\D', '', td.get_text(strip=True))
             if texto.isdigit() and len(texto) >= 10:
-                resultado["telefone"] = texto
-                break  # para no primeiro válido
+                resultado["telefones"].append(texto)
+                if not resultado["telefone"]:
+                    resultado["telefone"] = texto
 
         return jsonify(resultado), 200
 
