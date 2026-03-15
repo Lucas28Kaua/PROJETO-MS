@@ -48,15 +48,20 @@ async function consultarIndividual(){
 
         dadosClienteIndividual = { ...dados, cpf:cpfRaw}
 
-        document.getElementById('ind-nome').textContent = dados.nome || '---';
-        document.getElementById('ind-nascimento').textContent = dados.data_nascimento || '---';
-        document.getElementById('ind-sexo').textContent = dados.sexo || '---';
+        document.getElementById('ind-nome').value = dados.nome || '---';
+        document.getElementById('ind-nascimento').value = dados.data_nascimento || '---';
+
+        const sexoSelect = document.getElementById('ind-sexo');
+        const sexoValor = (dados.sexo || '').toLowerCase();
+        sexoSelect.value = sexoValor.includes('fem') ? 'Feminino' : 'Masculino';
+
+        document.getElementById('ind-convenio').textContent = dados.convenio || '---';
 
         if (dados.telefone) {
-            document.getElementById('ind-telefone').textContent = dados.telefone;
+            document.getElementById('ind-telefone').value = dados.telefone;
             document.getElementById('aviso-telefone').style.display = 'none';
         } else {
-            document.getElementById('ind-telefone').textContent = 'Não encontrado';
+            document.getElementById('ind-telefone').value = '';
             document.getElementById('aviso-telefone').style.display = 'block';
         }
 
@@ -70,8 +75,11 @@ async function consultarIndividual(){
     btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar';
 }
 
-async function simularIndividual (){
-    const telefone = dadosClienteIndividual.telefone || document.getElementById('input-telefone-manual').value.replace(/\D/g, '');
+async function simularIndividual(){
+    const nome       = document.getElementById('ind-nome').value;
+    const nascimento = document.getElementById('ind-nascimento').value;
+    const sexo       = document.getElementById('ind-sexo').value;
+    const telefone   = document.getElementById('ind-telefone').value.replace(/\D/g, '');
 
     if (!telefone) {
         alert('Preencha o telefone!');
@@ -91,9 +99,9 @@ async function simularIndividual (){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 cpf: dadosClienteIndividual.cpf,
-                nome: dadosClienteIndividual.nome,
-                data_nascimento: dadosClienteIndividual.data_nascimento,
-                sexo: dadosClienteIndividual.sexo,
+                nome: nome,
+                data_nascimento: nascimento,
+                sexo: sexo,
                 telefone: telefone
             })
         });

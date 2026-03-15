@@ -119,34 +119,50 @@
 
                 <!--DADOS DO CLIENTE (APARECE APÓS CONSULTA)-->
                 <div id="dados-individual" style="display:none">
-                    <div class="dados-grid">
-                        <div class="dados-item">
-                            <label for="inome">Nome</label>
-                            <span id="ind-nome">---</span>
-                        </div>
-                        <div class="dado-item">
-                            <label>Data de Nascimento</label>
-                            <span id="ind-nascimento">---</span>
-                        </div>
-                        <div class="dado-item">
-                            <label>Sexo</label>
-                            <span id="ind-sexo">---</span>
-                        </div>
-                        <div class="dado-item" id="campo-telefone-individual">
-                            <label>Telefone</label>
-                            <span id="ind-telefone">---</span>
-                        </div>
-                    </div>
 
-                        <!-- Se não tiver telefone -->
-                    <div id="aviso-telefone" style="display:none; margin-top:12px;">
-                        <label style="font-size:0.85rem; color:#eb6505; font-weight:700;">📞 Telefone não encontrado — preencha:</label>
-                        <input type="text" id="input-telefone-manual" placeholder="Ex: 84999999999" maxlength="11" style="margin-top:6px; padding:10px; border:1px solid #eb6505; border-radius:8px; width:100%; font-size:0.95rem;">
+                    <div class="cliente-card">
+
+                        <div class="cliente-card-header">
+                            <span class="material-symbols-outlined">person_check</span>
+                            <span>Dados do Cliente</span>
+                            <span class="cliente-convenio-badge" id="ind-convenio">---</span>
+                        </div>
+
+                        <div class="cliente-fields-grid">
+                            <div class="cliente-field full-width">
+                                <label class="cliente-field-label">Nome</label>
+                                <input type="text" class="cliente-field-input" id="ind-nome" placeholder="---">
+                            </div>
+                            <div class="cliente-field">
+                                <label class="cliente-field-label">Data de Nascimento</label>
+                                <input type="text" class="cliente-field-input" id="ind-nascimento" placeholder="DD/MM/AAAA">
+                            </div>
+                            <div class="cliente-field">
+                                <label class="cliente-field-label">Sexo</label>
+                                <select class="cliente-field-input" id="ind-sexo">
+                                    <option value="">---</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                </select>
+                            </div>
+                            <div class="cliente-field" id="campo-telefone-individual">
+                                <label class="cliente-field-label">Telefone</label>
+                                <input type="text" class="cliente-field-input" id="ind-telefone" placeholder="Ex: 84999999999" maxlength="11">
+                            </div>
+                        </div>
+
+                            <!-- Se não tiver telefone -->
+                        <div id="aviso-telefone" style="display:none">
+                            <div class="aviso-tel-box">
+                                <span class="material-symbols-outlined">phone_missed</span>
+                                <span>Telefone não encontrado — preencha acima antes de simular.</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-processar ativo" style="margin-top:16px;" onclick="simularIndividual()">
+                            <span class="material-symbols-outlined">play_circle</span> Simular
+                        </button>
                     </div>
-                    
-                    <button class="btn-processar ativo" style="margin-top:16px;" onclick="simularIndividual()">
-                        <span class="material-symbols-outlined">play_circle</span> Simular
-                    </button>
                 </div>
             </div>
                 <!-- RESULTADO -->

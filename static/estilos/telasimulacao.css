@@ -93,6 +93,110 @@
     box-shadow: 0 4px 15px rgba(235, 101, 5, 0.35);
 }
 
+
+/* === CARD DE DADOS DO CLIENTE === */
+.cliente-card {
+    background: #fff;
+    border: 1px solid #e8eaf0;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.cliente-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1a1a2e;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f5;
+}
+
+.cliente-card-header .material-symbols-outlined {
+    font-size: 1.2rem;
+    color: #eb6505;
+}
+
+.cliente-convenio-badge {
+    margin-left: auto;
+    background: #fff4ec;
+    color: #eb6505;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid #ffd4b3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cliente-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.cliente-field.full-width {
+    grid-column: 1 / -1;
+}
+
+.cliente-field-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 5px;
+}
+
+.cliente-field-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid #e8eaf0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1a1a2e;
+    background: #fafafa;
+    transition: border-color 0.2s, background 0.2s;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.cliente-field-input:focus {
+    outline: none;
+    border-color: #eb6505;
+    background: #fff;
+}
+
+.cliente-field-input:hover {
+    border-color: #ccc;
+}
+
+/* Aviso telefone */
+.aviso-tel-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff8f3;
+    border: 1px solid #ffd4b3;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #c45000;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.aviso-tel-box .material-symbols-outlined {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
 .painel { display: none; }
 .painel.ativo { display: block; }
 
