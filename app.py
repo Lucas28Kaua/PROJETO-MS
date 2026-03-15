@@ -800,14 +800,16 @@ def consulta_fullconsig(cpf):
     global _sessao_fullconsig
     try:
         sessao = get_sessao_fullconsig()
-        convenios = ['inss', 'siape', 'governo', 'prefeitura', 'fgts', 'clt', 'forcasArmadas', 'veiculos', 'bolsa']
+        convenios = ['inss', 'siape', 'governo', 'prefeitura', 'clt', 'forcasArmadas', 'veiculos', 'bolsa']
         soup = None
 
         for convenio in convenios:
             if convenio == 'clt':
                 url_consulta = "https://sistema.fullconsig.com.br/clt/promosysClt"
+                print('encontrado na aba de clt')
             elif convenio == 'prefeitura':
-                url_consulta == "https://sistema.fullconsig.com.br/prefeitura/promosysPrefeitura"
+                url_consulta = "https://sistema.fullconsig.com.br/prefeitura/promosysPrefeitura"
+                print('encontrado na aba de prefeitura')
             else:
                 url_consulta = "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline"
 
