@@ -892,14 +892,14 @@ def consulta_fullconsig(cpf):
             data_nascimento = None
             for fmt in ('%d/%m/%Y', '%d-%b-%y', '%d-%b-%Y'):
                 try:
-                    data_nascimento = datetime.strptime(dn_raw.strip(), fmt).strftime('%Y-%m-%d')
+                    data_nascimento = datetime.strptime(dn_raw.strip(), fmt).strftime('%d-%m-%Y')
                     break
                 except:
                     continue
 
             # Sexo: "Feminino"/"Masculino" → "F"/"M"
             sexo_raw = view.get('SEXO', '')
-            sexo = 'F' if 'fem' in sexo_raw.lower() else 'M'
+            sexo = 'Feminino' if 'fem' in sexo_raw.lower() else 'Masculino'
 
             # Telefones
             telefones = []
