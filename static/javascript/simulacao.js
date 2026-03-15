@@ -31,6 +31,9 @@ async function consultarIndividual(){
         return;
     }
 
+    document.getElementById('resultado-individual').style.display = 'none';
+    document.getElementById('resultado-individual-body').innerHTML = '';
+    
     const btn = document.querySelector('#painel-individual .btn-processar')
     btn.disabled = true;
     btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Consultando...';
