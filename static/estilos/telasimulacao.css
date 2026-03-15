@@ -206,7 +206,7 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow:2px 2px 8px rgba(0, 0, 0, 0.463);
+    box-shadow:2px 2px 8px rgba(0, 0, 0, 0.330);
 }
 
 .card-planilha h3 {
@@ -368,6 +368,7 @@
     border: 1px solid rgba(235, 101, 5, 0.2);
     border-radius: 12px;
     padding: 20px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.330)
 }
 
 #tabela-resultados .tabela-scroll {
