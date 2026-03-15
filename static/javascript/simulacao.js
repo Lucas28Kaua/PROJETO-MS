@@ -86,7 +86,7 @@ async function simularIndividual(){
         return;
     }
 
-    const btn = document.querySelector('#painel-individual button:last-child');
+    const btn = document.querySelector('#dados-individual .btn-processar');
     btn.disabled = true;
     btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Simulando...';
 
