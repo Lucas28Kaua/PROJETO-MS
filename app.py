@@ -804,8 +804,13 @@ def consulta_fullconsig(cpf):
         soup = None
 
         for convenio in convenios:
+            if convenio == 'clt':
+                url_consulta = "https://sistema.fullconsig.com.br/clt/promosysClt"
+            else:
+                url_consulta = "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline"
+
             resp = sessao.post(
-                "https://sistema.fullconsig.com.br/consulta/validaConsultaOffline",
+                url_consulta,
                 data={"consulta": convenio, "valor": cpf, "valorTelefone": "", "telefone": "false"}
             )
 
