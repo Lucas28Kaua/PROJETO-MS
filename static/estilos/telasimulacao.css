@@ -542,3 +542,84 @@ tbody td {
     background: #eb6505;
     color: white;
 }
+
+/* === MODAL DIGITAÇÃO === */
+#modal-digitacao {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-digitacao-box {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+}
+
+.modal-digitacao-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f0f0f5;
+}
+
+.modal-digitacao-titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1a1a2e;
+}
+
+.modal-digitacao-titulo .material-symbols-outlined {
+    color: #eb6505;
+}
+
+.modal-digitacao-fechar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.modal-digitacao-fechar:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.modal-secao-titulo {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #eb6505;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+}
+
+.modal-secao {
+    margin-bottom: 20px;
+}
+
+/* CPF readonly */
+#dig-cpf {
+    background: #f5f5f5;
+    cursor: default;
+}

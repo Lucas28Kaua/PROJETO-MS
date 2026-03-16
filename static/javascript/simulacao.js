@@ -1,7 +1,7 @@
 const toggleBtn = document.getElementById('toggleMenu');
 const sidebar = document.querySelector('.sidebar');
 const overlay = document.getElementById('overlay');
-
+let resultadoSimulacaoAtual = {};
 toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('aberto');
     toggleBtn.classList.toggle('ativo');
@@ -111,6 +111,7 @@ async function simularIndividual(){
         const resultado = await response.json();
 
         if (resultado.tipo === 'aprovado') {
+            resultadoSimulacaoAtual = { ...resultado, ...dadosClienteIndividual };
 
             document.getElementById('resultado-individual-body').innerHTML = `
                 <div style="padding:20px;">
@@ -169,6 +170,107 @@ async function simularIndividual(){
     btn.disabled = false;
     btn.innerHTML = '<span class="material-symbols-outlined">play_circle</span> Simular';
 }
+
+async function irParaDigitacao(){
+    const nome       = document.getElementById('ind-nome').value;
+    const nascimento = document.getElementById('ind-nascimento').value;
+    const sexo       = document.getElementById('ind-sexo').value;
+    const tel        = (resultadoSimulacaoAtual.telefone || document.getElementById('ind-telefone').value).replace(/\D/g, '');
+
+    // Abre o modal e preenche os automáticos
+    document.getElementById('modal-digitacao').style.display = 'flex';
+    document.getElementById('dig-nome').value        = nome;
+    document.getElementById('dig-cpf').value         = dadosClienteIndividual.cpf || '';
+    document.getElementById('dig-nascimento').value  = nascimento;
+    document.getElementById('dig-nome-mae').value    = resultadoSimulacaoAtual.nome_mae || '';
+    document.getElementById('dig-ddd').value         = tel.slice(0, 2);
+    document.getElementById('dig-telefone-modal').value = tel.slice(2);
+
+    // Sexo
+    const generoSelect = document.getElementById('dig-genero');
+    generoSelect.value = sexo.toLowerCase().includes('fem') ? 'female' : 'male';
+
+    // Botão de envio
+    document.getElementById('btn-enviar-digitacao').onclick = async function() {
+        const btn = this;
+        btn.disabled = true
+        btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Enviando...';
+
+        const ddd = document.getElementById('dig-ddd').value.trim();
+        const telNum = document.getElementById('dig-telefone-modal').value.replace(/\D/g, '');
+
+        const converterData = (data) => {
+            if (!data || !data.includes('/')) return data;
+            const [d, m, a] = data.split('/');
+            return `${a}-${m}-${d}`;
+        }
+        const payload = {
+            simulation_id: resultadoSimulacaoAtual.simulation_id || '',
+            borrower: {
+                name:                           document.getElementById('dig-nome').value.trim(),
+                email:                          document.getElementById('dig-email').value.trim(),
+                individual_document_number:     document.getElementById('dig-cpf').value.replace(/\D/g, ''),
+                birth_date:                     converterData(document.getElementById('dig-nascimento').value),
+                mother_name:                    document.getElementById('dig-nome-mae').value.trim(),
+                gender:                         document.getElementById('dig-genero').value,
+                marital_status:                 document.getElementById('dig-estado-civil').value,
+                nationality:                    document.getElementById('dig-nacionalidade').value.trim(),
+                person_type:                    'natural',
+                political_exposition:           false,
+                document_identification_type:   document.getElementById('dig-doc-tipo').value,
+                document_identification_number: document.getElementById('dig-doc-numero').value.trim(),
+                document_issuer:                document.getElementById('dig-doc-orgao').value.trim(),
+                document_identification_date:   converterData(document.getElementById('dig-doc-data').value),
+                phone: {
+                    country_code: '55',
+                    area_code:    ddd,
+                    number:       telNum
+                },
+                address: {
+                    postal_code:  document.getElementById('dig-cep').value.replace(/\D/g, ''),
+                    street:       document.getElementById('dig-rua').value.trim(),
+                    number:       document.getElementById('dig-numero-end').value.trim(),
+                    complement:   document.getElementById('dig-complemento').value.trim(),
+                    neighborhood: document.getElementById('dig-bairro').value.trim(),
+                    city:         document.getElementById('dig-cidade').value.trim(),
+                    state:        document.getElementById('dig-estado').value.trim(),
+                },
+                bank: {
+                    transfer_method: 'pix',
+                    pix_key_type:    document.getElementById('dig-pix-tipo').value,
+                    pix_key:         document.getElementById('dig-pix-chave').value.trim(),
+                }
+            }
+        }
+
+        try {
+            const response = await fetch('https://api.sistemamscred.com.br/digitarindividual', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const resultado = await response.json();
+
+            if (resultado.sucesso) {
+                document.getElementById('modal-digitacao').style.display = 'none';
+                alert('✅ Proposta enviada com sucesso!');
+            } else {
+                alert('Erro: ' + (resultado.mensagem || 'Tente novamente.'));
+            }
+        } catch(err) {
+            alert('Erro ao enviar a proposta!')
+            console.error(err)
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
+    }
+}
+
+function fecharModalDigitacao() {
+    document.getElementById('modal-digitacao').style.display = 'none';
+}
+
 function trocarAba(aba, btn){
     document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
     document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativo'));

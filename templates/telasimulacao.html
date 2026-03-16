@@ -172,6 +172,152 @@
                 </div>
                 <div id="resultado-individual-body"></div>
             </div>
+            <div id="modal-digitacao">
+                <div class="modal-digitacao-box">
+                    <div class="modal-digitacao-header">
+                        <div class="modal-digitacao-titulo">
+                            <span class="material-symbols-outlined">edit_document</span>
+                            Digitação de Proposta
+                        </div>
+                        <button onclick="fecharModalDigitacao()" class="modal-digitacao-fechar">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+
+                    <p class="modal-secao-titulo">Dados Pessoais</p>
+                    <div class="cliente-fields-grid modal-secao">
+                        <div class="cliente-field full-width">
+                            <label class="cliente-field-label">Nome Completo</label>
+                            <input class="cliente-field-input" id="dig-nome" type="text">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">CPF</label>
+                            <input class="cliente-field-input" id="dig-cpf" type="text" readonly>
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Data de Nascimento</label>
+                            <input class="cliente-field-input" id="dig-nascimento" type="text" placeholder="DD/MM/AAAA">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Nome da Mãe</label>
+                            <input class="cliente-field-input" id="dig-nome-mae" type="text">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Email</label>
+                            <input class="cliente-field-input" id="dig-email" type="email" placeholder="email@exemplo.com">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Sexo</label>
+                            <select class="cliente-field-input" id="dig-genero">
+                                <option value="male">Masculino</option>
+                                <option value="female">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Estado Civil</label>
+                            <select class="cliente-field-input" id="dig-estado-civil">
+                                <option value="single">Solteiro(a)</option>
+                                <option value="married">Casado(a)</option>
+                                <option value="divorced">Divorciado(a)</option>
+                                <option value="widowed">Viúvo(a)</option>
+                            </select>
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Nacionalidade</label>
+                            <input class="cliente-field-input" id="dig-nacionalidade" type="text" value="Brasileira">
+                        </div>
+                    </div>
+
+                    <p class="modal-secao-titulo">Documento</p>
+                    <div class="cliente-fields-grid modal-secao">
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Tipo</label>
+                            <select class="cliente-field-input" id="dig-doc-tipo">
+                                <option value="rg">RG</option>
+                                <option value="cnh">CNH</option>
+                            </select>
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Número</label>
+                            <input class="cliente-field-input" id="dig-doc-numero" type="text">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Órgão Emissor</label>
+                            <input class="cliente-field-input" id="dig-doc-orgao" type="text" placeholder="SSP/RN">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Data de Emissão</label>
+                            <input class="cliente-field-input" id="dig-doc-data" type="text" placeholder="DD/MM/AAAA">
+                        </div>
+                    </div>
+
+                    <!-- TELEFONE -->
+                    <p class="modal-secao-titulo">Telefone</p>
+                    <div class="cliente-fields-grid modal-secao">
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">DDD</label>
+                            <input class="cliente-field-input" id="dig-ddd" type="text" maxlength="2" placeholder="84">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Número</label>
+                            <input class="cliente-field-input" id="dig-telefone-modal" type="text" placeholder="999999999">
+                        </div>
+                    </div>
+
+                    <p class="modal-secao-titulo">Endereço</p>
+                    <div class="cliente-fields-grid modal-secao">
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">CEP</label>
+                            <input class="cliente-field-input" id="dig-cep" type="text" placeholder="00000-000">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Número</label>
+                            <input class="cliente-field-input" id="dig-numero-end" type="text">
+                        </div>
+                        <div class="cliente-field full-width">
+                            <label class="cliente-field-label">Rua</label>
+                            <input class="cliente-field-input" id="dig-rua" type="text">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Bairro</label>
+                            <input class="cliente-field-input" id="dig-bairro" type="text">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Cidade</label>
+                            <input class="cliente-field-input" id="dig-cidade" type="text">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Estado (UF)</label>
+                            <input class="cliente-field-input" id="dig-estado" type="text" placeholder="RN" maxlength="2">
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Complemento</label>
+                            <input class="cliente-field-input" id="dig-complemento" type="text" placeholder="Apto, casa...">
+                        </div>
+                    </div>
+
+                    <p class="modal-secao-titulo">Dados Bancários (Pix)</p>
+                    <div class="cliente-fields-grid modal-secao">
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Tipo de Chave</label>
+                            <select class="cliente-field-input" id="dig-pix-tipo">
+                                <option value="cpf">CPF</option>
+                                <option value="phone">Telefone</option>
+                                <option value="email">Email</option>
+                                <option value="random">Aleatória</option>
+                            </select>
+                        </div>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">Chave Pix</label>
+                            <input class="cliente-field-input" id="dig-pix-chave" type="text">
+                        </div>
+                    </div>
+
+                    <button class="btn-processar ativo" id="btn-enviar-digitacao" style="width:100%;">
+                        <span class="material-symbols-outlined">send</span> Enviar Proposta
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Painel Lote -->
