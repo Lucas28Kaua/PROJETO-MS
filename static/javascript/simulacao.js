@@ -226,43 +226,28 @@ async function irParaDigitacao(){
             return `${a}-${m}-${d}`;
         }
         const payload = {
-            simulation_id: resultadoSimulacaoAtual.simulation_id || '',
-            borrower: {
-                name:                           document.getElementById('dig-nome').value.trim(),
-                email:                          document.getElementById('dig-email').value.trim(),
-                individual_document_number:     document.getElementById('dig-cpf').value.replace(/\D/g, ''),
-                birth_date:                     converterData(document.getElementById('dig-nascimento').value),
-                mother_name:                    document.getElementById('dig-nome-mae').value.trim(),
-                gender:                         document.getElementById('dig-genero').value,
-                marital_status:                 document.getElementById('dig-estado-civil').value,
-                nationality:                    document.getElementById('dig-nacionalidade').value.trim(),
-                person_type:                    'natural',
-                political_exposition:           false,
-                document_identification_type:   document.getElementById('dig-doc-tipo').value,
-                document_identification_number: document.getElementById('dig-doc-numero').value.trim(),
-                document_issuer:                document.getElementById('dig-doc-orgao').value.trim(),
-                document_identification_date:   converterData(document.getElementById('dig-doc-data').value),
-                phone: {
-                    country_code: '55',
-                    area_code:    ddd,
-                    number:       telNum
-                },
-                address: {
-                    postal_code:  document.getElementById('dig-cep').value.replace(/\D/g, ''),
-                    street:       document.getElementById('dig-rua').value.trim(),
-                    number:       document.getElementById('dig-numero-end').value.trim(),
-                    complement:   document.getElementById('dig-complemento').value.trim(),
-                    neighborhood: document.getElementById('dig-bairro').value.trim(),
-                    city:         document.getElementById('dig-cidade').value.trim(),
-                    state:        document.getElementById('dig-estado').value.trim(),
-                },
-                bank: {
-                    transfer_method: 'pix',
-                    pix_key_type:    document.getElementById('dig-pix-tipo').value,
-                    pix_key:         document.getElementById('dig-pix-chave').value.trim(),
-                }
-            }
-        }
+            nome:                   document.getElementById('dig-nome').value.trim(),
+            email:                  document.getElementById('dig-email').value.trim(),
+            cpf:                    document.getElementById('dig-cpf').value.replace(/\D/g, ''),
+            data_nascimento:        converterData(document.getElementById('dig-nascimento').value),
+            nome_mae:               document.getElementById('dig-nome-mae').value.trim(),
+            genero:                 document.getElementById('dig-genero').value,
+            orgao_emissor:          document.getElementById('dig-doc-orgao').value.trim(),
+            tipo_documento:         document.getElementById('dig-doc-tipo').value,
+            numero_documento:       document.getElementById('dig-doc-numero').value.trim(),
+            data_emissao_documento: converterData(document.getElementById('dig-doc-data').value),
+            ddd:                    ddd,
+            numero_telefone:        telNum,
+            cep:                    document.getElementById('dig-cep').value.replace(/\D/g, ''),
+            rua:                    document.getElementById('dig-rua').value.trim(),
+            numero_endereco:        document.getElementById('dig-numero-end').value.trim(),
+            complemento:            document.getElementById('dig-complemento').value.trim(),
+            bairro:                 document.getElementById('dig-bairro').value.trim(),
+            cidade:                 document.getElementById('dig-cidade').value.trim(),
+            estado:                 document.getElementById('dig-estado').value.trim(),
+            chave_pix:              document.getElementById('dig-pix-chave').value.trim(),
+            tipo_chave_pix:         document.getElementById('dig-pix-tipo').value,
+        };
 
         try {
             const response = await fetch('https://api.sistemamscred.com.br/digitarindividual', {
