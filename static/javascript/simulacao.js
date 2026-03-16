@@ -171,6 +171,34 @@ async function simularIndividual(){
     btn.innerHTML = '<span class="material-symbols-outlined">play_circle</span> Simular';
 }
 
+function mostrarToast(mensagem) {
+    const toast = document.createElement('div');
+    toast.innerHTML = `<span class="material-symbols-outlined">check_circle</span> ${mensagem}`;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #16a34a;
+        color: white;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 8px 24px rgba(22,163,74,0.35);
+        z-index: 99999;
+        animation: slideInToast 0.3s ease;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+}
+
 async function irParaDigitacao(){
     const nome       = document.getElementById('ind-nome').value;
     const nascimento = document.getElementById('ind-nascimento').value;
@@ -273,11 +301,12 @@ async function irParaDigitacao(){
 
             if (resultado.sucesso) {
                 document.getElementById('modal-digitacao').style.display = 'none';
+                mostrarToast('Proposta digitada com sucesso!');
                 const linkFormalizacao = resultado.dados?.formalization_url || '';
 
                 const btnDigitar = document.querySelector('#resultado-individual-body .btn-processar');
                 if (btnDigitar) btnDigitar.style.display = 'none';
-                
+
                 document.getElementById('resultado-individual-body').innerHTML = `
                     <div style="padding:20px;">
                         <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
