@@ -5,7 +5,7 @@ import openpyxl
 import docx
 import io
 from groq import Groq
-from rag.indexador import indexar_documento, listar_documentos, remover_documentos
+from rag.indexador import indexar_documento, listar_documentos, remover_documento
 from rag.buscador import buscar_trechos
 import re
 from werkzeug.utils import secure_filename
@@ -1286,7 +1286,7 @@ def listar_docs():
 
 @app.route('/assistente/documentos/<nome_arquivo>', methods = ['DELETE'])
 def deletar_doc(nome_arquivo):
-    remover_documentos(nome_arquivo)
+    remover_documento(nome_arquivo)
     return jsonify({"sucesso": True, "mensagem": f"{nome_arquivo} removido"}), 200
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
