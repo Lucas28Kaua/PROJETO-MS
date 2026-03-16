@@ -176,27 +176,40 @@ function mostrarToast(mensagem) {
     toast.innerHTML = `<span class="material-symbols-outlined">check_circle</span> ${mensagem}`;
     toast.style.cssText = `
         position: fixed;
-        bottom: 30px;
-        right: 30px;
+        bottom: 20px;
+        right: 20px;
         background: #16a34a;
         color: white;
-        padding: 14px 20px;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 0.9rem;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.78rem;
         display: flex;
         align-items: center;
-        gap: 8px;
-        box-shadow: 0 8px 24px rgba(22,163,74,0.35);
+        gap: 6px;
+        box-shadow: 0 4px 14px rgba(22,163,74,0.35);
         z-index: 99999;
         animation: slideInToast 0.3s ease;
     `;
     document.body.appendChild(toast);
     setTimeout(() => {
         toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.4s ease';
-        setTimeout(() => toast.remove(), 400);
-    }, 3000);
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 1500);
+}
+
+function copiarLink() {
+    const link = document.getElementById('link-formalizacao').value;
+    navigator.clipboard.writeText(link).then(() => {
+        const btn = document.getElementById('btn-copiar-link');
+        btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
+        btn.style.background = '#16a34a';
+        setTimeout(() => {
+            btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+            btn.style.background = '#eb6505';
+        }, 2000);
+    });
 }
 
 async function irParaDigitacao(){
@@ -325,11 +338,7 @@ async function irParaDigitacao(){
                                     readonly 
                                     style="background:#f5f5f5; cursor:default; flex:1;"
                                 >
-                                <button onclick="
-                                    navigator.clipboard.writeText('${linkFormalizacao}');
-                                    this.innerHTML='<span class=\'material-symbols-outlined\'>check</span>';
-                                    setTimeout(() => this.innerHTML='<span class=\'material-symbols-outlined\'>content_copy</span>', 2000);
-                                " style="
+                                <button id="btn-copiar-link" onclick="copiarLink()" style="
                                     display:flex; align-items:center; justify-content:center;
                                     width:42px; height:42px; flex-shrink:0;
                                     background:#eb6505; border:none; border-radius:8px;
