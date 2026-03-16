@@ -220,6 +220,13 @@ async function irParaDigitacao(){
 
     // Abre o modal e preenche os automáticos
     document.getElementById('modal-digitacao').style.display = 'flex';
+
+    document.getElementById('dig-doc-data').addEventListener('input', function() {
+        let v = this.value.replace(/\D/g, '').slice(0, 8);
+        v = v.replace(/(\d{2})(\d)/, '$1/$2');
+        v = v.replace(/(\d{2})(\d)/, '$1/$2');
+        this.value = v;
+    });
     document.getElementById('dig-cep').addEventListener('input', async function() {
         const cep = this.value.replace(/\D/g, '');
         if (cep.length === 8) {
