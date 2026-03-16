@@ -224,7 +224,7 @@ async function irParaDigitacao(){
             pixChaveInput.value = '';
         }
     });
-    
+
     // Botão de envio
     document.getElementById('btn-enviar-digitacao').onclick = async function() {
         const btn = this;
@@ -273,7 +273,46 @@ async function irParaDigitacao(){
 
             if (resultado.sucesso) {
                 document.getElementById('modal-digitacao').style.display = 'none';
-                alert('✅ Proposta enviada com sucesso!');
+                const linkFormalizacao = resultado.dados?.formalization_url || '';
+
+                const btnDigitar = document.querySelector('#resultado-individual-body .btn-processar');
+                if (btnDigitar) btnDigitar.style.display = 'none';
+                
+                document.getElementById('resultado-individual-body').innerHTML = `
+                    <div style="padding:20px;">
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
+                            <span class="status-badge status-aprovado">✓ Proposta Digitada</span>
+                            <span style="font-size:0.78rem; color:#888;">${resultadoSimulacaoAtual.nome || ''}</span>
+                        </div>
+
+                        <div class="cliente-field full-width" style="margin-bottom:0;">
+                            <label class="cliente-field-label">🔗 Link de Formalização</label>
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <input 
+                                    type="text" 
+                                    class="cliente-field-input" 
+                                    value="${linkFormalizacao}" 
+                                    id="link-formalizacao"
+                                    readonly 
+                                    style="background:#f5f5f5; cursor:default; flex:1;"
+                                >
+                                <button onclick="
+                                    navigator.clipboard.writeText('${linkFormalizacao}');
+                                    this.innerHTML='<span class=\'material-symbols-outlined\'>check</span>';
+                                    setTimeout(() => this.innerHTML='<span class=\'material-symbols-outlined\'>content_copy</span>', 2000);
+                                " style="
+                                    display:flex; align-items:center; justify-content:center;
+                                    width:42px; height:42px; flex-shrink:0;
+                                    background:#eb6505; border:none; border-radius:8px;
+                                    color:white; cursor:pointer; transition:background 0.2s;
+                                ">
+                                    <span class="material-symbols-outlined">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
             } else {
                 alert('Erro: ' + (resultado.mensagem || 'Tente novamente.'));
             }
