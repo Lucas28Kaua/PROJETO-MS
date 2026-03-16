@@ -114,26 +114,34 @@ async function simularIndividual(){
 
             document.getElementById('resultado-individual-body').innerHTML = `
                 <div style="padding:20px;">
-                    <div class="dados-grid">
-                        <div class="dado-item">
-                            <label>Status</label>
-                            <span class="status-badge status-aprovado">✓ Aprovado</span>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
+                        <span class="status-badge status-aprovado">✓ Aprovado</span>
+                        <span style="font-size:0.78rem; color:#888;">${resultado.nome || ''}</span>
+                    </div>
+                    <div class="cliente-fields-grid">
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">📊 Margem Disponível</label>
+                            <div class="cliente-field-input" style="background:#f5f5f5; cursor:default;">
+                                R$ ${parseFloat(resultado.margem).toLocaleString('pt-BR', {minimumFractionDigits:2})}
+                            </div>
                         </div>
-                        <div class="dado-item">
-                            <label>Margem</label>
-                            <span>R$ ${parseFloat(resultado.margem).toFixed(2)}</span>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">💳 Valor da Parcela</label>
+                            <div class="cliente-field-input" style="background:#f5f5f5; cursor:default;">
+                                R$ ${parseFloat(resultado.parcela).toLocaleString('pt-BR', {minimumFractionDigits:2})}
+                            </div>
                         </div>
-                        <div class="dado-item">
-                            <label>Valor Liberado</label>
-                            <span style="color:#2ecc71; font-weight:800; font-size:1.2rem;">R$ ${parseFloat(resultado.valor_simulado).toFixed(2)}</span>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">⏱️ Prazo</label>
+                            <div class="cliente-field-input" style="background:#f5f5f5; cursor:default;">
+                                ${resultado.prazo} meses
+                            </div>
                         </div>
-                        <div class="dado-item">
-                            <label>Parcela</label>
-                            <span>R$ ${parseFloat(resultado.parcela).toFixed(2)}</span>
-                        </div>
-                        <div class="dado-item">
-                            <label>Prazo</label>
-                            <span>${resultado.prazo}x</span>
+                        <div class="cliente-field">
+                            <label class="cliente-field-label">💰 Valor Liberado</label>
+                            <div class="cliente-field-input" style="background:#f0fdf4; border-color:#86efac; color:#16a34a; font-weight:800; font-size:1.1rem; cursor:default;">
+                                R$ ${parseFloat(resultado.valor_simulado).toLocaleString('pt-BR', {minimumFractionDigits:2})}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,8 +149,12 @@ async function simularIndividual(){
         } else {
             document.getElementById('resultado-individual-body').innerHTML = `
                 <div style="padding:20px;">
-                    <span class="status-badge status-reprovado">✗ ${resultado.tipo === 'reprovado' ? 'Reprovado' : 'Não aprovado'}</span>
-                    <p style="margin-top:10px; color:#aaa;">${resultado.motivo || ''}</p>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                        <span class="status-badge status-reprovado">✗ Reprovado</span>
+                    </div>
+                    <div class="cliente-field-input" style="background:#fff5f5; border-color:#fca5a5; color:#dc2626; cursor:default;">
+                        ${resultado.motivo || 'Não foi possível aprovar a simulação.'}
+                    </div>
                 </div>
             `;
         }
