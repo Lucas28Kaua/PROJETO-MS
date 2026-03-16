@@ -211,6 +211,20 @@ async function irParaDigitacao(){
     const generoSelect = document.getElementById('dig-genero');
     generoSelect.value = sexo.toLowerCase().includes('fem') ? 'female' : 'male';
 
+    const pixTipoSelect = document.getElementById('dig-pix-tipo')
+    const pixChaveInput = document.getElementById('dig-pix-chave')
+
+    pixTipoSelect.value = 'cpf';
+    pixChaveInput.value = dadosClienteIndividual.cpf || '';
+
+    pixTipoSelect.addEventListener('change', function() {
+        if (this.value === 'cpf') {
+            pixChaveInput.value = dadosClienteIndividual.cpf || '';
+        } else {
+            pixChaveInput.value = '';
+        }
+    });
+    
     // Botão de envio
     document.getElementById('btn-enviar-digitacao').onclick = async function() {
         const btn = this;
