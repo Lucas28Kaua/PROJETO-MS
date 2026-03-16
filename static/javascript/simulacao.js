@@ -146,7 +146,7 @@ async function simularIndividual(){
                         </div>
                     </div>
                 </div>
-                <button class="btn-processar ativo" style="margin-top:16px; onclick="irParaDigitacao()">
+                <button class="btn-processar ativo" style="margin-top:16px;" onclick="irParaDigitacao()">
                     DIGITAR PROPOSTA →
                 </button>
             `;
