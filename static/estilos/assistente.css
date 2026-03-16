@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+.meio{
+    background-color: rgba(211, 211, 211, 0.463);
+    margin-top: 133px;
+    margin-left: 100px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    height: calc(100vh - 153px);
+    border-radius: 15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.332);
+    padding: 25px;
+    transition: margin-left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.aberto ~ .meio {
+    margin-left: 240px;
+}

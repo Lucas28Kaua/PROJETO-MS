@@ -90,7 +90,35 @@
     </aside>
     
     <main class="meio">
-        
+        <div class="page-header">
+            <span class="material-symbols-outlined">smart_toy</span>
+            <div>
+                <h1>Assistente IA</h1>
+                <p>Tire dúvidas sobre produtos, regras e procedimentos internos</p>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-mensagens" id="chat-mensagens">
+                <div class="mensagem bot">
+                    <div class="mensagem-conteudo">
+                        Olá! Sou o assistente interno da Ms Cred. Pode me perguntar sobre tabelas de bancos, regras de operação, procedimentos internos e muito mais. Como posso ajudar?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <textarea 
+                    id="chat-input" 
+                    placeholder="Digite sua pergunta..." 
+                    rows="1"
+                    onkeydown="handleEnter(event)"
+                ></textarea>
+                <button class="btn-enviar" onclick="enviarMensagem()">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
     </main>
+    <script src="/javascript/assistente.js"></script>
 </body>
 </html>
