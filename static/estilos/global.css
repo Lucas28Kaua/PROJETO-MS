@@ -115,12 +115,12 @@ header img:hover {
 /* Botão toggle */
 .toggle-btn {
     position: absolute;
-    top: 123px;
+    top: 400px;
     right: -10px;
     /* Aumentei pra sair mais pra fora */
-    width: 35px;
+    width: 30px;
     /* Aumentei um pouco */
-    height: 70px;
+    height: 60px;
     background-color: #eb6505;
     border: 2px solid black;
     border-radius: 35%;
