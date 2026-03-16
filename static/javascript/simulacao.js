@@ -179,8 +179,29 @@ async function irParaDigitacao(){
 
     // Abre o modal e preenche os automáticos
     document.getElementById('modal-digitacao').style.display = 'flex';
+    document.getElementById('dig-cep').addEventListener('input', async function() {
+        const cep = this.value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            try {
+                const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                const end = await r.json();
+                if (!end.erro) {
+                    document.getElementById('dig-rua').value    = end.logradouro || '';
+                    document.getElementById('dig-bairro').value = end.bairro     || '';
+                    document.getElementById('dig-cidade').value = end.localidade  || '';
+                    document.getElementById('dig-estado').value = end.uf          || '';
+                }
+            } catch(e) {
+                console.error('Erro ViaCEP:', e)
+            }
+        }
+    })
+
     document.getElementById('dig-nome').value        = nome;
     document.getElementById('dig-cpf').value         = dadosClienteIndividual.cpf || '';
+    document.getElementById('dig-doc-numero').value  = dadosClienteIndividual.cpf?.replace(/\D/g, '') || ''; // RG = CPF
+    document.getElementById('dig-doc-orgao').value   = 'SSP';
+    document.getElementById('dig-nacionalidade').value = 'Brasileiro';
     document.getElementById('dig-nascimento').value  = nascimento;
     document.getElementById('dig-nome-mae').value    = resultadoSimulacaoAtual.nome_mae || '';
     document.getElementById('dig-ddd').value         = tel.slice(0, 2);
