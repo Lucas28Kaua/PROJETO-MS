@@ -15,7 +15,7 @@ def detectar_banco(pergunta):
     return None
 
 
-def buscar_trechos (pergunta, n_resultados=5):
+def buscar_trechos (pergunta, n_resultados=3):
     embedding = modelo_embedding.encode([pergunta]).tolist()[0]
     banco = detectar_banco(pergunta)
 

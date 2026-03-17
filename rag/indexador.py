@@ -39,7 +39,7 @@ def extrair_texto(arquivo_bytes, nome):
 
     return ""
 
-def chunkar_texto(texto, tamanho=500, sobreposicao=50):
+def chunkar_texto(texto, tamanho=300, sobreposicao=30):
     palavras = texto.split()
     chunks = []
     i = 0
