@@ -141,6 +141,8 @@
 .mensagem.usuario {
     align-self: flex-end;
     flex-direction: row-reverse;
+    padding-right: 0;
+    margin-right: 0;
 }
 
 /* AVATAR BOT */
@@ -182,6 +184,7 @@
     border-bottom-right-radius: 4px;
     box-shadow: 0 4px 20px rgba(235,101,5,0.35);
     font-weight: 500;
+    margin-right: 12px;
 }
 
 /* DIGITANDO */
