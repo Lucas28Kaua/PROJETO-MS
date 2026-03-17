@@ -1,0 +1,438 @@
+REGRAS BANCO FACTA
+
+SEÇÃO: INSS – Roteiro operacional
+
+Nota: Em casos de alterações, o setor responsável deve ser informado para validação junto à Facta Financeira.
+
+Qualquer informação que não partir do setor de comunicação, será considerada não oficial.
+
+As informações contidas neste arquivo estão criptografadas com senha!
+
+Agentes RB
+
+SEÇÃO: Últimas alterações
+
+Pág. 12
+Alteração: Atualização de Scripts
+Data: 07/11/2025
+Autor: Jéssica
+
+Pág. 3
+Alteração: Atualização de exigências espécie 32
+Data: 11/11/2025
+Autor: Jéssica
+
+Pág. 6
+Alteração: Parcela mínima novo e refin R$35,00
+Data: 11/11/2025
+Autor: Jéssica
+
+Pág. 6
+Alteração: Atualização idade assinatura 21 a 72 anos
+Data: 14/11/2025
+Autor: Jéssica
+
+Pág. 5
+Alteração: Incluído espécie 87/88 no público não atendido
+Data: 21/11/2025
+Autor: Jéssica
+
+SEÇÃO: Público atendido
+
+Aposentados e pensionistas, de acordo com a relação de benefícios consignáveis (disponível em materiais de apoio).
+
+Pensão por Morte (Espécie 21):
+
+Atende clientes em todos os tipos de operações (NOVO, PORT, REFIN E REFIN DA PORT)
+
+Regras:
+
+Concedidos anterior a 17/06/2015
+Lei: 8.213/1991
+
+Cônjuges: vitalícios
+
+Dependentes: perdem ao atingir maioridade
+
+Concedidos entre 17/06/2015 e 31/12/2020
+Lei: 13.135/2015
+
+Cônjuges vitalícios se idade ≥ 44 anos
+
+Dependentes perdem ao atingir maioridade
+
+Concedidos a partir de 01/01/2021
+Portaria: 424/2021
+
+Cônjuges vitalícios se idade ≥ 45 anos
+
+Dependentes perdem ao atingir maioridade
+
+SEÇÃO: Tabela – Prazo de cessação (Pensão por morte)
+
+Tipo: Filho ou equiparado
+Idade: Não se aplica
+Prazo: Ao atingir 21 anos
+Exceção: Inválido/deficiente
+
+Tipo: Filho inválido
+Prazo: Ao cessar invalidez
+
+Tipo: Filho com deficiência
+Prazo: Pelo afastamento da deficiência
+
+Tipo: Cônjuge inválido
+Prazo: Pela cessação da invalidez
+
+Tipo: Cônjuge
+Idade: Menos de 22 anos
+Prazo: 3 anos
+
+Tipo: Cônjuge
+Idade: 22 a 27
+Prazo: 6 anos
+
+Tipo: Cônjuge
+Idade: 28 a 30
+Prazo: 10 anos
+
+Tipo: Cônjuge
+Idade: 31 a 41
+Prazo: 15 anos
+
+Tipo: Cônjuge
+Idade: 41 a 44
+Prazo: 20 anos
+
+Tipo: Cônjuge
+Idade: 45+
+Prazo: Vitalícia
+
+SEÇÃO: Regras adicionais
+
+a) Invalidez: até cessação
+
+b) 4 meses se não houver 18 contribuições ou união < 2 anos
+
+c) Conforme idade do beneficiário
+
+Espécie 32 e 92:
+
+Idade mínima: 55 anos
+
+Tempo: 15 anos da concessão
+
+Caso não atenda: operação cancelada
+
+SEÇÃO: Regras por estado
+
+PB/AP/TO/RR (60+):
+
+Obrigatória formalização digital
+
+Obrigatório documento assinado
+
+CE:
+
+Conforme comunicado FF06/24
+
+GO:
+
+Não permite contratação por telefone
+
+SEÇÃO: Público não atendido
+
+Pensão alimentícia
+
+Previdência complementar
+
+Deficientes visuais/surdos/mudos
+
+Procurador com procuração
+
+Não alfabetizados
+
+Perícia antes de 01/2018
+
+Benefício no PI
+
+Espécie 87/88
+
+SEÇÃO: Limites operacionais
+Tabela – Risco por CPF
+
+Idade: 21 a 72 anos
+Valor: R$ 150.000,00
+Prazo: 96x
+
+Idade: 21 a 72 anos
+Valor: R$ 150.000,00
+Prazo: 84x
+
+Idade: 21 a 72 anos
+Valor: R$ 50.000,00
+Prazo: 72x
+
+Idade: 21 a 72 anos
+Valor: R$ 30.000,00
+Prazo: 60x
+
+Idade: 21 a 72 anos
+Valor: R$ 20.000,00
+Prazo: 48x
+
+SEÇÃO: Condições adicionais
+
+Carência RS:
+
+Até 180 dias
+
+Base: IN INSS 169 de 27/06/2024
+
+Idade limite PB/AP/TO/RR:
+
+Até 59 anos
+
+Valores mínimos:
+
+Refin carteira: R$100,00
+
+Refin cedido: R$100,00
+
+Refin portabilidade: R$50,00
+
+Parcelas:
+
+Novo/refin: R$35,00
+
+Refin port: R$50,00
+
+Corte mensal:
+
+2º dia útil
+
+Liberação:
+
+Mesma conta do benefício
+
+SEÇÃO: Refinanciamento
+
+Troco mínimo: R$100,00
+
+Unifica parcelas: Sim (mín. líquido R$250,00)
+
+Redução de parcela: Não
+
+Parcelas pagas:
+
+Carteira cedida: sem mínimo
+
+Refin: mínimo 4
+
+Margem mínima: R$6,00
+
+SEÇÃO: Portabilidade
+
+Margem zerada: Sim
+
+Margem negativa: Sim
+
+Parcelas mínimas por banco:
+
+AGIBANK: 15
+
+BMG: 12
+
+C6: 12
+
+DAYCOVAL: 24
+
+PAN: 16
+
+PARANÁ: 15
+
+Santander/Olé: 12
+
+Outros: 0
+
+Prazo mínimo: 40x
+
+Idade máxima: 72 anos
+
+Forma:
+
+TED STR47
+
+CIP
+
+Bancos não aceitos:
+
+BANCO PINE
+
+SOCICRED 917
+
+INBURSA
+
+Parcela mínima:
+
+R$50,00
+
+SEÇÃO: Cálculo
+Operações novas
+
+Margem consignável ÷ fator = valor máximo
+
+Valor solicitado × fator = parcela
+
+Refinanciamento
+
+MC – parcela refinanciada = margem
+
+Portabilidade
+
+Margem site + parcela refin + parcela comprada = margem
+
+Cálculo:
+
+Margem ÷ fator = valor financiado
+
+Valor financiado – saldo = líquido
+
+SEÇÃO: Documentos
+Identificação
+
+Aceita:
+
+RG
+
+CNH (mesmo vencida)
+
+Não aceita:
+
+CTPS
+
+Outros digitais
+
+Obrigatórios
+
+Selfie
+
+Ficha cadastral
+
+Documento
+
+Comprovante residência
+
+Documento A Rogo (não alfabetizado)
+
+SEÇÃO: Regras de CPF e renda
+
+CPF:
+
+Deve estar REGULAR
+
+Necessário imprimir
+
+Renda:
+
+Detalhamento de crédito
+
+Conta bancária:
+
+Extrato + cartão (HSBC)
+
+SEÇÃO: Materiais de apoio
+
+Script formalização digital
+
+Manual portabilidade
+
+Script portabilidade
+
+Vídeos assinatura
+
+Script WhatsApp
+
+Script refinanciamento
+
+Relação benefícios consignáveis
+
+Script retenção
+
+Consulta SRCC
+
+Material status análise
+
+SEÇÃO: Mais informações
+
+Seguro prestamista: Sim
+
+Telemedicina:
+
+Ativação: 24h
+
+Limite: 3 consultas / 30 dias
+
+Contatos:
+
+0800.942.7455
+
++55 (51) 3027-5323
+
+Ação judicial:
+
+Restrição se houver
+
+Telefones:
+
+Obrigatório informar
+
+Referências:
+
+Não precisa
+
+SEÇÃO: Bancos digitais
+NÃO ACEITOS
+
+PAGBANK
+
+PAGSEGURO
+
+MERCADO PAGO
+
+ITI
+
+XP
+
+PEFISA
+
+SUPERDIGITAL
+
+SOFISA
+
+NEON
+
+STONE
+
+VOTORANTIM
+
+NEXT
+
+ACEITOS
+
+C6
+
+PAN
+
+NUBANK
+
+INTER
+
+BANCO ORIGINAL
+
+BANCO BANESPA
+
+PICPAY
+
+BANCO DIGIO
+

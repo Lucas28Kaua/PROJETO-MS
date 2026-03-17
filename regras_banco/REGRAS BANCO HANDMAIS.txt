@@ -1,0 +1,130 @@
+REGRAS BANCO HANDMAIS
+
+Documento: Crédito do Trabalhador - Roteiro Operacional
+SEÇÃO: Cabeçalho
+
+Título: Crédito do Trabalhador
+
+Subtítulo: Roteiro Operacional - Saiba mais
+
+SEÇÃO: O que é o Crédito do Trabalhador?
+
+O Crédito do Trabalhador é o novo consignado privado criado pelo Governo Federal que tem o objetivo de ampliar a oferta de crédito com taxa mais baixas.
+
+A instituição financeira não precisa fazer um convênio diretamente com o empregador, pois há uma plataforma única habilitada pela Dataprev.
+
+Com parcela máxima de até 35% do salário líquido cada trabalhador pode contratar até 9 empréstimos por vínculo empregatício.
+
+SEÇÃO: Vantagens
+
+As taxas de juros baixas: O Crédito do Trabalhador geralmente oferece taxas de juros mais baixas em comparação com outros tipos de empréstimo pessoal.
+
+Facilidade de pagamento: As parcelas são descontadas no contracheque, o que facilita o controle financeiro e evita atrasos nos pagamentos.
+
+Processo de contratação simplificado: O processo de contratação do Consignado Privado é menos burocrático, especialmente com a integração ao eSocial e à Carteira de Trabalho Digital. Isso facilita a análise de crédito e a contratação do empréstimo.
+
+Agilidade e rapidez na liberação do crédito: A aprovação e liberação do crédito Consignado CLT são muito rápidas. Liberação 100% online do crédito na conta, direto pelo PIX, com prazos de até 24 meses e valores de até 30 mil reais!
+
+SEÇÃO: Público
+
+Público Aceito (EMPREGADO):
+
+Categoria social: 101-Empregado-Geral-Regime CLT
+
+Tempo mínimo de carteira assinada: 03 MESES
+
+Idade mínima: 18 Anos (no dia da contratação)
+
+Idade máxima: 61 Anos (no dia da contratação)
+
+Público Aceito (EMPREGADOR):
+
+Quantidade mínima de funcionários: 20
+
+Tempo mínimo de atividade: 3 ANOS
+
+Mínimo de faturamento anual: 1 MM
+
+Público Não Aceito:
+
+PEP (pessoas expostas politicamente)
+
+CPF irregular na receita
+
+Funcionários com contrato com data-fim ou estagiários.
+
+Exceções:
+
+Aceito em tabelas restritas (somente disponível na taxa de 6,99%)
+
+Para CBOs (Código Brasileiro De Ocupação) restritos é feito uma análise individual, e para esses casos o prazo mínimo de carteira assinada são 12 meses.
+
+SEÇÃO: O que acontece se...
+
+Mudar de emprego: O desconto continua automaticamente no novo emprego via eSocial. O sistema transfere a informação para o novo empregador que passa a fazer o desconto em folha.
+
+For demitido: Em caso de demissão sem justa causa, é utilizado até 100% da multa rescisória, 10% do saldo do FGTS e 35% das verbas rescisórias para quitar a dívida. Caso ainda haja saldo remanescente, o valor será quitado com o seguro contratado e, se mesmo assim persistir diferença, o saldo devedor será transferido para o novo emprego.
+
+Pedir Demissão: Caso ainda não tenha saldo em aberto, o desconto continuará automaticamente no novo emprego via eSocial. O sistema transfere a informação para o novo empregador, para poder ser feito o desconto em folha.
+
+Ter aderido ao Saque Aniversário: Poderá contratar o empréstimo consignado privado normalmente.
+
+Pedir o Cancelamento: O cliente poderá solicitar o cancelamento de contrato até 7 dias corridos após o recebimento do crédito, mediante devolução integral do valor recebido para a instituição. Em caso de dúvidas, contate a central de atendimento ao cliente: 11 99829-6141.
+
+Quitação do Contrato: O cliente poderá quitar antecipadamente o contrato, liquidar parcelas ou renegociar dívida a qualquer momento, inclusive durante transição de empregos para não gerar nova averbação no seu novo vínculo empregatício.
+
+SEÇÃO: Bancos Não Aceitos
+
+Tabela de bancos não permitidos para crédito:
+
+461 - Asaas
+
+341 - Iti (Agência 500)
+
+403 - Cora SCD
+
+213 - Banco Arbi
+
+323 - Mercado Pago
+
+033 - Santander - Agência digital iniciada em 77
+
+290 - PagSeguro
+
+340 - Banco Superdigital
+
+197 - Stone
+
+218 - Banco BS2
+
+104 - Caixa Tem (Agência 3880)
+
+529 - Pinbank Brasil
+
+237 - Next
+
+634 - Banco Triângulo
+
+SEÇÃO: Regras do produto
+
+Margem: 70% da margem consignável disponível / 50% da margem consignável para CBOs restritos
+
+Valor mínimo: R$ 1.000,00
+
+Valor máximo: R$ 30.000,00
+
+Prazo mínimo: 6 meses
+
+Prazo máximo: 24 Meses
+
+Quantidade de contratos: Até 9 por vínculo
+
+Forma de pagamento: O crédito pode ser feito em qualquer conta que seja de titularidade do cliente, obedecendo os bancos aceitos pela instituição.
+
+Data de corte: Dia 20
+
+Data de vencimento: Dia 21
+
+SEÇÃO: Encerramento
+
+OBRIGADO!

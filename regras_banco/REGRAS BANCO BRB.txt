@@ -1,0 +1,414 @@
+REGRAS BANCO BRB
+
+Outubro/2025
+Roteiro
+Operacional
+
+Crédito consignado
+INSS
+
+
+
+Público-alvo
+O convênio destina-se aos Aposentados e Pensionistas vitalícios do Instituto Nacional do Seguro Social – INSS.
+
+Público-alvo para concessão de empréstimos:
+Titulares de benefícios de aposentadoria e pensão (RGPS) do INSS;
+Aposentados;
+Pensionistas Vitalícios;
+Beneficiários da espécie 32 e 92, com idade igual ou superior a 60 anos;
+Beneficiários da espécie 21, respeitando a data fim do benefício;
+
+Não são concedidos empréstimos para os seguintes clientes:
+
+Clientes menores de 18 anos;
+Pensionistas temporários, salvo exceções previstas no item 6;
+CPF irregular na Receita Federal;
+Analfabetos, Impossibilitado de assinar e deficiente visual;
+Aposentados ou pensionistas que residem e têm domicílio fora
+do país;
+Benefícios pagos por meio dos Correios;
+Benefícios vinculados a empresas conveniadas ou Cooperativas
+de Créditos que não possuam contratos para pagamento e
+arrecadação de benefícios;
+Benefícios pagos a título de pensão alimentícia;
+Representante legal, por procuração, tutelado e curatelado do
+beneficiário;
+Benefícios pagos por empresa de Previdência Complementar;
+Índios, ainda que apresentem carteira de identidade
+(determinação da FUNAI);
+Impedidos de operar com o Banco de Brasília S.A. – BRB e/ou
+com a Financeira BRB;
+Procuradores, curadores, tutores.
+Beneficiários BCP-LOAS espécies 87 e 88.
+
+Documentos para contratação
+
+Documento oficial com foto
+Documentos aceitos: RG, CNH FUNCIONAL, CTPS e RNE, todos originais, não sendo aceitas cópias, xerox, independente se coloridas.
+No momento da digitação, verificar se o CPF está de acordo com o documento do cliente, para que não haja cancelamento da proposta.
+
+Comprovante de residência atualizado (Passaporte não é aceito);
+
+Comprovante de Renda – Hiscon(Histórico de Créditos Consignados):
+Meu INSS > Aba “Remunerações” > clique em “HISCON”
+
+Observações:
+Classificar os documentos corretamente na esteira para que as ferramentas de
+antifraude consigam analisar.
+Conferir se o e-mail informado está correto na proposta.
+Verificar no site da Receita Federal se o CPF informado é realmente do titular do
+benefício e se este apresenta situação regular.
+
+Códigos de benefícios aceitos
+Serão aceitos os benefícios das seguintes espécies:
+CódigoDescriçãoCódigoDescrição
+
+1Pensão por morte do trabalhador rural45Aposentadoria por tempo de contribuição de jornalista2Pensão por morte por acidente do trabalhador rural46Aposentadoria por tempo de contribuição de especial3Pensão por morte do empregador rural49Aposentadoria por tempo de contribuição de ordinária7Aposentadoria por idade do trabalhador rural52Aposentadoria por idade (Extinto Plano Básico)8Aposentadoria por idade do empregador rural54Pensão Especial Vitalícia - Lei 9793/9919Pensão de Estudante55Pensão por morte (Extinto Plano Básico)20Pensão por morte de ex diplomata57Aposentadoria por tempo de contribuição de professor21Pensão por morte previdenciária58Aposentadoria excepcional do anistiados (Lei nº 6.683/79)22Pensão por morte estatutária59Pensão por morte excepcional do anistiado (Lei nº 6.683/79)23Pensão por morte de ex combatente60Pensão Especial Portador de SIDA24Pensão especial – ato Institucional72Aposentadoria por tempo de contribuição de ex-combatente
+marítimo26Pensão por morte especial (Lei nº 593/48)78Aposentadoria por idade de ex-combatente marítimo (Lei nº
+1.756/52)27Pensão por morte do servidor público federal com dupla
+aposentadoria81Aposentadoria por idade compulsória (EX SASSE)28Pensão por morte regime geral (Decreto nº 20.465/31)82Aposentadoria por tempo de contribuição (EX SASSE)29Pensão por morte ex combatente marítimo (Lei nº 1.756/52)84Pensão por Morte (EX SASSE)32Por invalidez previdenciária (LOPS)89Pensão especial aos dependentes de vítimas fatais por cont.
+na hemodiálise37Aposentadoria de extranumerário Capin92Aposentadoria por invalidez acidentária38Aposentadoria da Extranumerário da União93Pensão por morte por acidente do trabalho41Aposentadoria por Idade96Pensão especial às pessoas atingidas pela hanseníase (Lei nº
+11.520/07)42Aposentadoria por tempo de contribuição previdenciária43Aposentadoria por tempo de contribuição de ex combatente44Aposentadoria por tempo de contribuição de aeronauta
+
+
+A DATAPREV realiza a validação do tempo de duração da espécie 21 -
+Pensão por Morte Previdenciária, conforme o quadro abaixo.
+Caso o prazo do benefício esteja em conformidade com as
+configurações estabelecidas, o sistema retorna com a seguinte
+mensagem de alerta: "IR - Prazo da operação é maior que a data de
+extensão da conta do benefício”.
+
+Idade do dependente na data de debito Duração máxima do benefício
+menos de 22 anos 03 anos
+entre 22 e 27 anos 06 anos
+entre28 a 30 anos 10 anos
+entre 30 e 41 anos 15 anos
+entre 42 e 44 anos 20 anos
+a partir de 45 anos vitalício
+
+
+Essa validação visa garantir que a
+operação não ultrapasse o prazo final
+previsto para o termo do benefício,
+garantindo o correto processamento
+de informações e prevenindo possíveis
+inconsistências operacionais.
+
+Códigos de benefícios NÃO aceitos
+Não serão aceitos os benefícios das seguintes espécies:
+
+CódigoDescriçãoCódigoDescrição4APOSENTADORIA POR INVALIDEZ-TRAB. RURAL64AUXÍLIO FUNERAL EMPREGADOR RURAL5APOSENT. INVALIDEZ ACIDENTARIA-TRAB.RUR.65PECÚLIO ESPECIAL SERVIDOR AUTÁRQUICO6APOSENT. INVALIDEZ EMPREGADOR RURAL66PECÚLIO ESPECIAL SERVIDOR AUTÁRQUICO9COMPL. ACIDENTE TRABALHO P/ TRAB (RURAL)67PECÚLIO OBRIGATÓRIO (EX - IPASE)10AUXÍLIO-DOENÇA POR ACIDENTE DO TRABALHO DO TRABALHADOR
+RURAL68PECÚLIO ESPECIAL DE APOSENTADORIA11RENDA MENSAL VITALÍCIA POR INVALIDEZ DO TRAB. RURAL (LEI Nº
+6.179/74)69PECÚLIO DE ESTUDANTE12RENDA MENSAL VITALÍCIA POR IDADE DO TRAB. RURAL (LEI Nº 6.179/74)70RESTITUIÇÃO CONTRIB. P/SEG S/ CARÊNCIA13AUXÍLIO-DOENÇA DO TRABALHADOR RURAL71SALÁRIO FAMÍLIA PREVIDENCIÁRIO15AUXÍLIO RECLUSÃO DO TRABALHADOR RURAL73SALÁRIO FAMÍLIA ESTATUTÁRIO18AUXÍLIO INCLUSÃO (PRÉ-EXISTÊNCIA DO BPC/LOAS)74COMPLEMENTO DE PENSÃO A CONTA DA UNIÃO25AUXÍLIO-RECLUSÃO (LOPS)75COMPLEMENTO DE APOSENTADORIA A CONTA DA UNIÃO30RENDA MENSAL VITALÍCIA POR INVALIDEZ (LEI Nº 6.179/74)76SALÁRIO FAMÍLIA ESTATUTÁRIO DA RFFSA (LEI 956/69) (EPU)31AUXÍLIO-DOENÇA PREVIDENCIÁRIO (LOPS)77SALÁRIO FAMÍLIA ESTATUTÁRIO SERVIDOR SINPAS33APOSENTADORIA INVALIDEZ AERONAUTA79ABONO SERVIDOR APOSENTADO AUTARQUIA EMPR. (LEI 1756/52)34APOSENT. INVAL. EX-COMBATENTE MARITIMO80SALÁRIO MATERNIDADE35AUXÍLIO-DOENÇA EX-COMBATENTE83APOSENTADORIA POR INVALIDEZ EX-SASSE36AUXÍLIO ACIDENTE85PENSÃO MENSAL VITALÍCIA DO SERINGUEIRO (LEI 7986/89)39AUXÍLIO INVALIDEZ ESTUDANTE86PENSÃO MENSAL VITALÍCIA DO DEP. DO SERINGUEIRO (LEI N.º 7.986/89)40RENDA MENSAL VITALÍCIA POR IDADE (LEI Nº 6.179/74)87AMPARO ASSISTENCIAL AO PORTADOR DE DEFICIENCIA (LOAS)47ABONO DE PERMANÊNCIA EM SERVIÇO 25%88AMPARO ASSISTENCIAL AO IDOSO (LOAS)48ABONO DE PERMANÊNCIA EM SERVIÇO 20%90SIMPLES ASSIST. MÉDICA P/ ACIDENTE TRAB.50AUXÍLIO-DOENÇA (EXTINTO PLANO BÁSICO)91AUXÍLIO-DOENÇA POR ACIDENTE DE TRABALHO51APOSENT. INVALIDEZ EXTINTO PLANO BASICO94AUXÍLIO-ACIDENTE POR ACIDENTE DE TRABALHO53AUXÍLIO RECLUSÃO (EXTINTO PLANO BÁSICO)95AUXÍLIO SUPLEMENTAR POR ACIDENTE DE TRABALHO56PENSÃO MENSAL VITALÍCIA POR 2SÍNDROME TALIDOMIDA (Lei nº
+7.070/82)97PECÚLIO POR MORTE ACIDENTE DE TRABALHO61AUXÍLIO NATALIDADE98ABONO ANUAL DE ACIDENTE DE TRABALHO62AUXÍLIO FUNERAL99AFASTAMENTO ATÉ 15 DIAS ACIDENTE TRAB.63AUXÍLIO FUNERAL TRABALHADOR RURAL
+
+Regras GERAIS
+Valor mínimo de
+contratação Prazo mínimo Prazo
+Máximo Valor máximo
+por CPF Data de corte Data de
+vencimento das
+parcelas
+Margem Livre R$ 500,00
+13 meses 96 meses R$150.000,00 2º dia útil Dia 20 do mês
+Refinanciamento de
+Carteira R$ 500,00
+Portabilidade R$ 4.000,01
+Refinanciamento de
+Portabilidade -
+Retenção de
+Portabilidade -
+
+
+Margem livre
+Parcela mínima: R$ 25,00.
+Verifique o comprometimento do cliente,
+pois, mesmo que haja margem disponível,
+se essa margem ultrapassar o limite
+permitido, a diferença será considerada
+como “margem negativa.” Portanto,
+sempre utilizar o campo da IN100:
+“Valor disponível para averbação de
+empréstimo”
+para determinar a margem correta. Essa
+verificação é crucial para assegurar a
+viabilidade do empréstimo.
+
+
+Refinanciamento de carteira
+Parcela mínima: R$ 25,00.
+Troco mínimo: R$ 50,00.
+Consultar a tabela de taxas da Financeira
+BRB antes de incluir a proposta.
+A taxa de refinanciamento da carteira não
+deve ser inferior à taxa do contrato
+original.
+Em propostas de refinanciamento que
+resultem na redução do valor da parcela,
+a liberação da diferença na margem
+ocorrerá somente após 7 dias úteis pela
+DATAPREV.
+É permitida a unificação de parcelas.
+É permitido agregar margem (tabela de
+taxa específica).
+Não é permitido o refinanciamento de
+carteira comprada Facta e Pine contratos
+iniciados em 4, 5 e 6 (8 dígitos).
+
+
+Portabilidade
+Mínimo por operação: R$ 4.000,01.
+Valor mínimo de simulação de troco: R$ 100,00.
+Só serão aceitas solicitações de saldos para contratos com mais
+de 360 dias da data da contratação original.
+Observar a data de corte. Após o dia 15, é aconselhável deduzir
+o valor de uma parcela “do troco” (simulação), a fim de garantir
+que o contrato será refinanciado posteriormente. Essa medida
+ajuda a evitar problemas na continuidade do processo.
+A operação deve ser registrada e liquidada no mesmo dia em que
+o saldo é retornado. Certifique-se de que todos os
+procedimentos sejam concluídos dentro desse prazo e do horário
+estabelecido neste roteiro.
+Permite finalizar somente na portabilidade:
+
+Atenção! Ao concluir apenas a
+portabilidade, o cliente deve
+ser informado de que será
+responsável pelo pagamento
+da parcela, que não será
+descontada em folha. É
+essencial que essa informação
+seja comunicada de forma clara
+Atenção! Ao optar apenas pela
+portabilidade, é responsabilidade do
+correspondente comprovar que foi
+dado conhecimento ao cliente do
+aumento da parcela, em virtude da
+não opção pelo refinanciamento.
+
+Margem negativa: Não pode finalizar apenas na portabilidade. É
+preciso subtrair o valor negativo da parcela do contrato portado
+durante a simulação para garantir que haverá troco no
+refinanciamento.
+Cliente com mais de um benefício: assegurar que seja
+selecionado o número do benefício correto.
+
+
+Atenção! Solicitações de saldos de portabilidade cadastradas
+após 17:25 serão enviadas à CIP somente no próximo dia útil. O
+prazo de cinco dias úteis começará a contar a partir desse envio.
+
+Bancos não portados: Picpay, Agibank, Banco C6 e Banco C6
+Consignado.
+
+Regras GERAIS
+Atenção! O refinanciamento de portabilidade só é válido até 60 dias
+após o pagamento da PORT; após esse prazo, será considerado
+Refinanciamento de carteira. Nesses casos, a remuneração será
+efetuada sobre o valor líquido da operação.
+Atenção! É proibido realizar o refinanciamento de portabilidade e de
+carteira captada por outro correspondente com menos de 45 dias da
+operação, sujeito à Débitos/Glosas; Após 45 dias, a remuneração será
+efetuada sobre o valor líquido da operação;
+Atenção! É fundamental que todos os
+correspondentes verifiquem
+cuidadosamente as informações antes
+de proceder com a inclusão
+Horários
+Horários
+Todas as operações As operações deverão ser registradas em dias úteis de segunda a sexta-feira, até
+às 18h
+Margem livre e
+Refinanciamento Em até 24h após o envio da solicitação de pagamento
+Portabilidade O envio da operação para pagamento no sistema TTB deve ser realizado até às
+15h para garantir que o pagamento seja realizado no mesmo dia
+Valor mínimo de
+contratação Prazo mínimo Prazo
+Máximo Valor máximo
+por CPF Data de corte Data de
+vencimento das
+parcelas
+Margem Livre R$ 500,00
+13 meses 96 meses R$150.000,00 2º dia útil Dia 20 do mês
+Refinanciamento de
+Carteira R$ 500,00
+Portabilidade R$ 4.000,01
+Refinanciamento de
+Portabilidade -
+Retenção de
+Portabilidade -
+
+Refinanciamento de Portabilidade
+Valor mínimo de troco: R$ 50,00.
+Margem negativa: Subtrair o valor negativo da parcela original
+do contrato portado.
+O refinanciamento da portabilidade só é enviado para
+pagamento quando as operações de portabilidade já estiverem
+averbadas;
+É responsabilidade do correspondente monitorar a
+liberação da margem ou a disponibilização do Hiscon do
+cliente sempre que solicitado pela Financeira BRB;
+Atenção ao número de benefício ao unificar contratos de
+portabilidade: não é permitido unificar operações que
+possuam benefícios diferentes;
+Em propostas de refinanciamento que resultem na redução do
+valor da parcela, a liberação da diferença na margem ocorrerá
+somente após 7 dias úteis pela DATAPREV.
+É permitida a unificação de parcelas.
+É permitido agregar margem (tabela de taxa específica)
+Retenção de Portabilidade
+A taxa a ser utilizada para incluir a
+proposta está detalhada na Planilha
+de retenção enviada pela
+Financeira BRB por e-mail aos
+correspondentes.
+É importante ressaltar que não
+haverá exceções a essa regra.
+Qualquer inclusão com taxas
+diferentes das especificadas
+resultará no cancelamento do
+contrato.
+NÃO é permitido agregar margem.
+NÃO é permitido unificar parcelas.
+Regras GERAIS
+Atenção! O refinanciamento de portabilidade só é válido até 60 dias
+após o pagamento da PORT; após esse prazo, será considerado
+Refinanciamento de carteira. Nesses casos, a remuneração será
+efetuada sobre o valor líquido da operação.
+Atenção! É proibido realizar o refinanciamento de portabilidade e de
+carteira captada por outro correspondente com menos de 45 dias da
+operação, sujeito à Débitos/Glosas; Após 45 dias, a remuneração será
+efetuada sobre o valor líquido da operação
+
+Atenção! É fundamental que todos os
+correspondentes verifiquem
+cuidadosamente as informações antes
+de proceder com a inclusão
+
+Horários
+Horários
+Todas as operações As operações deverão ser registradas em dias úteis de segunda a sexta-feira, até
+às 18h
+Margem livre e
+Refinanciamento Em até 24h após o envio da solicitação de pagamento
+Portabilidade O envio da operação para pagamento no sistema TTB deve ser realizado até às
+15h para garantir que o pagamento seja realizado no mesmo dia
+
+Pontos de Atenção
+
+Não é permitido realizar empréstimo a beneficiários que residem no Estado diferente do qual
+recebem a aposentadoria/pensão (IN 28);
+Todo cidadão tem a criação do seu benefício bloqueado para contratação de crédito consignado,
+pelo período de 90 dias (3 meses).
+É proibida a abordagem ativa na venda do produto por 180 dias (6 meses), contados a partir da data
+de despacho do benefício.
+É obrigatório que o correspondente consulte a data de nascimento do cliente, no site da Receita
+Federal do Brasil, antes da digitação da proposta;
+A consulta de margem consignável dos beneficiários pode ser realizada por meio do Hiscon do cliente
+ou pela IN100, desde que o cliente tenha previamente assinado e autorizado;
+A matrícula possui, no máximo, 10 (dez) caracteres numéricos;
+É proibida a solicitação de saldos para contratos com menos de 360 dias da data da contratação
+original e que tenham sido originados por correspondentes.
+
+Quantidade de linhas de
+empréstimo por
+benefícios (15 linhas)
+
+13 linhas destinadas a empréstimos
+consignados;
+2 linhas destinadas ao cartão consignado.
+
+Na data de inclusão da operação é reponsabilidade do correspondente realizar as
+seguintes conferências:
+Atualizar a IN100;
+Conferir o número do benefício, nome e idade do beneficiário registrado na
+Dataprev;
+Conferir os dados bancários e endereço residencial do cliente;
+Validar se o benefício está Ativo, Desbloqueado e Elegível na data de
+inclusão da proposta;
+Validar Políticas e regras Internas ;
+Em caso de portabilidade ou refinanciamento, validar se o empréstimo
+consta no extrato do benefício como ativo;
+Realizar a validação do comprometimento máximo. Caso esse limite seja
+excedido, o valor excedente deverá ser deduzido da parcela;
+Verificar o cálculo do troco do cliente, se o refinanciamento será suficiente
+para cobrir o saldo portado, conforme previamente acordado com o cliente
+
+O crédito concedido deverá ser feito, obrigatoriamente, na conta corrente que o aposentado ou
+pensionista recebe o seu benefício. Quando receber seu benefício através de cartão magnético, o
+crédito deverá ser efetuado em conta corrente em nome do titular do benefício.
+Para crédito em Bancos Digitais, serão aceitas, exclusivamente, contas correntes digitais (ex.: Inter,
+Nubank, Original, Iti e Next). Não serão aceitas contas de pagamento nem carteiras digitais. Essa
+regra visa garantir maior segurança e conformidade nas transações;,
+Alertar o beneficiário para solicitar, em sua agência, liberação de valor em sua conta.
+Não será realizado pagamento por meio de Ordem de Pagamento (OP),
+As operações de portabilidade realizadas pela Esteira Digital (PicPay) deverão, obrigatoriamente,
+verificar no documento de identificação do cliente se ele possui algum impedimento para assinar. Essa
+verificação é essencial para garantir a conformidade com as normas vigentes e evitar problemas futuros
+no processo do refinanciamento da portabilidade.
+Atenção especial às propostas inseridas perto da virada da folha, pois pode ser necessário cancelá-las e
+solicitar a reinclusão para ajustar as datas de vencimento,
+Contas poupança e digitais: sob responsabilidade do correspondente.
+
+
+Informações Gerais e Erros
+Cronograma
+PORTAL E-CONSIGNADO - https://ecoportal.dataprev.gov.br/
+Gerido pelo DATAPREV
+As propostas são processadas conforme a ordem de inclusão, sendo que as propostas de
+portabilidade recebem tratamento prioritário.
+Todas as consultas relacionadas às propostas podem ser realizadas diretamente nas esteiras digitais
+ou, para os usuários com acesso, no sistema Total Banco. Essa flexibilidade permite um
+acompanhamento ágil e eficiente do status das propostas.
+Em caso de erro no envio da TED o correspondente deve encaminhar os novos dados para o e-mail
+insscfi@financeira.brb.com.br, seguindo a formatação abaixo:
+Assunto do email: Reenvio de TED – [Nº DO CONTRATO]
+Texto do email:
+Solicito o reenvio da TED abaixo:
+"numeroContrato": "xxxxxxxxxx ",
+"banco": "xxx",
+"agencia": "xxxx", [SEM DÍGITO]
+"conta": "xxxxxx",[SEM DÍGITO SE HOUVER ”X” É SUBSTITUIDO POR “0”]
+"tipoConta": "x" [OPÇÕES: TED, TEDPP, CCOR]**
+**TED para conta corrente e TEDPPP para conta poupança. *
+**CCOR para contas BRB*
+A Financeira BRB realizará o reenvio da TED em até 48
+horas uteis após o recebimento dos novos dados;
+Caso sejam enviados os mesmos dados bancários que
+estão com erro, não será feita nova tentativa de reenvio.
+
+Informações Gerais e ErrosLiquidação antecipada: Os clientes que desejarem liquidar antecipadamente um contrato, deverão
+enviar a solicitação por e-mail, acompanhada de uma cópia do documento de identidade, e descrever a
+solicitação para consignado@brb.com.br;
+Reembolso de parcela: É necessário aguardar até o mês subsequente ao desconto. O reembolso ocorre
+de maneira automática, até o dia 30/31 do mês corrente. As solicitações devem ser enviadas ao e-mail
+fatura@brb.com.br.
+Para esclarecer dúvidas operacionais, sobre averbação de contrato e pagamento de propostas, os
+correspondentes credenciados podem enviar um e-mail para: insscfi@financeira.brb.com.br.
+
+Responsabilidades
+
+As operações enviadas para pagamento
+por Correspondentes, em desacordo com
+o Roteiro operacional, serão de inteira
+responsabilidade do Correspondente, que
+deverá liquidar integralmente a operação
+depois de apurada responsabilidade.
+
+Não realizar cobrança de comissão ao cliente;
+Cumprir as regras do Roteiro Operacional;
+Observar a Política de Crédito da Financeira BRB;
+Garantir a veracidade dos dados cadastrais e se pertencem ao
+servidor;
+Garantir a autenticidade e legibilidade dos documentos;
+Garantir a assinatura tempestiva da CCB;
+Garantir que a operação seja realizada exclusivamente pelo
+beneficiário;
+Acompanhar, em conjunto com o cliente, a liberação da margem
+consignável;
+Garantir a averbação das parcelas de forma integral;
+Garantir a averbação de portabilidades pagas com benefício
+bloqueado;
+Conferir a data de vencimento da primeira parcela;
+Gerenciar os funcionários cadastrados para acesso aos sistemas.

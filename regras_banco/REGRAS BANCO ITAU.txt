@@ -1,0 +1,406 @@
+REGRAS BANCO ITAU
+
+### Documento: Manual do Produto FGTS - Antecipação do Saque-Aniversário
+
+SEÇÃO: Sumário
+- 1 O que é saque-aniversário FGTS?
+- 2 E o que é empréstimo saque-aniversário?
+- 3 Aprenda a calcular corretamente
+- 4 Regras do empréstimo saque-aniversário
+- 5 Tipos de contas e documentos aceitos
+- 6 Jornada do cliente com a CAIXA: Instalação do aplicativo e primeiros passos
+- 6.1 Jornada do cliente com a CAIXA: Adesão ao saque-aniversário (parte um)
+- 6.2 Jornada do cliente com a CAIXA: Adesão ao saque-aniversário (parte dois)
+- 7 Jornada do correspondente no IC 360º
+
+SEÇÃO: 1. O que é saque-aniversário FGTS?
+- Lei nº 13.932 de 11 de Dezembro de 2019
+- O saque-aniversário é uma das modalidades disponíveis para o trabalhador acessar o saldo do FGTS. Outra opção é o saque-rescisão, utilizado em casos de desligamento sem justa causa;
+- O trabalhador que optar por essa modalidade poderá sacar, anualmente no mês de seu aniversário, um percentual do saldo do FGTS acrescido de uma parcela adicional;
+- Para aderir a essa modalidade, o trabalhador deve realizar a solicitação por meio de um dos canais indicados abaixo: Aplicativo FGTS; Site FGTS.caixa.gov.br; Agências CAIXA;
+
+SEÇÃO: 2. E o que é empréstimo saque-aniversário?
+- Modalidade de empréstimo, que permite ao cliente antecipar as parcelas do saque-aniversário FGTS, recebendo o crédito de uma só vez.
+- Lei nº 13.932 de 11 de Dezembro de 2019
+- Sistemática opcional em que o trabalhador pode sacar anualmente, no mês de aniversário, parte do seu saldo de FGTS. Caso o trabalhador seja demitido, poderá sacar apenas o valor referente à multa rescisória e não poderá sacar o valor integral da conta, salvo em outras hipóteses de saque previstas em lei, por exemplo, por motivo de aposentadoria, doença grave e moradia.
+- Fonte: https://www.caixa.gov.br/beneficios-trabalhador/fgts/saque-FGTS/Paginas/default.aspx
+
+SEÇÃO: 3. Aprenda a calcular corretamente
+- Tabela de cálculo do saque-aniversário:
+  - Saldo total FGTS (em R$): Até R$ 500,00 | Alíquota: 50% | Parcela adicional: -
+  - Saldo total FGTS: De 500,01 até 1.000,00 | Alíquota: 40% | Parcela adicional: R$ 50,00
+  - Saldo total FGTS: De 1.000,01 até 5.000,00 | Alíquota: 30% | Parcela adicional: R$ 150,00
+  - Saldo total FGTS: De 5.000,01 até 10.000,00 | Alíquota: 20% | Parcela adicional: R$ 650,00
+  - Saldo total FGTS: De 10.000,01 até 15.000,00 | Alíquota: 15% | Parcela adicional: R$ 1.150,00
+  - Saldo total FGTS: De 15.000,01 até 20.000,00 | Alíquota: 10% | Parcela adicional: R$ 1.900,00
+  - Saldo total FGTS: Acima de 20.000,01 | Alíquota: 5% | Parcela adicional: R$ 2.900,00
+
+- Exemplo prático:
+  - Trabalhador A: Saldo FGTS: R$ 340,00 | Alíquota CAIXA: 50% | Parcela adicional: R$ 0 | = Saque-aniversário: R$ 170,00
+  - Trabalhador B: Saldo FGTS: R$ 4.990,00 | Alíquota CAIXA: 30% | Parcela adicional: R$ 150,00 | = Saque-aniversário: R$ 1.647,00
+  - Trabalhador C: Saldo FGTS: R$ 53.000,00 | Alíquota CAIXA: 5% | Parcela adicional: R$ 2.900,00 | = Saque-aniversário: R$ 5.550,00
+
+SEÇÃO: 4. Regras do empréstimo saque-aniversário
+- Aplicável conforme diretrizes da CAIXA
+
+SEÇÃO: 5. Tipos de contas e documentos aceitos
+- Documentos aceitos:
+  - Documento de Identificação – RG (documento físico)
+  - CNH (documento físico)
+  - Identificação profissional (OAB, CRC, COREN, CREA)
+  - Passaporte (apenas para brasileiros)
+  - Identificação de estrangeiro permanente (CIE/RNI)
+- Documentos NÃO aceitos:
+  - RG digital
+  - CNH digital
+  - CIE/RNI temporário, residente ou provisório
+- Observação: O documento apresentado deve estar legível e em bom estado. Qualquer divergência entre os dados informados na proposta e os dados constantes no documento poderá gerar pendência, sendo necessário redigitar a operação.
+- Contas aceitas:
+  - Conta corrente
+  - Conta poupança
+  - CAIXA TEM
+- Contas NÃO aceitas:
+  - Conta salário
+  - Conta de terceiros
+  - Conta digital
+
+SEÇÃO: 6. Jornada do cliente com a CAIXA - Instalação do aplicativo e primeiros passos
+- 1. Selecionar a opção "Cadastre-se" e preencher todos os dados solicitados: CPF, nome completo, data de nascimento, e-mail
+- 2. Cadastrar uma senha de acesso numérica contendo seis dígitos e clique no botão "Não sou um robô"
+- 3. O cliente vai receber um e-mail de confirmação no endereço de e-mail informado, deverá acessar e clicar no link que foi enviado
+- 4. Abrir o app e informar o CPF e senha cadastrados
+- 5. Após o login, deverá responder algumas perguntas adicionais
+- 6. Deverá ler e aceitar as condições de uso do aplicativo, clicando em "Concordar"
+
+SEÇÃO: 7. Jornada do correspondente no IC 360º
+- Acesso ao sistema:
+  - Para iniciar a jornada de contratação, clique no card do FGTS, localizado na tela inicial ao lado do card de crédito consignado INSS.
+  - Você precisará informar os dados do cliente: CPF e Data de nascimento.
+  - Após o preenchimento, o botão "Consultar ofertas" será habilitado.
+- Consulta e status de adesão:
+  - Caso o cliente não tenha aderido ao saque-aniversário, a operação não evolui.
+  - Para aderir, o cliente deve acessar o aplicativo do FGTS e, após adesão, a primeira etapa será preenchida.
+- Simulação de propostas:
+  - Com a autorização concedida ao Itaú Consignado, a oferta já virá carregada com o valor máximo liberado para o cliente.
+  - Para mais informações da oferta, é possível clicar em exibir detalhes da antecipação, onde terá: Taxas de juros aplicada, Valor financiado, CET, IOF.
+  - Além disso, será possível visualizar o valor que será retirado do FGTS em cada saque aniversário.
+- Resumo da oferta e digitação:
+  - Importante: antes de prosseguir, repasse todos os dados da oferta com o cliente e informe que haverá bloqueio do saldo referente a essa antecipação.
+  - Em seguida, será necessário preencher os dados pessoais do cliente, incluindo gênero, nome completo, UF, naturalidade, estado civil, profissão, valor da renda e nome da mãe.
+  - Após essa etapa, preencha os dados do documento de identificação, endereço residencial e informações de contato, lembrando que o documento utilizado na digitação deve ser o mesmo que será apresentado na formalização.
+  - Por fim, insira os dados bancários para que o crédito possa ser liberado.
+- Revisão de dados:
+  - Revise todos dados da operação com o cliente e clique em enviar a proposta.
+  - Caso identifique erros durante a revisão, clique em editar dados que você será redirecionado para tela de digitação.
+- Proposta enviada:
+  - A proposta digitada foi enviada.
+  - O upload da CCB no IC Digital e envio do link de formalização via SMS acontece de forma automática.
+  - Para reenviar o link de formalização de outras formas, acesse o IC Digital.
+
+SEÇÃO: 8. Acompanhamento e gestão de propostas
+- Consulta de propostas:
+  - Utilizar o Card FGTS para consulta.
+  - Ao preencher a ADE clique em buscar propostas e você será redirecionado para o detalhamento da proposta.
+  - É possível consultar propostas geradas nos últimos 90 dias.
+- Retorno da consulta:
+  - As etapas da proposta do FGTS são: Solicitação, Formalização, Validações internas, Averbação, Liberação do crédito.
+  - Para mais informações sobre a proposta, é possível clicar em "Exibir condições da proposta".
+  - Importante: Na etapa de averbação, é essencial garantir que a autorização no aplicativo FGTS esteja direcionada para o Banco Itaú Consignado S.A.
+- Cancelamento de proposta:
+  - Na tela de "Consulta de Proposta", localize a proposta que deseja cancelar, confira as informações e clique em "Cancelar proposta" que fica no final da página;
+  - Para confirmar o cancelamento, é necessário informar o motivo do cancelamento.
+  - Após o preenchimento das informações acima, o botão "Cancelar proposta" será habilitado.
+  - Obs: na etapa de liberação de crédito, a operação deve ser cancelada via Portal Operacional, utilizado a ADE que inicia com "9XXXX".
+- Formalização IC Digital:
+  - A formalização ocorre no IC Digital, assim como no legado. O envio do link ocorre automaticamente após a conclusão da proposta e o acompanhamento deve ser feito pelo IC Digital. https://portal.icconsig.com.br/
+- Reapresentação de dados bancários:
+  - A reapresentação de dados bancários deve ser realizada pelo Portal Operacional. O usuário conseguirá identificar que houve devolução pelo acompanhamento de proposta e para reapresentar é necessário utilizar o número da ADE (começando com 9XXX), disponibilizado também no acompanhamento de propostas. https://consignado.interfile.com.br/econtent/login
+- Contato para dúvidas:
+  - Em caso de dúvidas, ligue para a Central Corban através do 0800 720 8080 ou procure seu Consultor Comercial.
+
+---
+
+### Documento: ROTEIRO OPERACIONAL INSS – INSTITUTO NACIONAL SEGURIDADE SOCIAL - Entidade: 1581
+
+SEÇÃO: Resumo
+- Este material demonstra o procedimento adotado para tratamento das propostas de contratação de crédito consignado contraído nos benefícios pagos pelo INSS – INSTITUTO NACIONAL SEGURIDADE SOCIAL - Cód.1581.
+
+SEÇÃO: 1. OBJETIVO
+- Detalhar o procedimento adotado no tratamento das propostas de contratação de Crédito Consignado contraído nos benefícios pagos pelo INSS – INSTITUTO NACIONAL SEGURIDADE SOCIAL.
+
+SEÇÃO: 2. PÚBLICO-ALVO
+- Unidade Contratação SP
+- Correspondente no País ITAÚ Consignado
+
+SEÇÃO: 3. RESPONSABILIDADES
+- Unidade Contratação SP: Atualizar os Roteiros Operacionais e material de apoio.
+- Correspondente no País ITAU Consignado: Utilizar o material de apoio para contratação de novas propostas, sendo este documento parte integrante de forma a complementar as responsabilidades já previstas no contrato de prestação de serviços, conforme a primeira cláusula (Clausula primeira – do objeto), parágrafo terceiro.
+
+SEÇÃO: 4. DESCRIÇÃO DO PROCESSO
+
+SEÇÃO: 4.1 CANAL DE CONTRATAÇÃO
+- 4.1.1 IBCONSIG: Atualmente o canal IBConsig está fechado para contratação.
+- 4.1.2 IC360: (Informação visual, sem detalhes adicionais no texto transcrito)
+
+SEÇÃO: 4.2 CATEGORIAS E CARGOS PERMITIDOS
+- Aposentados e Pensionistas.
+- Lista de códigos de benefícios permitidos:
+  - 1: PENSAO POR MORTE DE TRABALHADOR RURAL
+  - 2: PENSAO POR MORTE ACIDENTARIA-TRAB. RURAL
+  - 3: PENSAO POR MORTE DE EMPREGADOR RURAL
+  - 4: APOSENTADORIA POR INVALIDEZ-TRAB. RURAL
+  - 5: APOSENT. INVALIDEZ ACIDENTARIA-TRAB.RUR.
+  - 6: APOSENT. INVALIDEZ EMPREGADOR RURAL
+  - 7: APOSENTADORIA POR VELHICE - TRAB. RURAL
+  - 8: APOSENT. POR IDADE - EMPREGADOR RURAL
+  - 19: PENSAO DE ESTUDANTE (LEI 7.004/82)
+  - 20: PENSAO POR MORTE DE EX-DIPLOMATA
+  - 21: PENSAO POR MORTE PREVIDENCIARIA
+  - 22: PENSAO POR MORTE ESTATUTARIA
+  - 23: PENSAO POR MORTE DE EX-COMBATENTE
+  - 24: PENSAO ESPECIAL (ATO INSTITUCIONAL)
+  - 26: PENSAO POR MORTE ESPECIAL
+  - 27: PENSAO MORTE SERVIDOR PUBLICO FEDERAL
+  - 28: PENSAO POR MORTE REGIME GERAL
+  - 29: PENSAO POR MORTE EX-COMBATENTE MARITIMO
+  - 32: APOSENTADORIA POR INVALIDEZ PREVIDENCIÁRIA (LEI 8213/91)
+  - 33: APOSENTADORIA INVALIDEZ AERONAUTA
+  - 34: APOSENT. INVAL. EX-COMBATENTE MARITIMO
+  - 37: APOSENTADORIA EXTRANUMERARIO CAPIN
+  - 38: APOSENT. EXTRANUM. FUNCIONARIO PUBLICO
+  - 41: APOSENTADORIA POR IDADE
+  - 42: APOSENTADORIA POR TEMPO DE CONTRIBUIÇÃO
+  - 43: APOSENT. POR TEMPO SERVICO EX-COMBATENTE
+  - 44: APOSENTADORIA ESPECIAL DE AERONAUTA
+  - 45: APOSENT. TEMPO SERVICO JORNALISTA
+  - 46: APOSENTADORIA ESPECIAL
+  - 49: APOSENTADORIA ORDINARIA
+  - 51: APOSENT. INVALIDEZ EXTINTO PLANO BASICO
+  - 52: APOSENT. IDADE EXTINTO PLANO BASICO
+  - 54: PENSAO ESPECIAL VITALICIA - LEI 9793/99
+  - 55: PENSAO POR MORTE EXTINTO PLANO BASICO
+  - 56: PENSAO VITALICIA SINDROME TALIDOMIDA
+  - 57: APOSENT. TEMPO DE SERVICO DE PROFESSOR
+  - 58: APOSENTADORIA DE ANISTIADOS
+  - 59: PENSAO POR MORTE DE ANISTIADOS
+  - 60: PENSAO ESPECIAL PORTADOR DE SIDA
+  - 72: APOSENT. TEMPO SERVICO - LEI DE GUERRA
+  - 78: APOSENTADORIA IDADE - LEI DE GUERRA
+  - 81: APOSENTADORIA COMPULSORIA EX-SASSE
+  - 82: APOSENTADORIA TEMPO DE SERVICO EX-SASSE
+  - 83: APOSENTADORIA POR INVALIDEZ EX-SASSE
+  - 84: PENSAO POR MORTE EX-SASSE
+  - 89: PENSAO ESP. VÍTIMAS HEMODIALISE-CARUARU
+  - 92: APOSENT. INVALIDEZ ACIDENTE TRABALHO
+  - 93: PENSAO POR MORTE ACIDENTE DO TRABALHO
+  - 96: PENSAO ESPECIAL PARA AS PESSOAS ATINGIDAS PELA HANSENÍASE
+
+SEÇÃO: 4.3 CATEGORIAS E CARGOS NÃO PERMITIDOS
+- Lista de códigos de benefícios não permitidos:
+  - 010: AUXÍLIO-DOENÇA POR ACIDENTE DO TRABALHO TRABALHADOR RURAL
+  - 011: RENDA MENSAL VITALICIA POR INVALIDEZ DO TRABALHADOR RURAL (LEI 6179/74)
+  - 012: RENDA MENSAL VITALICIA POR IDADE DO TRABALHADOR RURAL (LEI 6179/74)
+  - 013: AUXÍLIO-DOENÇA DO TRABALHADOR RURAL
+  - 015: AUXÍLIO-RECLUSÃO DO TRABALHADOR RURAL
+  - 018: AUXÍLIO INCLUSÃO
+  - 025: AUXÍLIO-RECLUSÃO (LOPS)
+  - 030: RENDA VITALICIA POR INVALIDEZ (LEI 6179/74)
+  - 031: AUXÍLIO-DOENÇA PREVIDENCIÁRIO (LOPS)
+  - 036: AUXÍLIO-ACIDENTE
+  - 040: RENSA MENSAL VITALICIA POR IDADE (LEI 6179/74)
+  - 047: ABONO DE PERMANÊNCIA EM SERVIÇO 25%
+  - 048: ABONO DE PERMANENCIA EM SERVIÇO 20%
+  - 050: AUXÍLIO-DOENÇA (EXTINTO PLANO BASICO)
+  - 054: PENSAO ESPECIAL VITALICIA (LEI 9793/99) (EPU)
+  - 076: SALÁRIO-FAMILIA ESTATUTARIO DA RFFSA (LEI 956/69) (EPU)
+  - 079: ABONO DE SERVIDOR APOSENTADO PELA AUTARQUIA EMPREGADORA (LEI 1756/52)
+  - 080: SALÁRIO MATERNIDADE
+  - 087: AMPARO ASSISTENCIAL AO PORTADOR DE DEFICIENCIA (LOAS)
+  - 088: AMPARO ASSISTENCIAL AO IDOSO (LOAS)
+  - 091: AUXÍLIO-DOENÇA POR ACIDENTE DO TRABALHO
+  - 094: AUXÍLIO-DOENÇA POR ACIDENTE DO TRABALHO
+  - 095: AUXÍLIO-SUPLEMENTAR POR ACIDENTE DO TRABALHO
+- Além das espécies não permitidas descritas acima, não são concedidos empréstimos a aposentados e pensionistas que possuem os seguintes tipos de benefícios:
+  - Benefícios recebidos a título de pensão alimentícia;
+  - Benefícios assistenciais, inclusive os decorrentes de leis especiais;
+  - Benefícios recebidos por meio de representante legal do segurado: dependente, tutelado ou curatelado.
+  - Benefícios concedidos nas regras de acordos internacionais para segurados residentes no exterior.
+  - Benefícios pagos por intermédio da Empresa Brasileira de Correios e Telégrafos – ECT.
+  - Benefícios pagos por intermédio de empresa de Previdência Complementar.
+  - Benefícios pagos por intermédio de cooperativas de créditos que não possuam contratos para pagamento e arrecadação de benefícios.
+
+SEÇÃO: 4.4 INFORMAÇÕES SOBRE MARGEM - CONSULTA, CÁLCULO E RESERVA DE MARGEM
+- Conforme o inciso V do art. 5º da sessão II da IN138, o valor de margem consignável do benefício é de 35% (trinta e cinco porcento) para as operações de empréstimo pessoal.
+- Para operações novas: utilizar 100% (Cem por cento) do valor de margem consignável disponível, deixando como margem de segurança o valor máximo de R$ 0,10 (dez centavos).
+
+SEÇÃO: 4.5 CONSULTA DE MARGEM CONSIGNÁVEL
+- 4.5.1 CANAL DE CONTRATAÇÃO: IBCONSIG: Canal atualmente fechado para contratação. Conforme o apêndice 5º do inciso VIII da sessão II da IN138, a autorização para acesso a dados é pré-requisito para acesso as informações do beneficiário e deverá ser disponibilizado por meio físico ou eletrônico e assinado pelo beneficiário.
+  - Empréstimo pessoal contratado através de trilha física: Termo de Autorização para Acesso a Dados deve ser impresso e assinado pelo beneficiário e disponibilizado a instituição financeira através do canal de contratação para validação.
+  - Empréstimo pessoal contratado através de trilha digital: Termo de Autorização para Acesso a Dados é assinado eletronicamente pelo cliente durante a trilha de formalização e disponibilizado eletronicamente a instituição financeira para validação.
+- 4.5.2 CANAL DE CONTRATAÇÃO: IC360: Conforme o apêndice 5º do inciso VIII da sessão II da IN138, a autorização para acesso a dados é pré-requisito para acesso as informações do beneficiário e deverá ser disponibilizado por meio físico ou eletrônico e assinado pelo beneficiário.
+  - Empréstimo pessoal contratado através de trilha digital: Termo de Autorização para Acesso a Dados é assinado eletronicamente pelo cliente durante a trilha de formalização e disponibilizado eletronicamente a instituição financeira para validação.
+
+SEÇÃO: 4.6 CÁLCULO DE MARGEM
+- Soma todas as verbas de créditos rendimentos fixos.
+  - RUBRICAS DE CRÉDITO (+): Mens. Reajustada MR, Compl. MR, Salário Família, Grat. Ex-Comb., RFFSA Não Trib., Compl. Acompanhante, Outras Vantagens, Planfer RFFSA, Dupla Atividade, Grat. Prodt. ECT, Adic. Talidomida.
+  - Exceto: Complemento Positivo (CP); Pagamento Alternativo de Benefício – PAB; Décimo Terceiro Salário; Complemento a título de CPMF; Revisão de Pecúlio.
+  - RUBRICAS DE DÉBITO (-): I. R. Ret. Fonte, Deb. Pens. Alim, Consignação, I. R. no Exterior, Débito dig. I. R., Desconto INSS, Contrib. COBAP, Contrib. CONTAG, Contrib. STFERJ, Contrib. ASTRE, Contrib. SINDAPB, Contrib. ASBAPI, Contrib. UNIDAS.
+- Dedução das verbas obrigatórias:
+  - (=) VALOR DISPONÍVEL DO BENEFÍCIO
+  - (x) 35%
+  - (=) RESULTADO
+  - (-) Consignação Empréstimos – Outros empréstimos e financiamentos
+  - (=) MARGEM DISPONÍVEL – (0,10)
+  - (=) PRESTAÇÃO MÁXIMA
+
+SEÇÃO: 4.7 DIGITAÇÃO DA PROPOSTA
+- 4.7.1 DIGITAÇÃO DE DADOS DA PROPOSTA: Ao digitar a proposta nos canais de contratação disponíveis, certifique-se que os dados digitados estejam de acordo com o detalhamento de crédito do cliente, pois serão validados.
+- 4.7.2 DIGITAÇÃO PROPOSTA FORMALIZAÇÃO FÍSICA: Documentos obrigatórios a serem digitalizados e enviados aos centros de recepção de documentações físicas:
+  - Operações novas:
+    - Documento de identificação pessoal;
+    - 01 (uma) via do formulário vigente da Cédula de Crédito Bancário (CCB) assinado;
+    - Termo de Autorização para Acesso a Dados – autorização assinada pelo beneficiário a consulta de dados de elegibilidade e margem consignável do benefício;
+    - Documentos específicos no caso de contratação por rogado:
+      - Documento de identificação pessoal rogado
+      - Documento de identificação pessoal Testemunha 1
+      - Documento de identificação pessoal Testemunha 2
+      - Selfie Cliente segurando em mãos a CCB
+      - Selfie Rogado segurando em mãos a CCB
+  - Operações refinanciamento:
+    - Documento de identificação pessoal;
+    - 01 (uma) via do formulário vigente da Cédula de Crédito Bancário (CCB) assinado;
+    - Termo de Autorização para Acesso a Dados – autorização assinada pelo beneficiário a consulta de dados de elegibilidade e margem consignável do benefício;
+    - Documentos específicos no caso de contratação por rogado (mesma lista acima).
+  - Operações portabilidade:
+    - Documento de identificação pessoal;
+    - 01 (uma) via do formulário vigente do Termo de Requisição para Portabilidade de Crédito;
+    - 01 (uma) via do formulário vigente da Cédula de Crédito Bancário (CCB) do saldo de portabilidade;
+    - 01 (uma) via do formulário vigente da Cédula de Crédito Bancário (CCB) do refin de portabilidade;
+    - Termo de Autorização para Acesso a Dados – autorização assinada pelo beneficiário a consulta de dados de elegibilidade e margem consignável do benefício;
+    - Documentos específicos no caso de contratação por rogado (mesma lista acima).
+- 4.7.3 TRILHA DE FORMALIZAÇÃO DIGITAL: Ao digitar a proposta nos canais de contratação disponíveis, a trilha de formalização é feita de forma digital pelo beneficiário, sendo necessário seguir as etapas:
+  - Liberar acesso a geolocalização
+  - Liberar acesso a câmera
+  - Digitar o token recebido através de SMS
+  - Revisar e aceitar as condições da proposta, previamente acordadas com o corban
+  - Revisar o contrato
+  - Fotografar frente e verso documento de identificação pessoal;
+  - Tirar selfie com a câmera frontal do celular
+  - Ao finalizar a trilha digital, os seguintes documentos são gerados digitalmente:
+    - Operações novas: CCB assinada eletronicamente; Termo de Autorização para Acesso a Dados assinado eletronicamente.
+    - Operações refinanciamento: CCB assinada eletronicamente; Termo de Autorização para Acesso a Dados assinado eletronicamente.
+    - Operações portabilidade: Termo de Requisição para Portabilidade de Crédito assinado eletronicamente; CCB do saldo de portabilidade assinada eletronicamente; CCB do refin de portabilidade assinada eletronicamente; Termo de Autorização para Acesso a Dados assinado eletronicamente.
+
+SEÇÃO: 4.8 FLUXO DE CONSIGNAÇÃO
+- Importante: Data repasse: até o dia 07 (sete) de cada mês.
+- 4.8.1 REFINANCIAMENTO: Para as operações de refinanciamento, o contrato deve ter um percentual mínimo de parcelas pagas, conforme a tabela referenciada no item 4.9.1.
+
+SEÇÃO: 4.9 INFORMAÇÕES ADICIONAIS
+- O prazo máximo para as operações deste convênio é de até 96 (noventa e seis) meses.
+- A taxa vigente é 1,85%.
+- Para os beneficiários que recebem através da modalidade conta corrente, o valor do empréstimo pessoal contratado é depositado na conta bancária que corresponda àquela na qual o benefício é pago, conforme o item a do inciso VII do artigo 5º da seção II da IN138. As liberações efetuadas através de TED/DOC devem seguir os critérios de restrição e de limites máximos estabelecidos por cada Banco.
+- Para os beneficiários que recebem através da modalidade cartão magnético, o valor do empréstimo pessoal contratado é pago em conta corrente ou poupança, designada expressamente pelo beneficiário, da qual seja o titular, ou, ainda, por meio de ordem de pagamento, preferencialmente na agência/banco onde é pago mensalmente o benefício, conforme o item b do inciso VII do artigo 5º da seção II da IN138.
+- A quantidade de contratos máxima permitido pelo convênio é de 13 (treze) contratos por matrícula.
+- Mínimo para realização de operações: Operações novas (primeira concessão) – R$ 1.100,00 (mil e cem reais); Refinanciamentos - R$ 450,00 (quatrocentos e cinquenta reais), conforme tabela.
+- Lei Federal 10.820 de 17 de dezembro de 2003.
+- Instrução Normativa INSS/PRES Nº 138, de 11 de fevereiro de 2023.
+
+SEÇÃO: 4.9.1 CRITÉRIOS DE IDADE, CRÉDITO E PRAZO
+- Qtd Contrato por benefício: 13
+- Refin - % mínimo de PMT paga: Não Há
+- Parâmetro de idade: 21 - 69 anos
+  - Limite de Crédito: Até R$ 145.000,00
+  - Prazo de contratação Loas (87): 96 Parcelas
+  - Prazo de contratação Loas (88): 96 Parcelas
+  - Prazo de contratação Invalidez (4,5,6,32,33,34,51,83,92): 96 Parcelas
+  - Prazo de contratação Demais: 96 Parcelas
+- Parâmetro de idade: 70 - 73 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 96 Parcelas
+  - Prazo de contratação Demais: 84 Parcelas
+- Parâmetro de idade: 74 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 96 Parcelas
+  - Prazo de contratação Demais: 72 Parcelas
+- Parâmetro de idade: 75 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 72 Parcelas
+  - Prazo de contratação Demais: 60 Parcelas
+- Parâmetro de idade: 76 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 60 Parcelas
+  - Prazo de contratação Demais: 48 Parcelas
+- Parâmetro de idade: 77 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 48 Parcelas
+  - Prazo de contratação Demais: 36 Parcelas
+- Parâmetro de idade: 78 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 24 Parcelas
+  - Prazo de contratação Demais: -
+- Parâmetro de idade: 79 anos
+  - Prazo de contratação Loas (87): -
+  - Prazo de contratação Loas (88): -
+  - Prazo de contratação Invalidez: 12 Parcelas
+  - Prazo de contratação Demais: -
+- Vale ressaltar que beneficiários Loas não estão permitidos atualmente para contratação.
+- Importante: Na contratação de operações de empréstimo consignado, os benefícios deverão atender aos seguintes critérios:
+  - Idade mínima permitida de 45 anos para beneficiários invalidez.
+  - Data de despacho do laudo do benefício deve ser superior a janeiro/2017 (01/2017) ou a última perícia com data superior a março/2018 (03/2018).
+  - Beneficiários com idade entre 55 anos e 59 anos, também podem ser aprovados desde que a data do despacho do laudo for superior a 15 anos.
+
+SEÇÃO: 5. PLANO DE QUALIDADE
+- Em atendimento a resolução CMN n°4.935, o plano de qualidade visa estabelecer critérios adicionais e complementares aos já estabelecidos no Contrato de Prestação de Serviços e outras avenças celebrados entre o Itaú Consignado e seus Corbanes e na regulamentação aplicável.
+- 5.1.1 REGRAS: É aplicado mensalmente a todas as lojas elegíveis conforme descrito no item 4.1 da Política Plano de Qualidade.
+- 5.1.2 CRITÉRIOS DOS INDICADORES DO PLANO DE QUALIDADE: Conforme declarado no item 4.2 da Política Plano de qualidade, são avaliadas as entradas dos seguintes ofensores:
+  - Fraudes.
+  - Reclamações entrantes nos Órgãos de defesa do consumidor (Banco Central do Brasil e Procons), Demais Canais (Ouvidoria Banco, Ouvidoria INSS, Ouvidoria de Órgãos Públicos etc.) e Canais Internos (SAC e Relacional).
+  - Reclamações Críticas
+  - Ações cíveis registradas no Judiciário, considerando linha de assunto "Contratação não reconhecida".
+- 5.1.3 ESTORNOS, DÉBITOS E MULTAS: Conforme declarado no item 4.6 da Política Plano de Qualidade a aplicação de multas e/ou estornos serão aplicadas para todas as irregularidades ou inconsistências relacionadas a contratos físicos ou digitais.
+- Importante: conforme a cláusula quarta (Cláusula quarta – responsabilidade da contratada), itens (IV) e (v) do Contrato de prestação de serviços, é de responsabilidade do corban todas as despesas e custos de quaisquer de seus funcionários e/ou prestadores de serviços.
+
+SEÇÃO: 6. DOCUMENTOS RELACIONADOS
+- Política de Plano de Qualidade
+- Contrato de Prestação de Serviços
+
+SEÇÃO: 7. GLOSSÁRIO
+- PN: Plataforma de Negócios (sistema utilizado no acompanhamento de operações de Crédito Consignado).
+- IB Consig: Sistema do Itaú Consignado utilizado para cadastramento de propostas de Crédito Consignado.
+- IC360: Sistema do Itaú Consignado utilizado para cadastramento de propostas de Crédito Consignado.
+
+SEÇÃO: 7.1 NOTAS ADICIONAIS
+- 1 Observação: a margem de segurança de R$ 0,10 (dez centavos) é exclusivamente para digitações através do canal de contratação IBConsig para operações novas.
+- 2 Observação: é exclusivamente para digitações através do canal de contratação IBConsig para operações novas.
+- 3 Observação: Caso a documentação digitalizada exigida não seja anexada, não será possível finalizar a operação.
+
+SEÇÃO: 8. INFORMAÇÕES DE CONTROLE
+- Prazo para Revisão: 1 ano
+- Versão: 01/2016 (1° versão: 05/07/2016)
+- 2° versão: 28/06/2017
+- 3° versão: 27/12/2017
+- 4° versão: 19/02/2018
+- 5° versão: 04/07/2019
+- 6ª versão: 10/03/2020
+- 7ª versão: 23/03/2020
+- 8ª versão: 25/03/2020
+- 9ª versão: 19/08/2020
+- 10ºversão: 05/05/2021
+- 11ª versão: 22/11/2021
+- 12ª versão: 15/03/2022
+- 13ª versão: 28/03/2022
+- 14ª versão: 05/04/2022
+- 15ª versão: 16/09/2022
+- 16ª versão: 03/02/2023
+- 17ª versão: 29/03/2023
+- 18ª versão: 07/06/2023
+- 19ª versão: 26/09/2023
+- 20ª versão: 23/09/2024
+- 21ª versão: 25/03/2025
+- 22ª versão: 03/04/2025

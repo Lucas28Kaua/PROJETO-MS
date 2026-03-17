@@ -1,0 +1,387 @@
+REGRAS BANCO INTER
+
+Documento: Banco Inter - Roteiro Operacional INSS
+SEÇÃO: PÚBLICO-ALVO
+
+Atendidos: Beneficiários do INSS - Aposentados e Pensionistas. Consultar lista de benefícios permitidos para empréstimo.
+
+Não Atendidos:
+
+Não serão permitidas operações para beneficiários ANALFABETOS, IMPOSSIBILITADOS DE ASSINAR, CURATELADOS e ou TUTELADOS, mesmo que por meio de procurações; para beneficiários que possuem concessão Judicial ou Entidade Representação.
+
+Concedidos nas regras de acordos internacionais (para beneficiários residentes no exterior) (ocorrência associada: HN1), exceto na inclusão de desconto de cartão.
+
+Pagos por intermédio da Empresa Brasileira de Correios e Telégrafos (ECT) (ocorrência associada: HN1), exceto na inclusão de desconto de cartão.
+
+Pagos por intermédio de empresa convenente (ocorrência associada: HN1), exceto na inclusão de desconto de cartão.
+
+Pagos a título de PENSÃO ALIMENTÍCIA (PA1) (ocorrência associada: HQ1).
+
+Assistenciais, conforme a legislação da Previdência (ocorrência associada: HN1).
+
+Benefícios de prestação continuada (87 e 88).
+
+De espécies não constantes na tabela de espécies de benefícios válidas para empréstimo com consignação em folha (ocorrência associada: HN1).
+
+SEÇÃO: PLANO
+
+Mínimo: de acordo com as tabelas vigentes.
+
+Máximo: 84 parcelas
+
+SEÇÃO: NÚMERO DE CONTRATOS
+
+13 (treze) contratos por benefício - Determinação do órgão
+
+SEÇÃO: IDADE MÁXIMA E MÍNIMA
+
+Mínima: 21 anos
+
+Máxima: 79 anos e 11 meses completos no final do contrato.
+
+SEÇÃO: IDADE X VALOR DO CONTRATO - Propostas sem Seguro
+
+Idade ao final do contrato: De 21 a 65 anos e 11 meses | Valor Máximo de Empréstimo: R$ 95.000
+
+Idade ao final do contrato: De 66 a 69 anos e 11 meses | Valor Máximo de Empréstimo: R$ 80.000
+
+Idade ao final do contrato: De 70 a 75 anos e 11 meses | Valor Máximo de Empréstimo: R$ 50.000
+
+Idade ao final do contrato: De 76 a 79 anos e 11 meses | Valor Máximo de Empréstimo: R$ 40.000
+
+SEÇÃO: Informações complementares
+
+1. PORTABILIDADE / REFIN DA PORTABILIDADE: o limite de idade ao final do contrato é 76 anos e 11 meses.
+
+2. CONTRATO NOVO sem seguro: o limite de idade ao final do contrato é 71 anos e 11 meses.
+
+SEÇÃO: Propostas com Seguro
+
+Idade ao final do contrato: De 21 a 65 anos e 11 meses | Valor Máximo de Empréstimo: De acordo com a margem
+
+Idade ao final do contrato: De 66 a 69 anos e 11 meses | Valor Máximo de Empréstimo: R$ 100.000
+
+Idade ao final do contrato: De 70 a 75 anos e 11 meses | Valor Máximo de Empréstimo: R$ 90.000
+
+Idade ao final do contrato: De 76 a 79 anos e 11 meses | Valor Máximo de Empréstimo: R$ 60.000
+
+SEÇÃO: MARGEM DE SEGURANÇA
+
+Não se aplica.
+
+SEÇÃO: REFINANCIAMENTO
+
+Troco mínimo: R$ 300,00 (para o refin de portabilidade o troco mínimo permitido é de R$ 100,00).
+
+Não é permitido unificar parcelas.
+
+SEÇÃO: FORMA DE PAGAMENTO
+
+Segurados que a modalidade de recebimento do benefício seja CONTA CORRENTE: o crédito será realizado obrigatoriamente na conta cadastrada no INSS.
+
+Servidores que a modalidade de recebimento do benefício seja CARTÃO MAGNÉTICO: o crédito deverá ser realizado obrigatoriamente em conta corrente ou poupança de titularidade do segurado (mediante apresentação do extrato de movimentação bancária), caso a conta informada seja a do Banco Inter não será necessário comprovante de abertura.
+
+Está autorizado o pagamento para clientes que recebem via P.A.
+
+SEÇÃO: FORMALIZAÇÃO
+
+Formalização através de assinatura Eletrônica ou Manual.
+
+SEÇÃO: DATA DE CORTE
+
+De acordo com o cronograma do convênio.
+
+Operações formalizadas até a data de corte será descontada na competência do mês vigente.
+
+Operações formalizadas após a data de corte serão descontadas na competência do mês subsequente.
+
+SEÇÃO: LISTA DE BENEFÍCIOS PERMITIDOS PARA CONCESSÃO DE EMPRÉSTIMO
+
+01: PENSAO POR MORTE DE TRABALHADOR RURAL
+
+02: PENSAO POR MORTE ACIDENTARIA-TRAB. RURAL
+
+03: PENSAO POR MORTE DE EMPREGADOR RURAL
+
+04: APOSENTADORIA POR INVALIDEZ-TRAB. RURAL
+
+05: APOSENT. INVALIDEZ ACIDENTARIA-TRAB.RUR.
+
+06: APOSENT. INVALIDEZ EMPREGADOR RURAL
+
+07: APOSENTADORIA POR VELHICE – TRAB. RURAL
+
+08: APOSENT. POR IDADE – EMPREGADOR RURAL
+
+19: PENSAO DE ESTUDANTE (LEI 7.004/82)
+
+20: PENSAO POR MORTE DE EX-DIPLOMATA
+
+21: PENSAO POR MORTE PREVIDENCIARIA
+
+22: PENSAO POR MORTE ESTATUTARIA
+
+23: PENSAO POR MORTE DE EX-COMBATENTE
+
+24: PENSAO ESPECIAL (ATO INSTITUCIONAL)
+
+26: PENSAO POR MORTE ESPECIAL
+
+27: PENSAO MORTE SERVIDOR PUBLICO FEDERAL
+
+28: PENSAO POR MORTE REGIME GERAL
+
+29: PENSAO POR MORTE EX-COMBATENTE MARITIMO
+
+32: APOSENTADORIA INVALIDEZ PREVIDENCIARIA/INCAPACIDADE PERMANENTE
+
+33: APOSENTADORIA INVALIDEZ AERONAUTA
+
+34: APOSENT. INVAL. EX-COMBATENTE MARITIMO
+
+37: APOSENTADORIA EXTRANUMERARIO CAPIN
+
+38: APOSENT. EXTRANUM. FUNCIONARIO PUBLICO
+
+41: APOSENTADORIA POR IDADE
+
+42: APOSENTADORIA POR TEMPO DE CONTRIBUICAO
+
+43: APOSENT. POR TEMPO SERVICO EX-COMBATENTE
+
+44: APOSENTADORIA ESPECIAL DE AERONAUTA
+
+45: APOSENT. TEMPO SERVICO JORNALISTA
+
+46: APOSENTADORIA ESPECIAL
+
+49: APOSENTADORIA ORDINARIA
+
+51: APOSENT. INVALIDEZ EXTINTO PLANO BASICO
+
+52: APOSENT. IDADE EXTINTO PLANO BASICO
+
+54: PENSAO INDENIZATORIA A CARGO DA UNIAO
+
+55: PENSAO POR MORTE EXTINTO PLANO BASICO
+
+56: PENSAO VITALICIA SINDROME TALIDOMIDA
+
+57: APOSENT. TEMPO DE SERVICO DE PROFESSOR
+
+58: APOSENTADORIA DE ANISTIADOS
+
+59: PENSAO POR MORTE DE ANISTIADOS
+
+60: BENEFÍCIO INDENIZATORIO A CARGO DA UNIAO
+
+72: APOSENT. TEMPO SERVICO – LEI DE GUERRA
+
+78: APOSENTADORIA IDADE – LEI DE GUERRA
+
+81: APOSENTADORIA COMPULSORIA EX- SASSE
+
+82: APOSENTADORIA TEMPO DE SERVICO EX-SASSE
+
+83: APOSENTADORIA POR INVALIDEZ EX-SASSE
+
+84: PENSAO POR MORTE EX-SASSE
+
+89: PENSAO ESP. VÍTIMAS HEMODIALISE-CARUARU
+
+92: APOSENT. INVALIDEZ ACIDENTE TRABALHO
+
+93: PENSAO POR MORTE ACIDENTE DO TRABALHO
+
+96: PENSAO ESPECIAL HANSENIASE LEI 11520/07
+
+SEÇÃO: LISTA DE BENEFÍCIOS NÃO PERMITIDOS PARA CONCESSÃO DE EMPRÉSTIMO
+
+10: Auxílio-doença por acidente do trabalho do trabalhador rural
+
+13: Auxílio-doença do trabalhador rural
+
+15: Auxílio-reclusão do trabalhador rural
+
+25: Auxílio-reclusão (LOPS)
+
+31: Auxílio-doença previdenciário (LOPS)
+
+36: Auxílio-acidente
+
+47: Abono de permanência em serviço 25%
+
+48: Abono de permanência em serviço 20%
+
+68: Pecúlio especial de aposentado
+
+79: Abono de servidor aposentado pela autarquia empregadora (Lei 1756/52)
+
+80: Salário-maternidade
+
+76: Salário-família estatutário da RFFSA (Lei 956/69)
+
+85: Pensão mensal vitalícia do seringueiro (Lei 7986/89)
+
+86: Pensão mensal vitalícia do dependente do seringueiro (Lei 7986/89)
+
+87: Amparo Assistencial ao portador de deficiência (LOAS)
+
+88: Amparo Assistencial ao idoso (LOAS)
+
+SEÇÃO: REGRAS PARA OS BENEFÍCIOS ATENDIDOS
+
+Aposentadoria por Idade
+
+A aposentadoria por idade é devida ao segurado que alcança o limite de idade de 65 anos, se homem, ou de 60 anos, se mulher. No caso dos trabalhadores rurais esses limites são de 60 e 55 anos, respectivamente.
+
+Grupo: Aposentadoria por Idade
+
+Código 7: Aposentadoria por idade do trabalhador rural
+
+Código 8: Aposentadoria por idade do empregador rural
+
+Código 41: Aposentadoria por idade
+
+Código 52: Aposentadoria por idade (Extinto Plano Básico)
+
+Código 78: Aposentadoria por idade de ex-combatente marítimo (Lei nº 1.756/52)
+
+Código 81: Aposentadoria por idade compulsória (Ex-SASSE)
+
+Elegível a empréstimos sem particularidade de regra.
+
+Aposentadoria por Invalidez
+
+Tem direito à aposentadoria por invalidez o segurado que, estando ou não em gozo de auxílio-doença, é considerado incapaz para o trabalho e insuscetível de reabilitação para o exercício de atividade que lhe garanta a subsistência.
+
+O aposentado por invalidez tem cancelada a aposentadoria se voltar voluntariamente à atividade, ao contrário dos outros tipos de aposentadorias, que são vitalícias. No caso de aposentadoria especial, o segurado não pode retornar ao exercício de atividade que o sujeite a condições especiais que prejudiquem a saúde ou a integridade física.
+
+Benefícios concedidos para este grupo até 16/06/2015 são considerados vitalício quando se tratar de cônjuge.
+
+A partir de 17/06/2015 a pensão do cônjuge ou companheiro é vitalícia, desde que, o casamento ou união estável tenha 2 anos ou mais e o dependente seja maior que 44 anos de idade.
+
+Para os demais casos a duração do benefício segue conforme a tabela abaixo e deverá ser reduzido 3 meses da duração do benefício com margem de segurança:
+
+Idade do cônjuge: Entre 21 e 26 anos | Duração do benefício: 6 (seis) anos
+
+Idade do cônjuge: Entre 27 e 29 anos | Duração do benefício: 10 (dez) anos
+
+Idade do cônjuge: Entre 30 e 40 anos | Duração do benefício: 15 (quinze) anos
+
+Idade do cônjuge: Entre 41 e 43 anos | Duração do benefício: 20 (vinte) anos
+
+Pensão Por Morte
+
+A pensão por morte é devida ao(s) dependente(s) do segurado, aposentado ou não, que falece. Perde o direito à pensão o pensionista que falecer, o menor que se emancipar ou completar 21 anos de idade, salvo se inválido, ou o inválido, caso cesse a sua invalidez.
+
+Grupo: Pensão Por Morte
+
+Código 1: Pensão por morte do trabalhador rural
+
+Código 2: Pensão por morte acidentaria-trab. Rural
+
+Código 3: Pensão por morte do empregador rural
+
+Código 20: Pensao por morte de ex-diplomata
+
+Código 21: Pensão por morte previdenciária
+
+Código 22: Pensao por morte estatutária
+
+Código 23: Pensão por morte de ex-combatente
+
+Código 26: Pensao por morte especial
+
+Código 27: Pensão por morte de servidor público federal com dupla aposentadoria
+
+Código 28: Pensão por morte do Regime Geral (Decreto nº 20.465/31)
+
+Código 29: Pensão por morte de ex-combatente marítimo (Lei nº 1.756/52)
+
+Código 55: Pensão por morte (Extinto Plano Básico)
+
+Código 59: Pensão por morte de anistiados
+
+Código 84: Pensão por morte (Ex-SASSE)
+
+Código 93: Pensão por morte por acidente do trabalho
+
+Aposentadoria por tempo de contribuição
+
+Grupo: Aposentadoria por tempo de serviço
+
+Código 42: Aposentadoria por tempos de contribuição previdenciária
+
+Código 43: Aposentadoria por tempo de contribuição de ex-combatente
+
+Código 44: Aposentadoria por tempo de contribuição de aeronauta
+
+Código 45: Aposentadoria por tempo de contribuição de jornalista profissional
+
+Código 46: Aposentadoria por tempo de contribuição especial
+
+Código 49: Aposentadoria por tempo de contribuição ordinária
+
+Código 57: Aposentadoria por tempo de contribuição de professor (Emenda Const.18/81)
+
+Código 72: Após por tempo de contribuição de ex-combatente marítimo (Lei 1.756/52)
+
+Código 82: Aposentadoria por tempo de contribuição (Ex-SASSE)
+
+Elegível a empréstimos sem particularidade de regra.
+
+Auxílios, Benefícios Acidentários, Benefícios Assistenciais, Espécies Diversas, Encargos Previdenciários da união.
+
+(Lista complementar de códigos elegíveis)
+
+22: Pensão por morte estatutária
+
+26: Pensão Especial (Lei nº 593/48)
+
+37: Aposentadoria de extranumerário da União
+
+38: Aposentadoria da extinta CAPIN
+
+54: Pensão especial vitalícia (Lei nº 9.793/99)
+
+58: Aposentadoria excepcional do anistiado (Lei nº 6.683/79)
+
+59: Pensão por morte excepcional do anistiado (Lei nº 6.683/79)
+
+60: Pensão especial mensal vitalícia (Lei 10.923, de 24/07/2004)
+
+89: Pensão especial aos dependentes de vítimas fatais p/ contaminação na hemodiálise
+
+96: Pensão especial às pessoas atingidas pela hanseníase (Lei nº 11.520/2007)
+
+SEÇÃO: DOCUMENTAÇÃO EXIGIDA
+
+✓ Identidade Civil - RG;
+
+✓ CNH - Carteira Nacional de Habilitação;
+
+✓ Cópia da certidão de casamento (caso tenha divergência no nome);
+
+✓ Carteira de Conselho de Classe - COREN, OAB, COFEN etc (válida);
+
+✓ Comprovante de residência, seguindo as regras abaixo:
+
+(O documento é cortado aqui, mas a estrutura indica que haveria detalhamento sobre as regras do comprovante de residência, como tipos aceitos, prazos de validade, etc.)
+
+Resumo do conteúdo do Banco Inter:
+Item	Regra
+Público Atendido	Aposentados e pensionistas INSS (lista de benefícios permitidos)
+Público Não Atendido	Analfabetos, impossibilitados de assinar, curatelados/tutelados, procuração, residentes no exterior, ECT, pensão alimentícia, assistenciais (LOAS 87/88)
+Prazo Máximo	84 parcelas
+Nº de Contratos	13 por benefício
+Idade Mínima	21 anos
+Idade Máxima	79 anos e 11 meses no final do contrato
+Limites - Sem Seguro	21-65a: R$95k / 66-69a: R$80k / 70-75a: R$50k / 76-79a: R$40k
+Limites - Com Seguro	21-65a: conforme margem / 66-69a: R$100k / 70-75a: R$90k / 76-79a: R$60k
+Portabilidade/Refin	Idade limite: 76a11m ao final do contrato
+Contrato Novo (s/ seguro)	Idade limite: 71a11m ao final do contrato
+Troco Mínimo (Refin)	R$300 (R$100 para Refin da Portabilidade)
+Unificação de Parcelas	Não permitido
+Forma de Pagamento	Conta corrente: obrigatório na conta do benefício / Cartão magnético: conta de titularidade (Inter dispensa comprovante)
+Data de Corte	Conforme cronograma do convênio

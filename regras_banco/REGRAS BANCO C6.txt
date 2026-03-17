@@ -1,0 +1,85 @@
+REGRAS BANCO C6
+
+Aqui está o conteúdo integral extraído dos três documentos, preservando todos os acentos, pontuações e estrutura de tópicos, formatado especificamente para que você possa copiar e colar em seu arquivo de texto para treinamento de IA.
+
+---
+
+### DOCUMENTO 1: MANUAL OPERACIONAL ÚNICO – CONSIGNADO DO TRABALHADOR (Agosto/2025)
+
+**C6Consig – MANUAL OPERACIONAL ÚNICO – CONSIGNADO DO TRABALHADOR**
+[cite_start]**Última atualização: Agosto/25** [cite: 1, 151]
+
+[cite_start]**CONCEITOS GERAIS** [cite: 2, 152]
+* [cite_start]**O que é o Consignado do trabalhador?**: É um programa do Governo Federal que permite que aos trabalhadores de empresas privadas consigam contratar empréstimos consignados com desconto em folha[cite: 3, 153].
+* [cite_start]**Objetivo**: Facilitar o acesso ao crédito bancário com condições financeiras mais vantajosas[cite: 4, 154].
+* [cite_start]**Margem**: O empréstimo com desconto mensal no salário do cliente possui uma margem consignável de 35%[cite: 5, 155].
+* **Vantagens**:
+    * [cite_start]Desconto da parcela direto no salário do trabalhador[cite: 7, 157].
+    * [cite_start]Taxas de juros reduzidas[cite: 7, 157].
+    * [cite_start]Utiliza como garantia o saldo do FGTS[cite: 8, 158].
+    * [cite_start]Processo digital e ágil[cite: 8, 158].
+* [cite_start]**Quem pode contratar?**: Trabalhador apto de acordo com a normativa do governo; empregado privado contratado pela CLT (Carteira assinada); mínimo de 1 ano de vínculo empregatício na mesma empresa[cite: 9, 10, 159, 160].
+
+[cite_start]**INFORMAÇÕES AO CLIENTE** [cite: 11, 161]
+1. [cite_start]O desconto em folha não deve ser confundido com a data de vencimento da parcela[cite: 12, 162].
+2. [cite_start]O desconto em folha corresponde ao período em que a empresa pode realizar o lançamento do débito nas verbas salariais, seguindo o cronograma do MTE[cite: 13, 163].
+3. [cite_start]O desconto é efetuado antecipadamente em relação à data de vencimento, garantindo o pagamento no prazo[cite: 14, 164].
+4. [cite_start]A Caixa Econômica Federal realiza a conciliação financeira e repassa os valores ao C6 Consignado até a data do vencimento indicado no contrato (CCB)[cite: 15, 165].
+
+[cite_start]**REGRAS DO PRODUTO** [cite: 18, 168]
+* [cite_start]**Idade**: Entre 21 e 60 anos[cite: 18, 168].
+* [cite_start]**Instituições aceitas para liberação (C6 Bank, BB, Santander, Banrisul, BRB, Ailos, Unicred, Caixa, Bradesco, Itaú, Sicredi, Bancoob)**: Até o limite do valor disponível[cite: 21, 171].
+* [cite_start]**Nubank**: Aceito até R$ 5.000[cite: 21, 171].
+* [cite_start]**Documentação**: RG, RNE, CRNM, CNH ou Carteira de Classe[cite: 22, 172].
+* **Características**:
+    * [cite_start]Tipo de Produto: Margem Livre[cite: 26, 176].
+    * [cite_start]Quantidade Máx. de Contratos: Máximo de 9 por CPF[cite: 26, 176].
+    * [cite_start]Valor: Mínimo R$ 700 / Máximo R$ 120 mil[cite: 26, 176].
+    * [cite_start]Taxa de Juros: De acordo com o perfil do cliente[cite: 26, 176].
+    * [cite_start]Meio de Liberação: PIX[cite: 26, 176].
+    * [cite_start]Prazo: De 6 até 36 meses (múltiplos de 6), com exceção de 30 meses[cite: 26, 176].
+    * [cite_start]Garantia: Margem consignável e, em caso de demissão involuntária, FGTS e Verbas Rescisórias[cite: 26, 176].
+
+[cite_start]**SEGURO C6 CONSIG** [cite: 26, 176]
+* [cite_start]**O que é**: Benefícios oferecidos aos clientes do Consignado Trabalhador[cite: 27, 177].
+* [cite_start]**Coberturas (Saldo devedor)**: Falecimento do titular ou invalidez permanente e total por acidente[cite: 29, 179].
+* [cite_start]**Coberturas (Parcelas)**: Desemprego involuntário[cite: 29, 179].
+* [cite_start]**Vigência**: Válido durante todo o período do contrato do empréstimo[cite: 30, 180].
+
+---
+
+### DOCUMENTO 2: MANUAL OPERACIONAL ÚNICO – CRÉDITO CONSIGNADO INSS (Outubro/2025)
+
+**C6 Consig – MANUAL OPERACIONAL ÚNICO – CRÉDITO CONSIGNADO - INSS**
+[cite_start]**Última atualização: Outubro/25** [cite: 301, 359, 361]
+
+[cite_start]**CONCEITOS GERAIS** [cite: 302, 364]
+* [cite_start]**O que é o INSS?**: Instituto Nacional do Seguro Social responsável pelo pagamento da aposentadoria e demais benefícios, exceto servidores públicos[cite: 303, 379].
+* [cite_start]**Empréstimo Consignado**: Valor das parcelas descontado diretamente no pagamento do benefício, com taxas menores que o empréstimo pessoal[cite: 310].
+* **Modalidades**:
+    * [cite_start]**Margem Livre**: Uso da margem consignável disponível[cite: 310].
+    * [cite_start]**Portabilidade**: Transferência de contrato de um banco para outro por melhores taxas[cite: 310].
+    * [cite_start]**Refinanciamento**: Renegociação para novo valor, prazo ou taxa[cite: 310].
+    * [cite_start]**Refin da Portabilidade**: Transferência + renegociação das condições[cite: 312, 313].
+
+[cite_start]**REGRAS DO PRODUTO (IDADE E PRAZOS)** [cite: 316]
+* [cite_start]**21-72 anos**: Prazo máximo de 96 parcelas (Margem Livre/Portabilidade/Refin)[cite: 320].
+* [cite_start]**73 anos**: Prazo máximo de 84 parcelas[cite: 322].
+* [cite_start]**74 anos**: Prazo máximo de 72 parcelas (Margem Livre/Portabilidade)[cite: 322].
+* [cite_start]**75 anos**: Prazo máximo de 60 parcelas[cite: 322].
+* [cite_start]**76 anos**: Prazo máximo de 48 parcelas[cite: 322].
+* [cite_start]**77 anos**: Prazo máximo de 36 parcelas[cite: 322].
+* [cite_start]**78 anos**: Prazo máximo de 24 parcelas[cite: 322].
+* [cite_start]**79 anos**: Prazo máximo de 12 parcelas (Valor máximo R$ 5.000)[cite: 322].
+* [cite_start]**Observação**: O banco não opera para idades entre 18-20 anos[cite: 320].
+
+[cite_start]**VALORES MÍNIMOS E MÁXIMOS** [cite: 323]
+* [cite_start]**Margem Livre**: Mínimo solicitado de R$ 820,00; máximo conforme margem disponível[cite: 323].
+* [cite_start]**Refinanciamento**: Mínimo liberado: menor valor entre R$ 700,00 ou 5% do valor financiado[cite: 326].
+* [cite_start]**Portabilidade**: Valor mínimo financiado de R$ 2.000,00[cite: 331].
+* [cite_start]**Refin de Portabilidade**: Troco mínimo (valor liberado) de R$ 100,00[cite: 331].
+
+[cite_start]**REGRAS ESPECÍFICAS** [cite: 329]
+* [cite_start]**Retenção**: A idade do cliente somada ao prazo do contrato não pode exceder 82 anos[cite: 329].
+* [cite_start]**Status de Proposta**: Amarelo (pendente), Verde (paga), Vermelho (reprovada), Preto (andamento/cancelada)[cite: 64].
+* [cite_start]**Espécies Autorizadas (Exemplos)**: Pensão por morte rural/acidentária (01, 02), Aposentadoria por invalidez rural/previdenciária (04, 32), Aposentadoria por idade (07, 08)[cite: 333].

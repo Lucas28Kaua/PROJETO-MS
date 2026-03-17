@@ -1,0 +1,782 @@
+REGRAS BANCO ICRED
+
+Documento: Empréstimo Saque Aniversário - Roteiro Operacional
+SEÇÃO: Introdução
+
+O Empréstimo Saque Aniversário FGTS trata-se de uma modalidade de crédito que permite ao trabalhador o recebimento antecipado do valor proveniente do saque aniversário anual.
+
+O saldo do FGTS é utilizado como garantia e fica reservado em favor da IF responsável pela operação. As parcelas são debitadas diretamente da conta vinculada ao FGTS, anualmente, no mês de aniversário do cliente, e repassadas pela Caixa para a IF no respectivo vencimento.
+
+SEÇÃO: Público Alvo
+
+Trabalhadores que possuem saldo em sua conta FGTS e que estiverem com a opção do saque aniversário ativa.
+
+Tabela de cálculo do saque-aniversário:
+
+Limite das linhas de Saldo: até R$ 500,00 | Alíquota: 50,0% | Parcela Adicional: -
+
+Limite das linhas de Saldo: de R$ 500,01 até R$ 1.000,00 | Alíquota: 40,0% | Parcela Adicional: -
+
+Limite das linhas de Saldo: de R$ 1.000,01 até R$ 5.000,00 | Alíquota: 30,0% | Parcela Adicional: -
+
+Limite das linhas de Saldo: de R$ 5.000,01 até R$ 10.000,00 | Alíquota: 20,0% | Parcela Adicional: R$ 650,00
+
+Limite das linhas de Saldo: de R$ 10.000,01 até R$ 15.000,00 | Alíquota: 15,0% | Parcela Adicional: R$ 1.150,00
+
+Limite das linhas de Saldo: de R$ 15.000,01 até R$ 20.000,00 | Alíquota: 10,0% | Parcela Adicional: R$ 1.900,00
+
+Limite das linhas de Saldo: acima de R$ 20.000,00 | Alíquota: 5,0% | Parcela Adicional: R$ 2.900,00
+
+Exemplo: Trabalhador com saldo FGTS de R$ 10.000,00. Valor do saque-aniversário: R$ 2.650,00 (20% do saldo (20% x 10.000) + parcela adicional de R$ 650,00).
+
+SEÇÃO: Pré Requisitos
+
+Maior de 18 anos;
+
+CPF em situação regular na Receita Federal;
+
+Possuir saldo em sua conta FGTS;
+
+Ter uma conta corrente ou poupança ativa;
+
+Optar pelo saque de aniversário nos canais disponibilizados pela Caixa;
+
+Autorizar o QI Sociedade de Crédito e DelCred para ter acesso aos valores e dados do FGTS.
+
+SEÇÃO: Política de Crédito
+
+Idade: 18 a 55 anos, 11 meses e 29 dias
+
+Prazo da Operação: De 3 a 12 parcelas
+
+Valor Mínimo*: R$ 40,00
+
+Valor Máximo*: R$ 90.000,00 (Noventa mil reais)
+
+Idade: 56 a 64 anos, 11 meses e 29 dias
+
+Prazo da Operação: De 3 a 12 parcelas
+
+Valor Mínimo*: R$ 30,00
+
+Valor Máximo*: R$ 90.000,00 (Noventa mil reais)
+
+*Consulte tabelas vigentes.
+
+SEÇÃO: Principais Características
+
+Adiantamento de até 12 saques;
+
+O cálculo do valor disponível é realizado no momento da contratação/simulação;
+
+O crédito é disponibilizado após 3 minutos* na conta do titular;
+
+Valor mínimo de antecipação é de R$ 30,00;
+
+Taxa de juros mensal varia de 1,67% a 1,80% a.m.
+
+SEÇÃO: Liberação do Crédito (Bancos Aceitos)
+
+Bancos convencionais:
+
+BANCO DO BRASIL
+
+CAIXA ECONOMICA FEDERAL
+
+ITAÚ
+
+BRADESCO
+
+SANTANDER
+
+BANRISUL
+
+BRB - BANCO DE BRASILIA S.A.
+
+CRESOL
+
+BANCO ALFA
+
+CCLA
+
+BANCO DA AMAZÔNIA
+
+UNIPRIME
+
+BANPARA
+
+BANESE
+
+Contas Digitais:
+
+INTER
+
+NUBANK
+
+NEXT
+
+BANCO BTG PACTUAL
+
+SEÇÃO: Orientações ao Cliente - Primeiro acesso ao aplicativo FGTS
+
+É necessário realizar o download do aplicativo FGTS e seguir os seguintes passos:
+
+Acesse o aplicativo do FGTS com sua senha cadastrada;
+Selecione a opção Saque Aniversário do FGTS no menu principal;
+Aceite os termos e conclua a operação.
+SEÇÃO: Liquidação Antecipada
+
+Aposentadoria;
+
+Trabalhador de até 69 anos;
+
+Falecimento;
+
+Doenças previstas no artigo 20 da Lei 8.036/90
+
+A pedido do cliente (solicitação de boleto).
+
+Importante:
+
+A liquidação antecipada nestas situações não será automática, ocorre apenas após o resgate do saldo disponível.
+
+O cliente poderá solicitar a qualquer momento, através de Central de Atendimento da iCred, a liquidação total ou parcial do contrato.
+
+A liquidação do empréstimo é possível mediante ao pagamento com recursos próprios, não sendo possível a utilização de recursos do próprio FGTS vinculado a contratação. Após a liquidação, o saldo do FGTS será liberado.
+
+SEÇÃO: Lista de Retorno da CEF
+
+Retorno: Existe uma Operação Fiduciária em andamento. Tente mais tarde.
+
+Explicação: O cliente pode ter uma solicitação de antecipação em andamento.
+
+Ação: Aguardar para redigitar na sequência.
+
+Alçada: Agente
+
+Retorno: Instituição Fiduciária não possui autorização do Trabalhador para Operação Fiduciária.
+
+Explicação: Problema de credenciamento Entre Caixa e iCred.
+
+Ação: Acionar iCred
+
+Alçada: iCred
+
+Retorno: Trabalhador informado não possui contas de FGTS.
+
+Explicação: Cliente não possui conta FGTS apta para realizar o Saque Aniversário.
+
+Ação: Não há como continuar a digitação.
+
+Alçada: N/A
+
+Retorno: Não é possível realizar a operação para o CPF informado.
+
+Explicação: O cliente está com alguma impossibilidade de realizar operações no momento, bloqueio da Caixa.
+
+Ação: Não há como continuar a digitação.
+
+Alçada: N/A
+
+Retorno: Trabalhador não possui saldo disponível para Operação Fiduciária.
+
+Explicação: O cliente não possui mais saldo disponível no FGTS de Saque aniversário para antecipação.
+
+Ação: Não há como continuar a digitação.
+
+Alçada: N/A
+
+Retorno: Operação não permitida por pendência no processo de pagamento de saque aniversário.
+
+Explicação: O cliente está com pendência no processo de pagamento do saque aniversário.
+
+Ação: O cliente pode retornar em alguns dias para tentar novamente após a regularização no processo da Caixa.
+
+Alçada: N/A
+
+Retorno: Existe uma solicitação de garantia com o mesmo número identificador.
+
+Explicação: Erro transacional entre iCred e CEF.
+
+Ação: Abrir chamado na iCred para verificação interna.
+
+Alçada: iCred
+
+Retorno: Trabalhador não possui adesão ao saque aniversário para o período informado.
+
+Explicação: Cliente não aderiu a modalidade de Saque Aniversário.
+
+Ação: Orientar o cliente para realizar a adesão.
+
+Alçada: Cliente
+
+Retorno: Valor da alienação/cessão superior ao valor disponível para o trabalhador.
+
+Explicação: Entre a simulação e a confirmação da proposta o cliente pode ter reservado o saldo com outra instituição.
+
+Ação: Verificar com o cliente se houve negociação com outra IF e iniciar nova simulação para atualização dos valores.
+
+Alçada: Agente
+
+Retorno: Trabalhador com solicitação de retorno para saque rescisão deve ser cancelada pelo mesmo para possibilitar a solicitação de garantia.
+
+Explicação: O cliente está com uma solicitação de retorno à modalidade de Saque Rescisão em andamento.
+
+Ação: Acionar o cliente para o mesmo cancelar esta solicitação e retornar a modalidade Saque Aniversário.
+
+Alçada: Cliente
+
+Retorno: Mudanças cadastrais na conta do FGTS foram realizadas, que impedem a contratação. Entre em contato com o setor FGTS da Caixa.
+
+Explicação: O cliente efetuou mudanças cadastrais na Caixa e durante este processo não é permitido contratações.
+
+Ação: Oriente o cliente a entrar em contato com a Caixa para avaliar o processo.
+
+Alçada: Cliente
+
+Retorno: Trabalhador não possui saldo suficiente para a garantia necessária.
+
+Explicação: O cliente não possui mais saldo disponível no FGTS de Saque Aniversário para antecipação.
+
+Ação: Não há como continuar a digitação.
+
+Alçada: N/A
+
+Retorno: Identificador da Solicitação inválido.
+
+Explicação: Erro transacional entre iCred e CEF.
+
+Ação: Abrir chamado na iCred para verificação interna.
+
+Alçada: iCred
+
+Retorno: Ocorreu um erro inesperado. Tente novamente mais tarde.
+
+Explicação: Instabilidade no sistema da Caixa.
+
+Ação: Aguardar para redigitar na sequência.
+
+Alçada: Agente
+
+SEÇÃO: Perguntas Frequentes
+
+O que é o FGTS? O Fundo de Garantia do Tempo de Serviço (FGTS) é constituído pelos saldos das contas vinculadas, formadas pelos depósitos realizados pelos empregadores em nome dos trabalhadores.
+O que é o Saque-Aniversário? É uma modalidade que permite a retirada de parte do saldo da conta do FGTS, anualmente, no mês do aniversário do cliente.
+O que é o empréstimo saque aniversário com garantia do FGTS? Esse empréstimo consiste em uma antecipação do valor do saque disponibilizado no mês do seu aniversário. O saldo do FGTS é utilizado como garantia da operação e as parcelas são pagas automaticamente da conta vinculada ao FGTS.
+Quais as vantagens do Empréstimo com garantia do FGTS? O crédito tem garantia de 100% do valor cedido, possui taxa de juros atrativa, fôlego financeiro – sem prestações mensais, não impacta na contratação de outras linhas de crédito e as parcelas são uma única vez ao ano.
+Quando posso contratar o empréstimo com garantia do FGTS? A contratação pode ser realizada 24h por dia, 7 dias da semana.
+Como consultar o saldo do meu FGTS? Através dos canais digitais do FGTS.
+A opção de Saque-Aniversário pode ser alterada para Saque Rescisão? Sim, contudo, a alteração passa a vigorar 24 meses após a solicitação, que apenas poderá ser realizada ao término das operações contratadas.
+O trabalhador que está no período de carência da modalidade saque aniversário para retorno à modalidade saque rescisão (24 meses), poderá contratar o empréstimo? Não, será necessário que o trabalhador cancele a solicitação de retorno à modalidade saque rescisão. O empréstimo saque aniversário está disponível somente aos trabalhadores que estejam vigentes na modalidade saque aniversário e sem data de cancelamento agendada.
+Ao optar pelo saque-aniversário, poderei utilizar o FGTS para compra de casa própria? Para os trabalhadores que optarem pela sistemática do Saque-Aniversário, ficam mantidos os saques para a compra da casa própria, doenças graves, aposentadoria e outras modalidades previstas na Lei, exceto àquelas que ensejam a rescisão do contrato de trabalho (Despedida sem justa causa; Despedida por culpa recíproca ou força maior; Rescisão do contrato de trabalho por acordo entre o trabalhador e o empregador; Rescisão do contrato de trabalho por falência da empresa; falecimento do empregador individual/empregador doméstico ou nulidade do contrato; Extinção do contrato a termo; Suspensão total do trabalho avulso por período superior a 90 dias).
+É possível antecipar a liquidação do empréstimo e desbloquear o meu FGTS? A liquidação do empréstimo é possível mediante ao pagamento com recursos próprios, não sendo possível a utilização de recursos do FGTS. Após a liquidação, o saldo do FGTS será liberado.
+O empréstimo com garantia do Saque Aniversário do FGTS compromete outras linhas de crédito? Esta linha de crédito não compromete a contratação de outras linhas de crédito.
+Como é feito o pagamento do empréstimo? O pagamento do empréstimo será feito anualmente, no dia do vencimento da parcela, mediante débito dos recursos (ativos e inativos) da conta vinculada do FGTS e repasse ao QI Sociedade de Crédito.
+Como é feita a liberação do crédito do empréstimo ao cliente? A liberação do crédito ocorrerá através do envio de PIX, obrigatoriamente em conta de titularidade do trabalhador.
+Qual o prazo de cancelamento da proposta? O cancelamento da proposta pode ocorrer em até 7 dias.
+Existe a cobrança de algum imposto ou taxa? Por se tratar de uma operação de crédito será cobrado o IOF, a taxa de juros da operação, e a tarifa de cadastro junto a QI SCD.
+Documento: Regras Gerais (INSS)
+SEÇÃO: Regras Gerais
+
+Taxa máxima de juros: Conforme estabelecido pelo CNPS*
+
+Prazo Máximo: 96 meses
+
+Política de Idade X Valor: Conforme Política de Crédito
+
+Quantidade máxima de empréstimos: 13 (treze) empréstimos por benefício
+
+Margem Autorizada: 30% - BPC/Loas | 35% - Demais benefícios
+
+Tipo de Formalização: 100% Digital
+
+Documentos para Formalização: Conforme pag. 11 deste RO.
+
+Meio de liberação: Pix na conta do beneficiário
+
+Permite cliente não alfabetizado? Não
+
+Permite cliente com representante legal? Suspensão Temporária
+
+SEÇÃO: Público-Alvo - Elegíveis (Códigos INSS)
+
+Lista extensa de códigos de benefícios elegíveis, incluindo:
+
+1: Pensão por morte do trabalhador rural
+
+2: Pensão por morte por acidente do trabalho do trabalhador rural
+
+3: Pensão por morte do empregador rural
+
+4: Aposentadoria por invalidez do trabalhador rural
+
+5: Aposentadoria por invalidez por acidente do trabalho do trabalhador Rural
+
+6: Aposentadoria por invalidez do empregador rural
+
+7: Aposentadoria por idade do trabalhador rural
+
+8: Aposentadoria por idade do empregador rural
+
+21: Pensão por morte previdenciária
+
+22: Pensão por morte estatutária
+
+23: Pensão por morte de ex-combatente
+
+26: Pensão Especial (Lei nº 593/48)
+
+27: Pensão por morte de servidor público federal com dupla aposentadoria
+
+28: Pensão por morte do Regime Geral (Decreto nº 20.465/31)
+
+29: Pensão por morte de ex-combatente marítimo (Lei nº 1.756/52)
+
+32: Aposentadoria por invalidez previdenciária
+
+33: Aposentadoria por invalidez de aeronauta
+
+34: Aposentadoria por invalidez de ex-combatente marítimo (Lei nº 1.756/52)
+
+37: Aposentadoria de extranumerário da União
+
+38: Aposentadoria da extinta CAPIN
+
+41: Aposentadoria por idade
+
+42: Aposentadoria por tempo de contribuição previdenciária
+
+43: Aposentadoria por tempo de contribuição ex-combatente
+
+44: Aposentadoria por tempo de contribuição de aeronauta
+
+45: Aposentadoria por tempo de contribuição de jornalista profissional
+
+46: Aposentadoria por tempo de contribuição especial
+
+49: Aposentadoria por tempo de contribuição ordinária
+
+51: Aposentadoria por invalidez (Extinto Plano Básico)
+
+52: Aposentadoria por idade (Extinto Plano Básico)
+
+55: Pensão por morte (Extinto Plano Básico)
+
+56: Pensão mensal vitalícia por síndrome de talidomida (Lei nº 7.070/82)
+
+57: Aposentadoria por tempo de contribuição de professor (Emenda Const.18/81)
+
+58: Aposentadoria excepcional do anistado (Lei nº 6.683/79)
+
+59: Pensão por morte excepcional do anistado (Lei nº 6.683/79)
+
+72: Apos. por tempo de contribuição de ex-combatente marítimo (Lei 1.756/52)
+
+78: Aposentadoria por idade de ex-combatente marítimo (Lei nº 1.756/52)
+
+81: Aposentadoria por idade compulsória (Ex-SASSE)
+
+82: Aposentadoria por tempo de contribuição (Ex-SASSE)
+
+83: Aposentadoria por invalidez (Ex-SASSE)
+
+84: Pensão por morte (Ex-SASSE)
+
+92: Aposentadoria por invalidez por acidente do trabalho
+
+93: Pensão por morte por acidente do trabalho
+
+96: Pensão especial às pessoas atingidas pela hanseníase (Lei nº 11.520/2007)
+
+BENEFÍCIO DE INVALIDEZ (tipos destacados em verde no documento): necessário seguir regras de idade:
+
+A PARTIR DE 55 ANOS COMPLETOS ATÉ 59 ANOS E 11 MESES E COM MAIS DE 15 ANOS DE BENEFÍCIO;
+
+A PARTIR DE 60 ANOS COMPLETOS, INDEPENDENTE DO TEMPO DO BENEFÍCIO.
+
+Suspensão temporária: Todos os Benefícios de Prestação Continuada - BPC (LOAS).
+
+SEÇÃO: Público-Alvo - PENSÃO POR MORTE
+
+Aprovação mediante a data de concessão da pensão x prazo término do contrato (conforme tabela ao lado);
+
+O término do contrato precisa estar dentro do prazo de recebimento da pensão;
+
+As pensões adquiridas anteriormente à publicação da LEI Nº 13.135 DE 17/06/2015, não sofrerão alterações, portanto as análises deverão ocorrer normalmente.
+
+SEÇÃO: Público-Alvo - BENEFÍCIO BPC/Loas
+
+Política de idade conforme Política de Crédito deste RO.
+
+O somatório dos descontos de crédito para as operações exclusivamente de empréstimo pessoal consignado é de 30% (trinta por cento), e as operações de contratação de empréstimos consignados deverão ser realizadas em 2 (dois) momentos, separados entre si pelo intervalo mínimo de 5 (cinco) dias úteis entre a proposta da instituição financeira e a averbação do contrato, conforme INSTRUÇÃO NORMATIVA PRES/INSS Nº 154, DE 12 DE SETEMBRO DE 2023.
+
+SEÇÃO: Público-Alvo - REPRESENTANTE LEGAL
+
+O que é? A representação legal perante o INSS ocorre quando uma pessoa, autorizada por lei, atua em nome de um beneficiário, civilmente incapaz (que não pode gerir seus próprios interesses), como menores de idade ou pessoas incapacitadas. Essa representação pode ser por um tutor nato (pai/mãe) ou por aquele que detém a guarda judicial, tutela, curatela ou considerado administrador provisório.
+
+REGRAS GERAIS - RL:
+
+Idade Mínima do Titular: 4 anos
+
+Idade Máxima do Titular: 17 anos, 11 meses e 29 dias
+
+Idade do Representante: Minima = 18 anos
+
+Meio de liberação*: PIX
+
+Quem formaliza a operação? Representante Legal
+
+Permite Titular não alfabetizado? Sim
+
+Permite Representante não alfabetizado? Não
+
+Grau de Parentesco do Representante: 1º Grau (Pai/Mãe)
+
+Não atenderemos o benefício de espécie 21 com representante legal.
+
+*Verificar regras de liberação de crédito (pag.8).
+
+SEÇÃO: NÃO ELEGÍVEIS
+
+Pensionista que recebe beneficio através de pensão alimentícia;
+
+Aposentados e pensionistas residentes no exterior;
+
+Assistenciais, inclusive os decorrentes de leis especiais;
+
+Beneficios recebidos por meio de representante legal do segurado: dependente, tutelado ou curatelado;
+
+Beneficios pagos por intermédio da Empresa Brasileira de Correios e Telégrafos – ECT;
+
+Beneficios pagos por intermédio da empresa conveniada;
+
+Benefícios pagos por intermédio de cooperativas de créditos que não possuam contratos para pagamento e arrecadação de benefícios.
+
+Lista de códigos de benefícios não elegíveis:
+
+9: Complemento por acidente de trabalho para trabalhador rural
+
+10: Auxílio-doença por acidente do trabalho do trabalhador rural
+
+13: Auxílio-doença do trabalhador rural
+
+15: Auxílio-reclusão do trabalhador rural
+
+25: Auxílio-reclusão
+
+31: Auxílio-doença previdenciário
+
+35: Auxílio-doença do ex-combatente
+
+36: Auxílio Acidente
+
+39: Auxílio invalidez estudante
+
+47: Abono de permanência em serviço 25%
+
+48: Abono de permanência em serviço 20%
+
+50: Auxílio-doença (Extinto Plano Básico)
+
+53: Auxílio-reclusão (Extinto Plano Básico)
+
+54: Pensão especial vitalícia (Lei nº 9.793/99)
+
+60: Pensão especial mensal vitalícia (Lei 10.923, de 24/07/2004)
+
+61: Auxílio natalidade
+
+62: Auxílio funeral
+
+63: Auxílio funeral para o trabalhador rural
+
+64: Auxílio funeral para o empregador rural
+
+65: Pecúlio especial servidor autárquico
+
+66: Pecúlio especial servidor autárquico
+
+67: Pecúlio obrigatório
+
+68: Pecúlio especial de aposentadoria
+
+69: Pecúlio de estudante
+
+70: Restituição Contrí. P/Seg. S/Carência
+
+71: Salário-família previdenciário
+
+73: Salário-família estatutário
+
+74: Complemento de pensão a conta da União
+
+75: Complemento de aposentadoria a conta da União
+
+76: Salário-família estatutário da RFFSA (Decreto-lei nº 956/69)
+
+77: Salário-família estatutário servidor SINPAS
+
+79: Abono de servidor aposentado pela autarquia empr.(Lei 1.756/52)
+
+80: Salário-maternidade
+
+85: Pensão mensal vitalícia do seringueiro (Lei nº 7.986/89)
+
+86: Pensão mensal vitalícia do dep.do seringueiro (Lei nº 7.986/89)
+
+89: Pensão especial do dep.do seringueiro (Lei nº 7.986/89)
+
+90: Simples Assist. Médica por acidente de trabalho
+
+91: Auxílio-doença por acidente do trabalho
+
+94: Auxílio-acidente por acidente do trabalho
+
+95: Auxílio-suplementar por acidente do trabalho
+
+97: Pecúlio por morte acidente de trabalho
+
+98: Abono anual de acidente de trabalho
+
+99: Afastamento até 15 dias por acidente de trabalho
+
+SEÇÃO: Política de Crédito
+
+Idade: 21 - 67 anos, 11 meses e 29 dias
+
+Margem Livre: Prazo Máximo: 96x | Valor Máximo: R$ 75.000,00
+
+Refinanciamento: Prazo Máximo: 96x | Valor Máximo: R$ 75.000,00
+
+Portabilidade | Refin de Port: Prazo Máximo: 96x
+
+Idade: 68 - 68 anos, 11 meses e 29 dias
+
+Margem Livre: Prazo Máximo: 84x | Valor Máximo: R$ 75.000,00
+
+Refinanciamento: Prazo Máximo: 84x | Valor Máximo: R$ 75.000,00
+
+Portabilidade | Refin de Port: Prazo Máximo: 96x | Valor Máximo: R$ 100.000,00
+
+Idade: 69 - 69 anos, 11 meses e 29 dias
+
+Margem Livre: Prazo Máximo: 72x | Valor Máximo: R$ 25.000,00
+
+Refinanciamento: Prazo Máximo: 72x | Valor Máximo: R$ 25.000,00
+
+Portabilidade | Refin de Port: Não faz
+
+Idade: 70 - 70 anos, 11 meses e 29 dias
+
+Margem Livre: Prazo Máximo: 60x | Valor Máximo: R$ 25.000,00
+
+Refinanciamento: Prazo Máximo: 60x | Valor Máximo: R$ 25.000,00
+
+Portabilidade | Refin de Port: Não faz
+
+Idade: 71 - 71 anos, 11 meses e 29 dias
+
+Margem Livre: Prazo Máximo: 48x | Valor Máximo: R$ 25.000,00
+
+Refinanciamento: Prazo Máximo: 48x | Valor Máximo: R$ 25.000,00
+
+Portabilidade | Refin de Port: Não faz
+
+Idade: 72 - 72 anos, 11 meses e 29 dias
+
+Margem Livre: Prazo Máximo: 36x | Valor Máximo: R$ 25.000,00
+
+Refinanciamento: Prazo Máximo: 36x | Valor Máximo: R$ 25.000,00
+
+Portabilidade | Refin de Port: Não faz
+
+Idade: 73 anos ou mais
+
+Margem Livre: Não faz
+
+Refinanciamento: Não faz
+
+Portabilidade | Refin de Port: Não faz
+
+SEÇÃO: Regras por Produto - Portabilidade
+
+Valor mínimo portado: Não há. *Conforme valor do refinanciamento.
+
+Mínimo de parcelas portadas: Zero
+
+Permite reduzir o valor da parcela? Apenas para margem negativa, desde que cumpra os requisitos de liberação
+
+Permite digitar apenas portabilidade? Não
+
+Permite unificar parcelas? Não
+
+SEÇÃO: Regras por Produto - Refinanciamento de Portabilidade
+
+Valor mínimo financiado: R$ 3.000,00 (Exemplo: Saldo de R$ 2.900,00 + R$ 100,00 = R$ 3.000,00)
+
+Valor mínimo liberado (troco): R$ 100,00
+
+Permite reduzir o valor da parcela? Apenas para margem negativa, desde que cumpra os requisitos de contratação.
+
+Permite aumentar o valor da parcela? Não
+
+Permite unificar parcelas? Não
+
+SEÇÃO: Documentação
+
+Documentos necessários para envio da operação ao INSS:
+
+Termo de Autorização INSS (IN100);
+
+RG (Carteira de Identidade), ou;
+
+CNH (Carteira Nacional de Habilitação).
+
+SEÇÃO: Liberação de Crédito - Recebimento do benefício por Conta Corrente
+
+A liberação de crédito ocorrerá através do envio de PIX, cuja conta deve ser obrigatoriamente de titularidade do beneficiário, vinculada no INSS como conta para recebimento do Benefício.
+
+SEÇÃO: Liberação de Crédito - Recebimento do benefício por Cartão Magnético
+
+Sem RL: A liberação de crédito ocorrerá através do envio de PIX na chave informada, cuja conta deve ser obrigatoriamente de titularidade do beneficiário.
+
+Com RL: A liberação de crédito ocorrerá através do envio de PIX, na chave informada, cuja conta pode ser de titularidade do beneficiário ou representante legal (deste, apenas chave CPF).
+
+SEÇÃO: Liberação de Crédito - BANCOS ACEITOS
+
+Bancos Convencionais:
+
+BANCO DO BRASIL
+
+ASCOOB
+
+CAIXA
+
+BANCO DA AMAZÔNIA
+
+ITAÚ
+
+BANCO ALFA
+
+BRADESCO
+
+BANPARA
+
+SANTANDER
+
+BANESTES
+
+BANRISUL
+
+UNICRED
+
+MERCANTIL DO BRASIL
+
+CRESOL
+
+BANESE
+
+BRB - BANCO DE BRASILIA S.A.
+
+SICOOB
+
+CCLA
+
+SICREDI
+
+UNIPRIME
+
+Banco Digitais:
+
+NEXT
+
+BANCO BTG PACTUAL
+
+SEÇÃO: Retornos da Dataprev
+
+Sigla: HW | Retorno: Margem consignável excedida. | Descrição/Ação: Verificar margem do cliente e realizar nova digitação.
+
+Sigla: IT | Retorno: Benefício bloqueado por transferência de benefício. | Descrição/Ação: Benefício bloqueado automaticamente, por transferência do benefício ou mudança de conta de recebimento, pelo período de 60 dias.
+
+Sigla: IE | Retorno: Benefício bloqueado pelo beneficiário. | Descrição/Ação: Cliente bloqueou o benefício para empréstimo. Necessário realizar o desbloqueio para empréstimo no acesso do MEU INSS.
+
+Sigla: AN | Retorno: Conta bancária de desembolso inválida. | Descrição/Ação: Número da conta está divergente do que consta junto ao INSS. Redigitar proposta com IN100 atualizada.
+
+Sigla: IF | Retorno: Benefício bloqueado durante processo de concessão. | Descrição/Ação: Benefício bloqueado para empréstimo na concessão. Orientar o cliente a realizar o desbloqueio, a partir de 90 dias de concessão, no acesso do MEU INSS.
+
+Sigla: AV | Retorno: A operação não pôde ser realizada durante o período de processamento da folha de pagamento. | Descrição/Ação: Período de maciça do INSS. Aguardar virada da folha para averbação.
+
+Sigla: OF | Retorno: O código da IF pagadora está divergente da IF pagadora do benefício. | Descrição/Ação: Número do banco está divergente do que consta junto ao INSS. Redigitar proposta com IN100 atualizada.
+
+Sigla: IA | Retorno: Nome divergente da base do INSS. | Descrição/Ação: Primeiro nome está divergente do que consta junto ao INSS. Redigitar proposta com IN100 atualizada.
+
+Sigla: AY | Retorno: Sigla do Estado do favorecido inválida. | Descrição/Ação: Sigla do Estado do benefício do cliente consta divergente do que consta junto ao INSS. Redigitar proposta com IN100 atualizada.
+
+Sigla: HR | Retorno: Quantidade de contratos permitida excedida. | Descrição/Ação: Cliente já possui quantidade máxima de linhas para empréstimo comprometida. Verificar se há exclusão de linha de empréstimo prevista no período de teimosinha (7 dias contados da data de envio para averbação).
+
+Sigla: IR | Retorno: Prazo da operação é maior que a data de extinção de cota do benefício (pensão por morte). | Descrição/Ação: Prazo da operação é superior ao tempo máximo de recebimento do benefício. Redigitar com prazo adequado.
+
+SEÇÃO: Perguntas Frequentes (INSS)
+
+Atende o público analfabeto? Ainda não. Nossa jornada é 100% digital, estamos aceitando clientes alfabetizados.
+Qual a data de validade de consulta da IN100? Após a confirmação da autorização para consulta de dados junto ao INSS, essa ficará disponível por 30 dias corridos.
+Atende beneficio com representante legal, para inclusão da proposta? No momento não. Estamos com suspensão temporária, conforme Instrução Normativa 190/2025 de 15/07/2025.
+É obrigatório liberar o crédito na conta de recebimento do benefício do cliente? Sim. Para clientes que recebem o benefício através de conta corrente, o crédito do empréstimo concedido deverá ser feito, obrigatoriamente, na conta corrente em que o aposentado ou pensionista recebe o seu benefício.
+Em caso de recebimento por cartão magnético, como proceder? Orientar o cliente a informar a chave pix vinculada a uma conta de sua titularidade para recebimento do crédito.
+Nas operações de portabilidade, permite reduzir a taxa de juros? Apenas para garantir o valor acordado, conforme o retorno do saldo devedor do banco credor.
+É permite portar bancos que não são participantes da CIP? Não.
+Para operações de portabilidade, permite cliente com margem negativa? Sim. Desde que as regras para liberação de crédito sejam cumpridas.
+Na portabilidade existe margem de segurança? Não.
+Há exclusividade para a digitação de refinanciamento da portabilidade? As operações de portabilidade e refinanciamento nascem juntas.
+Documento: Informações Operacionais - Tabela para Corban (Atualizado em: 11/2025)
+SEÇÃO: 1. INSS Novo
+
+Tabela: Normal-49 | ID TAB.: 52c789be-cf69-11ef-9208-42010a07e020 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,85%
+
+Tabela: Flex 1-8 | ID TAB.: a4a67029-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,79%
+
+Tabela: Flex 2-9 | ID TAB.: a4a66f24-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,74%
+
+Tabela: Flex 3-10 | ID TAB.: a4a66e17-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,69%
+
+Tabela: Flex 4-11 | ID TAB.: a4a66cb0-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,64%
+
+Tabela: Flex 5-12 | ID TAB.: a4a66b9b-0bd8-11ef-98f2-42010a3de00b9 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,59%
+
+Tabela: Flex 6-13 | ID TAB.: a4a66a7d-0bd8-11ef-98f2-42010a3de00b9 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,54%
+
+Tabela: Flex 7-11 | ID TAB.: 3cb3601c3-8cdf-11f0-80fe-42010a07e02c9 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 72 | VALOR MIN: R$ 1.200 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,49%
+
+SEÇÃO: INSS Refin
+
+Tabela: Normal-49 | ID TAB.: 52c789be-cf69-11ef-9208-42010a07e020 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 67 | VALOR MIN: R$ 100 | VALOR MAX: R$ 30.000 | TX NOMINAL: 1,85%
+
+Tabela: Redutora-59 | ID TAB.: b0bfdfde-fecc-11ef-a0fa-42010a07e020 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 67 | VALOR MIN: R$ 100 | VALOR MAX: R$ 30.000 | TX NOMINAL: 1,85%
+
+Tabela: Flex 1-8 | ID TAB.: a4a67029-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 67 | VALOR MIN: R$ 100 | VALOR MAX: R$ 30.000 | TX NOMINAL: 1,79%
+
+Tabela: Flex 2-9 | ID TAB.: a4a66f24-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 67 | VALOR MIN: R$ 100 | VALOR MAX: R$ 30.000 | TX NOMINAL: 1,74%
+
+Tabela: Flex 3-10 | ID TAB.: a4a66e17-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 67 | VALOR MIN: R$ 100 | VALOR MAX: R$ 30.000 | TX NOMINAL: 1,69%
+
+Tabela: Flex 4-11 | ID TAB.: a4a66cb0-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 67 | VALOR MIN: R$ 100 | VALOR MAX: R$ 30.000 | TX NOMINAL: 1,64%
+
+SEÇÃO: INSS Port
+
+Tabela: Normal-49 | ID TAB.: 52c789be-cf69-11ef-9208-42010a07e020 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 68 | VALOR MIN: R$ 3.000 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,84%
+
+Tabela: Flex 1-8 | ID TAB.: a4a67029-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 68 | VALOR MIN: R$ 3.000 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,79%
+
+Tabela: Flex 2-9 | ID TAB.: a4a66f24-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 68 | VALOR MIN: R$ 3.000 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,74%
+
+Tabela: Flex 3-10 | ID TAB.: a4a66e17-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 68 | VALOR MIN: R$ 3.000 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,69%
+
+Tabela: Flex 4-11 | ID TAB.: a4a66cb0-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 68 | VALOR MIN: R$ 3.000 | VALOR MAX: R$ 100.000 | TX NOMINAL: 1,64%
+
+Tabela: PORT 10K-150K-1 | ID TAB.: 121f47da88-c355-11f0-86e5-42010a07e032 | PRAZO MIN: 96 | PRAZO MAX: 96 | IDADE MIN: 21 | IDADE MAX: 68 | VALOR MIN: R$ 10.000 | VALOR MAX: R$ 150.000 | TX NOMINAL: 1,49%
+
+SEÇÃO: FGTS
+
+Tabela: Top | ID TAB.: 20a4a69143-0bd8-11ef-98f2-42010a3de00b | PRAZO MIN: 15 | PRAZO MAX: 18 | IDADE MIN: 18 | IDADE MAX: 64 | VALOR MIN: R$ 30 | VALOR MAX: R$ 90.000 | TX NOMINAL: 1,80%
+
+Tabela: Fideliza | ID TAB.: 330b6db163-4a90-11ef-b04d-42010a07e007 | PRAZO MIN: 15 | PRAZO MAX: 18 | IDADE MIN: 18 | IDADE MAX: 64 | VALOR MIN: R$ 70 | VALOR MAX: R$ 90.000 | TX NOMINAL: 1,80%

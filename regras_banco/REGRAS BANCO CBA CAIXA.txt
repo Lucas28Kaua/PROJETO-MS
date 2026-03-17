@@ -1,0 +1,461 @@
+REGRAS BANCO CBA CAIXA
+
+Documento: Manual de digitação
+SEÇÃO: Cabeçalho
+
+Título: Manual de digitação
+
+Classificação: Interna
+
+SEÇÃO: Regras Gerais do Produto (INSS - Margem Livre)
+
+Convênio: INSS (Apenas MARGEM LIVRE);
+
+Atendemos TODAS as espécies;
+
+Apenas clientes que recebem por conta corrente no INSS, a conta sendo corrente ou poupança;
+
+IDADE: 18 anos a 72 anos;
+
+Não atende:
+
+OP (Ordem de Pagamento) / Cartão magnético
+
+Menores de idade
+
+Analfabetos e clientes 60+
+
+Operação sem seguro
+
+Autorregulação: Sim (Consulta SRCC E NÃO ME PERTURBE.)
+
+Prazo único de 84 meses;
+
+Valor mínimo da contratação: R$ 500,00 e R$ 20,00 reais de parcela;
+
+Não atende os estados: AP, PB, TO, RR e Poços de Caldas – MG.
+
+SEÇÃO: Fluxo de Autorização (IN100)
+
+Nesta tela os campos já serão populados com os dados digitados pelo parceiro na tela inicial.
+
+Nesta etapa o parceiro poderá seguir como achar mais fácil:
+
+Enviar o link de autorização via sistema direto para o telefone do cliente por SMS ou WhatsApp;
+
+Copiar o link e compartilhar com o cliente.
+
+Atuação do Cliente – Preenchimento de token.
+
+Atuação do Cliente – Confirmação do Token validado.
+
+Atuação do Cliente – Finalização do processo.
+
+Após a finalização da autorização, o parceiro deverá seguir com a simulação da proposta no sistema (Front).
+
+SEÇÃO: Fluxo de Simulação e Digitação
+
+Já na aba de simulação, o correspondente informa o valor de parcela desejado pelo cliente (de acordo com a margem); seleciona a tabela com a taxa vigente e clica em SIMULAR.
+
+É aceito apenas clientes que recebem o benefício do INSS através de conta corrente, podendo ser da Caixa ou de outros bancos, podendo ser corrente ou poupança.
+
+Correspondente seleciona o documento que será enviado para análise e preenche os dados pessoais do cliente.
+
+Obs.: Aceitamos como documento de identidade apenas RG, CNH Física, CNH Digital com QRCODE.
+
+Na etapa de ENDEREÇO, o sistema disponibilizará os dados históricos de endereço dos clientes em nossa base interna facilitando a digitação e garantindo um cadastro de qualidade.
+
+Mas atenção: sempre confirmem com o cliente se os dados estão corretos antes da seleção e caso seja necessário efetue o cadastro do novo dado no botão Novo Endereço.
+
+Na etapa de Documentos, o correspondente anexa o documento de identidade frente e verso.
+
+Obs.: Aceitamos como documento de identidade apenas RG, CNH Física, CNH Digital com QRCODE.
+
+No final da digitação o sistema já disponibiliza o link de formalização digital, onde pode ser copiado e/ou enviado para o cliente.
+
+Documento: Roteiro Operacional - Empréstimo Consignado INSS
+SEÇÃO: ROTEIRO OPERACIONAL / EMPRÉSTIMO CONSIGNADO INSTITUTO NACIONAL DE SEGURO SOCIAL - INSS
+
+Área: NEGÓCIOS
+
+Classificação do documento: RESTRITA
+
+SEÇÃO: RESUMO DESCRITIVO
+
+Este documento descreve as regras aplicadas para a originação de empréstimo consignado do INSS.
+
+SEÇÃO: IDENTIFICAÇÃO
+
+Versão: 01
+
+Publicado em: 14/01/25
+
+Revisado em: (Não informado)
+
+SEÇÃO: ÍNDICE
+
+PRODUTOS DISPONÍVEIS PARA CONTRATAÇÃO
+PÚBLICO-ALVO – EMPRESTIMO CONSIGNADO INSS
+LIMITE DE CRÉDITO (CLASSIFICAÇÃO ETÁRIA, PRAZO E VALOR)
+LIBERAÇÃO DO CRÉDITO
+ANALFABETO (Suspenso temporariamente)
+REPRESENTANTE LEGAL
+CLIENTES 60+ (Suspenso temporariamente)
+FLUXO DE CONSIGNAÇÃO E QUANTIDADE DE CONTRATOS
+REGUA DO CONVÊNIO
+DOCUMENTOS OBRIGATÓRIOS
+SEÇÃO: 1. PRODUTOS DISPONÍVEIS PARA CONTRATAÇÃO
+
+Margem Livre
+
+SEÇÃO: 2. PÚBLICO-ALVO – EMPRESTIMO CONSIGNADO INSS
+
+Titulares de benefícios de aposentadoria e pensão do Regime Geral de Previdência Social do Instituto Nacional do Seguro Social – INSS.
+
+Aposentados e Pensionistas
+
+SEÇÃO: ESPÉCIES ATENDIDAS PARA CONCESSÃO DE EMPRÉSTIMO
+
+(Lista completa de códigos de benefícios INSS elegíveis)
+
+1: PENSÃO POR MORTE DE TRABALHADOR RURAL
+
+2: PENSÃO POR MORTE ACIDENTAL - TRAB. RURAL
+
+3: PENSÃO POR MORTE DE EMPREGADOR RURAL
+
+4: APOSENTADORIA POR INVALIDEZ - TRAB. RURAL
+
+5: APOSENT. INVALIDEZ ACIDENTARIA - TRAB. RURA
+
+6: APOSENT. INVALIDEZ EMPREGADOR RURAL
+
+7: APOSENTADORIA POR VELHICE - TRAB. RURAL
+
+8: APOSENT. POR IDADE - EMPREGADOR RURAL
+
+11: AMPARO PREVIDENC. INVALIDEZ- TRAB. RURAL
+
+12: AMPARO PREVIDENC. IDADE - TRAB. RURAL
+
+18: AUXÍLIO INCLUSÃO - BPC/LOAS*
+
+19: PENSÃO DE ESTUDANTE (LEI 7.004/82)
+
+20: PENSÃO POR MORTE DE EX-DIPLOMATA
+
+21: PENSÃO POR MORTE PREVIDENCIÁRIA
+
+22: PENSÃO POR MORTE ESTATUTÁRIA
+
+23: PENSÃO POR MORTE DE EX COMBATENTE
+
+24: PENSÃO ESPECIAL (ATO INSTITUCIONAL)
+
+26: PENSÃO POR MORTE ESPECIAL
+
+27: PENSÃO MORTE SERVIDOR PUBLICO FEDERAL
+
+28: PENSÃO POR MORTE REGIME GERAL
+
+29: PENSÃO POR MORTE EX-COMBATENTE MARÍTIMO
+
+30: RENDA MENSAL VITALICIA POR INCAPACIDADE
+
+32: APOSENTADORIA INVALIDEZ PREVIDENCIÁRIA
+
+33: APOSENTADORIA INVALIDEZ AERONAUTA
+
+34: APOSENT. INVAL. EX-COMBATENTE MARÍTIMO
+
+37: APOSENTADORIA EXTRANUMERARIO CAPIN
+
+38: APOSENT. EXTRANUM. FUNCIONARIO PUBLICO
+
+40: RENDA MENSAL VITALICIA POR IDADE
+
+41: APOSENTADORIA POR IDADE
+
+42: APOSENTADORIA POR TEMPO DE CONTRIBUIÇÃO
+
+43: APOSENT. POR TEMPO SERVIÇO EX-COMBATENTE
+
+44: APOSENTADORIA ESPECIAL DE AERONAUTA
+
+45: APOSENT. TEMPO SERVIÇO JORNALISTA
+
+46: APOSENTADORIA ESPECIAL
+
+49: APOSENTADORIA ORDINARIA
+
+51: APOSENT. INVALIDEZ EXTINTO PLANO BÁSICO
+
+52: APOSENT. IDADE EXTINTO PLANO BÁSICO
+
+54: PENSÃO ESPECIAL VITALÍCIA - LEI 9793/99
+
+55: PENSÃO POR MORTE EXTINTO PLANO BÁSICO
+
+56: PENSÃO VITALÍCIA SÍNDROME TALIDOMIDA
+
+57: APOSENT. TEMPO DE SERVIÇO DE PROFESSOR
+
+58: APOSENTADORIA DE ANISTIADOS
+
+59: PENSÃO POR MORTE DE ANISTIADOS
+
+60: PENSÃO ESPECIAL PORTADOR DE SIDA
+
+72: APOSENT. TEMPO SERVIÇO – LEI DE GUERRA
+
+78: APOSENTADORIA IDADE – LEI DE GUERRA
+
+81: APOSENTADORIA COMPULSÓRIA EX-SASSE
+
+82: APOSENTADORIA TEMPO DE SERVIÇO EX-SASSE
+
+83: APOSENTADORIA POR INVALIDEZ EX-SASSE
+
+84: PENSÃO POR MORTE EX-SASSE
+
+87: BENEFÍCIO DE PRESTAÇÃO CONTINUADA A PESSOA COM DEFICIÊNCIA
+
+88: BENEFÍCIO DE PRESTAÇÃO CONTINUADA A PESSOA IDOSA
+
+89: PENSÃO ESP. VÍTIMAS HEMODIÁLISE CARUARU
+
+92: APOSENT. INVALIDEZ ACIDENTE TRABALHO
+
+93: PENSÃO POR MORTE ACIDENTE DO TRABALHO
+
+96: PENSÃO ESPECIAL PARA AS PESSOAS ATINGIDAS PELA HANSENÍASE
+
+SEÇÃO: SITUAÇÕES NÃO PERMITIDAS PARA CONTRATAÇÃO DO EMPRESTIMO CONSIGNADO INSS
+
+✓ Somada a idade com o prazo do contrato, supere 80 anos (79 anos, 11 meses e 29 dias);
+
+✓ Que possua operações de crédito em atraso na CAIXA;
+
+✓ Que possua contrato(s) de renegociação operação 191/190/260 ativo(s) ou contrato(s) em situação de prejuízo junto à Caixa. Para retirar este impedimento, é necessário que o cliente liquide seu(s) contrato(s) de renegociação antes da contratação do crédito consignado;
+
+✓ Cliente envolvido com trabalho escravo ou situação análoga à escravidão;
+
+✓ Deseje receber o crédito do valor do empréstimo em conta corrente ou poupança diferente daquela em que receba o benefício;
+
+✓ Seja titular de espécie de benefício considerado pelo INSS como não elegível para empréstimos consignados;
+
+✓ Não completou 90 dias da Data de Concessão do Benefício (DCB);
+
+✓ Que estejam com benefícios INSS bloqueados junto à convenente;
+
+✓ Cuja conta de pagamento do benefício tenha sido transferida a menos de 60 dias;
+
+✓ Com registro CONRES (bloqueio interno Caixa);
+
+✓ Cliente impedidos de operar com a CAIXA e/ou citados em lista restritiva;
+
+✓ Proibidos de contratar com o Poder Público;
+
+✓ Interdição Judicial
+
+✓ Empréstimos para terceiros;
+
+✓ Empréstimos por procuração;
+
+✓ PEP (Pessoa Exposta Politicamente);
+
+✓ CPFs com Situação irregular na Receita Federal;
+
+✓ CPF portador de deficiencia visual.
+
+A DATAPREV não acata solicitações de averbação para benefícios pagos por intermédio de:
+
+Empresa Brasileira de Correios e Telégrafos – ECT;
+
+Empresa de Previdência Complementar
+
+Cooperativas de crédito que não possuam permissão para pagamento e arrecadação de benefícios.
+
+SEÇÃO: FLUXO DE AUTORIZAÇÃO DE IN100
+
+Para as digitações via Caixa, o cliente deverá realizar a autorização via Token, que receberá por SMS. Para maiores informações desse processo, consultar "Manual de autorização de IN100 Caixa Aqui".
+
+SEÇÃO: NORMAS E IMPEDIMENTOS NO ÂMBITO ESTADUAL OU MUNICIPAL
+
+Norma/Impedimento: Vedado ofertar e celebrar contrato de empréstimo de qualquer natureza, com aposentados e pensionistas, por ligação telefônica.
+
+Abrangência/Norma: AM (lei nº 5908/2022), DF (lei nº 6930/2021), ES (lei nº 11000/2019), GO (lei nº 22036/2023), MS (lei nº 5750/2021), MT (lei nº 11692/2022), PA (lei nº 9279/2021), PB (lei nº 11353/2019), PI (lei nº 7957/2023), PR (lei nº 20276/2020), RO (lei nº 4620/2019), RR (lei nº 1708/2022), SC (lei nº 18232/2021), SP (lei nº 17458/2021), TO (lei nº 4067/2022)
+
+Norma/Impedimento: Vedado ofertar e celebrar contrato de empréstimo financeiro por ligação telefônica
+
+Abrangência/Norma: AC (lei nº 3898/2022)
+
+SEÇÃO: Margem Livre - Regras Gerais
+
+SITUAÇÃO DO CLIENTE: Ativo
+
+PRAZO MAXIMO: 84 meses
+
+VALOR MINIMO DE PARCELA: R$ 20,00
+
+VALOR MINIMO OPERAÇÃO: R$ 500,00
+
+VALOR MAXIMO DE OPERAÇÃO: De acordo com a margem disponível do cliente
+
+IDADE MINIMA: 18 anos
+
+IDADE MAXIMA PARA CONTRATAÇÃO EM 84 MESES: 72 anos, 10 meses e 29 dias
+
+IDADE MAXIMA DO CLIENTE AO FINAL DO CONTRATO (somada a idade com o prazo do contrato): 79 anos, 11 meses e 29 dias
+
+PERMITE REDUZIR TAXA? Não
+
+MARGEM NEGATIVA: Não
+
+TIPO DE FORMALIZAÇÃO: Digital
+
+DOCUMENTOS PARA FORMALIZAÇÃO: Vide item DOCUMENTOS OBRIGATÓRIOS
+
+BENEFICIOS ACEITOS: Vide item PÚBLICO-ALVO
+
+TEREMOS VIDEO CHAMADA? Conforme regras aplicadas em prevenção de fraudes
+
+MEIOS DE LIBERAÇÃO: TED/TEF
+
+ACEITAREMOS PAGAMENTO EM BANCOS DIGITAIS: Conforme regra do produto empréstimo
+
+FLUXO REAPRESENTAÇÃO: Não, propostas com pagamento devolvido serão canceladas
+
+SEÇÃO: 3. LIMITE DE IDADE X CRÉDITO (Classificação Etária, Prazo e Valor)
+
+CONFORME CONDIÇÕES COMERCIAIS INFORMADAS:
+
+Idade: De 18 a 72 anos, 10 meses e 29 dias | Prazo Máximo: 84 | Valor Máximo: De acordo com margem disponível
+
+CONFORME CONDIÇÕES COMERCIAIS PARA CLIENTE COM REPRESENTANTE LEGAL:
+
+Representado: Idade Minima: 18 anos | Prazo Máximo: 84 | Valor Máximo: De acordo com margem disponível
+
+Representante: Idade Minima: 18 anos | Prazo Máximo: 84 | Valor Máximo: De acordo com margem disponível
+
+IMPORTANTE: A idade do cliente não poderá ser igual ou superior a 79 anos, 11 meses e 29 dias, no final do contrato.
+
+SEÇÃO: 4. LIBERAÇÃO DO CRÉDITO
+
+Para aqueles que recebem por meio de Conta-Corrente:
+
+O pagamento da operação deverá ser feito, obrigatoriamente, por meio de PIX, na conta corrente cadastrada no INSS.
+
+A 'Conta Benefício' não tem as mesmas funcionalidades de conta corrente e é exclusiva para o recebimento de crédito de benefícios mensais, não aceitando outros tipos de lançamentos, como o crédito de empréstimos.
+
+Para aqueles que recebem através de Cartão-Magnético: (suspenso temporariamente)
+
+Devolução de Pagamento:
+
+Nas situações onde o pagamento enviado a conta de titularidade do cliente, for devolvido por qualquer motivo, a proposta será reprovada e a margem será liberada, o correspondente deverá digitar nova proposta, garantindo os dados bancários do cliente e qualquer impeditivo em sua conta.
+
+SEÇÃO: 5. PUBLICO ANALFABETO / IMPOSSIBILITADO DE ASSINAR
+
+(Suspenso temporariamente)
+
+Para o público Analfabeto e Impossibilitado de assinar, o aceite da IN100 é feito pelo rogado e não pelo cliente. Obrigatoriamente, o rogado tem que ser parente de primeiro grau: pai, mãe, filhos, cônjuge e irmãos (para casos de cônjuge será necessário a certidão de casamento). Será exigido também duas testemunhas (sem grau de parentesco). Obs.: Não pode ser o rogado.
+
+Importante: será necessário o envio dos documentos de identificação do rogado e das testemunhas, sendo aceito RG e CNH/CNH Digital.
+
+Para a formalização desses clientes, será necessário colher as assinaturas físicas do rogado e das testemunhas e incluir a digital do cliente nos formulários.
+
+Na etapa de Formalização Digital haverá dois links: Cliente: Será capturada a selfie (prova de vida); Rogado: Efetuará apenas o aceite da proposta.
+
+Para esse público, a proposta será direcionada para vídeo chamada.
+
+SEÇÃO: 6. REPRESENTANTE LEGAL
+
+Iremos atender representantes que possuam vínculo como mãe, pai, irmãos e filhos do representado devidamente cadastrado no INSS como representante.
+
+A formalização é realizada somente pelo Representante legal;
+
+É obrigatório que o correspondente anexe durante a digitação o documento de identidade do Representante e do Representado;
+
+SEÇÃO: 7. CLIENTES 60+
+
+(Suspenso temporariamente)
+
+Beneficiários com idade igual ou superior a 60 (sessenta) anos residentes nas UF´s e Municípios:
+
+AP- Amapá
+
+PB – Paraíba
+
+TO – Tocantins
+
+RR - Roraima
+
+MG – Somente Poços de Caldas
+
+Para este público, teremos obrigatoriamente a formalização conforme abaixo:
+
+Envio de selfie:
+
+Aceite eletrônico dos termos do contrato:
+
+Envio de CCB digitalizada assinada fisicamente pelo cliente;
+
+Anexar documento e identificação do cliente.
+
+SEÇÃO: 8. FLUXO DE CONSIGNAÇÃO E QUANTIDADE DE CONTRATO
+
+AVERBAÇÃO: A averbação é online entre Banco e Dataprev.
+
+Observação: As averbações online dos contratos sendo que a partir da data corte de virada de folha, a competência do contrato, será para o mês subsequente, não tendo mais o fluxo de represamento das operações, que ficavam parados na antiga maciça.
+
+A alteração dos valores já está prevista no Contrato de Cédula Bancária (CCB) assinado pelo cliente.
+
+Importante: A idade do cliente não poderá ser igual ou superior a 79 anos, 11 meses e 29 dias no final do contrato. Observar a distribuição de valores e prazos por faixa etária, conforme contemplado no item Limite de Crédito X Idade, deste documento.
+
+QUANTIDADE DE CONTRATOS: 13 (treze) contratos de empréstimo por benefício.
+
+SEÇÃO: 9. REGUA DO CONVÊNIO
+
+Operações averbadas até o 2º dia útil do mês seguinte (M+1), terão seus registros incluídos no processamento da folha do mesmo mês, sendo repassado para o Banco até o 5º dia útil do mês subsequente (M+2).
+
+Não há carência.
+
+SEÇÃO: 10. DOCUMENTOS OBRIGATÓRIOS
+
+Tabela de Documentos:
+
+DEMAIS OPERAÇÕES (NOVO):
+
+✓ Cédula de Crédito Bancário – (considerando geolocalização e conjunto de evidências capturados no momento da contratação).
+
+✓ Selfie do cliente.
+
+✓ Documento de Identificação Pessoal: CNH ou RG civil. Será aceito CNH vencida ou versão Digital e RG Estrangeiro.
+
+CLIENTES 60+ (NOVO):
+
+✓ Cédula de Crédito Bancário assinada fisicamente pelo cliente.
+
+✓ Documento de Identificação Pessoal do cliente: CNH ou RG civil. É aceito CNH vencida ou versão Digital e RG Estrangeiro.
+
+ANALFABETO (NOVO):
+
+✓ Cédula de Crédito Bancário assinada fisicamente pelo rogado, testemunhas e digital do cliente (considerando geolocalização e conjunto de evidências capturados no momento da contratação).
+
+✓ Selfie do cliente.
+
+✓ Documento de Identificação cliente, rogado e testemunhas: CNH ou RG civil (É aceito CNH vencida ou versão Digital).
+
+IMPORTANTE: Todos os documentos acima, devem obrigatoriamente ser anexados à proposta, para que a mesma não seja reprovada.
+
+REPRESENTANTE LEGAL (NOVO):
+
+✓ Cédula de Crédito Bancário – (considerando geolocalização e conjunto de evidências capturados no momento da contratação).
+
+✓ Selfie do representante.
+
+✓ Documento de Identificação Representante: CNH ou RG civil (É aceito CNH vencida ou versão Digital).
+
+✓ Documento de Identificação Representado: Certidão de Nascimento (menor de idade), RG ou CNH (É aceito CNH vencida ou versão Digital) e RG Estrangeiro.
+
+IMPORTANTE: Todos os documentos acima, devem obrigatoriamente ser anexados à proposta, para que a mesma não seja reprovada.

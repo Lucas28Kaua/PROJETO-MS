@@ -1,0 +1,136 @@
+REGRAS BANCO QUERO MAIS
+
+Documento: ROTEIRO OPERACIONAL FGTS
+SEÇÃO: Cabeçalho do Documento
+
+Operações: RO-CP | V.2
+
+Referência: 03 Operações
+
+Grupo: 01 Operações de Crédito Varejo
+
+Capítulo: 02 FGTS
+
+Modelo: 06 Roteiro Operacional
+
+Código: 01/2021
+
+Publicação: 05/01/2024
+
+Atualização: 05/01/2024
+
+SEÇÃO: ÍNDICE
+
+Informações sobre o produto: 03
+Valor Disponível para Operação de Crédito Saque Aniversário FGTS: 03
+Cadastro de Pessoa Física – Documentação Requerida: 04
+Limites: 04
+Aprovação de limites e prazos: 04
+Prazo limite para contratação do limite aprovado em contrato: 04
+SEÇÃO: 1. INFORMAÇÕES SOBRE O PRODUTO
+
+PÚBLICO ALVO: Funcionário CLT;
+
+PRAZO: Máximo de 10 anos;
+
+VALOR DO CONTRATO: Mínimo de R$ 150,00 de saque aniversário a antecipar; Máximo de dez (10) saque aniversário a antecipar;
+
+IDADE MINIMA E MÁXIMA: Máximo: não há; Maior de 18 anos;
+
+HORÁRIO DE PAGAMENTO: Serão pagas em D+1, todas as propostas aprovadas e enviadas para a fila de conferência até às 15h. As propostas enviadas após este horário somente serão pagas no dia seguinte;
+
+TIPO DE OPERAÇÃO: Contrato Novo;
+
+REGRA DE CONTRATAÇÃO: Todo cliente com conta vinculada ao FGTS, ativa ou inativa, que tenha aderido à modalidade Saque Aniversário através de um dos canais disponibilizados pela CAIXA, que tenha autorizado a Capital Consig SCD S.A. a consultar seu saldo de FGTS, bem como empenhar estes valores em garantia da operação de crédito antecipada;
+
+DATA DE PAGAMENTO: Data de Aniversário do tomador, ou seja, se ele faz aniversário no dia 24/03, todo 24/03 (anualmente);
+
+RESTRIÇÕES: Pessoas que não tiverem suas consultas de saldo e empenho de valores do FGTS negados por parte da Caixa Econômica Federal;
+
+SEÇÃO: 2. VALOR DISPONÍVEL PARA OPERAÇÃO DE CRÉDITO SAQUE ANIVERSÁRIO FGTS
+
+Tabela de cálculo do valor disponível:
+
+LIMITE DAS FAIXAS DE SALDO (EM R$): Até 500,00 | ALÍQUOTA: 50% | PARCELA ADICIONAL (EM R$): R$ 0,00
+
+LIMITE DAS FAIXAS DE SALDO: De 500,01 até 1.000,00 | ALÍQUOTA: 40% | PARCELA ADICIONAL: R$ 50,00
+
+LIMITE DAS FAIXAS DE SALDO: De 1.000,01 até 5.000,00 | ALÍQUOTA: 30% | PARCELA ADICIONAL: R$ 150,00
+
+LIMITE DAS FAIXAS DE SALDO: De 5.000,01 até 10.000,00 | ALÍQUOTA: 20% | PARCELA ADICIONAL: R$ 650,00
+
+LIMITE DAS FAIXAS DE SALDO: De 10.000,01 até 15.000,00 | ALÍQUOTA: 15% | PARCELA ADICIONAL: R$ 1.150,00
+
+LIMITE DAS FAIXAS DE SALDO: De 15.000,01 até 20.000,00 | ALÍQUOTA: 10% | PARCELA ADICIONAL: R$ 1.900,00
+
+LIMITE DAS FAIXAS DE SALDO: Acima de 20.000,01 | ALÍQUOTA: 5% | PARCELA ADICIONAL: R$ 2.900,00
+
+SEÇÃO: 3. CADASTRO DE PESSOA FÍSICA – DOCUMENTAÇÃO REQUERIDA
+
+Será exigido, por ocasião da solicitação da proposta pelo cliente durante o processo de aprovação e liberação de crédito, o preenchimento e comprovação dos seguintes dados:
+
+I. Nome Completo
+
+II. Data de Nascimento
+
+III. CPF
+
+IV. Número Documento de Identificação
+
+V. Filiação
+
+VI. E-mail
+
+VII. Telefone Celular
+
+VIII. Saldo de FGTS
+
+IX. Autorização de consulta ao valor do saque-aniversário disponível para alienação/cessão fiduciária
+
+X. Autorização para Instituição Financeira consultar e solicitar bloqueio de parte do saldo de sua conta FGTS
+
+XI. Acompanhar a evolução da operação de alienação ou cessão fiduciária contratada com a Instituição Financeira
+
+XII. Dados Bancários
+
+XIII. Endereço residencial
+
+XIV. Cópia do Documento de Identificação
+
+SEÇÃO: 4. LIMITES
+
+Tabela de limites por linha de crédito:
+
+TABELA: FGTS SL I | PRAZO: 10 | VALOR MÍNIMO: R$ 150,00 | 1º VENCIMENTO MÁXIMO: 24 MESES DA DATA DE CONTRATAÇÃO | PARCELA MÍNIMA: R$ 10,00
+
+TABELA: FGTS SL II | PRAZO: 10 | VALOR MÍNIMO: R$ 150,00 | 1º VENCIMENTO MÁXIMO: 24 MESES DA DATA DE CONTRATAÇÃO | PARCELA MÍNIMA: R$ 10,00
+
+TABELA: FGTS SL III | PRAZO: 10 | VALOR MÍNIMO: R$ 150,00 | 1º VENCIMENTO MÁXIMO: 24 MESES DA DATA DE CONTRATAÇÃO | PARCELA MÍNIMA: R$ 10,00
+
+TABELA: FGTS IV | PRAZO: 10 | VALOR MÍNIMO: R$ 150,00 | 1º VENCIMENTO MÁXIMO: 24 MESES DA DATA DE CONTRATAÇÃO | PARCELA MÍNIMA: R$ 10,00
+
+SEÇÃO: 5. APROVAÇÕES DE LIMITES E PRAZOS
+
+Conforme item 3.
+
+Até 10 anos para Antecipação.
+
+SEÇÃO: 6. PRAZO LIMITE PARA CONTRATAÇÃO DO LIMITE APROVADO EM CONTRATO
+
+A partir da aprovação da Caixa Econômica Federal o cliente tem um prazo de 01 (hum) dia para assinatura do contrato.
+
+SEÇÃO: Rodapé do Documento
+
+Referência: 03 Operações
+
+Grupo: 01 Operações de Crédito Varejo
+
+Capítulo: 02 FGTS
+
+Modelo: 06 Roteiro Operacional
+
+Código: 01/2021
+
+Publicação: 05/01/2024
+
+Atualização: 05/01/2024

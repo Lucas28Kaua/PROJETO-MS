@@ -1,0 +1,285 @@
+REGRAS BANCO PRATA
+
+Documento: Crédito do Trabalhador - Roteiro Operacional
+SEÇÃO: Cabeçalho
+
+Título: Crédito do Trabalhador
+
+Versão: VERSÃO DE NOVEMBRO | 2025
+
+SEÇÃO: O que é o crédito do trabalhador?
+
+O Crédito do Trabalhador é uma modalidade de crédito exclusiva para trabalhadores regidos pela CLT, com quitação vinculada a descontos mensais na folha de pagamento.
+
+As parcelas serão recolhidas pelo empregador na guia do eSocial.
+
+SEÇÃO: PÚBLICO ATENDIDO
+
+Trabalhadores CLT
+
+SEÇÃO: PÚBLICO NÃO ATENDIDO
+
+PEP (pessoas expostas politicamente);
+
+Funcionários com Data-Fim contrato ou estagiários;
+
+Licença maternidade;
+
+Experiência de trabalho;
+
+Aviso Prévio;
+
+Estrangeiros;
+
+Analfabetos.
+
+SEÇÃO: Regras
+
+Apenas emissão de contratos novos.
+
+Documentos: RG, CNH
+
+Valor mínimo de parcela: R$ 100,00
+
+Teto de saque: 25 mil reais
+
+Parcelamento: Em 6, 12 e 24 vezes
+
+Margem: Poderá comprometer até 70% da margem consignável
+
+Formalização: 100% digital, no melhor sistema de consignado do Brasil.
+
+SEÇÃO: Condições de parcelamento
+
+6x → liberado para quem tem 6 meses ou mais de vínculo empregatício
+
+12x → liberado para quem tem 12 meses ou mais de vínculo empregatício
+
+24x → liberado apenas para quem tem 18 meses ou mais de vínculo empregatício
+
+SEÇÃO: Fluxo Operacional
+
+Assinatura do termo
+Consulta de Margem
+Análise de Elegibilidade
+Simulação (6x, 12x ou 24x)
+Digitação da proposta
+Formalização (selfie, documento)
+Análise biométrica (em análise, aprovada ou recusada)
+Averbação
+Pagamento
+SEÇÃO: Liberação em conta de mesma titularidade nos bancos aceitos CFE lista
+
+Bancos listados:
+
+Banco do Brasil
+
+Caixa Econômica Federal
+
+Bradesco
+
+Itaú
+
+Santander
+
+Banrisul
+
+SICOOB - BANCO COOPERATIVO DO BRASIL S.
+
+BANCO DA AMAZONIA S.A.
+
+BANCO DAYCOVAL S.A.
+
+BANCO DO ESTADO DE SERGIPE S.A
+
+BANCO DO ESTADO DO PARA S.A.
+
+BANCO DO NORDESTE DO BRASIL S.
+
+BANCO MERCANTIL DO BRASIL S.A.
+
+BANCO SAFRA S.A.
+
+BANESTES S.A BANCO DO ESTADO D
+
+CENTRAL DE COOPERATIVAS DE ECO
+
+COOPERATIVA CENTRAL DE CREDITO
+
+COOPERATIVA CENTRAL ECONOMIA
+
+COOPERATIVA DE CREDITO RURAL
+
+CREDIALINÇA COOP DE CREDITO RURAL
+
+BANCO COOPERATIVO SICREDI S.A.
+
+BRB - BCO DE BRASILIA S.A.
+
+CONF NAC COOP CENTRAIS UNICRED
+
+CECM COOPERFORTE
+
+SERVICOOP
+
+COOP CENTRAL AILOS
+
+CENTRAL COOPERATIVA DE CRÉDITO NO ESTADO DO ESPÍRITO SANTO
+
+CITIBANK N.A.
+
+BCO HSBC S.A.
+
+CCR COOPAVEL
+
+Banco XP
+
+BANCOS DIGITAIS:
+
+C6
+
+Nubank
+
+Banco Inter
+
+Banco BMG
+
+SEÇÃO: Regras de elegibilidade
+
+Estas regras devem ser consideradas como critérios obrigatórios para aprovação da proposta:
+
+SEÇÃO: Perfil do tomador
+
+Idade: O cliente deverá ter no mínimo 21 e no máximo 65 anos.
+
+Contrato Trabalhista:
+
+Necessário estar empregado, conforme as condições abaixo:
+
+6 meses ou mais → 6 parcelas
+
+12 meses ou mais → 12 parcelas
+
+18 meses ou mais → 24 parcelas
+
+SEÇÃO: Perfil da empresa empregadora
+
+Constituída há pelo menos 2 anos;
+
+Ter no mínimo 10 funcionários;
+
+SEÇÃO: Fluxo Operacional (Detalhado no Sistema)
+
+Autorização:
+
+Coloque o CPF e clique em: "Consultar saldo";
+
+Em seguida o link aparecerá na mesma tela;
+
+Copie o link e envie ao cliente;
+
+O preenchimento da autorização é super simples e pode ser feita em alguns segundos;
+
+A autorização é obrigatória para termos acesso à margem consignável do cliente e realizar a simulação;
+
+Após a consulta de margem você conseguirá simular a proposta para o cliente;
+
+Após simulação basta clicar em preencher cadastro.
+
+Digitação:
+
+Após o preenchimento dos dados informados na imagem ao lado, o sistema gerará automaticamente o link de formalização.
+
+O cliente terá que realizar a captura de imagens para validação de identidade (Selfie) e documento (CNH, RG, RNE ou RNM)
+
+Obs: O sistema mostra um e-mail automático do Prata, é necessário mudar para um e-mail válido do cliente. Dados incorretos impedem o sistema de gerar o link de formalização.
+
+Acompanhamento:
+
+Na esteira de acompanhamento você tem acesso a todas as propostas digitadas em seu login;
+
+Consegue visualizar o antifraude;
+
+Editar dados;
+
+E visualizar o status da proposta.
+
+SEÇÃO: Fluxo de acompanhamento Proposta CLT
+
+Pendência Falta formalização:
+
+Solicite ao cliente que clique no link enviado e prossiga com a formalização.
+
+Não será necessário gerar um novo link, pois ele permanecerá o mesmo. Para acessá-lo clique no Escudo ao lado da proposta e copie o link em tela.
+
+Pendência Alteração de dados bancários:
+
+Clique no ícone do lápis (editar), vá até a aba banco, altere os dados e salve. O sistema fará nova tentativa de pagamento.
+
+Paga:
+
+Ao clicar no número da proposta, o sistema disponibiliza o comprovante de pagamento do crédito (pix).
+
+Aguardando Pagamento:
+
+Proposta será paga em minutos, basta aguardar. Não cabe atuação do suporte.
+
+Recusada:
+
+Não passível de redigitação. Recusa por política interna.
+
+SEÇÃO: Perguntas Frequentes
+
+ACEITA TOMADOR DE CRÉDITO NEGATIVADO? SPC/SERASA?
+
+Sim, essa modalidade de crédito aceita pessoas negativadas.
+
+TRABALHADOR PRECISA TER QUANTO TEMPO DE EMPRESA?
+
+Mínimo 18 meses de empresa. (Nota: Esta informação difere da seção "Perfil do tomador" que indica 6 meses para 6x, 12 para 12x e 18 para 24x).
+
+TRABALHADOR DE QUALQUER EMPRESA PODE FAZER?
+
+Sim, desde que atendidos os critérios mencionados e outros da mesa de crédito do Prata Digital.
+
+PODE-SE UTILIZAR TODA A MARGEM?
+
+Não. Somente 70% da margem consignável.
+
+QUAL VALOR MÍNIMO E MÁXIMO?
+
+Valor mínimo de parcela: R$ 100. Teto de saque: R$ 25 mil reais.
+
+TEM SEGURO?
+
+Não.
+
+O MASTER PRECISA LIBERAR?
+
+Não.
+
+ATENDE MEI? ATENDE DIARISTA?
+
+Não.
+
+QUANTOS EMPRÉSTIMOS O TRABALHADOR PODE CONTRATAR?
+
+Apenas 1 por contrato de trabalho.
+
+O QUE ACONTECE EM CASO DE MUDANÇA DE EMPREGO?
+
+O desconto é automaticamente mantido no novo emprego por meio do eSocial. O sistema transfere as informações ao novo empregador, que passa a realizar o desconto em folha normalmente.
+
+O QUE ACONTECE EM CASO DE DEMISSÃO?
+
+Quando a demissão ocorre sem justa causa, são usados 10% do saldo do FGTS e 100% da multa rescisória para abater a dívida. Se ainda houver saldo devedor, ele é automaticamente transferido para o próximo vínculo empregatício.
+
+PODE CONTRATAR QUEM ADERIU AO SAQUE-ANIVERSÁRIO?
+
+Sim. Mesmo tendo optado pelo saque-aniversário, é possível contratar normalmente o empréstimo consignado privado.
+
+SEÇÃO: Encerramento
+
+Dúvidas e sugestões, entre em contato com o seu gerente comercial.
+
+Obrigado!

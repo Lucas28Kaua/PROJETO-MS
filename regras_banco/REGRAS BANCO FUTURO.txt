@@ -1,0 +1,100 @@
+REGRAS BANCO FUTURO
+
+### Documento: CRÉDITO DO TRABALHADOR - ROTEIRO OPERACIONAL EXTERNO
+
+SEÇÃO: DOCUMENTOS NECESSÁRIOS
+- Documento de identificação com foto (RG; CNH; RNE; Carteira Funcional; Carteira Militar);
+- *São aceitos documentos no formato digital, desde que possuam autenticação pelo órgão emissor.
+- **Caso não seja possível a validação da Selfie com o documento de identificação com mais de 10 anos de emissão, haverá necessidade de envio de outro documento atual.
+
+SEÇÃO: Público Atendido
+- Celetistas
+- II - CPF deve estar regular obrigatório, ativo e sem restrições na receita federal
+
+SEÇÃO: Público não atendido
+- Estrangeiros;
+- PEP (Pessoas expostas politicamente);
+- Clientes com restrições cadastrais, falência ou envolvimento em atividades ilícitas;
+- MEI.
+
+SEÇÃO: POLÍTICA DE IDADE
+- PÚBLICO: HOMENS
+  - LIMITE DE IDADE PARA INÍCIO DO CONTRATO: DE 20 ANOS ATÉ 62 ANOS
+  - PRAZO MINIMO: 01 MÊS
+  - PRAZO MÁXIMO: 36 MESES
+  - TEMPO MÍNIMO DE ATIVIDADE NO VÍNCULO: 12 MESES
+  - TEMPO MÍNIMO DE ATIVIDADE DO EMPREGADOR: 5 ANOS
+  - VALOR MÍNIMO: R$ 200,00
+  - VALOR MÁXIMO: R$ 12.000,00
+- PÚBLICO: MULHERES
+  - LIMITE DE IDADE PARA INÍCIO DO CONTRATO: DE 20 ANOS ATÉ 60 ANOS
+  - PRAZO MINIMO: 01 MÊS
+  - PRAZO MÁXIMO: 36 MESES
+  - TEMPO MÍNIMO DE ATIVIDADE NO VÍNCULO: 12 MESES
+  - TEMPO MÍNIMO DE ATIVIDADE DO EMPREGADOR: 5 ANOS
+  - VALOR MÍNIMO: R$ 200,00
+  - VALOR MÁXIMO: R$ 12.000,00
+
+SEÇÃO: MARGEM CONSIGNÁVEL
+- Margem de até 31,5% do salário do trabalhador e limitado a um contrato por vinculo trabalhista
+
+SEÇÃO: INFORMAÇÕES DE DESCONTOS
+- Averbação: Original: 20
+- Vencimento da Parcela: 25
+- Data de Corte: 18
+- Quantidade de Contratos: 1 contrato por vinculo trabalhista
+- Necessário autorização para consulta de dados da empresa
+- !! – Canal de desconto: Eagle
+
+SEÇÃO: RESTRIÇÕES
+- Ação Judicial: Sim
+- SPC / Serasa: Não
+
+SEÇÃO: PAGAMENTO
+- Forma de Pagamento: Crédito na conta de titularidade do celetista
+- Valor mínimo da Operação: R$ 200,00
+
+SEÇÃO: ATUALIZAÇÕES
+- 28/07/2025: Publicação;
+- 25/08/2025: Ajustado valor mínimo por contrato e margem máxima permitida;
+- 28/08/2025: Alteração das condições comerciais.
+- Versão: RO.FUT.CRE_03
+
+---
+
+### Documento: FGTS - ROTEIRO OPERACIONAL
+
+SEÇÃO: ÍNDICE
+- Público Atendido
+- Regras Operacionais
+- Condições Comerciais
+
+SEÇÃO: Público Atendido
+- Idade mínima: 18 anos
+- Idade máxima: 70 anos, 11 meses e 29 dias.
+
+SEÇÃO: Público Não Atendido
+- Impossibilitados de assinar;
+- Tutela e Curatela;
+- Não alfabetizado.
+
+SEÇÃO: Regras gerais
+- Estar com o CPF regular na receita federal;
+- Possuir saldo em conta FGTS;
+- Autorizar a EAGLE SOCIEDADE DE CRÉDITO no aplicativo do FGTS;
+- Depósito na conta de titularidade do servidor.
+
+SEÇÃO: Documentos aceitos
+- Documento de identificação contendo o número do CPF: RG, CNH, carteiras funcionais.
+
+SEÇÃO: Condições comerciais
+- Máximo de 10 saques a serem adiantados de acordo com as condições disponibilizadas no sistema.
+
+SEÇÃO: ATUALIZAÇÕES
+- 27/03/2025: Publicação
+
+SEÇÃO: Contato
+- Site: www.futuroprevidencia.com.br
+- Redes Sociais: @futuroprevidencia
+- Contato: Futuro Previdência
+- Email: caci@futuroprevidencia.com.br

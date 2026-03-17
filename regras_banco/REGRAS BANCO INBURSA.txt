@@ -1,0 +1,390 @@
+REGRAS BANCO INBURSA
+
+Documento: Roteiro Operacional - Empréstimo Consignado INSS
+SEÇÃO: 1. INFORMAÇÕES CONVÊNIO
+
+NEGÓCIO - ROTEIRO OPERACIONAL
+
+CONVÊNIO IMPLANTADO EM: 25/03/2022
+
+CONVÊNIO ATUALIZADO EM: 06/02/2025
+
+Tipo de Convênio: ☑ FEDERAL / ☐ FORÇAS / ☐ GOVERNO / ☐ PREFEITURA / ☐ TRIBUNAL / ☐ MINISTÉRIOS / ☐ PREVIDÊNCIA / ☐ PRIVADO / ☑ PÚBLICO
+
+CONTATOS BANCO INBURSA:
+
+sao-atendimento@inbursa.com
+
+consignadopublico@inbursa.com
+
+atendimento.correspondente@inbursa.com
+
+Tabela de Informações do Convênio:
+
+CREDOR: BANCO INBURSA SA
+
+DATA CORTE E VENCIMENTO: DIA 10 - DEVERÁ ESTAR DE ACORDO COM CRONOGRAMA DISPONIBILIZADO PELA DATAPREV
+
+PRAZO MÁXIMO: 96 MESES
+
+PÚBLICO ALVO: APOSENTADOS E PENSIONISTAS DO INSS, DE ACORDO COM A ESPÉCIE LISTADA NESTE ROTEIRO
+
+OBS: BENEFICIÁRIOS DOS ESTADOS: PB / AP / TO / RR. NÃO FAZ ACIMA DE 59 ANOS
+
+FORMALIZAÇÃO: DIGITAL.
+
+CLIENTES NÃO ACEITOS:
+
+ESPÉCIES NÃO ATENDIDA PELA DATAPREV OU REGRA INTERNA DO BANCO LISTADA NESTE ROTEIRO
+
+BENEFICIÁRIOS COM IDADE SUPERIOR A 76 ANOS (FIM DO CONTRATO) PARA PORTABILIDADE E 78 ANOS (FIM DO CONTRATO) PARA REFIN
+
+BENEFICIÁRIOS COM REPRESENTANTE LEGAL / PROCURADOR / ASSINATURA A ROGO
+
+RECEBIMENTO VIA CARTÃO MAGNÉTICO (NÃO ACEITO PARA CONTRATO NOVO)
+
+BENEFICIÁRIOS LOAS
+
+QTDE. CONTRATO POR SERVIDOR:
+
+13 LINHAS PARA EMPRÉSTIMOS.
+
+01 LINHA PARA CARTÃO DE CRÉDITO CONSIGNADO.
+
+01 LINHA PARA CARTÃO DE CRÉDITO BENEFÍCIO
+
+LIBERAÇÃO DO CRÉDITO:
+
+O CRÉDITO DEVERÁ OCORRER NA CONTA CORRENTE DE RECEBIMENTO DO BENEFÍCIO.
+
+NO PORTAL VENDAS ESSA INFORMAÇÃO SERÁ PREENCHIDA AUTOMATICAMENTE.
+
+BENEFICIÁRIO QUE RECEBE VIA CARTÃO MAGNÉTICO, SERÃO ACEITAS OPERAÇÕES SOMENTE PARA PORTABILIDADE
+
+O FLUXO DE PAGAMENTO DO CRÉDITO ESTARÁ DISCRIMINADO NO FLUXO DE PAGAMENTO DA CCB
+
+MARGEM CONSIGNÁVEL: 35% EMPRÉSTIMO CONSIGNADO
+
+CÁLCULO DA MARGEM: CONSULTA ONLINE NO PORTAL (100%), NÃO FAZ MARGEM NEGATIVA
+
+FORMA DE AVERBAÇÃO: API / PORTAL DATAPREV
+
+TAXA MÁXIMA: 1,80% PARA EMPRÉSTIMO CONSIGNADO
+
+DOCUMENTAÇÃO NECESSÁRIA: RG / CNH / PASSAPORTE
+
+LINK PORTAL VENDAS: https://www.inbursa.com.br/portalvendas/login
+
+SEÇÃO: 2. POLITICA DE VALOR X IDADE
+
+Tabela: APOSENTADOS E PENSIONISTAS DO INSS - PORTABILIDADE PURA
+
+IDADE INÍCIO DO CONTRATO: 22 anos a 68 anos | PRAZO MÁXIMO: 96 Parcelas | IDADE FINAL DO CONTRATO: 76 anos
+
+IDADE INÍCIO: 69 anos | PRAZO MÁXIMO: 84 Parcelas | IDADE FINAL: 76 anos
+
+IDADE INÍCIO: 70 anos | PRAZO MÁXIMO: 72 Parcelas | IDADE FINAL: 76 anos
+
+IDADE INÍCIO: 71 anos | PRAZO MÁXIMO: 60 Parcelas | IDADE FINAL: 76 anos
+
+IDADE INÍCIO: 72 anos | PRAZO MÁXIMO: 48 Parcelas | IDADE FINAL: 76 anos
+
+IDADE INÍCIO: 73 anos | PRAZO MÁXIMO: 36 Parcelas | IDADE FINAL: 76 anos
+
+IDADE INÍCIO: 74 anos | PRAZO MÁXIMO: 24 Parcelas | IDADE FINAL: 76 anos
+
+IDADE INÍCIO: 75 anos | PRAZO MÁXIMO: 12 Parcelas | IDADE FINAL: 76 anos
+
+ACIMA DE 76 ANOS: NÃO SERÃO ATENDIDOS
+
+Tabela: REFIN
+
+IDADE INÍCIO DO CONTRATO: 22 anos a 70 anos | PRAZO MÁXIMO: 96 Parcelas | IDADE FINAL DO CONTRATO: 78 anos
+
+IDADE INÍCIO: 71 anos | PRAZO MÁXIMO: 84 Parcelas | IDADE FINAL: 78 anos
+
+IDADE INÍCIO: 72 anos | PRAZO MÁXIMO: 72 Parcelas | IDADE FINAL: 78 anos
+
+IDADE INÍCIO: 73 anos | PRAZO MÁXIMO: 60 Parcelas | IDADE FINAL: 78 anos
+
+IDADE INÍCIO: 74 anos | PRAZO MÁXIMO: 48 Parcelas | IDADE FINAL: 78 anos
+
+IDADE INÍCIO: 75 anos | PRAZO MÁXIMO: 36 Parcelas | IDADE FINAL: 78 anos
+
+IDADE INÍCIO: 76 anos | PRAZO MÁXIMO: 24 Parcelas | IDADE FINAL: 78 anos
+
+IDADE INÍCIO: 77 anos | PRAZO MÁXIMO: 12 Parcelas | IDADE FINAL: 78 anos
+
+ACIMA DE 78 ANOS: NÃO SERÃO ATENDIDOS
+
+SEÇÃO: 3. ESPÉCIES ELEGÍVEIS BANCO INBURSA
+
+Tabela de códigos elegíveis com ressalvas de idade:
+
+1: PENSAO POR MORTE - TRABALHADOR RURAL | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+2: PENSAO POR MORTE ACIDENTARIA - TRABALHADOR RURAL | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+3: PENSAO POR MORTE - EMPREGADOR RURAL | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+4: APOSENTADORIA POR INVALIDEZ - TRABALHADOR RURAL | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+5: APOSENTADORIA POR INVALIDEZ ACIDENTARIA - TRABALHADOR RURAL | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+6: APOSENTADORIA INVALIDEZ - EMPREGADOR RURAL | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+7: APOSENTADORIA POR VELHICE - TRABALHADOR RURAL | Elegível: Sim | Com Ressalva: -
+
+8: APOSENTADORIA POR IDADE - EMPREGADOR RURAL | Elegível: Sim | Com Ressalva: -
+
+19: PENSAO DE ESTUDANTE - LEI N.7004/82 | Elegível: Sim | Com Ressalva: -
+
+20: PENSAO POR MORTE DE EX-DIPLOMATA - LEGISLACAO EX-IPASE | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+21: PENSAO POR MORTE PREVIDENCIARIA | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+22: PENSAO POR MORTE ESTATUTARIA | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+23: PENSAO POR MORTE DE EX-COMBATENTE | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+24: PENSAO ESPECIAL - ATO INSTITUCIONAL | Elegível: Sim | Com Ressalva: -
+
+26: PENSAO POR MORTE ESPECIAL - LEI 593/48 | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+27: PENSAO MORTE DE SERVIDOR PUBLICO FEDERAL | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+28: PENSAO POR MORTE - REGIME GERAL (DECRETO N. 20465/31) | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+29: PENSAO POR MORTE DE EX-COMBATENTE MARITIMO (LEI 1756/52) | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+32: APOSENTADORIA POR INVALIDEZ PREVIDENCIARIA | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+33: APOSENTADORIA POR INVALIDEZ DE AERONAUTA | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+34: APOSENTADORIA POR INVALIDEZ DE EX- COMBATENTE MARITIMO - LEI 1756/52 | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+37: APOSENTADORIA DE EXTRANUMERARIO DA CAPIN | Elegível: Sim | Com Ressalva: -
+
+38: APOSENTADORIA DE EXTRANUMERARIO - FUNCIONARIOS PUBLICOS FEDERAIS | Elegível: Sim | Com Ressalva: -
+
+41: APOSENTADORIA POR IDADE | Elegível: Sim | Com Ressalva: -
+
+42: APOSENTADORIA POR TEMPO DE CONTRIBUIACAO | Elegível: Sim | Com Ressalva: -
+
+43: APOSENTADORIA TEMPO SERVICO - EX- COMBATENTE | Elegível: Sim | Com Ressalva: -
+
+44: APOSENTADORIA ESPECIAL DE AERONAUTA | Elegível: Sim | Com Ressalva: -
+
+45: APOSENTADORIA TEMPO SERVICO - JORNALISTA PROFISSIONAL | Elegível: Sim | Com Ressalva: -
+
+46: APOSENTADORIA ESPECIAL | Elegível: Sim | Com Ressalva: -
+
+49: APOSENTADORIA ORDINARIA | Elegível: Sim | Com Ressalva: -
+
+51: APOSENTADORIA POR INVALIDEZ - EXTINTO PLANO BASICO | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+52: APOSENTADORIA POR IDADE - EXTINTO PLANO BASICO | Elegível: Sim | Com Ressalva: -
+
+54: PENSAO INDENIZATORIA A CARGO DA UNIAO | Elegível: Sim | Com Ressalva: -
+
+55: PENSAO POR MORTE - EXTINTO PLANO BASICO | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+57: APOSENTADORIA POR TEMPO DE SERVICO DE PROFESSORES | Elegível: Sim | Com Ressalva: -
+
+58: APOSENTADORIA DE ANISTIADOS - LEI N. 6683/79 | Elegível: Sim | Com Ressalva: -
+
+59: PENSAO POR MORTE DE ANISTIADOS - LEI N.6683/79 | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+60: BENEFICIO INDENIZATORIO A CARGO DA UNIAO | Elegível: Sim | Com Ressalva: -
+
+72: APOSENTADORIA TEMPO SERVICO - LEI DE GUERRA (1756/52) | Elegível: Sim | Com Ressalva: -
+
+78: APOSENTADORIA POR IDADE - LEI DE GUERRA (1756/52) | Elegível: Sim | Com Ressalva: -
+
+81: APOSENTADORIA COMPULSORIA - EX-SASSE | Elegível: Sim | Com Ressalva: -
+
+82: APOSENTADORIA TEMPO SERVICO - EX-SASSE | Elegível: Sim | Com Ressalva: -
+
+83: APOSENTADORIA POR INVALIDEZ - EX-SASSE | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+84: PENSAO POR MORTE EX-SASSE | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+89: PENSAO ESPECIAL VITIMAS HEMODIALISE - CARUARU | Elegível: Sim | Com Ressalva: -
+
+92: APOSENTADORIA INVALIDEZ - ACIDENTE DO TRABALHO | Elegível: Sim | Com Ressalva: acima de 60 anos
+
+93: PENSAO POR MORTE POR ACIDENTE DE TRABALHO | Elegível: Sim | Com Ressalva: acima de 45 anos
+
+SEÇÃO: 4. ESPÉCIES NÃO ELEGÍVEIS BANCO INBURSA
+
+Lista de códigos não permitidos:
+
+9: COMPLEMENTACAO POR ACIDENTE DE TRABALHO - TRABALHADOR RURAL
+
+10: AUXÍLIO DOENCA POR ACIDENTE DE TRABALHO / - TRABALHADOR RURAL
+
+11: AMPARO PREVIDENCIARIO POR INVALIDEZ - TRABALHADOR RURAL
+
+12: AMPARO PREVIDENCIARIO POR IDADE (MAIORES DE 70 ANOS) - TRABALHADOR RURAL
+
+13: AUXÍLIO DOENCA - TRABALHADOR RURAL
+
+15: AUXÍLIO RECLUSÃO - TRABALHADOR RURAL
+
+16: AUXÍLIO DA UNIAO
+
+17: ACORDO INTERNACIONAL
+
+18: AUXÍLIO INCLUSÃO
+
+25: AUXÍLIO-RECLUSÃO
+
+30: RENDA MENSAL VITALICIA POR INCAPACIDADE
+
+31: AUXÍLIO-DOENCA PREVIDENCIARIO
+
+35: AUXÍLIO-DOENCA - EX-COMBATENTE
+
+36: AUXÍLIO ACIDENTE PREVIDENCIARIO
+
+39: AUXÍLIO INVALIDEZ DE ESTUDANTE - LEI N. 7004/82
+
+40: RENDA MENSAL VITALICIA POR IDADE (MAIORES DE 70 ANOS) - LEI 6179/74
+
+47: ABONO DE PERMANENCIA EM SERVICO - 25% (35 ANOS DE SERVICO)
+
+48: ABONO DE PERMANENCIA EM SERVICO - 20% (30 ANOS DE SERVICO)
+
+50: AUXÍLIO-DOENCA - EXTINTO PLANO BASICO
+
+53: AUXÍLIO RECLUSÃO - EXTINTO PLANO BASICO
+
+56: PENSAO MENSAL VITALICIA - SINDROME DA TALIDOMIDA - LEI 7070/82
+
+61: AUXÍLIO-NATALIDADE
+
+62: AUXÍLIO FUNERAL
+
+63: AUXÍLIO FUNERAL DE TRABALHADOR RURAL
+
+64: AUXÍLIO-FUNERAL - EMPREGADOR RURAL
+
+65: PECULIO ESPECIAL - SERVIDOR AUTARQUICO
+
+66: PECULIO ESPECIAL - SERVIDOR AUTARQUICO
+
+67: PECULIO OBRIGATORIO EX-IPASE (DECRETO 5128/26)
+
+68: PECULIO ESPECIAL DE APOSENTADOS E FILIADOS A PS COM MAIS DE 60 ANOS
+
+69: PECULIO DE ESTUDANTE - LEI 7004/82
+
+70: RESTITUICAO DE CONTRIBUICOES PARA SEGURADO, SEM CARENCIA
+
+71: SALÁRIO FAMILIA PREVIDENCIARIO
+
+73: SALÁRIO-FAMILIA A ESTATUTARIO
+
+74: COMPLEMENTO DE PENSAO A CONTA DA UNIAO
+
+75: COMPLEMENTO DE APOSENTADORIA A CONTA DA UNIAO
+
+76: SALÁRIO FAMILIA ESTATUTARIO
+
+77: SALÁRIO-FAMILIA ESTATUTARIO SERVIDOR SINPAS
+
+79: VANTAGENS DE SERVIDOR APOSENTADO
+
+80: SALÁRIO MATERNIDADE
+
+85: PENSAO MENSAL VITALICIA A SERINGUEIROS - LEI 7986/89
+
+86: PENSAO MENSAL VITALICIA A DEPENDENTES DE SERINGUEIROS - LEI 7986/89
+
+87: AMPARO ASSISTENCIAL AO PORTADOR DE DEFICIÊNCIA
+
+88: AMPARO ASSISTENCIAL AO IDOSO ( BCP LOAS)
+
+90: SIMPLES ASSISTENCIA MÉDICA PARA ACIDENTE DE TRABALHO
+
+91: AUXÍLIO-DOENCA POR ACIDENTE DE TRABALHO
+
+94: AUXÍLIO-ACIDENTE - ACIDENTE DO TRABALHO
+
+95: AUXÍLIO-SUPLEMENTAR - ACIDENTE DO TRABALHO
+
+96: PENSAO ESPECIAL HANSENIASE LEI 11520/07
+
+97: PECULIO POR MORTE - ACIDENTE DO TRABALHO
+
+98: AUX ASSIST - TRABALHADOR PORTUÁRIO AVULSO
+
+99: AFASTAMENTO ATÉ 15 DIAS POR ACIDENTE DE TRABALHO
+
+SEÇÃO: 5. MARGEM CONSIGNÁVEL
+
+OBS: CASO O APOSENTADO E PENSIONISTA APRESENTE MARGEM NEGATIVA, (EMPRÉSTIMO/ RMC / RCC) NÃO SERÁ POSSÍVEL EFETUAR A OPERAÇÃO DE PORTABILIDADE ABATENDO A MARGEM NEGATIVA.
+
+SEÇÃO: 6. PORTAL CONTRATAÇÃO INBURSA
+
+PORTAL VENDAS: No primeiro acesso fazer a alteração da senha, instruções enviada por e-mail.
+
+SEÇÃO: 7. PROCESSO DE ANÁLISE - PORTABILIDADE
+
+1. Cliente recebe oferta do Correspondente.
+
+2. Correspondente: Solicita os documentos ao cliente e efetua a simulação do contrato que está sendo portado no Portal de Vendas. O correspondente deverá informar e orientar ao cliente a necessidade de autorização de consulta de dados e liberação no Portal MEU INSS.
+
+3. O cliente concordando o correspondente digita a proposta no Portal de Vendas.
+
+4. Correspondente: Deverá orientar o cliente a concluir as etapas de confirmações de dados, valores simulados, inclusão documento e biometria para assinatura da CCB.
+
+5. Banco Inbursa: Após a assinatura do cliente a proposta entra na esteira de análise do Inbursa, que realiza análise de crédito, margem, documentação e estando tudo de acordo com as regras estipuladas neste roteiro, solicita o saldo devedor para IF Credora Original eletronicamente via CIP (Câmara Interbancária de Pagamentos).
+
+6. Instituição Credora Original: Terá o prazo de 05 dias úteis para fornecer a informação do Saldo Devedor, caso haja a retenção a Instituição Credora deve nos informar.
+
+7. Banco Inbursa: Com a Informação do Saldo Devedor enviado pela Instituição Credora Original, deverá enviar no mesmo dia a TED específica para essa finalidade, para realizar a Quitação do Saldo Devedor, o desembolso para o banco originador.
+
+8. Instituição Credora Original: Após recebimento da TED, terá em até 02 dias úteis para confirmar à Instituição proponente a portabilidade.
+
+9. Banco Inbursa: Com a confirmação da Portabilidade Realiza a Averbação da Margem.
+
+INFORMAÇÕES DO CONTRATO ORIGINAL NECESSÁRIAS:
+
+NÚMERO DO CONTRATO;
+
+BANCO ORIGINADOR;
+
+SALDO DEVEDOR ATUALIZADO;
+
+TAXA DE JUROS ANUAL, NOMINAL E EFETIVA;
+
+PRAZO TOTAL E REMANESCENTE;
+
+VALOR DE CADA PARCELA;
+
+VALOR DO BENEFÍCIO
+
+SEÇÃO: 8. PROCESSO DE ANÁLISE – CONTRATO NOVO
+
+1. Aposentado e Pensionista: Recebe a oferta do Correspondente.
+
+2. Correspondente: Solicita os documentos ao cliente e efetua a simulação do contrato de margem livre, (consulta online no Portal Vendas). O correspondente deverá informar e orientar ao cliente a necessidade de autorização de consulta de dados e liberação no Portal MEU INSS.
+
+3. Parceiro: Finaliza a digitação da proposta com as demais informações, informa os valores simulados ao cliente e após a escolha do valor e parcelas, orienta o cliente a acessar o Link que será recebido via SMS, WhatsApp ou E-mail, para que ele possa realizar a Biometria facial (Assinatura da CCB) e confirmação da simulação e dados. Após a finalização desta etapa de assinatura, segue novamente para o Parceiro.
+
+4. Parceiro: Realiza análise interna e aprova no Portal Vendas. Após aprovação a proposta segue para análise do Banco Inbursa.
+
+5. Banco Inbursa: Analisa o Cadastro e o Crédito, caso haja aprovação baseada nas premissas deste roteiro, a proposta segue para averbação e desembolso, e integra a proposta em sistema.
+
+SEÇÃO: IMPORTANTE!
+
+✓ NAS OPERAÇÕES DE CONTRATO NOVO, O BANCO EFETUA O CRÉDITO NA CONTA CORRENTE DE RECEBIMENTO DO BENEFÍCIO EM ATÉ DOIS DIAS ÚTEIS, APÓS A AVERBAÇÃO;
+
+✓ NÃO É POSSÍVEL EFETUAR AVERBAÇÃO NO PERÍODO DA MACIÇA, DE ACORDO COM O CALENDÁRIO DA DATAPREV;
+
+✓ PARA CONTRATO NOVO O VALOR MÍNIMO DA PARCELA DEVERÁ SER R$ 20,00.
+
+SEÇÃO: Rodapé
+
+Roteiro Operacional – Empréstimo Consignado
