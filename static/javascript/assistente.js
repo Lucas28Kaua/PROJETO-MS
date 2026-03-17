@@ -15,9 +15,13 @@ function handleEnter(e) {
 }
 
 function adicionarMensagem(texto, tipo) {
-    const chat = document.getElementById('chat-mensagens');
+     const chat = document.getElementById('chat-mensagens');
     const div = document.createElement('div');
     div.className = `mensagem ${tipo}`;
+    const conteudo = document.createElement('div');
+    conteudo.className = 'mensagem-conteudo';
+    conteudo.textContent = texto;
+    div.appendChild(conteudo);
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
     return div;
