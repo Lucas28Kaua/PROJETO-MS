@@ -649,3 +649,82 @@ function fazerLogout() {
     // 2. Agora sim, manda para a tela de login
     window.location.replace("telalogin.html"); 
 }
+
+async function subirDocumento() {
+    const input = document.getElementById('input-doc-ia');
+    const feedbackOk = document.getElementById('feedback-upload');
+    const feedbackErro = document.getElementById('feedback-upload-erro');
+    feedbackOk.style.display = 'none';
+    feedbackErro.style.display = 'none';
+
+    if (!input.files[0]) {
+        alert('Selecione um arquivo!');
+        return;
+    }
+
+    const form = new FormData();
+    form.append('documento', input.files[0]);
+
+    try {
+        const res = await fetch('https://sistemamscred.com.br/assistente/upload', {
+            method: 'POST',
+            body: form
+        });
+        const data = await res.json();
+
+        if (data.sucesso) {
+            feedbackOk.style.display = 'block';
+            input.value = '';
+            carregarDocumentos();
+        } else {
+            feedbackErro.textContent = '✖ ' + (data.erro || 'Erro ao enviar.');
+            feedbackErro.style.display = 'block';
+        }
+    } catch (err) {
+        feedbackErro.style.display = 'block';
+        console.error(err);
+    }
+}
+
+async function carregarDocumentos() {
+    const lista = document.getElementById('lista-docs-ia');
+    try {
+        const res = await fetch('https://sistemamscred.com.br/assistente/documentos');
+        const data = await res.json();
+
+        if (!data.documentos.length) {
+            lista.innerHTML = '<p style="color:#aaa; font-size:0.85rem;">Nenhum documento indexado ainda.</p>';
+            return;
+        }
+
+        lista.innerHTML = data.documentos.map(doc => `
+            <div style="display:flex; justify-content:space-between; align-items:center;
+                        padding:8px 12px; background:#f9f9f9; border-radius:8px;
+                        border:1px solid #eee; font-size:0.85rem;">
+                <span>📄 ${doc}</span>
+                <button onclick="deletarDocumento('${doc}')"
+                    style="background:none; border:none; color:#e74c3c; cursor:pointer; font-weight:700; font-size:0.85rem;">
+                    🗑 Remover
+                </button>
+            </div>
+        `).join('');
+    } catch (err) {
+        lista.innerHTML = '<p style="color:#e74c3c; font-size:0.85rem;">Erro ao carregar documentos.</p>';
+    }
+}
+
+async function deletarDocumento(nome) {
+    if (!confirm(`Remover "${nome}" da base de conhecimento?`)) return;
+
+    try {
+        await fetch(`https://sistemamscred.com.br/assistente/documentos/${encodeURIComponent(nome)}`, {
+            method: 'DELETE'
+        });
+        carregarDocumentos();
+    } catch (err) {
+        alert('Erro ao remover documento.');
+    }
+}
+
+// Carrega a lista ao abrir a página
+carregarDocumentos();
