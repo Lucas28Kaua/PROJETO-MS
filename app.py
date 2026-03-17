@@ -1240,7 +1240,7 @@ def assistente():
         historico = []
     
     # Busca trechos relevantes nos documentos indexados
-    trechos = buscar_trechos(pergunta, n_resultados=5)
+    trechos = buscar_trechos(pergunta, n_resultados=3)
 
     if not trechos:
         contexto = "nenhum documento encontrado na base de conhecimento."
@@ -1254,19 +1254,20 @@ def assistente():
         "content": f"Documentos relevantes encontrados:\n\n{contexto}\n\n---\n\nPergunta: {pergunta}"
     })
 
-    resposta = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=messages,
-        temperature=0.3,
-        max_tokens=1024,
-    )
-
-    texto_resposta = resposta.choices[0].message.content
-
-    return jsonify({
-        "resposta": texto_resposta,
-        "nova_mensagem": {"role": "assistant", "content": texto_resposta}
-    })
+    try:
+        resposta = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=messages,
+            temperature=0.3,
+            max_tokens=1024,
+        )
+        texto_resposta = resposta.choices[0].message.content
+    except Exception as e:
+        erro_str = str(e)
+    if "429" in erro_str or "rate_limit" in erro_str.lower():
+        return jsonify({"erro": "Limite de uso atingido. Tente novamente em alguns minutos."}), 429
+    return jsonify({"erro": f"Erro ao processar: {erro_str}"}), 500
+    
 
 @app.route('/assistente/upload', methods=['POST'])
 def upload_documento():
