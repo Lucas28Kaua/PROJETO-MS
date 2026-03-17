@@ -15,12 +15,26 @@ function handleEnter(e) {
 }
 
 function adicionarMensagem(texto, tipo) {
-     const chat = document.getElementById('chat-mensagens');
+    const chat = document.getElementById('chat-mensagens');
     const div = document.createElement('div');
     div.className = `mensagem ${tipo}`;
+
+    if (tipo.includes('bot')) {
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar-bot';
+        avatar.textContent = '🤖';
+        div.appendChild(avatar);
+    }
+
     const conteudo = document.createElement('div');
     conteudo.className = 'mensagem-conteudo';
-    conteudo.textContent = texto;
+
+    if (tipo.includes('digitando')) {
+        conteudo.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+    } else {
+        conteudo.textContent = texto;
+    }
+    
     div.appendChild(conteudo);
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
