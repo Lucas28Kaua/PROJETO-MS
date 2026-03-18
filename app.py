@@ -1199,7 +1199,7 @@ def processar_oportunidades():
         return
     
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT cpf, nome FROM clientes LIMIT 5")
+    cursor.execute("SELECT cpf, nome FROM clientes")
     clientes = cursor.fetchall()
     cursor.close()
     conn.close()
