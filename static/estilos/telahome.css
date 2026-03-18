@@ -322,6 +322,9 @@ div.bancomes> h3, h4 {
 }
 
 .oportunidades-container {
+    border:1px solid rgba(0, 0, 0, 0.455);
+    border-radius: 20px;
+    padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
@@ -337,6 +340,7 @@ div.bancomes> h3, h4 {
 }
 
 .oportunidade-card {
+    border:1px solid black;
     background: rgb(238, 238, 238);
     box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.329);
     border-radius: 8px;
