@@ -1081,12 +1081,16 @@ def consulta_fullconsig(cpf):
                         resultado["estado"] = mapa_estados.get(estado_sigla, estado_sigla)
 
         # Telefone
-        for td in soup.select("table td"):
-            texto = re.sub(r'\D', '', td.get_text(strip=True))
-            if texto.isdigit() and len(texto) >= 10:
-                resultado["telefones"].append(texto)
-                if not resultado["telefone"]:
-                    resultado["telefone"] = texto
+        telefones = []
+        tabela_tel = soup.find('table', {'id': lambda x: x and 'tabelaWhatsapp' in x})
+        if tabela_tel:
+            for td in tabela_tel.select('td'):
+                texto = re.sub(r'\D', '', td.get_text(strip=True))
+                if texto.isdigit() and len(texto) >= 10:
+                    telefones.append(texto)
+        
+        resultado["telefones"] = telefones
+        resultado["telefone"] = telefones[0] if telefones else None
 
         margem_total = 0.0
         margem_rmc = 0.0
@@ -1118,7 +1122,7 @@ def consulta_fullconsig(cpf):
         # =============================================
 
         contratos = []
-        tabela = soup.find('table', class_=re.compile('table-centered'))
+        tabela = soup.find('table', {'class': lambda x: x and 'table-centered' in x and 'dados' not in x})
         if tabela:
             linhas = tabela.find_all('tr')
             print(f"Total de linhas na tabela: {len(linhas)}")
