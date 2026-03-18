@@ -1264,10 +1264,13 @@ def assistente():
         texto_resposta = resposta.choices[0].message.content
     except Exception as e:
         erro_str = str(e)
-    if "429" in erro_str or "rate_limit" in erro_str.lower():
-        return jsonify({"erro": "Limite de uso atingido. Tente novamente em alguns minutos."}), 429
-    return jsonify({"erro": f"Erro ao processar: {erro_str}"}), 500
-    
+        if "429" in erro_str or "rate_limit" in erro_str.lower():
+            return jsonify({"erro": "Limite de uso atingido. Tente novamente em alguns minutos."}), 429
+        return jsonify({"erro": f"Erro ao processar: {erro_str}"}), 500
+    return jsonify({
+        "resposta": texto_resposta,
+        "nova_mensagem":{"role":"assistant", "content": texto_resposta}
+    })
 
 @app.route('/assistente/upload', methods=['POST'])
 def upload_documento():
