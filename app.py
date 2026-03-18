@@ -1118,58 +1118,47 @@ def consulta_fullconsig(cpf):
                     margem_rcc = limpar_valor_monetario(valor_texto)
         
         # =============================================
-        # EXTRAIR CONTRATOS (tabela de empréstimos)
+        # EXTRAIR CONTRATOS (via JavaScript no HTML)
         # =============================================
-
-        print('-='*30)
-        print('TODAS AS TABELAS ENCONTRADAS:')
-        todas_tabelas = soup.find_all('table')
-        for i, tbl in enumerate(todas_tabelas):
-            classes = tbl.get('class', [])
-            id_ = tbl.get('id', 'sem_id')
-            print(f"Tabela {i}: classes={classes}, id={id_}")
-            print(f"  HTML resumido: {str(tbl)[:200]}...")
-        print('-='*30)
-
-        tabela = None
-        for tbl in todas_tabelas:
-            classes = ' '.join(tbl.get('class', []))
-            if 'table-centered' in classes and 'dados' not in classes:
-                if tbl.find('th', string=re.compile('Banco|contrato|parcela')):
-                    tabela = tbl
-                    print("✅ Tabela de contratos ENCONTRADA!")
-                    break
-        if not tabela:
-            print("❌ Tabela de contratos NÃO encontrada!")
         contratos = []
-        tabela = soup.find('table', {'class': lambda x: x and 'table-centered' in x and 'dados' not in x})
-        if tabela:
-            linhas = tabela.find_all('tr')
-            print(f"Total de linhas na tabela: {len(linhas)}")
-            for linha in linhas:
-                if linha.get('class') and any('bg-light' in c for c in linha.get('class')):
-                    colunas = linha.find_all('td')
-                    if len(colunas) >= 10:
-                        try:
 
+        match_contratos = re.search(r'var contratos\s*=\s*(\[.*?\]);', html_consulta, re.DOTALL)
+
+        if match_contratos:
+            try:
+                contratos_str = match_contratos.group(1)
+                contratos_data = json.loads(contratos_str)
+
+                for c in contratos_data:
+                    if c.get('Banco') and c.get('Banco_Nome'):
+                        try:
+                            parcelas_pagas = int(c.get('ParcPagas', 0))
+                            prazo_total = int(c.get('Prazo', 0))
+                            parcelas_restantes = prazo_total - parcelas_pagas if prazo_total > 0 else 0
+                            
                             contrato = {
-                                'banco': colunas[0].get_text(strip=True) if len(colunas) > 0 else '',
-                                'numero': colunas[1].get_text(strip=True) if len(colunas) > 1 else '',
-                                'averbacao': colunas[2].get_text(strip=True) if len(colunas) > 2 else '',
-                                'inicio_desconto': colunas[3].get_text(strip=True) if len(colunas) > 3 else '',
-                                'final_desconto': colunas[4].get_text(strip=True) if len(colunas) > 4 else '',
-                                'valor_contrato': limpar_valor_monetario(colunas[5].get_text(strip=True)) if len(colunas) > 5 else 0.0,
-                                'taxa': colunas[6].get_text(strip=True) if len(colunas) > 6 else '',
-                                'valor_parcela': limpar_valor_monetario(colunas[7].get_text(strip=True)) if len(colunas) > 7 else 0.0,
-                                'parcelas_pagas': colunas[8].get_text(strip=True) if len(colunas) > 8 else '',
-                                'quitacao': limpar_valor_monetario(colunas[9].get_text(strip=True)) if len(colunas) > 9 else 0.0
+                                'banco': c.get('Banco_Nome', ''),
+                                'numero': c.get('Contrato', ''),
+                                'averbacao': c.get('dt_averbacao', ''),
+                                'inicio_desconto': c.get('InicioDesconto', ''),
+                                'final_desconto': c.get('FinalDesconto', ''),
+                                'valor_contrato': float(c.get('Vl_Emprestimo', 0)) if c.get('Vl_Emprestimo') else 0.0,
+                                'taxa': c.get('TaxaJuros', ''),
+                                'valor_parcela': float(c.get('Vl_Parcela', 0)) if c.get('Vl_Parcela') else 0.0,
+                                'parcelas_pagas': f"{parcelas_pagas}/{prazo_total} - {parcelas_restantes} Restantes" if prazo_total > 0 else '',
+                                'quitacao': float(c.get('QUITACAOATUAL', 0)) if c.get('QUITACAOATUAL') else 0.0
                             }
-                            print(f"  → Contrato extraído: {contrato['banco'][:30]}...")
                             contratos.append(contrato)
-                        except:
-                            print(f"  → Erro ao extrair: {e}")
+                        except Exception as e:
+                            print(f'Erro ao processar contrato: {e}')
                             continue
-        
+                print(f"✅ Extraídos {len(contratos)} contratos do JavaScript")
+            except Exception as e:
+                print(f"❌ Erro ao parsear contratos JS: {e}")
+                contratos = []
+        else:
+            print("⚠️ Variável 'contratos' não encontrada no HTML")
+            
         resultado["margem_total"] = margem_total
         resultado["margem_rmc"] = margem_rmc
         resultado["margem_rcc"] = margem_rcc
