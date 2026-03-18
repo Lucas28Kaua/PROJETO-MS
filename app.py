@@ -806,6 +806,16 @@ def consulta_fullconsig(cpf):
         from datetime import datetime
         import re, json
 
+        def limpar_valor_monetario(valor_str):
+            if not valor_str:
+                return 0.0
+            valor_str = valor_str.replace('R$', '').strip()
+            valor_str = valor_str.replace('.', '').replace(',', '.')
+            try:
+                return float(valor_str)
+            except:
+                return 0.0
+            
         sessao = get_sessao_fullconsig()
         convenios = ['inss', 'siape', 'governo', 'clt', 'prefeitura', 'forcasArmadas', 'veiculos', 'bolsa']
 
@@ -1078,6 +1088,68 @@ def consulta_fullconsig(cpf):
                 if not resultado["telefone"]:
                     resultado["telefone"] = texto
 
+        margem_total = 0.0
+        margem_rmc = 0.0
+        margem_rcc = 0.0
+
+        div_margens = soup.find('div', class_='d-flex justify-content-center margem')
+        if div_margens:
+            card_total = div_margens.find('div', class_='total-disponivel')
+            if card_total:
+                spans = card_total.find_all('span')
+                if len(spans) >= 2:
+                    valor_texto = spans[1].get_text(strip=True)
+                    margem_total = limpar_valor_monetario(valor_texto)
+            card_rmc = div_margens.find('div', class_='rmc-disponivel')
+            if card_rmc:
+                spans = card_rmc.find_all('span')
+                if len(spans) >= 2:
+                    valor_texto = spans[1].get_text(strip=True)
+                    margem_rmc = limpar_valor_monetario(valor_texto)
+            card_rcc = div_margens.find('div', class_='rcc-disponivel')
+            if card_rcc:
+                spans = card_rcc.find_all('span')
+                if len(spans) >= 2:
+                    valor_texto = spans[1].get_text(strip=True)
+                    margem_rcc = limpar_valor_monetario(valor_texto)
+        
+        # =============================================
+        # EXTRAIR CONTRATOS (tabela de empréstimos)
+        # =============================================
+
+        contratos = []
+        tabela = soup.find('table', class_=re.compile('table-centered'))
+        if tabela:
+            linhas = tabela.find_all('tr')
+            print(f"Total de linhas na tabela: {len(linhas)}")
+            for linha in linhas:
+                if linha.get('class') and any('bg-light' in c for c in linha.get('class')):
+                    colunas = linha.find_all('td')
+                    if len(colunas) >= 10:
+                        try:
+
+                            contrato = {
+                                'banco': colunas[0].get_text(strip=True) if len(colunas) > 0 else '',
+                                'numero': colunas[1].get_text(strip=True) if len(colunas) > 1 else '',
+                                'averbacao': colunas[2].get_text(strip=True) if len(colunas) > 2 else '',
+                                'inicio_desconto': colunas[3].get_text(strip=True) if len(colunas) > 3 else '',
+                                'final_desconto': colunas[4].get_text(strip=True) if len(colunas) > 4 else '',
+                                'valor_contrato': limpar_valor_monetario(colunas[5].get_text(strip=True)) if len(colunas) > 5 else 0.0,
+                                'taxa': colunas[6].get_text(strip=True) if len(colunas) > 6 else '',
+                                'valor_parcela': limpar_valor_monetario(colunas[7].get_text(strip=True)) if len(colunas) > 7 else 0.0,
+                                'parcelas_pagas': colunas[8].get_text(strip=True) if len(colunas) > 8 else '',
+                                'quitacao': limpar_valor_monetario(colunas[9].get_text(strip=True)) if len(colunas) > 9 else 0.0
+                            }
+                            print(f"  → Contrato extraído: {contrato['banco'][:30]}...")
+                            contratos.append(contrato)
+                        except:
+                            print(f"  → Erro ao extrair: {e}")
+                            continue
+        
+        resultado["margem_total"] = margem_total
+        resultado["margem_rmc"] = margem_rmc
+        resultado["margem_rcc"] = margem_rcc
+        resultado["contratos"] = contratos
         return jsonify(resultado), 200
 
     except Exception as e:
