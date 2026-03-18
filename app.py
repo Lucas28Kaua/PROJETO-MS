@@ -1208,81 +1208,92 @@ def processar_oportunidades():
                     continue
                 dados = resp.get_json()
 
+                idade = dados.get('idade') or dados.get('IDADE') or 0
+                
                 oportunidades = []
                 tipo_final = ''
 
                 margens = []
-                if dados.get('margem_total', 0) >= 20:
-                    margens.append('margem')
-                if dados.get('margem_rmc', 0) >= 20:
-                    margens.append('margem_rmc')
-                if dados.get('margem_rcc', 0) >= 20:
-                    margens.append('margem_rcc')
+                if idade <= 75:
+                    if dados.get('margem_total', 0) >= 20:
+                        margens.append('margem')
+                    if dados.get('margem_rmc', 0) >= 20:
+                        margens.append('margem_rmc')
+                    if dados.get('margem_rcc', 0) >= 20:
+                        margens.append('margem_rcc')
+                else:
+                    print(f'⏭️  Cliente com {idade} anos - sem margem (limite 75)')
 
                 contratos_portaveis = []
-                for ct in dados.get('contratos', []):
-                    parcelas_str = ct.get('parcelas_pagas', '')
-                    pagas = 0
-                    if '/' in parcelas_str:
-                        try:
-                            pagas = int(parcelas_str.split('/')[0])
-                        except:
-                            pass
-                    if ct.get('valor_parcela', 0) >= 20 and pagas >= 12:
-                        contratos_portaveis.append({
-                            'banco': ct['banco'],
-                            'parcela': ct['valor_parcela'],
-                            'parcelas_pagas': pagas,
-                            'quitacao': ct['quitacao']
-                        })
-                if contratos_portaveis:
-                    oportunidades.append('portabilidade')
 
-                    if not margens and not contratos_portaveis:
-                        print(f' Sem oportunidades')
-                        continue
+                if idade <= 73:
 
-                    tipo_final = '+'.join(margens + (['portabilidade'] if contratos_portaveis else []))
+                    for ct in dados.get('contratos', []):
+                        parcelas_str = ct.get('parcelas_pagas', '')
+                        pagas = 0
+                        if '/' in parcelas_str:
+                            try:
+                                pagas = int(parcelas_str.split('/')[0])
+                            except:
+                                pass
+                        if ct.get('valor_parcela', 0) >= 20 and pagas >= 12:
+                            contratos_portaveis.append({
+                                'banco': ct['banco'],
+                                'parcela': ct['valor_parcela'],
+                                'parcelas_pagas': pagas,
+                                'quitacao': ct['quitacao']
+                            })
+                    if contratos_portaveis:
+                        oportunidades.append('portabilidade')
+                else:
+                    print(f"   ⏭️  Cliente com {idade} anos - sem portabilidade (limite 73)")
 
-                    margem_principal = dados.get('margem_total', 0)
-                    if margem_principal < 20:
-                        margem_principal = dados.get('margem_rmc', 0)
-                    if margem_principal < 20:
-                        margem_principal = dados.get('margem_rcc', 0)
 
-                    conn_db = conexao_db()
-                    cur = conn_db.cursor()
+                if not margens and not contratos_portaveis:
+                    print(f' Sem oportunidades')
+                    continue
 
-                    sql = """
-                        INSERT INTO oportunidades 
-                        (cpf, nome, tipo, margem_disponivel, contratos_portaveis, data_consulta, status)
-                        VALUES (%s, %s, %s, %s, %s, NOW(), 'ativo')
-                        ON DUPLICATE KEY UPDATE
-                            tipo = VALUES(tipo),
-                            margem_disponivel = VALUES(margem_disponivel),
-                            contratos_portaveis = VALUES(contratos_portaveis),
-                            data_consulta = NOW(),
-                            status = 'ativo'
-                    """
+                tipo_final = '+'.join(margens + (['portabilidade'] if contratos_portaveis else []))
 
-                    cur.execute(sql, (
-                        cpf,
-                        dados.get('nome'),
-                        tipo_final,
-                        margem_principal,
-                        json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None
-                    ))
+                margem_principal = dados.get('margem_total', 0)
+                if margem_principal < 20:
+                    margem_principal = dados.get('margem_rmc', 0)
+                if margem_principal < 20:
+                    margem_principal = dados.get('margem_rcc', 0)
 
-                    conn_db.commit()
-                    cur.close()
-                    conn_db.close()
+                conn_db = conexao_db()
+                cur = conn_db.cursor()
 
-                    print(f"   ✅ OPORTUNIDADE! {tipo_final}")
+                sql = """
+                    INSERT INTO oportunidades 
+                    (cpf, nome, tipo, margem_disponivel, contratos_portaveis, data_consulta, status)
+                    VALUES (%s, %s, %s, %s, %s, NOW(), 'ativo')
+                    ON DUPLICATE KEY UPDATE
+                        tipo = VALUES(tipo),
+                        margem_disponivel = VALUES(margem_disponivel),
+                        contratos_portaveis = VALUES(contratos_portaveis),
+                        data_consulta = NOW(),
+                        status = 'ativo'
+                """
+
+                cur.execute(sql, (
+                    cpf,
+                    dados.get('nome'),
+                    tipo_final,
+                    margem_principal,
+                    json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None
+                ))
+
+                conn_db.commit()
+                cur.close()
+                conn_db.close()
+
+                print(f"   ✅ OPORTUNIDADE! {tipo_final}")
         except Exception as e:
             print(f"❌ Erro: {e}")
             
         if i < len(clientes):
-            espera = random.uniform(15, 25)
+            espera = random.uniform(10, 15)
             print(f"   ⏳ Aguardando {espera:.0f} segundos...")
             time.sleep(espera)
     print("\n✅ Processamento finalizado!")
