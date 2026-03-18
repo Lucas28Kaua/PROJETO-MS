@@ -1186,7 +1186,7 @@ def processar_oportunidades():
         return
     
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT cpf, nome FROM clientes LIMIT 3")
+    cursor.execute("SELECT cpf, nome FROM clientes LIMIT 5")
     clientes = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -1229,6 +1229,12 @@ def processar_oportunidades():
                 if idade <= 73:
 
                     for ct in dados.get('contratos', []):
+
+                        final_desconto = ct.get('final_desconto', '')
+                        if final_desconto == '000000' or final_desconto == '' or final_desconto == None:
+                            continue
+
+
                         parcelas_str = ct.get('parcelas_pagas', '')
                         pagas = 0
                         if '/' in parcelas_str:
@@ -1295,7 +1301,7 @@ def processar_oportunidades():
             print(f"❌ Erro: {e}")
             
         if i < len(clientes):
-            espera = random.uniform(10, 15)
+            espera = random.uniform(5, 15)
             print(f"   ⏳ Aguardando {espera:.0f} segundos...")
             time.sleep(espera)
     print("\n✅ Processamento finalizado!")
