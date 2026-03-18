@@ -451,6 +451,13 @@ div.bancomes> h3, h4 {
 .resumo-item.portabilidade { border-top: 4px solid #3498db; }
 .resumo-item.cartao { border-top: 4px solid #9b59b6; }
 
+.resumo-item.margem .resumo-valor {
+    color: #2ecc71;  /* Verde vibrante */
+    font-weight: 700;
+    font-size: 32px;
+    text-shadow: 0 1px 2px rgba(46, 204, 113, 0.2);
+}
+
 .resumo-icon {
     font-size: 32px;
     display: block;

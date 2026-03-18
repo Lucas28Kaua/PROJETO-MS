@@ -216,15 +216,22 @@ async function carregarOportunidades() {
             }
 
             card.innerHTML = `
-                <div style="display: flex; justify-content: space-between;">
-                    <strong>${op.nome}</strong>
-                    <span style="color: #666; font-size: 12px;">${op.idade || '?'} anos</span>
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <strong>${op.nome}</strong>
+                        <div style="font-size: 11px; color: #999; margin-top: 2px;">
+                            CPF: ${op.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}
+                        </div>
+                    </div>
+                    <span style="color: #666; font-size: 12px; background: #f0f0f0; padding: 2px 8px; border-radius: 12px;">
+                        ${op.idade || '?'} anos
+                    </span>
                 </div>
                 <div style="margin: 10px 0; display: flex; gap: 8px; flex-wrap: wrap;">
                     ${icones}
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                    <span style="font-size: 11px; color: #999;">${op.data_consulta}</span>
+                    <span style="font-size: 11px; color: #999;">📅 ${op.data_consulta}</span>
                     <button class="btn-oportunidade" onclick="verCliente('${op.cpf}')">Ver</button>
                 </div>
             `;
