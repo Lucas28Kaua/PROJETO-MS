@@ -1,12 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory
 import os
-import fitz #pymupdf
-import openpyxl
-import docx
 import io
-from groq import Groq
-from rag.indexador import indexar_documento, listar_documentos, remover_documento
-from rag.buscador import buscar_trechos
 import re
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,7 +17,7 @@ sys.stdout.reconfigure(line_buffering=True)
 load_dotenv()
 
 app = Flask(__name__)
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['MAX_CONTENT_LENGTH'] = 50*1024*1024
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -1184,120 +1178,5 @@ def buscar_detalhe_lote(lote_id):
     finally:
         conn.close()
         
-
-SYSTEM_PROMPT = """Você é um assistente interno da Ms Cred, uma promotora de crédito consignado 
-localizada em Santa Cruz, RN. Ajude os funcionários com dúvidas sobre contratos, 
-tabelas de bancos, produtos e procedimentos internos.
-
-REGRAS IMPORTANTES:
-- se baseie nos documentos que foi passado para responder as perguntas.
-- Se achar que convém, use conhecimento geral. Use os conhecimentos gerais apenas para complementar ou explicar algo que esteja nos documentos, NUNCA para responder algo que não esteja neles. algo em relação a convênios, por exemplo.
-- Nunca misture informações de bancos diferentes
-- Se a informação não estiver nos documentos, diga claramente que não encontrou
-
-Seja direto e objetivo. Responda sempre em português."""
-
-def extrair_texto(arquivo, nome):
-    nome = nome.lower()
-
-    if nome.endswith(".pdf"):
-        doc = fitz.open(stream=arquivo.read(), filetype="pdf")
-        return "\n".join(page.get_text() for page in doc)
-
-    elif nome.endswith((".xlsl", ".xls")):
-        wb = openpyxl.load_workbook(io.BytesIO(arquivo.read()), data_only=True)
-        texto = []
-        for sheet in wb.worksheets:
-            texto.append(f"[Aba: {sheet.title}]")
-            for row in sheet.iter_rows(values_only=True):
-                linha = " | ".join(str(c) for c in row if c is not None)
-                if linha:
-                    texto.append(linha)
-        return "\n".join(texto)
-    
-    elif nome.endswith(".docx"):
-        doc = docx.Document(io.BytesIO(arquivo.read()))
-        return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
-
-    elif nome.endswith(".txt"):
-        return arquivo.read().decode("utf-8")
-
-    return ""
-
-@app.route('/assistente', methods = ['POST'])
-def assistente():
-
-    pergunta = request.form.get("pergunta", "").strip()
-    historico_json = request.form.get("historico", "[]")
-    arquivo = request.files.get("documento")
-
-    if not pergunta:
-        return jsonify({"erro":"pergunta não informada"}), 400
-    
-    try:
-        historico = json.loads(historico_json)
-    except:
-        historico = []
-    
-    # Busca trechos relevantes nos documentos indexados
-    trechos = buscar_trechos(pergunta, n_resultados=3)
-
-    if not trechos:
-        contexto = "nenhum documento encontrado na base de conhecimento."
-    else:
-        contexto = "\n\n---\n\n".join(trechos)
-
-    messages = [{"role":"system", "content":SYSTEM_PROMPT}]
-    messages.extend(historico)
-    messages.append({
-        "role": "user",
-        "content": f"Documentos relevantes encontrados:\n\n{contexto}\n\n---\n\nPergunta: {pergunta}"
-    })
-
-    try:
-        resposta = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
-            messages=messages,
-            temperature=0.3,
-            max_tokens=1024,
-        )
-        texto_resposta = resposta.choices[0].message.content
-    except Exception as e:
-        erro_str = str(e)
-        if "429" in erro_str or "rate_limit" in erro_str.lower():
-            return jsonify({"erro": "Limite de uso atingido. Tente novamente em alguns minutos."}), 429
-        return jsonify({"erro": f"Erro ao processar: {erro_str}"}), 500
-    return jsonify({
-        "resposta": texto_resposta,
-        "nova_mensagem":{"role":"assistant", "content": texto_resposta}
-    })
-
-@app.route('/assistente/upload', methods=['POST'])
-def upload_documento():
-    if 'documento' not in request.files:
-        return jsonify({"erro": "Nenhum arquivo enviado"}), 400
-    
-    arquivo = request.files['documento']
-    if not arquivo.filename:
-        return jsonify({"erro": "Nome de arquivo invalido"}), 400
-    
-    extensoes_permitidas = {'.pdf', '.xlsx', '.xls', '.docx', '.txt'}
-    ext = os.path.splitext(arquivo.filename)[1].lower()
-    if ext not in extensoes_permitidas:
-        return jsonify({"erro": f"Formato não suportado: {ext}"}), 400
-
-    arquivo_bytes = arquivo.read()
-    resultado = indexar_documento(arquivo_bytes, arquivo.filename)
-    return jsonify(resultado), 200
-
-@app.route('/assistente/documentos', methods=['GET'])
-def listar_docs():
-    docs = listar_documentos()
-    return jsonify({"documentos": docs}), 200
-
-@app.route('/assistente/documentos/<nome_arquivo>', methods = ['DELETE'])
-def deletar_doc(nome_arquivo):
-    remover_documento(nome_arquivo)
-    return jsonify({"sucesso": True, "mensagem": f"{nome_arquivo} removido"}), 200
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

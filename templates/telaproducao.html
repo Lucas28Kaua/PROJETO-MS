@@ -251,44 +251,6 @@
                     <span id="feedbackSalvo" class="msg-sucesso">✔ Publicado com sucesso!</span>
                 </div>
             </div>
-            <!-- SEÇÃO GESTÃO DE DOCUMENTOS IA -->
-            <div class="secao-regras-banco" style="margin-top: 20px;">
-                <h3 class="titulo-card">🤖 Gestão de Documentos — Assistente IA</h3>
-
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size:0.85rem; font-weight:700; color:#555; display:block; margin-bottom:8px;">
-                        📎 Subir novo documento (PDF, Excel, Word, TXT)
-                    </label>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <input type="file" id="input-doc-ia" accept=".pdf,.xlsx,.xls,.docx,.txt"
-                            style="flex:1; padding:8px; border:1.5px solid #e8eaf0; border-radius:8px; font-size:0.85rem;">
-                        <button onclick="subirDocumento()" class="btn-salvar-regras" style="margin:0; white-space:nowrap;">
-                            ⬆️ Enviar
-                        </button>
-                    </div>
-                    <span id="feedback-upload" style="font-size:0.8rem; color:#27ae60; display:none; margin-top:6px;">
-                        ✔ Documento indexado com sucesso!
-                    </span>
-                    <span id="feedback-upload-erro" style="font-size:0.8rem; color:#e74c3c; display:none; margin-top:6px;">
-                        ✖ Erro ao enviar documento.
-                    </span>
-                </div>
-
-                <div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <label style="font-size:0.85rem; font-weight:700; color:#555;">
-                            📁 Documentos indexados
-                        </label>
-                        <button onclick="carregarDocumentos()" 
-                            style="background:none; border:none; color:#eb6505; cursor:pointer; font-size:0.85rem; font-weight:700;">
-                            🔄 Atualizar
-                        </button>
-                    </div>
-                    <div id="lista-docs-ia" style="display:flex; flex-direction:column; gap:6px;">
-                        <p style="color:#aaa; font-size:0.85rem;">Carregando...</p>
-                    </div>
-                </div>
-            </div>
         </div> 
         </div> 
     </main>
