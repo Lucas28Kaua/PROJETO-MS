@@ -334,9 +334,10 @@ div.bancomes> h3, h4 {
 
 .oportunidade-card {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+    border-left: 3px solid #833ab4;
     transition: transform 0.2s;
     display: flex;
     flex-direction: column;
@@ -344,8 +345,8 @@ div.bancomes> h3, h4 {
 }
 
 .oportunidade-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .card-header {
