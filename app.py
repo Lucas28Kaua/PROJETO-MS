@@ -1381,6 +1381,8 @@ def listar_oportunidades():
     except Exception as e:
         conn.close()
         return jsonify({"erro": str(e)}), 500
+
+        
 @app.route('/lotes/salvar', methods=['POST'])
 def salvar_lote():
     dados = request.json

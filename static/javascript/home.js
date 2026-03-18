@@ -163,96 +163,82 @@ async function carregarOportunidades() {
             return;
         }
 
-        let stats = {
-            margem: {count: 0, total: 0},
-            rmc: {count: 0, total: 0},
-            rcc: {count: 0, total: 0},
-            portabilidade: {count: 0, total: 0},
-            cartao: {count: 0}
+        let totais = {
+            margem: { valor: 0, clientes: 0 },
+            portabilidade: { contratos: 0, clientes: 0 },
+            cartao: { cartoes: 0, clientes: 0 }
         }
-
-        container.innerHTML = ''; 
 
         oportunidades.forEach(op => {
             const tipos = op.tipo.split('+');
-
+            
             if (tipos.includes('margem')) {
-                stats.margem.count++;
-                stats.margem.total += parseFloat(op.margem_disponivel) || 0;
-            }
-            if (tipos.includes('margem_rmc')) {
-                stats.rmc.count++;
-                stats.rmc.total += parseFloat(op.margem_rmc) || 0;
-            }
-            if (tipos.includes('margem_rcc')) {
-                stats.rcc.count++;
-                stats.rcc.total += parseFloat(op.margem_rcc) || 0;
+                totais.margem.valor += parseFloat(op.margem_disponivel) || 0;
+                totais.margem.clientes++;
             }
             if (tipos.includes('portabilidade')) {
-                stats.portabilidade.count++;
-                // Soma o valor das parcelas dos contratos
-                if (op.contratos_portaveis) {
-                    op.contratos_portaveis.forEach(ct => {
-                        stats.portabilidade.total += ct.parcela || 0;
-                    });
-                }
+                totais.portabilidade.contratos += op.contratos_portaveis?.length || 0;
+                totais.portabilidade.clientes++;
             }
             if (tipos.includes('cartao')) {
-                stats.cartao.count++;
+                totais.cartao.cartoes += op.cartoes?.length || 0;
+                totais.cartao.clientes++;
             }
+        });
 
+        document.getElementById('resumo-margem').innerText = `R$ ${totais.margem.valor.toFixed(2).replace('.', ',')}`;
+        document.getElementById('resumo-qtd-margem').innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
+
+        document.getElementById('resumo-portabilidade').innerText = totais.portabilidade.contratos;
+        document.getElementById('resumo-qtd-port').innerText = `${totais.portabilidade.clientes} cliente${totais.portabilidade.clientes !== 1 ? 's' : ''}`;
+
+        document.getElementById('resumo-cartoes').innerText = totais.cartao.cartoes;
+        document.getElementById('resumo-qtd-cartao').innerText = `${totais.cartao.clientes} cliente${totais.cartao.clientes !== 1 ? 's' : ''}`;
+
+        container.innerHTML = '';
+
+        oportunidades.forEach(op => {
+            const tipos = op.tipo.split('+');
             const card = document.createElement('div');
             card.className = 'oportunidade-card';
 
-            let tiposHTML = '';
+            let icones = '';
             if (tipos.includes('margem')) {
-                tiposHTML += `<span class="tipo-badge tipo-margem" title="Margem Consignável">💰 R$ ${parseFloat(op.margem_disponivel).toFixed(2)}</span>`;
+                icones += `<span class="tipo-badge tipo-margem">💰 R$ ${parseFloat(op.margem_disponivel).toFixed(2).replace('.', ',')}</span>`;
             }
-
-            if (tipos.includes('margem_rmc')) {
-                tiposHTML += `<span class="tipo-badge tipo-rmc" title="Margem RMC">💳 RMC R$ ${parseFloat(op.margem_rmc || 0).toFixed(2)}</span>`;
-            }
-
-            if (tipos.includes('margem_rcc')) {
-                tiposHTML += `<span class="tipo-badge tipo-rcc" title="Margem RCC">💳 RCC R$ ${parseFloat(op.margem_rcc || 0).toFixed(2)}</span>`;
-            }
-
             if (tipos.includes('portabilidade')) {
-                const qtd = op.contratos_portaveis?.length || 0;
-                tiposHTML += `<span class="tipo-badge tipo-portabilidade" title="Portabilidade">📦 ${qtd} contrato${qtd > 1 ? 's' : ''}</span>`;
+                icones += `<span class="tipo-badge tipo-portabilidade">📦 ${op.contratos_portaveis?.length || 0} contratos</span>`;
             }
-
             if (tipos.includes('cartao')) {
                 const qtd = op.cartoes?.length || 0;
-                tiposHTML += `<span class="tipo-badge tipo-cartao" title="Saque Cartão BMG">🏧 ${qtd} cartão${qtd > 1 ? 'ões' : ''}</span>`;
+                const textoCartao = qtd > 1 ? 'cartões' : 'cartão';
+                icones += `<span class="tipo-badge tipo-cartao">💳 ${qtd} ${textoCartao}</span>`;
             }
 
             card.innerHTML = `
-                <div class="card-header">
-                    <h3>${op.nome}</h3>
-                    <span class="idade-badge">${op.idade || '?'} anos</span>
+                <div style="display: flex; justify-content: space-between;">
+                    <strong>${op.nome}</strong>
+                    <span style="color: #666; font-size: 12px;">${op.idade || '?'} anos</span>
                 </div>
-                <div class="card-tipos">
-                    ${tiposHTML}
+                <div style="margin: 10px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+                    ${icones}
                 </div>
-                <div class="card-footer">
-                    <span class="data-consulta">📅 ${op.data_consulta || ''}</span>
-                    <button class="btn-oportunidade" onclick="verCliente('${op.cpf}')">
-                        Ver cliente
-                    </button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span style="font-size: 11px; color: #999;">${op.data_consulta}</span>
+                    <button class="btn-oportunidade" onclick="verCliente('${op.cpf}')">Ver</button>
                 </div>
             `;
             
             container.appendChild(card);
         });
-
     } catch (error) {
         console.error('Erro ao carregar oportunidades:', error);
         const container = document.getElementById('oportunidades-container');
         if (container) {
             container.innerHTML = '<div class="loading-spinner">Erro ao carregar oportunidades.</div>';
         }
-    }
+
+        }
 }
 
 function verCliente(cpf) {
