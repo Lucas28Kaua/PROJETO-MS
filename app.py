@@ -1328,6 +1328,46 @@ def processar_oportunidades():
             time.sleep(espera)
     print("\n✅ Processamento finalizado!")
 
+@app.route('/api/oportunidades', methods=['GET'])
+def listar_oportunidades():
+    conn = conexao_db()
+    if not conn:
+        return jsonify({"erro": "Erro na conexão"}), 500
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT 
+                id, cpf, nome, idade, tipo,
+                margem_disponivel,
+                contratos_portaveis,
+                cartoes,
+                DATE_FORMAT(data_consulta, '%d/%m/%Y %H:%i') as data_consulta
+            FROM oportunidades 
+            WHERE status = 'ativo'
+            ORDER BY 
+                CASE 
+                    WHEN tipo LIKE '%portabilidade%' THEN 1
+                    WHEN tipo LIKE '%cartao%' THEN 2
+                    WHEN tipo LIKE '%margem%' THEN 3
+                    ELSE 4
+                END,
+                data_consulta DESC
+        """)
+        oportunidades = cursor.fetchall()
+
+        for op in oportunidades:
+            if op['contratos_portaveis'] and isinstance(op['contratos_portaveis'], str):
+                op['contratos_portaveis'] = json.loads(op['contratos_portaveis'])
+            if op['cartoes'] and isinstance(op['cartoes'], str):
+                op['cartoes'] = json.loads(op['cartoes'])
+        
+        conn.close()
+        return jsonify(oportunidades), 200
+    except Exception as e:
+        conn.close()
+        return jsonify({"erro": str(e)}), 500
 @app.route('/lotes/salvar', methods=['POST'])
 def salvar_lote():
     dados = request.json
