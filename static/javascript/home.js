@@ -211,7 +211,7 @@ async function carregarOportunidades() {
             }
             if (tipos.includes('cartao')) {
                 const qtd = op.cartoes?.length || 0;
-                const textoCartao = qtd > 1 ? 'cartões' : 'cartão';
+                const textoCartao = qtd > 1 ? 'cartões BMG' : 'cartão BMG';
                 icones += `<span class="tipo-badge tipo-cartao">💳 ${qtd} ${textoCartao}</span>`;
             }
 
