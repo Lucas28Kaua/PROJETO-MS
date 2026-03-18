@@ -322,9 +322,6 @@ div.bancomes> h3, h4 {
 }
 
 .oportunidades-container {
-    border:1px solid rgba(0, 0, 0, 0.455);
-    border-radius: 20px;
-    padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
@@ -499,7 +496,30 @@ div.bancomes> h3, h4 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
+    max-height: 320px;  /* Altura pra caber uns 2 cards + espaço */
+    overflow-y: auto;    /* Scroll vertical quando passar */
+    padding-right: 8px;  /* Espaço pro scroll não cobrir o card */
+    margin-top: 20px;
 }
+
+.oportunidades-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.oportunidades-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.oportunidades-grid::-webkit-scrollbar-thumb {
+    background: #dc650a;
+    border-radius: 10px;
+}
+
+.oportunidades-grid::-webkit-scrollbar-thumb:hover {
+    background: #dc650a;
+}
+
 /* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
 
 /* Tablet e telas menores */
