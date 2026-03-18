@@ -1209,7 +1209,7 @@ def processar_oportunidades():
                 dados = resp.get_json()
 
                 idade = dados.get('idade') or dados.get('IDADE') or 0
-                
+
                 oportunidades = []
                 tipo_final = ''
 
@@ -1266,9 +1266,10 @@ def processar_oportunidades():
 
                 sql = """
                     INSERT INTO oportunidades 
-                    (cpf, nome, tipo, margem_disponivel, contratos_portaveis, data_consulta, status)
-                    VALUES (%s, %s, %s, %s, %s, NOW(), 'ativo')
+                    (cpf, nome, idade, tipo, margem_disponivel, contratos_portaveis, data_consulta, status)
+                    VALUES (%s, %s, %s, %s, %s, %s, NOW(), 'ativo')
                     ON DUPLICATE KEY UPDATE
+                        idade = VALUES(idade),
                         tipo = VALUES(tipo),
                         margem_disponivel = VALUES(margem_disponivel),
                         contratos_portaveis = VALUES(contratos_portaveis),
