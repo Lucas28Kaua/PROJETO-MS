@@ -1280,6 +1280,7 @@ def processar_oportunidades():
                 cur.execute(sql, (
                     cpf,
                     dados.get('nome'),
+                    idade,
                     tipo_final,
                     margem_principal,
                     json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None
