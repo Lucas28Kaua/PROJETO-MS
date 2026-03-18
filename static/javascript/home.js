@@ -147,6 +147,122 @@ function atualizarProgressoMeta() {
     }
 }
 
+
+async function carregarOportunidades() {
+    try {
+        const container = document.getElementById('oportunidadesContainer');
+        if (!container) return;
+
+        container.innerHTML = '<div class="loading-spinner">Carregando oportunidades...</div>';
+
+        const response = await fetch(`https://sistemamscred.com.br/api/oportunidades`)
+        const oportunidades = await response.json();
+
+        if (!oportunidades || oportunidades.length === 0) {
+            container.innerHTML = '<div class="loading-spinner">Nenhuma oportunidade encontrada no momento.</div>';
+            return;
+        }
+
+        let stats = {
+            margem: {count: 0, total: 0},
+            rmc: {count: 0, total: 0},
+            rcc: {count: 0, total: 0},
+            portabilidade: {count: 0, total: 0},
+            cartao: {count: 0}
+        }
+
+        container.innerHTML = ''; 
+
+        oportunidades.forEach(op => {
+            const tipos = op.tipo.split('+');
+
+            if (tipos.includes('margem')) {
+                stats.margem.count++;
+                stats.margem.total += parseFloat(op.margem_disponivel) || 0;
+            }
+            if (tipos.includes('margem_rmc')) {
+                stats.rmc.count++;
+                stats.rmc.total += parseFloat(op.margem_rmc) || 0;
+            }
+            if (tipos.includes('margem_rcc')) {
+                stats.rcc.count++;
+                stats.rcc.total += parseFloat(op.margem_rcc) || 0;
+            }
+            if (tipos.includes('portabilidade')) {
+                stats.portabilidade.count++;
+                // Soma o valor das parcelas dos contratos
+                if (op.contratos_portaveis) {
+                    op.contratos_portaveis.forEach(ct => {
+                        stats.portabilidade.total += ct.parcela || 0;
+                    });
+                }
+            }
+            if (tipos.includes('cartao')) {
+                stats.cartao.count++;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'oportunidade-card';
+
+            let tiposHTML = '';
+            if (tipos.includes('margem')) {
+                tiposHTML += `<span class="tipo-badge tipo-margem" title="Margem Consignável">💰 R$ ${parseFloat(op.margem_disponivel).toFixed(2)}</span>`;
+            }
+
+            if (tipos.includes('margem_rmc')) {
+                tiposHTML += `<span class="tipo-badge tipo-rmc" title="Margem RMC">💳 RMC R$ ${parseFloat(op.margem_rmc || 0).toFixed(2)}</span>`;
+            }
+
+            if (tipos.includes('margem_rcc')) {
+                tiposHTML += `<span class="tipo-badge tipo-rcc" title="Margem RCC">💳 RCC R$ ${parseFloat(op.margem_rcc || 0).toFixed(2)}</span>`;
+            }
+
+            if (tipos.includes('portabilidade')) {
+                const qtd = op.contratos_portaveis?.length || 0;
+                tiposHTML += `<span class="tipo-badge tipo-portabilidade" title="Portabilidade">📦 ${qtd} contrato${qtd > 1 ? 's' : ''}</span>`;
+            }
+
+            if (tipos.includes('cartao')) {
+                const qtd = op.cartoes?.length || 0;
+                tiposHTML += `<span class="tipo-badge tipo-cartao" title="Saque Cartão BMG">🏧 ${qtd} cartão${qtd > 1 ? 'ões' : ''}</span>`;
+            }
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <h3>${op.nome}</h3>
+                    <span class="idade-badge">${op.idade || '?'} anos</span>
+                </div>
+                <div class="card-tipos">
+                    ${tiposHTML}
+                </div>
+                <div class="card-footer">
+                    <span class="data-consulta">📅 ${op.data_consulta || ''}</span>
+                    <button class="btn-oportunidade" onclick="verCliente('${op.cpf}')">
+                        Ver cliente
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar oportunidades:', error);
+        const container = document.getElementById('oportunidades-container');
+        if (container) {
+            container.innerHTML = '<div class="loading-spinner">Erro ao carregar oportunidades.</div>';
+        }
+    }
+}
+
+function verCliente(cpf) {
+    window.location.href = `/telaconsulta.html?cpf=${cpf}`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarOportunidades();
+})
+
 // --- EVENTOS DE INTERFACE ---
 document.addEventListener('DOMContentLoaded', inicializarHome);
 

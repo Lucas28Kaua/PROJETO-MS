@@ -1225,41 +1225,61 @@ def processar_oportunidades():
                     print(f'⏭️  Cliente com {idade} anos - sem margem (limite 75)')
 
                 contratos_portaveis = []
+                cartoes = []
 
                 if idade <= 73:
 
                     for ct in dados.get('contratos', []):
 
                         final_desconto = ct.get('final_desconto', '')
-                        if final_desconto == '000000' or final_desconto == '' or final_desconto == None:
-                            continue
+                        banco = ct.get('banco', '').upper()
 
+                        if final_desconto == '000000' and 'BMG' in banco:
+                            if ct.get('valor_parcela', 0) > 0:
+                                
+                                    
+                                cartoes.append({
+                                    'banco': ct['banco'],
+                                    'parcela_minima': ct['valor_parcela'],
+                                    'numero': ct.get('numero', ''),
+                                    'tipo':'cartao'
+                                })
+                        
+                        elif final_desconto != '000000' and final_desconto != '':
+                            parcelas_str = ct.get('parcelas_pagas', '')
+                            pagas = 0
 
-                        parcelas_str = ct.get('parcelas_pagas', '')
-                        pagas = 0
-                        if '/' in parcelas_str:
-                            try:
-                                pagas = int(parcelas_str.split('/')[0])
-                            except:
-                                pass
-                        if ct.get('valor_parcela', 0) >= 20 and pagas >= 12:
-                            contratos_portaveis.append({
-                                'banco': ct['banco'],
-                                'parcela': ct['valor_parcela'],
-                                'parcelas_pagas': pagas,
-                                'quitacao': ct['quitacao']
-                            })
+                            if '/' in parcelas_str:
+                                try:
+                                    pagas = int(parcelas_str.split('/')[0])
+                                except:
+                                    pass
+                            if ct.get('valor_parcela', 0) >= 20 and pagas >= 12:
+                                contratos_portaveis.append({
+                                    'banco': ct['banco'],
+                                    'parcela': ct['valor_parcela'],
+                                    'parcelas_pagas': pagas,
+                                    'quitacao': ct['quitacao']
+                                })
+
                     if contratos_portaveis:
                         oportunidades.append('portabilidade')
                 else:
                     print(f"   ⏭️  Cliente com {idade} anos - sem portabilidade (limite 73)")
 
+                tipos = []
+                if margens:
+                    tipos.extend(margens)
+                if contratos_portaveis:
+                    tipos.append('portabilidade')
+                if cartoes:
+                    tipos.append('cartao')
 
-                if not margens and not contratos_portaveis:
-                    print(f' Sem oportunidades')
+                if not tipos:
+                    print(' Sem oportunidades')
                     continue
 
-                tipo_final = '+'.join(margens + (['portabilidade'] if contratos_portaveis else []))
+                tipo_final = '+'.join(tipos)
 
                 margem_principal = dados.get('margem_total', 0)
                 if margem_principal < 20:
@@ -1272,13 +1292,14 @@ def processar_oportunidades():
 
                 sql = """
                     INSERT INTO oportunidades 
-                    (cpf, nome, idade, tipo, margem_disponivel, contratos_portaveis, data_consulta, status)
-                    VALUES (%s, %s, %s, %s, %s, %s, NOW(), 'ativo')
+                    (cpf, nome, idade, tipo, margem_disponivel, contratos_portaveis, cartoes, data_consulta, status)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), 'ativo')
                     ON DUPLICATE KEY UPDATE
                         idade = VALUES(idade),
                         tipo = VALUES(tipo),
                         margem_disponivel = VALUES(margem_disponivel),
                         contratos_portaveis = VALUES(contratos_portaveis),
+                        cartoes = VALUES(cartoes),
                         data_consulta = NOW(),
                         status = 'ativo'
                 """
@@ -1289,7 +1310,8 @@ def processar_oportunidades():
                     idade,
                     tipo_final,
                     margem_principal,
-                    json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None
+                    json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None,
+                    json.dumps(cartoes, ensure_ascii=False) if cartoes else None
                 ))
 
                 conn_db.commit()
