@@ -1095,6 +1095,19 @@ def consulta_fullconsig(cpf):
         resultado["telefones"] = telefones
         resultado["telefone"] = telefones[0] if telefones else None
 
+        idade = None
+        if resultado.get("data_nascimento"):
+            try:
+                dn = datetime.strptime(resultado["data_nascimento"], '%d/%m/%Y')
+                hoje = datetime.now()
+                idade = hoje.year - dn.year
+                if (hoje.month, hoje.day) < (dn.month, dn.day):
+                    idade -= 1
+                resultado["idade"] = idade
+            except:
+                resultado["idade"] = 0
+        else:
+            resultado["idade"] = 0
         margem_total = 0.0
         margem_rmc = 0.0
         margem_rcc = 0.0
