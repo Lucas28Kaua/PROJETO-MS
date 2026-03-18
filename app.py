@@ -11,6 +11,9 @@ import json
 from datetime import datetime, timedelta
 import pytz
 import requests as req_http
+import time
+import random
+from datetime import datetime
 import sys
 sys.stdout.reconfigure(line_buffering=True)
 
@@ -1158,7 +1161,7 @@ def consulta_fullconsig(cpf):
                 contratos = []
         else:
             print("⚠️ Variável 'contratos' não encontrada no HTML")
-            
+
         resultado["margem_total"] = margem_total
         resultado["margem_rmc"] = margem_rmc
         resultado["margem_rcc"] = margem_rcc
@@ -1168,6 +1171,121 @@ def consulta_fullconsig(cpf):
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+
+# =============================================
+# COMANDO PARA PROCESSAR OPORTUNIDADES (ROBÔ)
+# =============================================
+@app.cli.command('processar-oportunidades')
+def processar_oportunidades():
+    """processa todos os clientes e salva oportunidades"""
+    print("🚀 Iniciando processamento de oportunidades...")
+
+    conn = conexao_db()
+    if not conn:
+        print("❌ Erro na conexão com o banco de dados.")
+        return
+    
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT cpf, nome FROM clientes LIMIT 3")
+    clientes = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    print(f"🔍 Encontrados {len(clientes)} clientes")
+
+    for i, cliente in enumerate(clientes, 1):
+        cpf = cliente['cpf']
+        nome = cliente['nome']
+
+        print(f"\n[{i}/{len(clientes)}] Processando {nome} - {cpf}")
+
+        try:
+            with app.test_client() as client:
+                resp = client.get(f'/consulta-fullconsig/{cpf}')
+
+                if resp.status_code != 200:
+                    print(f"❌ Erro {resp.status_code}")
+                    continue
+                dados = resp.get_json()
+
+                oportunidades = []
+                tipo_final = ''
+
+                margens = []
+                if dados.get('margem_total', 0) >= 20:
+                    margens.append('margem')
+                if dados.get('margem_rmc', 0) >= 20:
+                    margens.append('margem_rmc')
+                if dados.get('margem_rcc', 0) >= 20:
+                    margens.append('margem_rcc')
+
+                contratos_portaveis = []
+                for ct in dados.get('contratos', []):
+                    parcelas_str = ct.get('parcelas_pagas', '')
+                    pagas = 0
+                    if '/' in parcelas_str:
+                        try:
+                            pagas = int(parcelas_str.split('/')[0])
+                        except:
+                            pass
+                    if ct.get('valor_parcela', 0) >= 20 and pagas >= 12:
+                        contratos_portaveis.append({
+                            'banco': ct['banco'],
+                            'parcela': ct['valor_parcela'],
+                            'parcelas_pagas': pagas,
+                            'quitacao': ct['quitacao']
+                        })
+                if contratos_portaveis:
+                    oportunidades.append('portabilidade')
+
+                    if not margens and not contratos_portaveis:
+                        print(f' Sem oportunidades')
+                        continue
+
+                    tipo_final = '+'.join(margens + (['portabilidade'] if contratos_portaveis else []))
+
+                    margem_principal = dados.get('margem_total', 0)
+                    if margem_principal < 20:
+                        margem_principal = dados.get('margem_rmc', 0)
+                    if margem_principal < 20:
+                        margem_principal = dados.get('margem_rcc', 0)
+
+                    conn_db = conexao_db()
+                    cur = conn_db.cursor()
+
+                    sql = """
+                        INSERT INTO oportunidades 
+                        (cpf, nome, tipo, margem_disponivel, contratos_portaveis, data_consulta, status)
+                        VALUES (%s, %s, %s, %s, %s, NOW(), 'ativo')
+                        ON DUPLICATE KEY UPDATE
+                            tipo = VALUES(tipo),
+                            margem_disponivel = VALUES(margem_disponivel),
+                            contratos_portaveis = VALUES(contratos_portaveis),
+                            data_consulta = NOW(),
+                            status = 'ativo'
+                    """
+
+                    cur.execute(sql, (
+                        cpf,
+                        dados.get('nome'),
+                        tipo_final,
+                        margem_principal,
+                        json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None
+                    ))
+
+                    conn_db.commit()
+                    cur.close()
+                    conn_db.close()
+
+                    print(f"   ✅ OPORTUNIDADE! {tipo_final}")
+        except Exception as e:
+            print(f"❌ Erro: {e}")
+            
+        if i < len(clientes):
+            espera = random.uniform(15, 25)
+            print(f"   ⏳ Aguardando {espera:.0f} segundos...")
+            time.sleep(espera)
+    print("\n✅ Processamento finalizado!")
 
 @app.route('/lotes/salvar', methods=['POST'])
 def salvar_lote():
