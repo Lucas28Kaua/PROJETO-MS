@@ -1121,6 +1121,26 @@ def consulta_fullconsig(cpf):
         # EXTRAIR CONTRATOS (tabela de empréstimos)
         # =============================================
 
+        print('-='*30)
+        print('TODAS AS TABELAS ENCONTRADAS:')
+        todas_tabelas = soup.find_all('table')
+        for i, tbl in enumerate(todas_tabelas):
+            classes = tbl.get('class', [])
+            id_ = tbl.get('id', 'sem_id')
+            print(f"Tabela {i}: classes={classes}, id={id_}")
+            print(f"  HTML resumido: {str(tbl)[:200]}...")
+        print('-='*30)
+
+        tabela = None
+        for tbl in todas_tabelas:
+            classes = ' '.join(tbl.get('class', []))
+            if 'table-centered' in classes and 'dados' not in classes:
+                if tbl.find('th', string=re.compile('Banco|contrato|parcela')):
+                    tabela = tbl
+                    print("✅ Tabela de contratos ENCONTRADA!")
+                    break
+        if not tabela:
+            print("❌ Tabela de contratos NÃO encontrada!")
         contratos = []
         tabela = soup.find('table', {'class': lambda x: x and 'table-centered' in x and 'dados' not in x})
         if tabela:
