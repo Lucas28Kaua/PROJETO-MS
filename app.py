@@ -1574,7 +1574,8 @@ def simular_portabilidade():
 
 
         tabelas = r1.json() if r1.ok else []
-        if not tabelas:
+        if not tabelas or not isinstance(tabelas, list):
+            print(f"      ⏭️ {banco['nome']}: resposta inválida: {tabelas}")
             continue
         
         melhor_tabela = tabelas[0]
