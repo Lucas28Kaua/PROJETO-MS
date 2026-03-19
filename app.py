@@ -1457,7 +1457,7 @@ def simular_contrato(session_fc, contrato):
                 continue
 
             valor_raw = str(sim.get('VALOR_LIBERADO_NOVO', '0')).replace('.', '').replace(',', '.')
-
+            print(f"      ✅ {banco['nome']}: VALOR_LIBERADO_NOVO={sim.get('VALOR_LIBERADO_NOVO')} CODE={sim.get('CODE')}")
             resultados.append({
                 'banco_destino':  banco['nome'],
                 'tabela':         melhor_tabela['NOME_TABELA'],
@@ -1468,6 +1468,7 @@ def simular_contrato(session_fc, contrato):
                 'troco':          sim.get('TROCO'),
                 '_valor_float':   float(valor_raw),
             })
+            print(f"      ✅ {banco['nome']}: R$ {valor_raw}")
         except Exception as e:
             print(f"      ⚠️ Erro simulando banco {banco['nome']}: {e}")
             continue
