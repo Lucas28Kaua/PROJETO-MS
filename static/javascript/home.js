@@ -6,6 +6,13 @@ async function inicializarHome() {
     await carregarDashboardDoBanco(); // Depois carrega a produção e cards
 }
 
+function formatBRL(valor) {
+    return parseFloat(valor || 0).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
 // 1. BUSCA METAS E ATUALIZA OS DISPLAYS
 async function carregarConfiguracoes() {
     try {
@@ -221,20 +228,20 @@ async function carregarOportunidades() {
             // Cria o HTML com detalhamento
             margemEl.innerHTML = `
                 <div style="font-size: 28px; font-weight: bold; color: #219653;">
-                    R$ ${totais.margem.total.toFixed(2).replace('.', ',')}
+                    R$ ${formatBRL(totais.margem.total)}
                 </div>
                 <div style="font-size: 13px; color: #666; margin-top: 8px; text-align: left;">
                     <div style="display: flex; justify-content: space-between; padding: 2px 0;">
                         <span>• Margem disponível:</span>
-                        <span style="font-weight: 500;">R$ ${totais.margem.disponivel.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-weight: 500;">R$ ${formatBRL(totais.margem.disponivel)}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 2px 0;">
                         <span>• RMC:</span>
-                        <span style="font-weight: 500;">R$ ${totais.margem.rmc.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-weight: 500;">R$ ${formatBRL(totais.margem.rmc)}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 2px 0;">
                         <span>• RCC:</span>
-                        <span style="font-weight: 500;">R$ ${totais.margem.rcc.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-weight: 500;">R$ ${formatBRL(totais.margem.rcc)}</span>
                     </div>
                 </div>
             `;
@@ -246,16 +253,16 @@ async function carregarOportunidades() {
         if (portEl) {
             portEl.innerHTML = `
                 <div style="font-size: 28px; font-weight: bold; color: #1a73e8;">
-                    R$ ${totais.portabilidade.total.toFixed(2).replace('.', ',')}
+                    R$ ${formatBRL(totais.portabilidade.total)}
                 </div>
                 <div style="font-size: 13px; color: #666; margin-top: 8px; text-align: left;">
                     <div style="display: flex; justify-content: space-between; padding: 2px 0;">
                         <span>💰 Valor liberado:</span>
-                        <span style="font-weight: 500;">R$ ${totais.portabilidade.liberado.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-weight: 500;">R$ ${formatBRL(totais.portabilidade.liberado)}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 2px 0;">
                         <span>🏦 Saldo devedor:</span>
-                        <span style="font-weight: 500;">R$ ${totais.portabilidade.saldo.toFixed(2).replace('.', ',')}</span>
+                        <span style="font-weight: 500;">R$ ${formatBRL(totais.portabilidade.saldo)}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 2px 0; margin-top: 4px; opacity: 0.7;">
                         <span>📋 Contratos:</span>
@@ -280,13 +287,13 @@ async function carregarOportunidades() {
 
             let icones = '';
             if (tipos.includes('margem')) {
-                icones += `<span class="tipo-badge tipo-margem">💰 R$ ${parseFloat(op.margem_disponivel).toFixed(2).replace('.', ',')}</span>`;
+                icones += `<span class="tipo-badge tipo-margem">💰 R$ ${formatBRL(op.margem_disponivel)}</span>`;
             }
             if (tipos.includes('margem_rmc')) {
-                icones += `<span class="tipo-badge tipo-margem">💰 RMC R$ ${parseFloat(op.margem_rmc).toFixed(2).replace('.', ',')}</span>`;
+                icones += `<span class="tipo-badge tipo-margem">💰 RMC R$ ${formatBRL(op.margem_rmc)}</span>`;
             }
             if (tipos.includes('margem_rcc')) {
-                icones += `<span class="tipo-badge tipo-margem">💰 RCC R$ ${parseFloat(op.margem_rcc).toFixed(2).replace('.', ',')}</span>`;
+                icones += `<span class="tipo-badge tipo-margem">💰 RCC R$ ${formatBRL(op.margem_rcc)}</span>`;
             }
             if (tipos.includes('portabilidade')) {
                 icones += `<span class="tipo-badge tipo-portabilidade">📦 ${op.contratos_portaveis?.length || 0} contrato(s)</span>`;
@@ -304,7 +311,7 @@ async function carregarOportunidades() {
                     const sim = simObj?.simulacao;
 
                     const liberado = sim?.valor_cliente || '—';
-                    const saldo = ct.quitacao ? `R$ ${parseFloat(ct.quitacao).toFixed(2).replace('.', ',')}` : '—';
+                    const saldo = ct.quitacao ? `R$ ${formatBRL(ct.quitacao)}` : '—';
 
                     contratosHtml += `
                         <div class="mini-card-contrato">
@@ -312,7 +319,7 @@ async function carregarOportunidades() {
                                 <span class="mini-banco">🏦 ${ct.banco}</span>
                             </div>
                             <div class="mini-card-info">
-                                <span>Parcela: <strong>R$ ${parseFloat(ct.parcela).toFixed(2).replace('.', ',')}</strong></span>
+                                <span>Parcela: <strong>R$ ${formatBRL(ct.parcela)}</strong></span>
                                 <span>Pagas: <strong>${ct.parcelas_pagas}</strong></span>
                                 <span>Saldo: <strong>${saldo}</strong></span>
                             </div>
