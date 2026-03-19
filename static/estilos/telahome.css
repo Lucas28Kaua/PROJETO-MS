@@ -491,7 +491,7 @@ div.bancomes> h3, h4 {
     display: inline-block;
 }
 
-.oportunidades-grid {
+.oportunidades-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
@@ -501,21 +501,21 @@ div.bancomes> h3, h4 {
     margin-top: 20px;
 }
 
-.oportunidades-grid::-webkit-scrollbar {
+.oportunidades-container::-webkit-scrollbar {
     width: 6px;
 }
 
-.oportunidades-grid::-webkit-scrollbar-track {
+.oportunidades-container::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
 }
 
-.oportunidades-grid::-webkit-scrollbar-thumb {
+.oportunidades-container::-webkit-scrollbar-thumb {
     background: #dc650a;
     border-radius: 10px;
 }
 
-.oportunidades-grid::-webkit-scrollbar-thumb:hover {
+.oportunidades-container::-webkit-scrollbar-thumb:hover {
     background: #dc650a;
 }
 
