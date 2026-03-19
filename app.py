@@ -1456,19 +1456,21 @@ def simular_contrato(session_fc, contrato):
             if sim.get('CODE') != 200:
                 continue
 
-            valor_raw = str(sim.get('VALOR_LIBERADO_NOVO', '0')).replace('.', '').replace(',', '.')
+            troco_raw = str(sim.get('TROCO', '0')).replace('.', '').replace(',', '.')
             print(f"      ✅ {banco['nome']}: VALOR_LIBERADO_NOVO={sim.get('VALOR_LIBERADO_NOVO')} CODE={sim.get('CODE')}")
             resultados.append({
                 'banco_destino':  banco['nome'],
                 'tabela':         melhor_tabela['NOME_TABELA'],
                 'taxa':           melhor_tabela['TAXA'],
                 'parcela_nova':   sim.get('VALOR_PARCELA_NOVA'),
-                'valor_cliente':  sim.get('VALOR_LIBERADO_NOVO'),
+                'valor_cliente':  sim.get('TROCO'),
                 'quitacao':       sim.get('VALOR_QUITACAO'),
                 'troco':          sim.get('TROCO'),
-                '_valor_float':   float(valor_raw),
+                '_valor_float':   float(troco_raw),
             })
-            print(f"      ✅ {banco['nome']}: R$ {valor_raw}")
+            print(f"      ✅ {banco['nome']}: tabela={melhor_tabela['NOME_TABELA']} | valor_cliente=R$ {sim.get('TROCO')} | quitacao=R$ {sim.get('VALOR_QUITACAO')}")
+            
+            print(f"      ✅ {banco['nome']}: R$ {troco_raw}")
         except Exception as e:
             print(f"      ⚠️ Erro simulando banco {banco['nome']}: {e}")
             continue
@@ -1521,16 +1523,16 @@ def simular_portabilidade():
         if sim.get('CODE') != 200:
             continue
 
-        valor_raw = sim.get('VALOR_LIBERADO_NOVO', '0').replace('.', '').replace(',', '.')
+        troco_raw = str(sim.get('TROCO', '0')).replace('.', '').replace(',', '.')
         resultados.append({
             'banco': banco['nome'],
             'tabela': melhor_tabela['NOME_TABELA'],
             'taxa': melhor_tabela['TAXA'],
             'parcela_nova':  sim.get('VALOR_PARCELA_NOVA'),
-            'valor_cliente': sim.get('VALOR_LIBERADO_NOVO'),
+            'valor_cliente': sim.get('TROCO'),
             'quitacao':      sim.get('VALOR_QUITACAO'),
             'troco':         sim.get('TROCO'),
-            '_valor_float':  float(valor_raw),
+            '_valor_float':  float(troco_raw),
         })
     
     if not resultados:
