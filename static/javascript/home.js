@@ -246,7 +246,8 @@ async function carregarOportunidades() {
                 </div>
             `;
         }
-        document.getElementById('resumo-qtd-margem').innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
+        const qtdMargem = document.getElementById('resumo-qtd-margem');
+        if (qtdMargem) qtdMargem.innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
 
         
         const portEl = document.getElementById('resumo-portabilidade');
@@ -272,11 +273,14 @@ async function carregarOportunidades() {
             `;
         }
 
-        document.getElementById('resumo-qtd-port').innerText = `${totais.portabilidade.clientes} cliente${totais.portabilidade.clientes !== 1 ? 's' : ''}`;
+        const qtdPort = document.getElementById('resumo-qtd-port');
+        if (qtdPort) qtdPort.innerText = `${totais.portabilidade.clientes} cliente${totais.portabilidade.clientes !== 1 ? 's' : ''}`;
 
         // ── Resumo cartão ──
-        document.getElementById('resumo-cartoes').innerText = totais.cartao.cartoes;
-        document.getElementById('resumo-qtd-cartao').innerText = `${totais.cartao.clientes} cliente${totais.cartao.clientes !== 1 ? 's' : ''}`;
+        const resumoCartoes = document.getElementById('resumo-cartoes');
+        if (resumoCartoes) resumoCartoes.innerText = totais.cartao.cartoes;
+        const qtdCartao = document.getElementById('resumo-qtd-cartao');
+        if (qtdCartao) qtdCartao.innerText = `${totais.cartao.clientes} cliente${totais.cartao.clientes !== 1 ? 's' : ''}`;
 
         container.innerHTML = '';
 
