@@ -1464,6 +1464,15 @@ def simular_contrato(session_fc, contrato):
                 continue
 
             troco_raw = str(sim.get('TROCO', '0')).replace('.', '').replace(',', '.')
+            try:
+                troco_float = float(troco_raw)
+            except ValueError:
+                print(f"      ⏭️ {banco['nome']}: troco inválido ({sim.get('TROCO')})")
+                continue
+            if troco_float <= 0:
+                print(f"      ⏭️ {banco['nome']}: troco zero")
+                continue
+            
             print(f"      ✅ {banco['nome']}: VALOR_LIBERADO_NOVO={sim.get('VALOR_LIBERADO_NOVO')} CODE={sim.get('CODE')}")
             resultados.append({
                 'banco_destino':  banco['nome'],
