@@ -1159,9 +1159,10 @@ def consulta_fullconsig(cpf):
                                 'inicio_desconto': c.get('InicioDesconto', ''),
                                 'final_desconto': c.get('FinalDesconto', ''),
                                 'valor_contrato': float(c.get('Vl_Emprestimo', 0)) if c.get('Vl_Emprestimo') else 0.0,
-                                'taxa': c.get('TaxaJuros', ''),
+                                'taxa': float(c.get('TaxaJuros', 0) or 0),
+                                'prazo_total': prazo_total,
+                                'parcelas_pagas': f"{parcelas_pagas}/{prazo_total} - {parcelas_restantes} Restantes",
                                 'valor_parcela': float(c.get('Vl_Parcela', 0)) if c.get('Vl_Parcela') else 0.0,
-                                'parcelas_pagas': f"{parcelas_pagas}/{prazo_total} - {parcelas_restantes} Restantes" if prazo_total > 0 else '',
                                 'quitacao': float(c.get('QUITACAOATUAL', 0)) if c.get('QUITACAOATUAL') else 0.0
                             }
                             contratos.append(contrato)
@@ -1272,11 +1273,24 @@ def processar_oportunidades():
                                     'banco': ct['banco'],
                                     'parcela': ct['valor_parcela'],
                                     'parcelas_pagas': pagas,
-                                    'quitacao': ct['quitacao']
+                                    'quitacao': ct['quitacao'],
+                                    'taxa': ct.get('taxa', 0),
+                                    'prazo': ct.get('prazo_total', 0)  # ← limpo, sem split
                                 })
-
+                
+                    simulacoes = []
                     if contratos_portaveis:
-                        oportunidades.append('portabilidade')
+                        session_fc = get_sessao_fullconsig()
+                        for ct in contratos_portaveis:
+                            print(f"      🔄 Simulando portabilidade: {ct['banco']} R$ {ct['parcela']}")
+                            sim = simular_contrato(session_fc, ct)
+                            simulacoes.append({
+                                'banco_origem': ct['banco'],
+                                'parcela':      ct['parcela'],
+                                'quitacao':     ct['quitacao'],
+                                'simulacao':    sim
+                            })
+                            time.sleep(1)
                 else:
                     print(f"   ⏭️  Cliente com {idade} anos - sem portabilidade (limite 73)")
 
@@ -1305,8 +1319,9 @@ def processar_oportunidades():
 
                 sql = """
                     INSERT INTO oportunidades 
-                    (cpf, nome, idade, tipo, margem_disponivel, margem_rmc, margem_rcc, contratos_portaveis, cartoes, data_consulta, status)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), 'ativo')
+                    (cpf, nome, idade, tipo, margem_disponivel, margem_rmc, margem_rcc, 
+                    contratos_portaveis, cartoes, simulacao_portabilidade, data_simulacao, data_consulta, status)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), 'ativo')
                     ON DUPLICATE KEY UPDATE
                         idade = VALUES(idade),
                         tipo = VALUES(tipo),
@@ -1315,6 +1330,8 @@ def processar_oportunidades():
                         margem_rcc = VALUES(margem_rcc),
                         contratos_portaveis = VALUES(contratos_portaveis),
                         cartoes = VALUES(cartoes),
+                        simulacao_portabilidade = VALUES(simulacao_portabilidade),
+                        data_simulacao = VALUES(data_simulacao),
                         data_consulta = NOW(),
                         status = 'ativo'
                 """
@@ -1328,7 +1345,9 @@ def processar_oportunidades():
                     dados.get('margem_rmc', 0),
                     dados.get('margem_rcc', 0),
                     json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None,
-                    json.dumps(cartoes, ensure_ascii=False) if cartoes else None
+                    json.dumps(cartoes, ensure_ascii=False) if cartoes else None,
+                    json.dumps(simulacoes, ensure_ascii=False) if simulacoes else None,
+                    datetime.now() if simulacoes else None,
                 ))
 
                 conn_db.commit()
@@ -1360,6 +1379,8 @@ def listar_oportunidades():
                 margem_disponivel, margem_rmc, margem_rcc,
                 contratos_portaveis,
                 cartoes,
+                simulacao_portabilidade,
+                data_simulacao,
                 DATE_FORMAT(data_consulta, '%d/%m/%Y %H:%i') as data_consulta
             FROM oportunidades 
             WHERE status = 'ativo'
@@ -1379,6 +1400,10 @@ def listar_oportunidades():
                 op['contratos_portaveis'] = json.loads(op['contratos_portaveis'])
             if op['cartoes'] and isinstance(op['cartoes'], str):
                 op['cartoes'] = json.loads(op['cartoes'])
+            if op['simulacao_portabilidade'] and isinstance(op['simulacao_portabilidade'], str):
+                op['simulacao_portabilidade'] = json.loads(op['simulacao_portabilidade'])
+            if op['data_simulacao']:
+                op['data_simulacao'] = op['data_simulacao'].strftime('%d/%m/%Y %H:%i')
         
         conn.close()
         return jsonify(oportunidades), 200
@@ -1386,7 +1411,134 @@ def listar_oportunidades():
         conn.close()
         return jsonify({"erro": str(e)}), 500
 
+
+BANCOS_PRIORITARIOS = [
+    {'nome': 'Daycoval', 'codigo': '707'},
+    {'nome': 'iCred',    'codigo': '3295'},
+    {'nome': 'Qualibank','codigo': '3298'},
+    {'nome': 'C6',       'codigo': '626'},
+    {'nome': 'PicPay',   'codigo': '079'},
+    # {'nome': 'Finanto', 'codigo': '???'},
+]
+
+def simular_contrato(session_fc, contrato):
+    base_url = 'https://sistema.fullconsig.com.br'
+    resultados = []
+
+    for banco in BANCOS_PRIORITARIOS:
+        try:
+            r1 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidade', data={
+                'banco':          banco['codigo'],
+                'valor_parcela':  contrato['parcela'],
+                'valor_quitacao': contrato['quitacao'],
+                'prazo':          contrato['prazo'],
+                'taxa':           contrato['taxa'],
+            })
+
+            tabelas = r1.json() if r1.ok else []
+            if not tabelas:
+                continue
+
+            melhor_tabela = tabelas[0]
+
+            r2 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidadeDetalhes', data={
+                'banco':          banco['codigo'],
+                'nome_tabela':    melhor_tabela['NOME_TABELA'],
+                'parcela_valor':  contrato['parcela'],
+                'valor_quitacao': contrato['quitacao'],
+                'prazo':          contrato['prazo'],
+            })
+
+            if not r2.ok:
+                continue
+
+            sim = r2.json()
+            if sim.get('CODE') != 200:
+                continue
+
+            valor_raw = str(sim.get('VALOR_LIBERADO_NOVO', '0')).replace('.', '').replace(',', '.')
+
+            resultados.append({
+                'banco_destino':  banco['nome'],
+                'tabela':         melhor_tabela['NOME_TABELA'],
+                'taxa':           melhor_tabela['TAXA'],
+                'parcela_nova':   sim.get('VALOR_PARCELA_NOVA'),
+                'valor_cliente':  sim.get('VALOR_LIBERADO_NOVO'),
+                'quitacao':       sim.get('VALOR_QUITACAO'),
+                'troco':          sim.get('TROCO'),
+                '_valor_float':   float(valor_raw),
+            })
+        except Exception as e:
+            print(f"      ⚠️ Erro simulando banco {banco['nome']}: {e}")
+            continue
+    if not resultados:
+        return None
+    
+    melhor = max(resultados, key=lambda x: x['_valor_float'])
+    melhor.pop('_valor_float')
+    return melhor
+
+@app.route('/api/simular-portabilidade', methods=['POST'])
+def simular_portabilidade():
+    data = request.json
+    parcela = data.get('parcela')
+    quitacao = data.get('quitacao')
+    prazo = data.get('prazo')
+
+    session_fc = get_sessao_fullconsig()
+    base_url = 'https://sistema.fullconsig.com.br'
+
+    resultados = []
+
+    for banco in BANCOS_PRIORITARIOS:
+        # Request 1 — busca tabelas disponíveis
+        r1 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidade', data={
+            'banco':banco['codigo'],
+            'valor_parcela': parcela,
+            'valor_quitacao': quitacao,
+            'prazo': prazo
+        })
+
+        tabelas = r1.json() if r1.ok else []
+        if not tabelas:
+            continue
         
+        melhor_tabela = tabelas[0]
+
+        # Request 2 — simula com a melhor tabela
+        r2 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidadeDetalhes', data={
+            'banco': banco['codigo'],
+            'nome_tabela': melhor_tabela['NOME_TABELA'],
+            'parcela_valor': parcela,
+            'valor_quitacao': quitacao,
+            'prazo': prazo
+        })
+
+        if not r2.ok:
+            continue
+        sim = r2.json()
+        if sim.get('CODE') != 200:
+            continue
+
+        valor_raw = sim.get('VALOR_LIBERADO_NOVO', '0').replace('.', '').replace(',', '.')
+        resultados.append({
+            'banco': banco['nome'],
+            'tabela': melhor_tabela['NOME_TABELA'],
+            'taxa': melhor_tabela['TAXA'],
+            'parcela_nova':  sim.get('VALOR_PARCELA_NOVA'),
+            'valor_cliente': sim.get('VALOR_LIBERADO_NOVO'),
+            'quitacao':      sim.get('VALOR_QUITACAO'),
+            'troco':         sim.get('TROCO'),
+            '_valor_float':  float(valor_raw),
+        })
+    
+    if not resultados:
+        return jsonify({'erro': 'Nenhum banco disponível para simulação'}), 404
+    
+    melhor = max(resultados, key=lambda x: x['_valor_float'])
+    melhor.pop('_valor_float')
+    return jsonify(melhor), 200
+
 @app.route('/lotes/salvar', methods=['POST'])
 def salvar_lote():
     dados = request.json

@@ -164,16 +164,10 @@ async function carregarOportunidades() {
         }
 
         let totais = {
-            margem: { 
-                total: 0,
-                disponivel: 0,
-                rmc: 0,
-                rcc: 0,
-                clientes: 0 
-            },
-            portabilidade: { contratos: 0, clientes: 0 },
+            margem: { total: 0, disponivel: 0, rmc: 0, rcc: 0, clientes: 0 },
+            portabilidade: { total: 0, liberado: 0, saldo: 0, contratos: 0, clientes: 0 },
             cartao: { cartoes: 0, clientes: 0 }
-        }
+        };
 
         oportunidades.forEach(op => {
             const tipos = op.tipo.split('+');
@@ -196,8 +190,23 @@ async function carregarOportunidades() {
             totais.margem.total = totais.margem.disponivel + totais.margem.rmc + totais.margem.rcc;
 
             if (tipos.includes('portabilidade')) {
-                totais.portabilidade.contratos += op.contratos_portaveis?.length || 0;
                 totais.portabilidade.clientes++;
+                totais.portabilidade.contratos += op.contratos_portaveis?.length || 0;
+
+                // soma quitacao de cada contrato
+                (op.contratos_portaveis || []).forEach(ct => {
+                    totais.portabilidade.saldo += parseFloat(ct.quitacao) || 0;
+                });
+
+                // soma valor_cliente de cada simulacao
+                (op.simulacao_portabilidade || []).forEach(s => {
+                    if (s.simulacao?.valor_cliente) {
+                        const v = parseFloat(s.simulacao.valor_cliente.replace('.', '').replace(',', '.')) || 0;
+                        totais.portabilidade.liberado += v;
+                    }
+                });
+
+                totais.portabilidade.total = totais.portabilidade.liberado + totais.portabilidade.saldo;
             }
             if (tipos.includes('cartao')) {
                 totais.cartao.cartoes += op.cartoes?.length || 0;
@@ -230,16 +239,35 @@ async function carregarOportunidades() {
                 </div>
             `;
         }
-
-        if (margemQtdEl) {
-            margemQtdEl.innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
-        }
-        
         document.getElementById('resumo-qtd-margem').innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
 
-        document.getElementById('resumo-portabilidade').innerText = totais.portabilidade.contratos;
+        
+        const portEl = document.getElementById('resumo-portabilidade');
+        if (portEl) {
+            portEl.innerHTML = `
+                <div style="font-size: 28px; font-weight: bold; color: #1a73e8;">
+                    R$ ${totais.portabilidade.total.toFixed(2).replace('.', ',')}
+                </div>
+                <div style="font-size: 13px; color: #666; margin-top: 8px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>💰 Valor liberado:</span>
+                        <span style="font-weight: 500;">R$ ${totais.portabilidade.liberado.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>🏦 Saldo devedor:</span>
+                        <span style="font-weight: 500;">R$ ${totais.portabilidade.saldo.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0; margin-top: 4px; opacity: 0.7;">
+                        <span>📋 Contratos:</span>
+                        <span>${totais.portabilidade.contratos} (${totais.portabilidade.clientes} clientes)</span>
+                    </div>
+                </div>
+            `;
+        }
+
         document.getElementById('resumo-qtd-port').innerText = `${totais.portabilidade.clientes} cliente${totais.portabilidade.clientes !== 1 ? 's' : ''}`;
 
+        // ── Resumo cartão ──
         document.getElementById('resumo-cartoes').innerText = totais.cartao.cartoes;
         document.getElementById('resumo-qtd-cartao').innerText = `${totais.cartao.clientes} cliente${totais.cartao.clientes !== 1 ? 's' : ''}`;
 
@@ -254,13 +282,59 @@ async function carregarOportunidades() {
             if (tipos.includes('margem')) {
                 icones += `<span class="tipo-badge tipo-margem">💰 R$ ${parseFloat(op.margem_disponivel).toFixed(2).replace('.', ',')}</span>`;
             }
+            if (tipos.includes('margem_rmc')) {
+                icones += `<span class="tipo-badge tipo-margem">💰 RMC R$ ${parseFloat(op.margem_rmc).toFixed(2).replace('.', ',')}</span>`;
+            }
+            if (tipos.includes('margem_rcc')) {
+                icones += `<span class="tipo-badge tipo-margem">💰 RCC R$ ${parseFloat(op.margem_rcc).toFixed(2).replace('.', ',')}</span>`;
+            }
             if (tipos.includes('portabilidade')) {
-                icones += `<span class="tipo-badge tipo-portabilidade">📦 ${op.contratos_portaveis?.length || 0} contratos</span>`;
+                icones += `<span class="tipo-badge tipo-portabilidade">📦 ${op.contratos_portaveis?.length || 0} contrato(s)</span>`;
             }
             if (tipos.includes('cartao')) {
                 const qtd = op.cartoes?.length || 0;
-                const textoCartao = qtd > 1 ? 'cartões BMG' : 'cartão BMG';
-                icones += `<span class="tipo-badge tipo-cartao">💳 ${qtd} ${textoCartao}</span>`;
+                icones += `<span class="tipo-badge tipo-cartao">💳 ${qtd} cartão${qtd > 1 ? 'es' : ''} BMG</span>`;
+            }
+
+            let contratosHtml = '';
+            if (tipos.includes('portabilidade') && op.contratos_portaveis?.length) {
+                op.contratos_portaveis.forEach((ct, idx) => {
+                    // busca simulação correspondente pelo banco_origem
+                    const simObj = (op.simulacao_portabilidade || []).find(s => s.banco_origem === ct.banco && s.parcela === ct.parcela);
+                    const sim = simObj?.simulacao;
+
+                    const liberado = sim?.valor_cliente || '—';
+                    const saldo = ct.quitacao ? `R$ ${parseFloat(ct.quitacao).toFixed(2).replace('.', ',')}` : '—';
+
+                    contratosHtml += `
+                        <div class="mini-card-contrato">
+                            <div class="mini-card-header">
+                                <span class="mini-banco">🏦 ${ct.banco}</span>
+                            </div>
+                            <div class="mini-card-info">
+                                <span>Parcela: <strong>R$ ${parseFloat(ct.parcela).toFixed(2).replace('.', ',')}</strong></span>
+                                <span>Pagas: <strong>${ct.parcelas_pagas}</strong></span>
+                                <span>Saldo: <strong>${saldo}</strong></span>
+                            </div>
+                            <div class="mini-card-valores">
+                                <span class="valor-liberado">💰 Liberado: <strong>${sim ? 'R$ ' + liberado : '—'}</strong></span>
+                            </div>
+                            ${sim ? `
+                            <div class="mini-card-simulacao" id="sim-${op.cpf}-${idx}" style="display:none;">
+                                <div class="sim-detalhe">
+                                    <span>🏦 Banco destino: <strong>${sim.banco_destino}</strong></span>
+                                    <span>📋 Parcela nova: <strong>R$ ${sim.parcela_nova}</strong></span>
+                                    <span>📊 Taxa: <strong>${sim.taxa}%</strong></span>
+                                    <span>🔁 Troco: <strong>R$ ${sim.troco}</strong></span>
+                                </div>
+                            </div>
+                            <button class="btn-ver-simulacao" onclick="toggleSimulacao('sim-${op.cpf}-${idx}', this)">
+                                ▼ Ver Simulação
+                            </button>
+                            ` : ''}
+                        </div>
+                    `;
+                });
             }
 
             card.innerHTML = `
@@ -278,17 +352,18 @@ async function carregarOportunidades() {
                 <div style="margin: 10px 0; display: flex; gap: 8px; flex-wrap: wrap;">
                     ${icones}
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                ${contratosHtml}
+                <div style="margin-top: 10px;">
                     <span style="font-size: 11px; color: #999;">📅 ${op.data_consulta}</span>
-                    <button class="btn-oportunidade" onclick="verCliente('${op.cpf}')">Ver</button>
                 </div>
             `;
-            
+
             container.appendChild(card);
         });
+
     } catch (error) {
         console.error('Erro ao carregar oportunidades:', error);
-        const container = document.getElementById('oportunidades-container');
+        const container = document.getElementById('oportunidadesContainer')
         if (container) {
             container.innerHTML = '<div class="loading-spinner">Erro ao carregar oportunidades.</div>';
         }
@@ -296,8 +371,12 @@ async function carregarOportunidades() {
         }
 }
 
-function verCliente(cpf) {
-    window.location.href = `/telaconsulta.html?cpf=${cpf}`;
+function toggleSimulacao(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const aberto = el.style.display !== 'none';
+    el.style.display = aberto ? 'none' : 'block';
+    btn.textContent = aberto ? '▼ Ver Simulação' : '▲ Fechar Simulação';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
