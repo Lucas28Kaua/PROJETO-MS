@@ -1179,8 +1179,8 @@ def consulta_fullconsig(cpf):
                     # Busca o select de bancos de refin portabilidade pelo número do contrato
                     select_refin_port = soup.find('select', id=lambda x: x and 'selectTipoOperacaoBancoRefinPort' in x and numero in (x or ''))
 
-                    print(f"      🔍 Contrato {numero} - select encontrado: {select_refin_port is not None} - bancos: {bancos_port}")
                     
+
                     bancos_port = []
                     if select_refin_port:
                         for option in select_refin_port.find_all('option'):
@@ -1191,7 +1191,7 @@ def consulta_fullconsig(cpf):
                                     'codigo': valor,
                                     'nome': texto
                                 })
-                    
+                    print(f"      🔍 Contrato {numero} - select encontrado: {select_refin_port is not None} - bancos: {bancos_port}")
                     contrato['bancos_refin_port'] = bancos_port
 
                 print(f"✅ Extraídos {len(contratos)} contratos do JavaScript")
