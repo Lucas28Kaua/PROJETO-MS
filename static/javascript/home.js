@@ -304,7 +304,7 @@ async function carregarOportunidades() {
             }
             if (tipos.includes('cartao')) {
                 const qtd = op.cartoes?.length || 0;
-                icones += `<span class="tipo-badge tipo-cartao">💳 ${qtd} cartão${qtd > 1 ? 'es' : ''} BMG</span>`;
+                icones += `<span class="tipo-badge tipo-cartao">💳 ${qtd} ${qtd > 1 ? 'cartões' : 'cartão'} BMG</span>`;
             }
 
             let contratosHtml = '';
