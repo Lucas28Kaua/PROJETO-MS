@@ -1170,6 +1170,30 @@ def consulta_fullconsig(cpf):
                         except Exception as e:
                             print(f'Erro ao processar contrato: {e}')
                             continue
+                
+                for contrato in contratos:
+                    numero = contrato.get('numero', '')
+                    if not numero:
+                        continue
+
+                    # Busca o select de bancos de refin portabilidade pelo número do contrato
+                    select_refin_port = soup.find('select', id=lambda x: x and 'selectTipoOperacaoBancoRefinPort' in x and numero in (x or ''))
+
+                    print(f"      🔍 Contrato {numero} - select encontrado: {select_refin_port is not None} - bancos: {bancos_port}")
+                    
+                    bancos_port = []
+                    if select_refin_port:
+                        for option in select_refin_port.find_all('option'):
+                            valor = option.get('value', '').strip()
+                            texto = option.get_text(strip=True)
+                            if valor and valor != '':
+                                bancos_port.append({
+                                    'codigo': valor,
+                                    'nome': texto
+                                })
+                    
+                    contrato['bancos_refin_port'] = bancos_port
+
                 print(f"✅ Extraídos {len(contratos)} contratos do JavaScript")
             except Exception as e:
                 print(f"❌ Erro ao parsear contratos JS: {e}")
@@ -1280,7 +1304,8 @@ def processar_oportunidades(cpf=None):
                                     'parcelas_pagas': pagas,
                                     'quitacao': ct['quitacao'],
                                     'taxa': ct.get('taxa', 0),
-                                    'prazo': ct.get('prazo_total', 0)  # ← limpo, sem split
+                                    'prazo': ct.get('prazo_total', 0),  # ← limpo, sem split
+                                    'bancos_disponiveis': ct.get('bancos_refin_port', [])
                                 })
                             else:
                                 print(f"  ⏭️ Contrato ignorado: {ct['banco']} | parcela={ct.get('valor_parcela')} | pagas={pagas} | prazo={ct.get('prazo_total')}")
@@ -1431,7 +1456,17 @@ def simular_contrato(session_fc, contrato):
     base_url = 'https://sistema.fullconsig.com.br'
     resultados = []
 
-    for banco in BANCOS_PRIORITARIOS:
+    bancos_disponiveis = contrato.get('bancos_disponiveis', [])
+    if bancos_disponiveis:
+        codigos_disponiveis = {b['codigo'] for b in bancos_disponiveis}
+        bancos_para_simular = [b for b in BANCOS_PRIORITARIOS if b['codigo'] in codigos_disponiveis]
+        if not bancos_para_simular:
+            # banco disponível não tá na nossa lista prioritária, usa os disponíveis mesmo
+            bancos_para_simular = bancos_disponiveis
+    else:
+        bancos_para_simular = BANCOS_PRIORITARIOS
+
+    for banco in bancos_para_simular:
         try:
             r1 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidade', data={
                 'banco':          banco['codigo'],
@@ -1472,7 +1507,7 @@ def simular_contrato(session_fc, contrato):
             if troco_float <= 0:
                 print(f"      ⏭️ {banco['nome']}: troco zero")
                 continue
-            
+
             print(f"      ✅ {banco['nome']}: VALOR_LIBERADO_NOVO={sim.get('VALOR_LIBERADO_NOVO')} CODE={sim.get('CODE')}")
             resultados.append({
                 'banco_destino':  banco['nome'],
@@ -1517,6 +1552,9 @@ def simular_portabilidade():
             'valor_quitacao': quitacao,
             'prazo': prazo
         })
+
+        print(f"      🔍 {banco['nome']} r1 status={r1.status_code} body={r1.text[:100]}")
+
 
         tabelas = r1.json() if r1.ok else []
         if not tabelas:
