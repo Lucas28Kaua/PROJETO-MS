@@ -1443,6 +1443,7 @@ def simular_contrato(session_fc, contrato):
 
             tabelas = r1.json() if r1.ok else []
             if not tabelas:
+                print(f"      ⏭️ {banco['nome']}: sem tabela disponível")
                 continue
 
             melhor_tabela = tabelas[0]
