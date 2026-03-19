@@ -590,7 +590,7 @@ div.bancomes> h3, h4 {
 }
 
 .contratos-portaveis-wrapper {
-    max-height: 280px;
+    max-height: 150px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
