@@ -1192,7 +1192,6 @@ def consulta_fullconsig(cpf):
                                     'codigo': valor,
                                     'nome': texto
                                 })
-                    print(f"      🔍 Contrato {numero} - select encontrado: {select_refin_port is not None} - bancos: {bancos_port}")
                     contrato['bancos_refin_port'] = bancos_port
 
                 
@@ -1284,7 +1283,7 @@ def processar_oportunidades(cpf=None):
                 contratos_portaveis = []
                 cartoes = []
                 simulacoes = []
-                
+
                 if idade <= 73:
 
                     for ct in dados.get('contratos', []):
@@ -1503,7 +1502,7 @@ def simular_contrato(session_fc, contrato):
                 'prazo':          contrato['prazo'],
                 'taxa':           contrato['taxa'],
             })
-            print(f"      🔍 {banco['nome']} r1 status={r1.status_code} body={r1.text[:200]}")
+            
             tabelas_raw = r1.json() if r1.ok else {}
             if isinstance(tabelas_raw, list):
                 tabelas = tabelas_raw
@@ -1535,7 +1534,7 @@ def simular_contrato(session_fc, contrato):
                 continue
 
             troco_raw = str(sim.get('TROCO', '0')).replace('.', '').replace(',', '.')
-            print(f"      🔍 {banco['nome']} resposta completa: {sim}")
+            
             try:
                 troco_float = float(troco_raw)
             except ValueError:
@@ -1545,7 +1544,7 @@ def simular_contrato(session_fc, contrato):
                 print(f"      ⏭️ {banco['nome']}: troco zero")
                 continue
 
-            print(f"      ✅ {banco['nome']}: VALOR_LIBERADO_NOVO={sim.get('VALOR_LIBERADO_NOVO')} CODE={sim.get('CODE')}")
+            
             resultados.append({
                 'banco_destino':  banco['nome'],
                 'tabela':         melhor_tabela['NOME_TABELA'],
@@ -1558,7 +1557,7 @@ def simular_contrato(session_fc, contrato):
             })
             print(f"      ✅ {banco['nome']}: tabela={melhor_tabela['NOME_TABELA']} | valor_cliente=R$ {sim.get('TROCO')} | quitacao=R$ {sim.get('VALOR_QUITACAO')}")
 
-            print(f"      ✅ {banco['nome']}: R$ {troco_raw}")
+            
         except Exception as e:
             print(f"      ⚠️ Erro simulando banco {banco['nome']}: {e}")
             continue
