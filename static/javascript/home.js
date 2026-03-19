@@ -359,7 +359,7 @@ async function carregarOportunidades() {
                 <div style="margin: 10px 0; display: flex; gap: 8px; flex-wrap: wrap;">
                     ${icones}
                 </div>
-                ${contratosHtml}
+                ${contratosHtml ? `<div class="contratos-portaveis-wrapper">${contratosHtml}</div>` : ''}
                 <div style="margin-top: 10px;">
                     <span style="font-size: 11px; color: #999;">📅 ${op.data_consulta}</span>
                 </div>

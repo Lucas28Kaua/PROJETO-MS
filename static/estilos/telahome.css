@@ -588,6 +588,30 @@ div.bancomes> h3, h4 {
     background: #e65100;
     color: white;
 }
+
+.contratos-portaveis-wrapper {
+    max-height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+.contratos-portaveis-wrapper::-webkit-scrollbar {
+    width: 4px;
+}
+
+.contratos-portaveis-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.contratos-portaveis-wrapper::-webkit-scrollbar-thumb {
+    background: #e65100;
+    border-radius: 10px;
+}
+
 /* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
 
 /* Tablet e telas menores */
