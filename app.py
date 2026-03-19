@@ -1283,7 +1283,8 @@ def processar_oportunidades(cpf=None):
 
                 contratos_portaveis = []
                 cartoes = []
-
+                simulacoes = []
+                
                 if idade <= 73:
 
                     for ct in dados.get('contratos', []):
@@ -1323,7 +1324,7 @@ def processar_oportunidades(cpf=None):
                                 })
                             else:
                                 print(f"  ⏭️ Contrato ignorado: {ct['banco']} | parcela={ct.get('valor_parcela')} | pagas={pagas} | prazo={ct.get('prazo_total')}")
-                    simulacoes = []
+                    
                     if contratos_portaveis:
                         session_fc = get_sessao_fullconsig()
                         bancos_disponiveis = dados.get('bancos_refin_port', [])
@@ -1331,6 +1332,10 @@ def processar_oportunidades(cpf=None):
                             ct['bancos_disponiveis'] = bancos_disponiveis
                             print(f"      🔄 Simulando portabilidade: {ct['banco']} R$ {ct['parcela']}")
                             sim = simular_contrato(session_fc, ct)
+                            if sim is None:
+                                print(f"      ❌ Sem simulação disponível: {ct['banco']} R$ {ct['parcela']}")
+                                continue
+
                             simulacoes.append({
                                 'banco_origem': ct['banco'],
                                 'parcela':      ct['parcela'],
@@ -1363,6 +1368,13 @@ def processar_oportunidades(cpf=None):
 
                 conn_db = conexao_db()
                 cur = conn_db.cursor()
+
+                bancos_simulados = {s['banco_origem'] for s in simulacoes}
+                contratos_portaveis = [ct for ct in contratos_portaveis if ct['banco'] in bancos_simulados]
+
+                if not contratos_portaveis:
+                    tipos = [t for t in tipos if t != 'portabilidade']
+                    tipo_final = '+'.join(tipos)
 
                 sql = """
                     INSERT INTO oportunidades 
