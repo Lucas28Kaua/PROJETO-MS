@@ -164,7 +164,13 @@ async function carregarOportunidades() {
         }
 
         let totais = {
-            margem: { valor: 0, clientes: 0 },
+            margem: { 
+                total: 0,
+                disponivel: 0,
+                rmc: 0,
+                rcc: 0,
+                clientes: 0 
+            },
             portabilidade: { contratos: 0, clientes: 0 },
             cartao: { cartoes: 0, clientes: 0 }
         }
@@ -173,9 +179,22 @@ async function carregarOportunidades() {
             const tipos = op.tipo.split('+');
             
             if (tipos.includes('margem')) {
-                totais.margem.valor += parseFloat(op.margem_disponivel) || 0;
+                totais.margem.disponivel += parseFloat(op.margem_disponivel) || 0;
                 totais.margem.clientes++;
             }
+            // Margem RMC
+            if (tipos.includes('margem_rmc')) {
+                totais.margem.rmc += parseFloat(op.margem_rmc) || 0;
+                if (!tipos.includes('margem')) totais.margem.clientes++;
+            }
+
+            if (tipos.includes('margem_rcc')) {
+                totais.margem.rcc += parseFloat(op.margem_rcc) || 0;
+                if (!tipos.includes('margem') && !tipos.includes('margem_rmc')) totais.margem.clientes++;
+            }
+
+            totais.margem.total = totais.margem.disponivel + totais.margem.rmc + totais.margem.rcc;
+
             if (tipos.includes('portabilidade')) {
                 totais.portabilidade.contratos += op.contratos_portaveis?.length || 0;
                 totais.portabilidade.clientes++;
@@ -186,7 +205,36 @@ async function carregarOportunidades() {
             }
         });
 
-        document.getElementById('resumo-margem').innerText = `R$ ${totais.margem.valor.toFixed(2).replace('.', ',')}`;
+        const margemEl = document.getElementById('resumo-margem');
+        const margemQtdEl = document.getElementById('resumo-qtd-margem');
+
+        if (margemEl) {
+            // Cria o HTML com detalhamento
+            margemEl.innerHTML = `
+                <div style="font-size: 28px; font-weight: bold; color: #219653;">
+                    R$ ${totais.margem.total.toFixed(2).replace('.', ',')}
+                </div>
+                <div style="font-size: 13px; color: #666; margin-top: 8px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>• Margem disponível:</span>
+                        <span style="font-weight: 500;">R$ ${totais.margem.disponivel.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>• RMC:</span>
+                        <span style="font-weight: 500;">R$ ${totais.margem.rmc.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+                        <span>• RCC:</span>
+                        <span style="font-weight: 500;">R$ ${totais.margem.rcc.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (margemQtdEl) {
+            margemQtdEl.innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
+        }
+        
         document.getElementById('resumo-qtd-margem').innerText = `${totais.margem.clientes} cliente${totais.margem.clientes !== 1 ? 's' : ''}`;
 
         document.getElementById('resumo-portabilidade').innerText = totais.portabilidade.contratos;

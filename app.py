@@ -1305,12 +1305,14 @@ def processar_oportunidades():
 
                 sql = """
                     INSERT INTO oportunidades 
-                    (cpf, nome, idade, tipo, margem_disponivel, contratos_portaveis, cartoes, data_consulta, status)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), 'ativo')
+                    (cpf, nome, idade, tipo, margem_disponivel, margem_rmc, margem_rcc, contratos_portaveis, cartoes, data_consulta, status)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), 'ativo')
                     ON DUPLICATE KEY UPDATE
                         idade = VALUES(idade),
                         tipo = VALUES(tipo),
                         margem_disponivel = VALUES(margem_disponivel),
+                        margem_rmc = VALUES(margem_rmc),
+                        margem_rcc = VALUES(margem_rcc),
                         contratos_portaveis = VALUES(contratos_portaveis),
                         cartoes = VALUES(cartoes),
                         data_consulta = NOW(),
@@ -1322,7 +1324,9 @@ def processar_oportunidades():
                     dados.get('nome'),
                     idade,
                     tipo_final,
-                    margem_principal,
+                    dados.get('margem_total', 0),
+                    dados.get('margem_rmc', 0),
+                    dados.get('margem_rcc', 0),
                     json.dumps(contratos_portaveis, ensure_ascii=False) if contratos_portaveis else None,
                     json.dumps(cartoes, ensure_ascii=False) if cartoes else None
                 ))
@@ -1353,7 +1357,7 @@ def listar_oportunidades():
         cursor.execute("""
             SELECT 
                 id, cpf, nome, idade, tipo,
-                margem_disponivel,
+                margem_disponivel, margem_rmc, margem_rcc,
                 contratos_portaveis,
                 cartoes,
                 DATE_FORMAT(data_consulta, '%d/%m/%Y %H:%i') as data_consulta
