@@ -1576,9 +1576,16 @@ def simular_portabilidade():
         print(f"      🔍 {banco['nome']} r1 status={r1.status_code} body={r1.text[:100]}")
 
 
-        tabelas = r1.json() if r1.ok else []
-        if not tabelas or not isinstance(tabelas, list):
-            print(f"      ⏭️ {banco['nome']}: resposta inválida: {tabelas}")
+        tabelas_raw = r1.json() if r1.ok else {}
+        if isinstance(tabelas_raw, list):
+            tabelas = tabelas_raw
+        elif isinstance(tabelas_raw, dict):
+            tabelas = list(tabelas_raw.values())
+        else:
+            tabelas = []
+        
+        if not tabelas:
+            print(f"      ⏭️ {banco['nome']}: sem tabela disponível")
             continue
         
         melhor_tabela = tabelas[0]
