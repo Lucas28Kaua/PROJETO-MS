@@ -1141,7 +1141,7 @@ def consulta_fullconsig(cpf):
 
         match_contratos = re.search(r'var contratos\s*=\s*(\[.*?\]);', html_consulta, re.DOTALL)
         bancos_refin_port_globais = []
-        
+
         if match_contratos:
             try:
                 contratos_str = match_contratos.group(1)
@@ -1515,6 +1515,7 @@ def simular_contrato(session_fc, contrato):
                 continue
 
             troco_raw = str(sim.get('TROCO', '0')).replace('.', '').replace(',', '.')
+            print(f"      🔍 {banco['nome']} resposta completa: {sim}")
             try:
                 troco_float = float(troco_raw)
             except ValueError:
