@@ -1484,19 +1484,22 @@ def simular_contrato(session_fc, contrato):
 
     for banco in bancos_para_simular:
         try:
-            r1 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidade', data={
-                'banco':          banco['codigo'],
-                'valor_parcela':  contrato['parcela'],
-                'valor_quitacao': contrato['quitacao'],
-                'prazo':          contrato['prazo'],
-                'taxa':           contrato['taxa'],
-            })
-
-            tabelas = r1.json() if r1.ok else []
-            if not tabelas:
-                print(f"      ⏭️ {banco['nome']}: sem tabela disponível")
+            try:
+                r1 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidade', data={
+                    'banco':          banco['codigo'],
+                    'valor_parcela':  contrato['parcela'],
+                    'valor_quitacao': contrato['quitacao'],
+                    'prazo':          contrato['prazo'],
+                    'taxa':           contrato['taxa'],
+                })
+                print(f"      🔍 {banco['nome']} r1 status={r1.status_code} body={r1.text[:200]}")
+                tabelas = r1.json() if r1.ok else []
+                if not tabelas:
+                    print(f"      ⏭️ {banco['nome']}: sem tabela disponível")
+                    continue
+            except Exception as e:
+                print(f"      ⚠️ {banco['nome']} erro na r1: {e}")
                 continue
-
             melhor_tabela = tabelas[0]
 
             r2 = session_fc.post(f'{base_url}/consulta/tabelasRefinPortabilidadeDetalhes', data={
