@@ -13,6 +13,7 @@ import pytz
 import requests as req_http
 import time
 import random
+import click
 from datetime import datetime
 import sys
 sys.stdout.reconfigure(line_buffering=True)
@@ -1190,7 +1191,8 @@ def consulta_fullconsig(cpf):
 # COMANDO PARA PROCESSAR OPORTUNIDADES (ROBÔ)
 # =============================================
 @app.cli.command('processar-oportunidades')
-def processar_oportunidades():
+@click.argument('cpf', required=False, default=None)
+def processar_oportunidades(cpf=None):
     """processa todos os clientes e salva oportunidades"""
     print("🚀 Iniciando processamento de oportunidades...")
 
@@ -1200,7 +1202,10 @@ def processar_oportunidades():
         return
     
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT cpf, nome FROM clientes")
+    if cpf:
+        cursor.execute("SELECT cpf, nome FROM clientes WHERE cpf = %s", (cpf,))
+    else:
+        cursor.execute("SELECT cpf, nome FROM clientes")
     clientes = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -1469,7 +1474,7 @@ def simular_contrato(session_fc, contrato):
                 '_valor_float':   float(troco_raw),
             })
             print(f"      ✅ {banco['nome']}: tabela={melhor_tabela['NOME_TABELA']} | valor_cliente=R$ {sim.get('TROCO')} | quitacao=R$ {sim.get('VALOR_QUITACAO')}")
-            
+
             print(f"      ✅ {banco['nome']}: R$ {troco_raw}")
         except Exception as e:
             print(f"      ⚠️ Erro simulando banco {banco['nome']}: {e}")
