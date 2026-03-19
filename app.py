@@ -1140,7 +1140,8 @@ def consulta_fullconsig(cpf):
         contratos = []
 
         match_contratos = re.search(r'var contratos\s*=\s*(\[.*?\]);', html_consulta, re.DOTALL)
-
+        bancos_refin_port_globais = []
+        
         if match_contratos:
             try:
                 contratos_str = match_contratos.group(1)
@@ -1194,6 +1195,18 @@ def consulta_fullconsig(cpf):
                     print(f"      🔍 Contrato {numero} - select encontrado: {select_refin_port is not None} - bancos: {bancos_port}")
                     contrato['bancos_refin_port'] = bancos_port
 
+                
+                selects_refin_port = soup.find_all('select', id=lambda x: x and 'selectTipoOperacaoBancoRefinPort' in x)
+                for select in selects_refin_port:
+                    for option in select.find_all('option'):
+                        valor = option.get('value', '').strip()
+                        texto = option.get_text(strip=True)
+                        if valor:
+                            if not any(b['codigo'] == valor for b in bancos_refin_port_globais):
+                                bancos_refin_port_globais.append({'codigo': valor, 'nome': texto})
+
+                print(f"      🔍 Bancos refin port disponíveis: {bancos_refin_port_globais}")
+
                 print(f"✅ Extraídos {len(contratos)} contratos do JavaScript")
             except Exception as e:
                 print(f"❌ Erro ao parsear contratos JS: {e}")
@@ -1201,6 +1214,7 @@ def consulta_fullconsig(cpf):
         else:
             print("⚠️ Variável 'contratos' não encontrada no HTML")
 
+        resultado["bancos_refin_port"] = bancos_refin_port_globais
         resultado["margem_total"] = margem_total
         resultado["margem_rmc"] = margem_rmc
         resultado["margem_rcc"] = margem_rcc
@@ -1312,7 +1326,9 @@ def processar_oportunidades(cpf=None):
                     simulacoes = []
                     if contratos_portaveis:
                         session_fc = get_sessao_fullconsig()
+                        bancos_disponiveis = dados.get('bancos_refin_port', [])
                         for ct in contratos_portaveis:
+                            ct['bancos_disponiveis'] = bancos_disponiveis
                             print(f"      🔄 Simulando portabilidade: {ct['banco']} R$ {ct['parcela']}")
                             sim = simular_contrato(session_fc, ct)
                             simulacoes.append({
