@@ -1282,7 +1282,8 @@ def processar_oportunidades(cpf=None):
                                     'taxa': ct.get('taxa', 0),
                                     'prazo': ct.get('prazo_total', 0)  # ← limpo, sem split
                                 })
-                
+                            else:
+                                print(f"  ⏭️ Contrato ignorado: {ct['banco']} | parcela={ct.get('valor_parcela')} | pagas={pagas} | prazo={ct.get('prazo_total')}")
                     simulacoes = []
                     if contratos_portaveis:
                         session_fc = get_sessao_fullconsig()
