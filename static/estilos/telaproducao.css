@@ -433,7 +433,7 @@
 
 #graficoPizzaBancos {
     flex: 1; /* <-- canvas ocupa o espaço que sobra depois do header */
-    min-height: 0; /* <-- necessário pro flex funcionar com canvas */
+    max-height: 360px; /* <-- necessário pro flex funcionar com canvas */
 }
 
 /* ==========================================================================
