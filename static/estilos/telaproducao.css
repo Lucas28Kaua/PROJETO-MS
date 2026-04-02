@@ -409,16 +409,30 @@
 
 .secao-grafico-pizza, .secao-regras-banco {
     flex: 1;        /* Divide o espaço meio a meio */
-    background: #fff;
+    background: white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     height: 400px; 
+    box-sizing: border-box;
 }
 
 /* Para o gráfico não sumir, o canvas precisa de um container relativo */
 .secao-grafico-pizza {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+}
+
+#graficoPizzaBancos {
+    flex: 1; /* <-- canvas ocupa o espaço que sobra depois do header */
+    min-height: 0; /* <-- necessário pro flex funcionar com canvas */
 }
 
 /* ==========================================================================
