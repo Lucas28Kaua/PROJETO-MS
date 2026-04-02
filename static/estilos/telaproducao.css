@@ -419,8 +419,12 @@
 /* Para o gráfico não sumir, o canvas precisa de um container relativo */
 .secao-grafico-pizza {
     position: relative;
+    height: 300px;
 }
 
+#graficoPizzaBancos {
+    max-height: 300px;
+}
 
 /* ==========================================================================
    CARD PAINEL DE CONTROLE (REGRAS E METAS)
