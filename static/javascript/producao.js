@@ -93,7 +93,16 @@ function renderizarGrafico(labels, valores) {
 }
 
 
+let pizzaModoAtual = 'produto'; //controla qual modo tá ativo na pizza
 
+function alternarVizPizza(modo) {
+    pizzaModoAtual = modo;
+
+    document.getElementById('btnPizzaProduto').classList.toggle('ativo', modo === 'produto');
+    document.getElementById('btnPizzaConvenio').classList.toggle('ativo', modo === 'convenio');
+
+    renderizarGraficoPizza(dadosFiltradosAtuais);
+}
 
 function renderizarGraficoPizza(dados) {
     const canvas = document.getElementById('graficoPizzaBancos');
@@ -101,27 +110,55 @@ function renderizarGraficoPizza(dados) {
     
     const ctx = canvas.getContext('2d');
     
-    const resumo = {};
-    dados.forEach(item => {
-        const produto = item.operacao_feita || "Outros";
-        const t = parseFloat(item.valor_operacao) || 0;
-        const s = parseFloat(item.saldo_devedor_estimado) || 0;
-        const isPort = produto.toLowerCase().includes('port');
-        
-        // Lógica de soma CORRETA:
-        const valorReal = isPort ? (t + s) : t;
+    let labels = []
+    let valores = []
+    let tooltipExtras = {} // só usa no modo convenio
 
-        resumo[produto] = (resumo[produto] || 0) + valorReal;
-    });
+    if (pizzaModoAtual === 'produto') {
+        //Modo produto, comportamento original
+        const resumo = {}
+        dados.forEach(item => {
+            const produto = item.operacao_feita || "Outros";
+            const t = parseFloat(item.valor_operacao) || 0;
+            const s = parseFloat(item.saldo_devedor_estimado) || 0;
+            const isPort = produto.toLowerCase().includes('port');
+            const valorReal = isPort ? (t + s) : t;
+            resumo[produto] = (resumo[produto] || 0) + valorReal;
+        })
+        labels = Object.keys(resumo);
+        valores = Object.values(resumo);
+    } else {
+        //Modo convenio
+        const resumoConvenio = {} // { inss: 0, clt: 0....}
+        const breakdownConvenio = {} // { inss: { margemNovo: 0, portabilidade: 0, ... }, ... }
+
+        dados.forEach(item => {
+            const convenio = item.convenio || "Outros";
+            const produto = item.operacao_feita || "Outros";
+            const t = parseFloat(item.valor_operacao) || 0;
+            const s = parseFloat(item.saldo_devedor_estimado) || 0;
+            const isPort = produto.toLowerCase().includes('port');
+            const valorReal = isPort ? (t + s) : t;
+
+            resumoConvenio[convenio] = (resumoConvenio[convenio] || 0) + valorReal;
+
+            if (!breakdownConvenio[convenio]) breakdownConvenio[convenio] = {};
+            breakdownConvenio[convenio][produto] = (breakdownConvenio[convenio][produto] || 0) + valorReal;
+        })
+
+        labels = Object.keys(resumoConvenio);
+        valores = Object.values(resumoConvenio);
+        tooltipExtras = breakdownConvenio;
+    }
 
     if (meuGraficoPizza) meuGraficoPizza.destroy();
 
     meuGraficoPizza = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: Object.keys(resumo),
+            labels,
             datasets: [{
-                data: Object.values(resumo),
+                data: valores,
                 backgroundColor: [
                     '#FB8D20', '#2ecc71', '#3498db', '#9b59b6', '#f1c40f', 
                     '#e74c3c', '#1abc9c', '#34495e', '#d35400', '#27ae60', 
@@ -154,8 +191,23 @@ function renderizarGraficoPizza(dados) {
                 tooltip: {
                     callbacks: {
                         label: (context) => {
+                            const label = context.label;
                             const valor = context.raw || 0;
-                            return ` ${context.label}: ${valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+                            const totalFormatado = valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+                            if (pizzaModoAtual === 'convenio' && tooltipExtras[label]) {
+                                // Mostra total + breakdown por produto
+                                const linhas = [`${label}: ${totalFormatado}`, '──────────'];
+                                const breakdown = tooltipExtras[label];
+                                Object.entries(breakdown)
+                                    .sort((a, b) => b[1] - a[1])
+                                    .forEach(([prod, val]) => {
+                                        linhas.push(` ${prod}: ${val.toLocaleString('pt-br', { style: 'currency', currency: 'BRL'})}`);
+                                    });
+                                return linhas;
+                            }
+
+                            return ` ${label}: ${totalFormatado}`;
                         }
                     }
                 }
