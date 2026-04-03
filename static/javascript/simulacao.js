@@ -16,151 +16,349 @@ function mascaraCPFIndividual(input) {
     input.value = v;
 }
 
-async function consultarIndividual(){
-    const cpfRaw = document.getElementById('cpf-individual').value.replace(/\D/g, '');
-    if (cpfRaw.length !== 11) {
-        alert('CPF inválido!');
-        return;
+function exibirDadosCliente(margemData) {
+    if (!margemData) {
+        console.warn('Sem dados de margem para exibir')
+        return
     }
 
-    document.getElementById('resultado-individual').style.display = 'none';
-    document.getElementById('resultado-individual-body').innerHTML = '';
+    const formatarData = (isoDate) => {
+        if (!isoDate) return '---';
+        const data = new Date(isoDate)
+        if (isNaN(data.getTime())) return '---';
+        return data.toLocaleDateString('pt-BR');
+    }
+
+    const formatarMoeda = (valor) => {
+        if (!valor && valor !== 0) return '---';
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2
+        }).format(valor)
+    }
+
+    //calcular idade
+    const calcularIdade = (dataNasc) => {
+        if (!dataNasc) return '';
+        const nasc = new Date(dataNasc)
+        const hoje = new Date();
+        let idade = hoje.getFullYear() - nasc.getFullYear();
+        const mesDiff = hoje.getMonth() - nasc.getMonth();
+        if (mesDiff < 0 || (mesDiff === 0 && hoje.getDate() < nasc.getDate())) {
+            idade--;
+        }
+        return ` (${idade} anos)`;
+    }
+
+    const calcularTempoEmpresa = (dataAdmissao) => {
+        if (!dataAdmissao) return '';
+
+        const admissao = new Date(dataAdmissao)
+        const hoje = new Date();
+
+        let totalMeses = (hoje.getFullYear() - admissao.getFullYear()) * 12;
+        totalMeses += hoje.getMonth() - admissao.getMonth();
+
+        // Ajuste para dias (se o dia do mês atual for menor que o dia da admissão)
+        if (hoje.getDate() < admissao.getDate()) {
+            totalMeses--;
+        }
+
+        if(totalMeses <0) return '';
+
+        //converte para anos e meses
+        const anos = Math.floor(totalMeses /12);
+        const meses = totalMeses % 12;
+
+        let resultado = '';
+
+        if (anos > 0) {
+            resultado += `${anos} ano${anos !== 1 ? 's' : ''}`;
+        }
+
+        if (meses>0) {
+            if (resultado) resultado += ' e ';
+            resultado += `${meses} mes${meses !== 1 ? 'es' : ''}`;
+        }
+
+        return resultado ? ` (${resultado})` : ''
+    }
+
+    const html = `
+        <div class="dados-cliente-section" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 2px 2px 9px rgba(0,0,0,0.330);">
+            <h3 style="margin: 0 0 16px 0; font-size: 18px; color: #1e293b;">📋 Dados do Cliente</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">👤 NOME COMPLETO</div>
+                    <div style="font-weight: 600; color: #0f172a;">${margemData.EmpregadoNome || '---'}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">🎂 DATA NASCIMENTO</div>
+                    <div style="font-weight: 600; color: #0f172a;">${formatarData(margemData.DataNascimento)}${calcularIdade(margemData.DataNascimento)}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">⚥ GÊNERO</div>
+                    <div style="font-weight: 600; color: #0f172a;">${margemData.GeneroDescricao || '---'}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">📅 DATA ADMISSÃO</div>
+                    <div style="font-weight: 600; color: #0f172a;">${formatarData(margemData.DataAdmissao)}${calcularTempoEmpresa(margemData.DataAdmissao)}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">🏢 EMPRESA</div>
+                    <div style="font-weight: 600; color: #0f172a;">${margemData.EmpregadorNome || '---'}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">💼 CARGO</div>
+                    <div style="font-weight: 600; color: #0f172a;">${margemData.CargoDescricao || '---'}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">💰 SALÁRIO BRUTO</div>
+                    <div style="font-weight: 600; color: #0f172a;">${formatarMoeda(margemData.ValorMargemBase)}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">👩 NOME DA MÃE</div>
+                    <div style="font-weight: 600; color: #0f172a;">${margemData.NomeMae || '---'}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">💵 MARGEM DISPONÍVEL</div>
+                    <div style="font-weight: 700; color: #10b981; font-size: 18px;">${formatarMoeda(margemData.ProdutoSaldoDisponivel)}</div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Insere antes da grid de bancos
+    const resultadoDiv = document.getElementById('resultado-individual');
+    const bancosGrid = document.getElementById('bancos-grid');
     
-    const btn = document.querySelector('#painel-individual .btn-processar')
-    btn.disabled = true;
-    btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Consultando...';
-
-    try{
-        const response = await fetch(`https://sistemamscred.com.br/consulta-fullconsig/${cpfRaw}`);
-        const dados = await response.json();
-
-        if (dados.erro) {
-            alert('CPF não encontrado: ' + dados.erro);
-            btn.disabled = false;
-            btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar';
-                return;
-        }
-
-        dadosClienteIndividual = { ...dados, cpf:cpfRaw}
-
-        document.getElementById('ind-nome').value = dados.nome || '---';
-        document.getElementById('ind-nascimento').value = dados.data_nascimento || '---';
-
-        const sexoSelect = document.getElementById('ind-sexo');
-        const sexoValor = (dados.sexo || '').toLowerCase();
-        sexoSelect.value = sexoValor.includes('fem') ? 'Feminino' : 'Masculino';
-
-        document.getElementById('ind-convenio').textContent = dados.convenio || '---';
-
-        if (dados.telefone) {
-            document.getElementById('ind-telefone').value = dados.telefone;
-            document.getElementById('aviso-telefone').style.display = 'none';
-        } else {
-            document.getElementById('ind-telefone').value = '';
-            document.getElementById('aviso-telefone').style.display = 'block';
-        }
-
-        document.getElementById('dados-individual').style.display = 'block';
-    } catch (err) {
-        alert('Erro ao consultar!');
-        console.error(err);
+    // Remove se já existir uma seção de dados do cliente
+    const existingSection = document.querySelector('.dados-cliente-section');
+    if (existingSection) {
+        existingSection.remove();
     }
 
-    btn.disabled = false;
-    btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar';
+    // Insere no início do resultado
+    resultadoDiv.insertAdjacentHTML('afterbegin', html);
 }
 
-async function simularIndividual(){
-    const nome       = document.getElementById('ind-nome').value;
-    const nascimento = document.getElementById('ind-nascimento').value;
-    const sexo       = document.getElementById('ind-sexo').value;
-    const telefone   = document.getElementById('ind-telefone').value.replace(/\D/g, '');
+let cpfAtual =  null;
+let telAtual = null;
+let dadosAutorizacao = null;
+async function iniciarAutorizacao() {
+    const cpfRaw = document.getElementById('cpf-individual').value.replace(/\D/g, '');
+    const tel    = document.getElementById('tel-individual').value.replace(/\D/g, '');
 
-    if (!telefone) {
-        alert('Preencha o telefone!');
-        return;
-    }
+    if (cpfRaw.length !== 11) { alert('CPF inválido!'); return; }
+    if (tel.length < 10) { alert('Telefone inválido!'); return}
 
-    const btn = document.querySelector('#dados-individual .btn-processar');
+    cpfAtual = cpfRaw;
+    telAtual = tel;
+
+    const btn = document.getElementById('btn-autorizar');
     btn.disabled = true;
-    btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Simulando...';
-
-    document.getElementById('resultado-individual').style.display = 'block';
-    document.getElementById('resultado-individual-body').innerHTML = '<p style="padding:20px;color:#aaa;">⏳ Processando simulação...</p>';
+    btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Enviando...';
 
     try {
-        const response = await fetch('https://api.sistemamscred.com.br/simularindividual', {
+        const resp = await fetch('https://api.sistemamscred.com.br/have/autorizar-zap', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                cpf: dadosClienteIndividual.cpf,
-                nome: nome,
-                data_nascimento: nascimento,
-                sexo: sexo,
-                telefone: telefone
-            })
-        });
-        const resultado = await response.json();
+            body: JSON.stringify({ CPF: cpfRaw, phone: tel})
+        })
+        const data = await resp.json();
 
-        if (resultado.tipo === 'aprovado') {
-            resultadoSimulacaoAtual = { ...resultado, ...dadosClienteIndividual };
-
-            document.getElementById('resultado-individual-body').innerHTML = `
-                <div style="padding:20px;">
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
-                        <span class="status-badge status-aprovado">✓ Aprovado</span>
-                        <span style="font-size:0.78rem; color:#888;">${resultado.nome || ''}</span>
-                    </div>
-                    <div class="cliente-fields-grid">
-                        <div class="cliente-field">
-                            <label class="cliente-field-label">📊 Margem Disponível</label>
-                            <div class="cliente-field-input" style="background:#f5f5f5; cursor:default;">
-                                R$ ${parseFloat(resultado.margem).toLocaleString('pt-BR', {minimumFractionDigits:2})}
-                            </div>
-                        </div>
-                        <div class="cliente-field">
-                            <label class="cliente-field-label">💳 Valor da Parcela</label>
-                            <div class="cliente-field-input" style="background:#f5f5f5; cursor:default;">
-                                R$ ${parseFloat(resultado.parcela).toLocaleString('pt-BR', {minimumFractionDigits:2})}
-                            </div>
-                        </div>
-                        <div class="cliente-field">
-                            <label class="cliente-field-label">⏱️ Prazo</label>
-                            <div class="cliente-field-input" style="background:#f5f5f5; cursor:default;">
-                                ${resultado.prazo} meses
-                            </div>
-                        </div>
-                        <div class="cliente-field">
-                            <label class="cliente-field-label">💰 Valor Liberado</label>
-                            <div class="cliente-field-input" style="background:#f0fdf4; border-color:#86efac; color:#16a34a; font-weight:800; font-size:1.1rem; cursor:default;">
-                                R$ ${parseFloat(resultado.valor_simulado).toLocaleString('pt-BR', {minimumFractionDigits:2})}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-processar ativo" style="margin-top:16px;" onclick="irParaDigitacao()">
-                    DIGITAR PROPOSTA →
-                </button>
-            `;
+        if (data.erro) {
+            alert('Erro: ' + data.erro);
+            console.error('❌ Erro retornado: ', data.erro)
         } else {
-            document.getElementById('resultado-individual-body').innerHTML = `
-                <div style="padding:20px;">
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                        <span class="status-badge status-reprovado">✗ Reprovado</span>
-                    </div>
-                    <div class="cliente-field-input" style="background:#fff5f5; border-color:#fca5a5; color:#dc2626; cursor:default;">
-                        ${resultado.motivo || 'Não foi possível aprovar a simulação.'}
-                    </div>
-                </div>
-            `;
+
+            dadosAutorizacao = {
+                nome: data.nome || '',
+                data_nascimento: data.data_nascimento || '',
+                sexo: data.sexo || ''
+            }
+
+            if (data.dados_margem) {
+                exibirDadosCliente(data.dados_margem)
+            }
+
+            document.getElementById('aviso-aguardando').style.display='block';
+            mostrarToast('Link enviado com sucesso!');
         }
-    } catch (err) {
-        document.getElementById('resultado-individual-body').innerHTML = '<p style="padding:20px;color:red;">Erro ao simular!</p>';
-        console.error(err);
+    } catch(e) {
+        alert ('Erro ao enviar autorização!');
+        console.error(e);
     }
 
     btn.disabled = false;
-    btn.innerHTML = '<span class="material-symbols-outlined">play_circle</span> Simular';
+    btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Autorização';
+}
+
+async function consultarESimular() {
+    document.getElementById('aviso-aguardando').style.display = 'none';
+    document.getElementById('resultado-individual').style.display = 'block';
+
+    document.getElementById('bancos-grid').innerHTML= `
+        ${cardSkeleton('have', 'Banco Have')}
+        ${cardSkeleton('v8', 'Banco V8')}
+    `;
+    
+    simularHave(cpfAtual).then(resHave => {
+    if (resHave?.tipo === 'aprovado') {
+        dadosConsultaHave = resHave;
+        const m = resHave.margem;
+        renderizarCardBanco('have', 'Banco Have', {
+            margem: m.ProdutoSaldoDisponivel,
+            parcela: resHave.valor_parcela,
+            prazo: resHave.prazo,
+            valor_simulado: resHave.valor_solicitado
+        });
+    } else {
+        renderizarCardReprovado('have', 'Banco Have', 'Simulação não aprovada');
+    }
+    });
+
+    simularV8(cpfAtual).then(resV8 => {
+    if (resV8?.tipo === 'aprovado') {
+        dadosSimulacaoV8 = resV8;
+        renderizarCardBanco('v8', 'Banco V8', {
+            margem: resV8.margem,
+            parcela: resV8.parcela,
+            prazo: resV8.prazo,
+            valor_simulado: resV8.valor_simulado
+        });
+    } else {
+        renderizarCardReprovado('v8', 'Banco V8', resV8?.motivo || 'Simulação não aprovada');
+    }
+    });
+}
+
+function cardSkeleton(banco, nomeBanco) {
+    return `
+    <div class="banco-card" id="card-${banco}">
+        <div class="banco-logo">${nomeBanco.split(' ')[1]}</div>
+        <div class="banco-card-info">
+            <div><div class="banco-valor-label">Margem</div><div class="skeleton"></div></div>
+            <div><div class="banco-valor-label">Parcela</div><div class="skeleton"></div></div>
+            <div><div class="banco-valor-label">Prazo</div><div class="skeleton"></div></div>
+            <div><div class="banco-valor-label">Valor Liberado</div><div class="skeleton lg"></div></div>
+        </div>
+        <div class="banco-card-actions">
+            <span class="status-badge status-simulando">⏳ Simulando...</span>
+        </div>
+    </div>`
+}
+
+function renderizarCardBanco(banco, nomeBanco, dados) {
+
+    const logoTexto = nomeBanco.split(' ')[1] || nomeBanco.substring(0,2);
+    const parcela = parseFloat(dados.parcela);
+    const valorLiberado = parseFloat(dados.valor_simulado);
+    const margem = parseFloat(dados.margem);
+
+    const html = `
+        <div class="banco-card" id="card-${banco}">
+            <div class="banco-header">
+                <div class="banco-logo">${logoTexto}</div>
+                <div class="banco-nome">${nomeBanco}</div>
+                <div class="banco-badge status-aprovado" style="background: #dcfce7; color: #15803d; margin-left: auto;">✅ APROVADO</div>
+            </div>
+            
+            <div class="banco-conteudo">
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">💰 Margem Disponível</span>
+                    <span class="banco-valor-num">${margem.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                </div>
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">📅 Valor da Parcela</span>
+                    <span class="banco-valor-num parcela">${parcela.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                </div>
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">⏱️ Prazo</span>
+                    <span class="banco-valor-num">${dados.prazo} meses</span>
+                </div>
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">🎉 Valor Liberado</span>
+                    <span class="banco-valor-num liberado">${valorLiberado.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                </div>
+            </div>
+            
+            <div class="banco-acoes">
+                <button class="btn-digitar" onclick="irParaDigitacao('${banco}', '${nomeBanco}')">
+                    ✏️ Digitar Proposta
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById(`card-${banco}`).outerHTML = html;
+}
+
+function renderizarCardReprovado(banco, nomeBanco, motivo) {
+    const logoTexto = nomeBanco.split(' ')[1] || nomeBanco.substring(0,2);
+
+    const html = `
+        <div class="banco-card" id="card-${banco}" style="opacity:0.85;">
+            <div class="banco-header">
+                <div class="banco-logo">${logoTexto}</div>
+                <div class="banco-nome">${nomeBanco}</div>
+                <div class="banco-badge status-reprovado" style="background: #fee2e2; color: #b91c1c; margin-left: auto;">❌ REPROVADO</div>
+            </div>
+            
+            <div class="banco-conteudo" style="padding: 24px;">
+                <div style="display: flex; align-items: center; gap: 12px; background: #fef2f2; border-radius: 12px; padding: 16px; border-left: 4px solid #dc2626;">
+                    <span style="font-size: 24px;">📋</span>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 600; color: #991b1b;">Crédito não disponível</div>
+                        <div style="font-size: 13px; color: #64748b; margin-top: 4px;">${motivo || 'Simulação não aprovada para esta instituição'}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banco-acoes" style="justify-content: flex-end;">
+            </div>
+        </div>
+    `;
+    
+    document.getElementById(`card-${banco}`).outerHTML = html;
+}
+
+async function simularHave(cpf) {
+    const resp = await fetch('https://api.sistemamscred.com.br/simularhave', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ CPF: cpf})
+    })
+    return await resp.json();
+}
+
+async function simularV8(cpf) {
+    // 📌 LOG 4: Ver o que tem antes de enviar
+    console.log('🔍 dadosAutorizacao antes de enviar pro V8:', dadosAutorizacao);
+    console.log('🔍 cpf:', cpf);
+    console.log('🔍 telAtual:', telAtual);
+
+    const payload = {
+        cpf: cpf,
+        nome: dadosAutorizacao?.nome || '',
+        data_nascimento: dadosAutorizacao?.data_nascimento || '',
+        sexo: dadosAutorizacao?.sexo || '',
+        telefone: telAtual
+    };
+    
+    console.log('📦 Payload enviado pro V8:', payload);
+
+    const resp = await fetch('https://api.sistemamscred.com.br/simularindividual', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    });
+    
+    const resultado = await resp.json()
+    console.log('📥 Resposta do V8:', resultado)
+
+    return resultado;
 }
 
 function mostrarToast(mensagem) {
