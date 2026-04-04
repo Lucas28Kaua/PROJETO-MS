@@ -260,7 +260,11 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
     const html = `
         <div class="banco-card" id="card-${banco}">
             <div class="banco-header">
-                <div class="banco-logo">${logoTexto}</div>
+                <div class="banco-logo">
+                    ${banco === 'v8' 
+                        ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
+                        : logoTexto}
+                </div>
                 <div class="banco-nome">${nomeBanco}</div>
                 <div class="banco-badge status-aprovado" style="background: #dcfce7; color: #15803d; margin-left: auto;">✅ APROVADO</div>
             </div>
