@@ -237,7 +237,11 @@ async function consultarESimular() {
 function cardSkeleton(banco, nomeBanco) {
     return `
     <div class="banco-card" id="card-${banco}">
-        <div class="banco-logo">${nomeBanco.split(' ')[1]}</div>
+        <div class="banco-logo">
+            ${banco === 'v8' 
+                ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
+                : nomeBanco.split(' ')[1]}
+        </div>
         <div class="banco-card-info">
             <div><div class="banco-valor-label">Margem</div><div class="skeleton"></div></div>
             <div><div class="banco-valor-label">Parcela</div><div class="skeleton"></div></div>
@@ -261,8 +265,8 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
         <div class="banco-card" id="card-${banco}">
             <div class="banco-header">
                 <div class="banco-logo">
-                    ${banco === 'v8' 
-                        ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
+                    ${nomeBanco.toLowerCase().includes('v8') 
+                        ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" onerror="this.onerror=null; this.parentElement.innerHTML=\'V8\'">' 
                         : logoTexto}
                 </div>
                 <div class="banco-nome">${nomeBanco}</div>
@@ -305,7 +309,11 @@ function renderizarCardReprovado(banco, nomeBanco, motivo) {
     const html = `
         <div class="banco-card" id="card-${banco}" style="opacity:0.85;">
             <div class="banco-header">
-                <div class="banco-logo">${logoTexto}</div>
+                <div class="banco-logo">
+                    ${banco === 'v8' 
+                        ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
+                        : logoTexto}
+                </div>
                 <div class="banco-nome">${nomeBanco}</div>
                 <div class="banco-badge status-reprovado" style="background: #fee2e2; color: #b91c1c; margin-left: auto;">❌ REPROVADO</div>
             </div>

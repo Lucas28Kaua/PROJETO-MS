@@ -262,7 +262,7 @@
 }
 
 .banco-header {
-    background: #f97316;
+    background: linear-gradient(135deg, #ff8d3b, #ea770c);
     padding: 12px 20px;
     color: white;
     display: flex;
