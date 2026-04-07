@@ -106,56 +106,124 @@
 
         <!-- Painel Individual -->
         <div class="painel ativo" id="painel-individual">
-            <div class="card-planilha">
 
-                <h3><span class="material-symbols-outlined">person_search</span>Consulta Individual</h3>
+            <div class="sub-abas">
+                <button class="sub-aba-btn ativo" onclick="trocarSubAba('clt', this)">
+                    CLT
+                </button>
+                <button class="sub-aba-btn" onclick="trocarSubAba('inss', this)">
+                    INSS
+                </button>
+            </div>
+            
+            <!-- SUB-PAINEL CLT -->
+            <div class="sub-painel ativo" id="sub-painel-clt">
+                
+                <div class="card-planilha">
+                    <h3><span class="material-symbols-outlined">person_search</span>Consulta Individual - CLT</h3>
 
-                <div class="campo-cpf-individual">
-                    <div>
-                        <label class="campo-label-small">CPF</label>
-                        <input type="text" class="campo-text-input" id="cpf-individual"
-                            placeholder="000.000.000-00" maxlength="14"
-                            oninput="mascaraCPFIndividual(this)" style="width:180px">
+                    <div class="campo-cpf-individual">
+                        <div>
+                            <label class="campo-label-small">CPF</label>
+                            <input type="text" class="campo-text-input" id="cpf-individual"
+                                placeholder="000.000.000-00" maxlength="14"
+                                oninput="mascaraCPFIndividual(this)" style="width:180px">
+                        </div>
+                        <div>
+                            <label class="campo-label-small">Telefone (WhatsApp)</label>
+                            <input type="text" class="campo-text-input" id="tel-individual"
+                                placeholder="84999999999" maxlength="11" style="width:180px">
+                        </div>
+                        <button class="btn-processar ativo" id="btn-autorizar" onclick="iniciarAutorizacao()">
+                            <span class="material-symbols-outlined">send</span> Enviar Autorização
+                        </button>
                     </div>
-                    <div>
-                        <label class="campo-label-small">Telefone (WhatsApp)</label>
-                        <input type="text" class="campo-text-input" id="tel-individual"
-                            placeholder="84999999999" maxlength="11" style="width:180px">
+
+                    <div id="aviso-aguardando" style="display:none">
+                        <div class="aviso-tel-box" style="justify-content:space-between; flex-wrap:wrap; gap:10px;">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span class="material-symbols-outlined">schedule</span>
+                                <span>Link enviado! Aguardando o trabalhador autorizar no WhatsApp...</span>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn-processar ativo" id="btn-autorizar" onclick="iniciarAutorizacao()">
-                        <span class="material-symbols-outlined">send</span> Enviar Autorização
-                    </button>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn-processar" id="btn-consultar-dados" onclick="consultarDados()" disabled>
+                            <span class="material-symbols-outlined">search</span> Consultar Dados
+                        </button>
+                    </div>
                 </div>
 
-                <div id="aviso-aguardando" style="display:none">
-                    <div class="aviso-tel-box" style="justify-content:space-between; flex-wrap:wrap; gap:10px;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <span class="material-symbols-outlined">schedule</span>
-                            <span>Link enviado! Aguardando o trabalhador autorizar no WhatsApp...</span>
+                <div class="card-tabela" id="resultado-individual" style="display:none">
+                    <div class="box-resultado-simulacao">
+                        <div class="tabela-header">
+                            <h3><span class="material-symbols-outlined">check_circle</span> Resultado</h3>
+                            <button class="btn-processar" id="btn-simular" onclick="consultarESimular()" disabled>
+                                <span class="material-symbols-outlined">play_circle</span> Simular
+                            </button>
+                        </div>
+                        <div id="resultado-individual-body">
+                            <div class="bancos-grid" id="bancos-grid"></div>
                         </div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button class="btn-processar" id="btn-consultar-dados" onclick="consultarDados()" disabled>
-                        <span class="material-symbols-outlined">search</span> Consultar Dados
-                    </button>
+
+            </div>
+
+            <!-- SUB-PAINEL INSS -->
+            <div class="sub-painel" id="sub-painel-inss">
+                
+                <div class="card-planilha">
+                    <h3><span class="material-symbols-outlined">badge</span>Consulta Individual - INSS</h3>
+
+                    <div class="campo-cpf-individual">
+                        <div>
+                            <label class="campo-label-small">CPF</label>
+                            <input type="text" class="campo-text-input" id="cpf-individual-inss"
+                                placeholder="000.000.000-00" maxlength="14"
+                                oninput="mascaraCPFIndividual(this)" style="width:180px">
+                        </div>
+                        <div>
+                            <label class="campo-label-small">Telefone (WhatsApp)</label>
+                            <input type="text" class="campo-text-input" id="tel-individual-inss"
+                                placeholder="84999999999" maxlength="11" style="width:180px">
+                        </div>
+                        <button class="btn-processar ativo" id="btn-autorizar-inss" onclick="iniciarAutorizacaoINSS()">
+                            <span class="material-symbols-outlined">send</span> Enviar Autorização
+                        </button>
+                    </div>
+
+                    <div id="aviso-aguardando-inss" style="display:none">
+                        <div class="aviso-tel-box" style="justify-content:space-between; flex-wrap:wrap; gap:10px;">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span class="material-symbols-outlined">schedule</span>
+                                <span>Link enviado! Aguardando o trabalhador autorizar no WhatsApp...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn-processar" id="btn-consultar-dados-inss" onclick="consultarDadosINSS()" disabled>
+                            <span class="material-symbols-outlined">search</span> Consultar Dados
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-tabela" id="resultado-individual-inss" style="display:none">
+                    <div class="box-resultado-simulacao">
+                        <div class="tabela-header">
+                            <h3><span class="material-symbols-outlined">check_circle</span> Resultado</h3>
+                            <button class="btn-processar" id="btn-simular-inss" onclick="consultarESimularINSS()" disabled>
+                                <span class="material-symbols-outlined">play_circle</span> Simular
+                            </button>
+                        </div>
+                        <div id="resultado-individual-body-inss">
+                            <div class="bancos-grid" id="bancos-grid-inss"></div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
-                <!-- RESULTADO -->
-            <div class="card-tabela" id="resultado-individual" style="display:none">
-                <div class="box-resultado-simulacao">
-                    <div class="tabela-header">
-                        <h3><span class="material-symbols-outlined">check_circle</span> Resultado</h3>
-                        <button class="btn-processar" id="btn-simular" onclick="consultarESimular()" disabled>
-                            <span class="material-symbols-outlined">play_circle</span> Simular
-                        </button>
-                    </div>
-                    <div id="resultado-individual-body">
-                        <div class="bancos-grid" id="bancos-grid"></div>
-                    </div>
-                </div>
-            </div>
+
             <div id="modal-digitacao">
                 <div class="modal-digitacao-box">
                     <div class="modal-digitacao-header">
@@ -280,20 +348,76 @@
                         </div>
                     </div>
 
-                    <p class="modal-secao-titulo">Dados Bancários (Pix)</p>
-                    <div class="cliente-fields-grid modal-secao">
-                        <div class="cliente-field">
-                            <label class="cliente-field-label">Tipo de Chave</label>
-                            <select class="cliente-field-input" id="dig-pix-tipo">
-                                <option value="cpf">CPF</option>
-                                <option value="phone">Telefone</option>
-                                <option value="email">Email</option>
-                                <option value="chave aleatória">Chave Aleatória</option>
+                    <p class="modal-secao-titulo">Forma de Pagamento</p>
+
+                    <!-- Tipo de Pagamento - largura total -->
+                    <div class="cliente-field full-width">
+                        <label class="cliente-field-label">Tipo de Pagamento</label>
+                        <select class="cliente-field-input" id="forma-pagamento">
+                            <option value="pix">PIX</option>
+                            <option value="transferencia">Transferência Bancária</option>
+                        </select>
+                    </div>
+
+                    <!-- Bloco PIX -->
+                    <div id="div-pix">
+                        <p class="modal-secao-titulo">Dados PIX</p>
+                        <div class="cliente-fields-grid modal-secao">
+                            <div class="cliente-field">
+                                <label class="cliente-field-label">Tipo de Chave</label>
+                                <select class="cliente-field-input" id="dig-pix-tipo">
+                                    <option value="cpf">CPF</option>
+                                    <option value="phone">Telefone</option>
+                                    <option value="email">Email</option>
+                                    <option value="chave aleatória">Chave Aleatória</option>
+                                </select>
+                            </div>
+                            <div class="cliente-field">
+                                <label class="cliente-field-label">Chave Pix</label>
+                                <input class="cliente-field-input" id="dig-pix-chave" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloco Transferência Bancária -->
+                    <div id="div-conta-bancaria" style="display:none; margin: 10px;">
+                        <p class="modal-secao-titulo">Dados Bancários</p>
+                        
+                        <div class="cliente-field full-width bancario-banco">
+                            <label class="cliente-field-label">Banco</label>
+                            <select class="cliente-field-input" id="dig-banco">
+                                <option value="">Carregando bancos...</option>
                             </select>
                         </div>
-                        <div class="cliente-field">
-                            <label class="cliente-field-label">Chave Pix</label>
-                            <input class="cliente-field-input" id="dig-pix-chave" type="text">
+
+                        <div class="bancario-par">
+                            <div class="cliente-field bancario-campo-principal">
+                                <label class="cliente-field-label">Agência</label>
+                                <input class="cliente-field-input" id="dig-agencia" type="text" placeholder="0000">
+                            </div>
+                            <div class="cliente-field bancario-campo-digito">
+                                <label class="cliente-field-label">Dígito Agência</label>
+                                <input class="cliente-field-input" id="dig-agencia-dig" type="text" placeholder="0" maxlength="1">
+                            </div>
+                        </div>
+
+                        <div class="bancario-par">
+                            <div class="cliente-field bancario-campo-principal">
+                                <label class="cliente-field-label">Conta</label>
+                                <input class="cliente-field-input" id="dig-conta" type="text" placeholder="00000">
+                            </div>
+                            <div class="cliente-field bancario-campo-digito">
+                                <label class="cliente-field-label">Dígito Conta</label>
+                                <input class="cliente-field-input" id="dig-conta-dig" type="text" placeholder="0" maxlength="1">
+                            </div>
+                        </div>
+
+                        <div class="cliente-field full-width bancario-tipo-conta">
+                            <label class="cliente-field-label">Tipo de Conta</label>
+                            <select class="cliente-field-input" id="dig-tipo-conta">
+                                <option value="COR">Conta Corrente</option>
+                                <option value="POU">Conta Poupança</option>
+                            </select>
                         </div>
                     </div>
                     
@@ -303,18 +427,18 @@
                         <div class="cliente-fields-grid modal-secao">
                             <div class="cliente-field">
                                 <label class="cliente-field-label">RG Frente</label>
-                                <input type="file" class="cliente-field-input" id="dig-doc-frente" accept="image/*,application/pdf" style="cursor:pointer; padding:8px;">
-                                <span id="dig-doc-frente-nome" style="font-size:0.75rem; color:#888; margin-top:4px; display:block;"></span>
-                                <div id="dig-doc-frente-preview" style="display:none; margin-top:8px;">
-                                    <img id="dig-doc-frente-img" style="width:100%; max-height:120px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                <input type="file" class="cliente-field-input" id="dig-doc-frente" accept="image/*,application/pdf">
+                                <span id="dig-doc-frente-nome"></span>
+                                <div id="dig-doc-frente-preview" style="display:none;">
+                                    <img id="dig-doc-frente-img">
                                 </div>
                             </div>
                             <div class="cliente-field">
                                 <label class="cliente-field-label">RG Verso</label>
-                                <input type="file" class="cliente-field-input" id="dig-doc-verso" accept="image/*,application/pdf" style="cursor:pointer; padding:8px;">
-                                <span id="dig-doc-verso-nome" style="font-size:0.75rem; color:#888; margin-top:4px; display:block;"></span>
-                                <div id="dig-doc-verso-preview" style="display:none; margin-top:8px;">
-                                    <img id="dig-doc-verso-img" style="width:100%; max-height:120px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                <input type="file" class="cliente-field-input" id="dig-doc-verso" accept="image/*,application/pdf">
+                                <span id="dig-doc-verso-nome"></span>
+                                <div id="dig-doc-verso-preview" style="display:none;">
+                                    <img id="dig-doc-verso-img">
                                 </div>
                             </div>
                         </div>

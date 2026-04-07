@@ -318,6 +318,96 @@ select.resim-input {
     color: #16a34a;
 }
 
+/* Remove hover bugado dos skeletons */
+.banco-card .skeleton {
+    pointer-events: none;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.banco-card .skeleton:hover {
+    transform: none;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+}
+
+/* Garante que o card em loading não tenha hover estranho */
+.banco-card:has(.skeleton) {
+    cursor: default;
+}
+
+.banco-card:has(.skeleton):hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Sub-abas */
+.sub-abas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.sub-aba-btn {
+    background: white;
+    border: 1px solid #ec65055f;
+    padding: 8px 24px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.sub-aba-btn:hover {
+    background: #fef9f5;
+    border-color: #eb6505;
+    color: #eb6505;
+    font-weight: 600;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(235, 101, 5, 0.15);
+}
+
+.sub-aba-btn.ativo {
+    background: linear-gradient(135deg, #eb6505, #ff8a3d);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(235, 101, 5, 0.35);
+}
+
+/* Sub-painéis */
+.sub-painel {
+    display: none;
+}
+
+.sub-painel.ativo {
+    display: block;
+}
+
+.bancario-par {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.bancario-par:last-of-type {
+    margin-bottom: 0;
+}
+
+.bancario-campo-principal {
+    flex: 3;
+}
+
+.bancario-campo-digito {
+    flex: 1;
+}
+
+.bancario-banco {
+    margin-bottom: 16px;
+}
+
 .resim-select {
     width: 150px;
     font-size: 1rem;

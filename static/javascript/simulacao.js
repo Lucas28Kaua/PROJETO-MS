@@ -6,9 +6,50 @@ toggleBtn.addEventListener('click', () => {
     toggleBtn.classList.toggle('ativo');
 });
 
+function trocarSubAba(tipo, elemento) {
+    document.querySelectorAll('.sub-aba-btn').forEach(btn=>{
+        btn.classList.remove('ativo');
+    })
+
+    // Remove a classe 'ativo' de todos os sub-painéis
+    document.querySelectorAll('.sub-painel').forEach(painel => {
+        painel.classList.remove('ativo');
+    });
+    
+    // Adiciona a classe 'ativo' no botão clicado
+    elemento.classList.add('ativo');
+    
+    // Mostra o painel correspondente
+    document.getElementById(`sub-painel-${tipo}`).classList.add('ativo');
+}
+
 let dadosClienteIndividual = {};
 let dadosConsultaHave = null;
 let dadosSimulacaoV8 = null;
+let margemOriginalHave = null;
+let margemOriginalV8 = null;
+
+// Dados completos do worker (para enviar na digitação)
+let dadosWorkerAtual = {
+    workerId: null,
+    matricula: null,
+    nomeEmpregador: null,
+    valorBase: null,
+    margemDisponivel: null
+};
+
+// Dados da simulação atual (com valores que podem ter sido re-simulados)
+let dadosSimulacaoAtual = {
+    num_periods: null,           // prazo
+    payment_amount: null,        // valor da parcela
+    disbursement_amount: null,   // valor desembolsado (liberado)
+    financed_amount: null,       // valor financiado (bruto)
+    first_payment_date: null,
+    last_payment_date: null,
+    disbursement_date: null,
+    interest_rate: null,
+    iof_amount: null
+};
 
 function mascaraCPFIndividual(input) {
     let v = input.value.replace(/\D/g, '').slice(0, 11);
@@ -235,7 +276,10 @@ async function consultarDados() {
             }
 
             if (data.nome && data.nome !== '') {
-                console.log('📦 Dados recebidos do backend:', data);
+
+                margemOriginalHave = parseFloat(data.margem_cliente) || 0;
+                margemOriginalV8 = parseFloat(data.margem_cliente) || 0;
+
                 dadosConsulta = {
                     nome: data.nome || '',
                     dataNascimento: data.data_nascimento || '',
@@ -262,6 +306,15 @@ async function consultarDados() {
                     NomeMae: data.nome_mae,
                     ProdutoSaldoDisponivel: data.margem_cliente
                 })
+
+                dadosWorkerAtual = {
+                    workerId: data.worker_id || null,            
+                    matricula: data.matricula || '',             
+                    nomeEmpregador: data.nome_empresa || '',     
+                    valorBase: data.salario_bruto || 0, 
+                    margemDisponivel: data.margem_cliente || 0  
+                };
+
                 console.log('✅ exibirDadosCliente chamado');
 
                 document.getElementById('btn-simular').disabled = false;
@@ -271,9 +324,18 @@ async function consultarDados() {
                 document.getElementById('aviso-aguardando').style.display = 'none';
                 
                 mostrarToast('Dados consultados com sucesso!');
-
-                dadosEncontrados=true;
-                break
+                const cardHave = document.getElementById('card-have');
+                    const estavaEmErro = cardHave && cardHave.innerHTML.includes('AUTORIZAÇÃO EXPIRADA');
+                    
+                    if (estavaEmErro) {
+                        console.log('🔄 Card estava em erro, re-simulando automaticamente...');
+                        setTimeout(() => {
+                            consultarESimular();
+                        }, 500);
+                    }
+                    
+                    dadosEncontrados = true;
+                    break;
             }
         } catch(e) {
             console.error(`Erro na tentativa ${tentativa}:`, e);
@@ -303,18 +365,26 @@ async function consultarESimular() {
     `;
     
     simularHave(cpfAtual).then(resHave => {
-    if (resHave?.tipo === 'aprovado') {
-        dadosConsultaHave = resHave;
-        const m = resHave.margem;
-        renderizarCardBanco('have', 'Banco Have', {
-            margem: m.ProdutoSaldoDisponivel,
-            parcela: resHave.valor_parcela,
-            prazo: resHave.prazo,
-            valor_simulado: resHave.valor_solicitado
-        });
-    } else {
-        renderizarCardReprovado('have', 'Banco Have', 'Simulação não aprovada');
-    }
+        console.log('🔍 resHave recebido no consultarESimular:', resHave);
+        console.log('🔍 tipo:', resHave?.tipo);
+        if (resHave?.tipo === 'erro_data_prev') {
+            console.log('✅ VAI CHAMAR renderizarCardHaveDataPrevExpirado()');
+            renderizarCardHaveDataPrevExpirado();
+            return;
+        }
+
+        if (resHave?.tipo === 'aprovado') {
+            dadosConsultaHave = resHave;
+            const m = resHave.margem;
+            renderizarCardBanco('have', 'Banco Have', {
+                margem: m.ProdutoSaldoDisponivel,
+                parcela: resHave.valor_parcela,
+                prazo: resHave.prazo,
+                valor_simulado: resHave.valor_solicitado
+            });
+        } else {
+            renderizarCardReprovado('have', 'Banco Have', 'Simulação não aprovada');
+        }
     });
 
     simularV8(cpfAtual).then(resV8 => {
@@ -331,6 +401,130 @@ async function consultarESimular() {
         renderizarCardReprovado('v8', 'Banco V8', resV8?.motivo || 'Simulação não aprovada');
     }
     });
+}
+
+function renderizarCardHaveDataPrevExpirado() {
+    const html = `
+        <div class="banco-card" id="card-have">
+            <div class="banco-header">
+                <div class="banco-logo">
+                    <img src="/static/imagens/logo-havecred.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                </div>
+                <div class="banco-nome">Banco Have</div>
+                <div class="banco-badge status-reprovado" style="background:#fef3c7;color:#92400e;margin-left:auto;">⚠️ AUTORIZAÇÃO EXPIRADA</div>
+            </div>
+            
+            <div class="banco-conteudo" style="padding: 24px;">
+                <div style="display: flex; align-items: center; gap: 12px; background: #fffbeb; border-radius: 12px; padding: 16px; border-left: 4px solid #f59e0b;">
+                    <span style="font-size: 28px;">⏰</span>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 600; color: #92400e;">Consulta Data Prev expirada</div>
+                        <div style="font-size: 13px; color: #78350f; margin-top: 4px;">A autorização tem mais de 3,5 dias e precisa ser renovada</div>
+                    </div>
+                    <button onclick="enviarLinkReautorizacaoHave()" style="
+                        background: #f59e0b; 
+                        color: white; 
+                        border: none; 
+                        padding: 8px 16px; 
+                        border-radius: 8px; 
+                        cursor: pointer; 
+                        font-size: 13px; 
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                    ">
+                        <span>🔄</span> Reautorizar
+                    </button>
+                </div>
+                <div style="margin-top: 12px; padding: 8px; background: #fef9e6; border-radius: 8px;">
+                    <small style="color: #92400e;">📌 Após o cliente autorizar, clique em "Consultar Dados" e depois em "Simular" novamente</small>
+                </div>
+            </div>
+            
+            <div class="banco-acoes" style="justify-content: flex-end; padding: 12px 20px;">
+                <!-- Botão grande removido -->
+            </div>
+        </div>
+    `;
+    
+    document.getElementById(`card-have`).outerHTML = html;
+}
+
+async function enviarLinkReautorizacaoHave() {
+    if (!cpfAtual || !telAtual) {
+        mostrarToast('CPF ou telefone não encontrados!', 'error');
+        return;
+    }
+    
+    // Pega o botão que disparou o evento
+    const btn = event?.target?.closest('button') || event?.currentTarget;
+    const textoOriginal = btn?.innerHTML;
+
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> Enviando...';
+    }
+    
+    try {
+        const resp = await fetch('https://api.sistemamscred.com.br/have/autorizar-zap', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ CPF: cpfAtual, phone: telAtual })
+        });
+        const data = await resp.json();
+        
+        if (data.erro || data.status === 'erro') {
+
+            mostrarToast(data.erro || data.msg || 'Erro ao enviar autorização!', 'error');
+
+        } else {
+
+            mostrarToast('Link enviado! Aguarda autorização novamente...', 'success', 3000);
+
+            const resultadoDiv = document.getElementById('resultado-individual')
+            resultadoDiv.style.display = 'none';
+
+            // Habilita botão de consultar dados novamente
+            const btnConsultar = document.getElementById('btn-consultar-dados')
+            btnConsultar.disabled = false;
+            btnConsultar.classList.add('ativo');
+
+            dadosConsulta = null;
+            margemOriginalHave = null;
+            margemOriginalV8 = null;
+
+            const bancosGrid = document.getElementById('bancos-grid')
+            if (bancosGrid) {
+                bancosGrid.innerHTML = '';
+            }
+
+            const dadosClienteSection = document.querySelector('.dados-cliente-section')
+            if (dadosClienteSection) {
+                dadosClienteSection.remove();
+            }
+
+            const btnSimular = document.getElementById('btn-simular');
+            btnSimular.disabled = true;
+            btnSimular.classList.remove('ativo');
+            btnSimular.style.display = 'none';
+            
+            // 6. Mostra aviso de aguardando
+            const aviso = document.getElementById('aviso-aguardando');
+            aviso.style.display = 'block';
+            
+            aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        }
+    } catch(e) {
+        console.error(e);
+        mostrarToast('Erro ao enviar autorização!', 'error');
+    }
+    
+    if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔄</span> Reautorizar';
+    }
 }
 
 function cardSkeleton(banco, nomeBanco) {
@@ -356,6 +550,7 @@ function cardSkeleton(banco, nomeBanco) {
 }
 
 let modoV8 = null; // 'parcela' ou 'liberado'
+let modoHave = null;
 
 function onModoV8(campo) {
     if (modoV8 === campo) return;
@@ -364,6 +559,28 @@ function onModoV8(campo) {
     const liberadoInput = document.getElementById('v8-liberado-input')
 
     if (campo === 'parcela') {
+        liberadoInput.value = '';
+        liberadoInput.disabled = true;
+        liberadoInput.style.opacity = '0.4';
+        parcelaInput.disabled = false;
+        parcelaInput.style.opacity = '1';
+    } else {
+        parcelaInput.value = '';
+        parcelaInput.disabled = true;
+        parcelaInput.style.opacity = '0.4';
+        liberadoInput.disabled = false;
+        liberadoInput.style.opacity = '1';
+    }
+}
+
+function onModoHave(campo) {
+    if (modoHave === campo) return;
+    modoHave = campo;
+
+    const parcelaInput = document.getElementById('have-parcela-input')
+    const liberadoInput = document.getElementById('have-liberado-input')
+
+    if (campo==='parcela') {
         liberadoInput.value = '';
         liberadoInput.disabled = true;
         liberadoInput.style.opacity = '0.4';
@@ -393,9 +610,14 @@ function onEditarSimulacao(banco) {
 }
 
 function cancelarResimulacao(banco, nomeBanco) {
-    // Restaura os valores originais e o botão de digitar
     const dados = banco === 'v8' ? dadosSimulacaoV8 : dadosConsultaHave;
-    modoV8 = null;
+    
+    if (banco === 'v8') {
+        modoV8 = null;
+    } else {
+        modoHave = null;  // ← ADICIONA
+    }
+    
     renderizarCardBanco(banco, nomeBanco, dados);
 }
 
@@ -424,9 +646,23 @@ async function resimular(banco) {
                 })
             });
             const data = await resp.json();
+
             if (data.tipo === 'aprovado') {
+                dadosSimulacaoAtual = {
+                    num_periods: data.prazo,
+                    payment_amount: data.parcela,
+                    disbursement_amount: data.valor_simulado,
+                    financed_amount: data.valor_simulado,
+                    first_payment_date: null,
+                    last_payment_date: null,
+                    disbursement_date: null,
+                    interest_rate: null,
+                    iof_amount: null
+                };
                 dadosSimulacaoV8 = data;
                 modoV8 = null;
+                data.margem = dadosConsulta?.margem || data.margem;
+
                 renderizarCardBanco('v8', 'Banco V8', data);
                 mostrarToast('Re-simulação V8 concluída!');
             } else {
@@ -455,19 +691,27 @@ async function resimular(banco) {
             });
             const data = await resp.json();
 
-            console.log('📥 RESPOSTA COMPLETA da re-simulação HAVE:', data);
-            console.log('📥 valor_solicitado (valor liberado):', data.valor_solicitado);
-            console.log('📥 valor_parcela:', data.valor_parcela);
-            console.log('📥 prazo:', data.prazo);
-            console.log('📥 tipo:', data.tipo);
-
             if (data.tipo === 'aprovado') {
+
+                dadosSimulacaoAtual = {
+                    num_periods: data.prazo,
+                    payment_amount: data.valor_parcela,
+                    disbursement_amount: data.valor_solicitado,
+                    financed_amount: data.valor_solicitado,
+                    first_payment_date: data.simulacao?.Data?.Simulation?.first_payment_date || null,
+                    last_payment_date: data.simulacao?.Data?.Simulation?.last_payment_date || null,
+                    disbursement_date: data.simulacao?.Data?.Simulation?.disbursement_date || null,
+                    interest_rate: data.simulacao?.Data?.Simulation?.interest_rate || null,
+                    iof_amount: data.simulacao?.Data?.Simulation?.iof_amount || null
+                };
+
                 dadosConsultaHave = data.simulacao?.Data?.Simulation || dadosConsultaHave;
+                modoHave = null;
                 renderizarCardBanco('have', 'Banco Have', {
                     parcela: data.valor_parcela,
                     valor_simulado: data.valor_solicitado,
                     prazo: data.prazo,
-                    margem: dadosConsulta.margem
+                    
                 });
                 mostrarToast('Re-simulação Have concluída!');
             } else {
@@ -487,7 +731,7 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
     const logoTexto = nomeBanco.split(' ')[1] || nomeBanco.substring(0,2);
     const parcela = parseFloat(dados.parcela);
     const valorLiberado = parseFloat(dados.valor_simulado);
-    const margem = parseFloat(dados.margem);
+    const margem = banco === 'have' ? margemOriginalHave : margemOriginalV8;
     const prazo = dados.prazo
 
     // Parcelas disponíveis
@@ -505,6 +749,56 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
         prazoHtml = `<select id="${banco}-prazo-input" class="resim-input resim-select" onchange="onEditarSimulacao('${banco}')">
             ${prazosHave.map(p => `<option value="${p}" ${p === parseInt(prazo) ? 'selected' : ''}>${p} meses</option>`).join('')}
         </select>`;
+
+        var htmlHave = `<div class="banco-card" id="card-${banco}">
+            <div class="banco-header">
+                <div class="banco-logo">
+                    <img src="/static/imagens/logo-havecred.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                </div>
+                <div class="banco-nome">${nomeBanco}</div>
+                <div class="banco-badge status-aprovado" style="background:#dcfce7;color:#15803d;margin-left:auto;">✅ APROVADO</div>
+            </div>
+
+            <div class="banco-conteudo">
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">💰 Margem Disponível</span>
+                    <span class="banco-valor-num">${margem.toLocaleString('pt-BR', {style:'currency',currency:'BRL'})}</span>
+                </div>
+
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">📅 Valor da Parcela</span>
+                    <span class="banco-valor-num parcela">
+                        <input type="number" id="${banco}-parcela-input" class="resim-input resim-parcela"
+                            value="${parcela.toFixed(2)}"
+                            oninput="onModoHave('parcela'); onEditarSimulacao('${banco}')">
+                    </span>
+                </div>
+
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">⏱️ Prazo</span>
+                    <span class="banco-valor-num">${prazoHtml}</span>
+                </div>
+            
+                <div class="banco-valor-item">
+                    <span class="banco-valor-label">🎉 Valor Liberado</span>
+                    <span class="banco-valor-num liberado">
+                        <input type="number" id="${banco}-liberado-input" class="resim-input resim-liberado"
+                            value="${valorLiberado.toFixed(2)}"
+                            oninput="onModoHave('liberado'); onEditarSimulacao('${banco}')">
+                    </span>
+                </div>
+            </div>
+
+            <div class="banco-acoes" id="${banco}-acoes">
+                <button class="btn-digitar" onclick="irParaDigitacao('${banco}', '${nomeBanco}')">
+                    ✏️ Digitar Proposta
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById(`card-${banco}`).outerHTML = htmlHave;
+    return;
     } else {
         prazoHtml = `<input type="number" id="${banco}-prazo-input" class="resim-input" value="${prazo}" min="1" oninput="onEditarSimulacao('${banco}')">`;
     }
@@ -598,12 +892,69 @@ function renderizarCardReprovado(banco, nomeBanco, motivo) {
 }
 
 async function simularHave(cpf) {
-    const resp = await fetch('https://api.sistemamscred.com.br/simularhave', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ CPF: cpf})
-    })
-    return await resp.json();
+    try {
+        const resp = await fetch('https://api.sistemamscred.com.br/simularhave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ CPF: cpf})
+        })
+        const resultado = await resp.json()
+        
+        // 🔥 LOG PARA VER O QUE ESTÁ CHEGANDO
+        console.log('📥 RESPOSTA COMPLETA DO SIMULAR HAVE:');
+        console.log('resultado:', resultado);
+        console.log('resultado.Code:', resultado.Code);
+        console.log('resultado.Message:', resultado.Message);
+        console.log('typeof Code:', typeof resultado.Code);
+
+        // 🔥 VERIFICAÇÃO MAIS ROBUSTA
+        const isCode409 = resultado.Code === 409 || resultado.Code === '409';
+        const hasDataPrev = resultado.Message?.includes('Data Prev') || resultado.Message?.includes('data prev');
+
+        console.log('isCode409:', isCode409);
+        console.log('hasDataPrev:', hasDataPrev);
+
+        if (isCode409 && hasDataPrev) {
+            console.log('⚠️⚠️⚠️ ERRO DATA PREV DETECTADO! ⚠️⚠️⚠️')
+            return {
+                tipo: 'erro_data_prev',
+                message: resultado.Message,
+                Code: resultado.Code
+            }
+        }
+
+        if(resultado.Code === 409 && resultado.Message?.includes('Data Prev tem mais de 3 dias')) {
+            console.log('⚠️ Erro Data Prev no Have:', resultado)
+            return {
+                tipo: 'erro_data_prev',
+                message: resultado.Message,
+                Code: resultado.Code
+            }
+        }
+
+        // Para HAVE
+        if (resultado.tipo === 'aprovado') {
+            dadosSimulacaoAtual = {
+                num_periods: resultado.prazo,
+                payment_amount: resultado.valor_parcela,
+                disbursement_amount: resultado.valor_solicitado,
+                financed_amount: resultado.valor_solicitado,  // ou outro campo se tiver
+                first_payment_date: resultado.simulacao?.Data?.Simulation?.first_payment_date || null,
+                last_payment_date: resultado.simulacao?.Data?.Simulation?.last_payment_date || null,
+                disbursement_date: resultado.simulacao?.Data?.Simulation?.disbursement_date || null,
+                interest_rate: resultado.simulacao?.Data?.Simulation?.interest_rate || null,
+                iof_amount: resultado.simulacao?.Data?.Simulation?.iof_amount || null
+            };
+        }
+
+        return resultado;
+    } catch(e) {
+        console.error('Erro na simulação Have:', e)
+        return {
+            tipo: 'erro',
+            message: 'Erro na comunicação com o servidor'
+        };
+    }
 }
 
 async function simularV8(cpf) {
@@ -629,6 +980,20 @@ async function simularV8(cpf) {
     });
     
     const resultado = await resp.json()
+    if (resultado.tipo === 'aprovado') {
+        dadosSimulacaoAtual = {
+            num_periods: resultado.prazo,
+            payment_amount: resultado.parcela,
+            disbursement_amount: resultado.valor_simulado,
+            financed_amount: resultado.valor_simulado,
+            first_payment_date: null,  // se não vier, deixa null
+            last_payment_date: null,
+            disbursement_date: null,
+            interest_rate: null,
+            iof_amount: null
+        };
+    }
+
     console.log('📥 Resposta do V8:', resultado)
 
     return resultado;
@@ -694,6 +1059,30 @@ function copiarLink() {
     });
 }
 
+async function carregarBancos() {
+    try {
+        const response = await fetch('https://api.sistemamscred.com.br/get-bancos');
+        const data = await response.json();
+        
+        if (data.sucesso && data.bancos) {
+            const selectBanco = document.getElementById('dig-banco');
+            selectBanco.innerHTML = '<option value="">Selecione um banco</option>';
+            
+            data.bancos.forEach(banco => {
+                const option = document.createElement('option');
+                option.value = banco.Id;
+                option.setAttribute('data-bankcode', banco.BankCode);
+                option.textContent = `${banco.BankCode} - ${banco.Description}`;
+                selectBanco.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Erro ao carregar bancos:', error);
+        const selectBanco = document.getElementById('dig-banco');
+        selectBanco.innerHTML = '<option value="">Erro ao carregar bancos</option>';
+    }
+}
+
 async function irParaDigitacao(banco, nomeBanco){
     //pega os dados corretos dependendo do banco
     let dadosCliente;
@@ -731,6 +1120,60 @@ async function irParaDigitacao(banco, nomeBanco){
 
     // Reseta os inputs de arquivo ao abrir
     if (banco === 'have') {
+        await carregarBancos();
+
+        const formaPagamento = document.getElementById('forma-pagamento')
+        const divPix = document.getElementById('div-pix')
+        const divConta = document.getElementById('div-conta-bancaria')
+
+        formaPagamento.removeEventListener('change', formaPagamentoHandler)
+
+        function formaPagamentoHandler() {
+            if (this.value === 'pix') {
+                divPix.style.display = 'block';
+                divConta.style.display = 'none';
+            } else {
+                divPix.style.display = 'none';
+                divConta.style.display = 'block';
+            }
+        }
+
+        formaPagamento.addEventListener('change', formaPagamentoHandler)
+
+        formaPagamento.value='pix'
+        divPix.style.display='block'
+        divConta.style.display='none'
+        
+        document.getElementById('dig-doc-frente-nome').textContent = '';
+        document.getElementById('dig-doc-verso-nome').textContent = '';
+        document.getElementById('dig-doc-frente-preview').style.display = 'none';
+        document.getElementById('dig-doc-verso-preview').style.display = 'none';
+
+        function configurarPreview(inputId, nomeId, previewId, imgId) {
+            const input = document.getElementById(inputId);
+            input.addEventListener('change', function() {
+                const file = this.files[0];
+                if (!file) return;
+
+                document.getElementById(nomeId).textContent = file.name;
+
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        document.getElementById(imgId).src = e.target.result;
+                        document.getElementById(previewId).style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    document.getElementById(previewId).style.display = 'none';
+                    document.getElementById(nomeId).textContent = `📄 ${file.name}`;
+                }
+            });
+        }
+
+        configurarPreview('dig-doc-frente', 'dig-doc-frente-nome', 'dig-doc-frente-preview', 'dig-doc-frente-img');
+        configurarPreview('dig-doc-verso', 'dig-doc-verso-nome', 'dig-doc-verso-preview', 'dig-doc-verso-img');
+
         document.getElementById('dig-doc-frente').value = '';
         document.getElementById('dig-doc-verso').value = '';
         document.getElementById('dig-doc-frente-nome').textContent = '';
@@ -846,6 +1289,23 @@ async function irParaDigitacao(banco, nomeBanco){
             return `${a}-${m}-${d}`;
         };
 
+        // Função para converter arquivo para base64
+        const fileToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                if (!file) {
+                    resolve('');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = error => reject(error);
+            });
+        };
+
         const payload = {
             nome: document.getElementById('dig-nome').value.trim(),
             email: document.getElementById('dig-email').value.trim(),
@@ -866,9 +1326,29 @@ async function irParaDigitacao(banco, nomeBanco){
             bairro: document.getElementById('dig-bairro').value.trim(),
             cidade: document.getElementById('dig-cidade').value.trim(),
             estado: document.getElementById('dig-estado').value.trim(),
+
+            // Dados de pagamento
+            forma_pagamento: document.getElementById('forma-pagamento').value,
             chave_pix: document.getElementById('dig-pix-chave').value.trim(),
             tipo_chave_pix: document.getElementById('dig-pix-tipo').value,
-            banco: banco  // 🔥 Adiciona o banco no payload
+
+            // Dados de conta bancária (se for transferência)
+            banco_id: document.getElementById('dig-banco').value,
+            banco_code: document.getElementById('dig-banco').options[document.getElementById('dig-banco').selectedIndex]?.getAttribute('data-bankcode'),
+            agencia: document.getElementById('dig-agencia').value.trim(),
+            agencia_digito: document.getElementById('dig-agencia-dig').value.trim(),
+            conta: document.getElementById('dig-conta').value.trim(),
+            conta_digito: document.getElementById('dig-conta-dig').value.trim(),
+            tipo_conta: document.getElementById('dig-tipo-conta').value,
+
+            banco: banco,
+
+            // NOVOS CAMPOS ADICIONADOS
+            estado_civil: 'single',
+            uf_emissao: document.getElementById('dig-estado').value.trim(),
+
+            worker: dadosWorkerAtual,
+            simulacao: dadosSimulacaoAtual
         };
 
         if (!payload.cep || !payload.rua || !payload.numero_endereco) {
@@ -879,37 +1359,18 @@ async function irParaDigitacao(banco, nomeBanco){
         }
 
         if (banco === 'have') {
-            document.getElementById('dig-doc-frente').value = '';
-            document.getElementById('dig-doc-verso').value = '';
-            document.getElementById('dig-doc-frente-nome').textContent = '';
-            document.getElementById('dig-doc-verso-nome').textContent = '';
-            document.getElementById('dig-doc-frente-preview').style.display = 'none';
-            document.getElementById('dig-doc-verso-preview').style.display = 'none';
+            const docFrente = document.getElementById('dig-doc-frente').files[0];
+            const docVerso = document.getElementById('dig-doc-verso').files[0];
 
-            function configurarPreview(inputId, nomeId, previewId, imgId) {
-                const input = document.getElementById(inputId);
-                input.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (!file) return;
-
-                    document.getElementById(nomeId).textContent = file.name;
-
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            document.getElementById(imgId).src = e.target.result;
-                            document.getElementById(previewId).style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        document.getElementById(previewId).style.display = 'none';
-                        document.getElementById(nomeId).textContent = `📄 ${file.name}`;
-                    }
-                });
+            if (docFrente) {
+                payload.doc_frente_base64 = await fileToBase64(docFrente);
+                payload.doc_frente_nome = docFrente.name;
+            }
+            if (docVerso) {
+                payload.doc_verso_base64 = await fileToBase64(docVerso);
+                payload.doc_verso_nome = docVerso.name;
             }
 
-            configurarPreview('dig-doc-frente', 'dig-doc-frente-nome', 'dig-doc-frente-preview', 'dig-doc-frente-img');
-            configurarPreview('dig-doc-verso', 'dig-doc-verso-nome', 'dig-doc-verso-preview', 'dig-doc-verso-img');
         }
 
         try {
@@ -958,7 +1419,6 @@ async function irParaDigitacao(banco, nomeBanco){
         btn.disabled = false;
         btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
     }
-
 }
 
 function fecharModalDigitacao() {
