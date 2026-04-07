@@ -255,6 +255,87 @@
     position: relative;
 }
 
+.resim-input {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+    width: 120px;
+    text-align: right;
+    background: #f8fafc;
+    transition: border-color 0.2s;
+}
+
+.resim-input:focus {
+    outline: none;
+    border-color: #eb6505;
+}
+
+.resim-input:disabled {
+    background: #f1f5f9;
+    cursor: not-allowed;
+}
+
+select.resim-input {
+    cursor: pointer;
+}
+
+/* Remove setas dos inputs number */
+.resim-input[type=number]::-webkit-inner-spin-button,
+.resim-input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.resim-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Tamanho dos inputs de valor */
+.resim-input {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-weight: 600;
+    color: #0f172a;
+    text-align: right;
+    background: #f8fafc;
+    transition: border-color 0.2s;
+    font-size: 1rem; /* igual ao banco-valor-num */
+}
+
+.resim-parcela {
+    width: 140px;
+    font-size: 1.05rem;
+    color: #eb6505;
+}
+
+.resim-liberado {
+    width: 160px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #16a34a;
+}
+
+.resim-select {
+    width: 150px;
+    font-size: 1rem;
+    cursor: pointer;
+    appearance: auto; /* mantém a seta do select */
+}
+
+.resim-input:focus {
+    outline: none;
+    border-color: #eb6505;
+}
+
+.resim-input:disabled {
+    background: #f1f5f9;
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
 .banco-card:hover {
     border-color: #eb6505;
     transform: translateY(-4px);
@@ -262,12 +343,37 @@
 }
 
 .banco-header {
-    background: linear-gradient(135deg, #ff8d3b, #ea770c);
+    background: #ea770c;
     padding: 12px 20px;
     color: white;
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+#dig-doc-frente,
+#dig-doc-verso {
+    padding: 8px;
+    cursor: pointer;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+#dig-doc-frente::-webkit-file-upload-button,
+#dig-doc-verso::-webkit-file-upload-button {
+    background: #eb6505;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-right: 10px;
+}
+
+#dig-doc-frente::-webkit-file-upload-button:hover,
+#dig-doc-verso::-webkit-file-upload-button:hover {
+    background: #cf5800;
 }
 
 .banco-logo {
@@ -395,6 +501,17 @@
     align-items: center;
     gap: 8px;
     transition: all 0.2s ease;
+}
+
+.box-resultado-simulacao{
+    background-color: white;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.330);
+    border-radius: 16px;
+    padding:20px;
+}
+
+#btn-simular {
+    display: none;
 }
 
 .btn-digitar:hover {

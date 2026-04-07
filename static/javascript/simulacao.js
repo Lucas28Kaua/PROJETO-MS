@@ -7,6 +7,8 @@ toggleBtn.addEventListener('click', () => {
 });
 
 let dadosClienteIndividual = {};
+let dadosConsultaHave = null;
+let dadosSimulacaoV8 = null;
 
 function mascaraCPFIndividual(input) {
     let v = input.value.replace(/\D/g, '').slice(0, 11);
@@ -146,12 +148,20 @@ function exibirDadosCliente(margemData) {
 let cpfAtual =  null;
 let telAtual = null;
 let dadosAutorizacao = null;
+let dadosConsulta = null;
+
 async function iniciarAutorizacao() {
     const cpfRaw = document.getElementById('cpf-individual').value.replace(/\D/g, '');
     const tel    = document.getElementById('tel-individual').value.replace(/\D/g, '');
 
-    if (cpfRaw.length !== 11) { alert('CPF inválido!'); return; }
-    if (tel.length < 10) { alert('Telefone inválido!'); return}
+    if (cpfRaw.length !== 11) { 
+        mostrarToast('CPF inválido!', 'error');
+        return; 
+    }
+    if (tel.length < 10) { 
+        mostrarToast('Telefone inválido!', 'error');
+        return; 
+    }
 
     cpfAtual = cpfRaw;
     telAtual = tel;
@@ -169,25 +179,19 @@ async function iniciarAutorizacao() {
         const data = await resp.json();
 
         if (data.erro) {
-            alert('Erro: ' + data.erro);
-            console.error('❌ Erro retornado: ', data.erro)
+            mostrarToast(data.erro, 'error');
+            console.error('❌ Erro retornado: ', data.erro);
+        } else if (data.status === 'erro') {
+            mostrarToast(data.msg || 'Erro desconhecido', 'error');
+            console.error('❌ Erro retornado: ', data);
         } else {
-
-            dadosAutorizacao = {
-                nome: data.nome || '',
-                data_nascimento: data.data_nascimento || '',
-                sexo: data.sexo || ''
-            }
-
-            if (data.dados_margem) {
-                exibirDadosCliente(data.dados_margem)
-            }
-
-            document.getElementById('aviso-aguardando').style.display='block';
+            document.getElementById('aviso-aguardando').style.display = 'block';
             mostrarToast('Link enviado com sucesso!');
+            document.getElementById('btn-consultar-dados').disabled = false;
+            document.getElementById('btn-consultar-dados').classList.add('ativo');
         }
     } catch(e) {
-        alert ('Erro ao enviar autorização!');
+        mostrarToast('Erro ao enviar autorização!', 'error');
         console.error(e);
     }
 
@@ -195,8 +199,102 @@ async function iniciarAutorizacao() {
     btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Autorização';
 }
 
+async function consultarDados() {
+
+    if (!cpfAtual) {
+        return;
+    }
+
+    const CPF = cpfAtual
+
+    const btn = document.getElementById('btn-consultar-dados');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Consultando...';
+
+    let dadosEncontrados = false;
+
+    for (let tentativa = 1; tentativa <= 10; tentativa++){
+    
+        try {
+            const resp = await fetch ('https://api.sistemamscred.com.br/consultar-dados-have',{
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ CPF: CPF})
+            })
+            const data = await resp.json();
+
+            if (data.aguardando) {
+                console.log(`⏳ Tentativa ${tentativa}/10 - ainda sem dados, aguardando...`);
+                if (tentativa < 10) await new Promise(resolve => setTimeout(resolve, 3000));
+                continue;
+            }
+
+            if (data.erro) {
+                console.error(`❌ Erro real:`, data.erro);
+                break;
+            }
+
+            if (data.nome && data.nome !== '') {
+                console.log('📦 Dados recebidos do backend:', data);
+                dadosConsulta = {
+                    nome: data.nome || '',
+                    dataNascimento: data.data_nascimento || '',
+                    sexo: data.sexo || '',
+                    dataAdmissao: data.data_admissao ||'',
+                    nome_empresa: data.nome_empresa || '',
+                    cargo_cliente: data.cargo_cliente || '',
+                    salario_cliente: data.salario_bruto || '',
+                    nome_mae: data.nome_mae || '',
+                    margem: data.margem_cliente || ''
+                }
+
+                const resultadoDiv = document.getElementById('resultado-individual');
+                resultadoDiv.style.display = 'block';
+
+                exibirDadosCliente({
+                    EmpregadoNome: data.nome,
+                    DataNascimento: data.data_nascimento,
+                    GeneroDescricao: data.sexo,
+                    DataAdmissao: data.data_admissao,
+                    EmpregadorNome: data.nome_empresa,
+                    CargoDescricao: data.cargo_cliente,
+                    ValorMargemBase: data.salario_bruto,
+                    NomeMae: data.nome_mae,
+                    ProdutoSaldoDisponivel: data.margem_cliente
+                })
+                console.log('✅ exibirDadosCliente chamado');
+
+                document.getElementById('btn-simular').disabled = false;
+                document.getElementById('btn-simular').classList.add('ativo')
+                document.getElementById('btn-simular').style.display = 'flex';
+                // Esconde o aviso de aguardando
+                document.getElementById('aviso-aguardando').style.display = 'none';
+                
+                mostrarToast('Dados consultados com sucesso!');
+
+                dadosEncontrados=true;
+                break
+            }
+        } catch(e) {
+            console.error(`Erro na tentativa ${tentativa}:`, e);
+        }
+
+        // Se não foi a última tentativa, espera 3 segundos
+        if (tentativa < 10 && !dadosEncontrados) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar Dados';
+
+}
+
 async function consultarESimular() {
-    document.getElementById('aviso-aguardando').style.display = 'none';
+    if (!dadosConsulta) {
+        mostrarToast('Primeiro consulte os dados do cliente!', 'warning');
+        return;
+    }
+    
     document.getElementById('resultado-individual').style.display = 'block';
 
     document.getElementById('bancos-grid').innerHTML= `
@@ -226,7 +324,8 @@ async function consultarESimular() {
             margem: resV8.margem,
             parcela: resV8.parcela,
             prazo: resV8.prazo,
-            valor_simulado: resV8.valor_simulado
+            valor_simulado: resV8.valor_simulado,
+            parcelas_disponiveis: resV8.parcelas_disponiveis
         });
     } else {
         renderizarCardReprovado('v8', 'Banco V8', resV8?.motivo || 'Simulação não aprovada');
@@ -240,7 +339,9 @@ function cardSkeleton(banco, nomeBanco) {
         <div class="banco-logo">
             ${banco === 'v8' 
                 ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
-                : nomeBanco.split(' ')[1]}
+                : banco === 'have'
+                    ? '<img src="/static/imagens/logo-havecred.jpeg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">'
+                    : nomeBanco.split(' ')[1]}
         </div>
         <div class="banco-card-info">
             <div><div class="banco-valor-label">Margem</div><div class="skeleton"></div></div>
@@ -254,45 +355,203 @@ function cardSkeleton(banco, nomeBanco) {
     </div>`
 }
 
-function renderizarCardBanco(banco, nomeBanco, dados) {
+let modoV8 = null; // 'parcela' ou 'liberado'
 
+function onModoV8(campo) {
+    if (modoV8 === campo) return;
+    modoV8 = campo
+    const parcelaInput = document.getElementById('v8-parcela-input')
+    const liberadoInput = document.getElementById('v8-liberado-input')
+
+    if (campo === 'parcela') {
+        liberadoInput.value = '';
+        liberadoInput.disabled = true;
+        liberadoInput.style.opacity = '0.4';
+        parcelaInput.disabled = false;
+        parcelaInput.style.opacity = '1';
+    } else {
+        parcelaInput.value = '';
+        parcelaInput.disabled = true;
+        parcelaInput.style.opacity = '0.4';
+        liberadoInput.disabled = false;
+        liberadoInput.style.opacity = '1';
+    }
+}
+
+function onEditarSimulacao(banco) {
+    const acoes = document.getElementById(`${banco}-acoes`)
+    const nomeBanco = banco === 'v8' ? 'Banco V8' : 'Banco Have';
+
+    acoes.innerHTML = `
+        <button class="btn-digitar" style="background:#64748b;" onclick="cancelarResimulacao('${banco}', '${nomeBanco}')">
+            ✖ Cancelar
+        </button>
+        <button class="btn-digitar" onclick="resimular('${banco}')">
+            🔄 Re-simular
+        </button>
+    `;
+}
+
+function cancelarResimulacao(banco, nomeBanco) {
+    // Restaura os valores originais e o botão de digitar
+    const dados = banco === 'v8' ? dadosSimulacaoV8 : dadosConsultaHave;
+    modoV8 = null;
+    renderizarCardBanco(banco, nomeBanco, dados);
+}
+
+async function resimular(banco) {
+    const acoes = document.getElementById(`${banco}-acoes`);
+    acoes.innerHTML = `<span style="color:#888;font-size:0.85rem;">🔄 Simulando...</span>`;
+
+    const prazoInput = document.getElementById(`${banco}-prazo-input`);
+    const parcelaInput = document.getElementById(`${banco}-parcela-input`);
+    const liberadoInput = document.getElementById(`${banco}-liberado-input`);
+
+    const prazo = parseInt(prazoInput.value);
+    const parcela = parcelaInput.disabled ? null : parseFloat(parcelaInput.value) || null;
+    const valorLiberado = liberadoInput.disabled ? null : parseFloat(liberadoInput.value) || null;
+
+    try {
+        if (banco === 'v8') {
+            const resp = await fetch('https://api.sistemamscred.com.br/resimular-v8', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    cpf: cpfAtual,
+                    prazo: prazo,
+                    valor_parcela: parcela,
+                    valor_liberado: valorLiberado
+                })
+            });
+            const data = await resp.json();
+            if (data.tipo === 'aprovado') {
+                dadosSimulacaoV8 = data;
+                modoV8 = null;
+                renderizarCardBanco('v8', 'Banco V8', data);
+                mostrarToast('Re-simulação V8 concluída!');
+            } else {
+                mostrarToast('Re-simulação não aprovada.', 'error');
+                cancelarResimulacao('v8', 'Banco V8');
+            }
+
+        } else if (banco === 'have') {
+            console.log('🔄 RE-SIMULAÇÃO HAVE - Iniciando');
+            console.log('📤 Enviando payload:', {
+                cpf: cpfAtual,
+                prazo: prazo,
+                valor_parcela: parcela,
+                valor_liberado: valorLiberado
+            });
+
+            const resp = await fetch('https://api.sistemamscred.com.br/resimular-have', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    cpf: cpfAtual,
+                    prazo: prazo,
+                    valor_parcela: parcela,
+                    valor_liberado: valorLiberado
+                })
+            });
+            const data = await resp.json();
+
+            console.log('📥 RESPOSTA COMPLETA da re-simulação HAVE:', data);
+            console.log('📥 valor_solicitado (valor liberado):', data.valor_solicitado);
+            console.log('📥 valor_parcela:', data.valor_parcela);
+            console.log('📥 prazo:', data.prazo);
+            console.log('📥 tipo:', data.tipo);
+
+            if (data.tipo === 'aprovado') {
+                dadosConsultaHave = data.simulacao?.Data?.Simulation || dadosConsultaHave;
+                renderizarCardBanco('have', 'Banco Have', {
+                    parcela: data.valor_parcela,
+                    valor_simulado: data.valor_solicitado,
+                    prazo: data.prazo,
+                    margem: dadosConsulta.margem
+                });
+                mostrarToast('Re-simulação Have concluída!');
+            } else {
+                mostrarToast('Re-simulação não aprovada.', 'error');
+                cancelarResimulacao('have', 'Banco Have');
+            }
+        }
+    } catch(e) {
+        console.error('Erro re-simulação:', e);
+        mostrarToast('Erro ao re-simular.', 3000);
+        cancelarResimulacao(banco, banco === 'v8' ? 'Banco V8' : 'Banco Have');
+    }
+}
+
+function renderizarCardBanco(banco, nomeBanco, dados) {
+    
     const logoTexto = nomeBanco.split(' ')[1] || nomeBanco.substring(0,2);
     const parcela = parseFloat(dados.parcela);
     const valorLiberado = parseFloat(dados.valor_simulado);
     const margem = parseFloat(dados.margem);
+    const prazo = dados.prazo
+
+    // Parcelas disponíveis
+    const parcelasV8 = dados.parcelas_disponiveis || [];
+
+    // Prazo: select para V8 (com parcelas do banco), select fixo para Have
+    let prazoHtml;
+    if (banco === 'v8' && parcelasV8.length > 0) {
+        prazoHtml = `<select id="${banco}-prazo-input" class="resim-input resim-select" onchange="onEditarSimulacao('${banco}')">
+            ${parcelasV8.map(p => `<option value="${p}" ${parseInt(p) === parseInt(prazo) ? 'selected' : ''}>${p} meses</option>`).join('')}
+        </select>`;
+    } else if (banco === 'have') {
+        // Have: prazos padrão disponíveis (6 a 84 meses em incrementos comuns)
+        const prazosHave = [36, 24, 18, 12, 6].sort((a, b) => b - a);
+        prazoHtml = `<select id="${banco}-prazo-input" class="resim-input resim-select" onchange="onEditarSimulacao('${banco}')">
+            ${prazosHave.map(p => `<option value="${p}" ${p === parseInt(prazo) ? 'selected' : ''}>${p} meses</option>`).join('')}
+        </select>`;
+    } else {
+        prazoHtml = `<input type="number" id="${banco}-prazo-input" class="resim-input" value="${prazo}" min="1" oninput="onEditarSimulacao('${banco}')">`;
+    }
 
     const html = `
         <div class="banco-card" id="card-${banco}">
             <div class="banco-header">
                 <div class="banco-logo">
-                    ${nomeBanco.toLowerCase().includes('v8') 
-                        ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" onerror="this.onerror=null; this.parentElement.innerHTML=\'V8\'">' 
-                        : logoTexto}
+                    ${banco === 'v8'
+                        ? '<img src="/static/imagens/fotobancov8.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.onerror=null;this.parentElement.innerHTML=\'V8\'">'
+                        : '<img src="/static/imagens/logo-havecred.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.onerror=null;this.parentElement.innerHTML=\'Have\'">'}
                 </div>
                 <div class="banco-nome">${nomeBanco}</div>
-                <div class="banco-badge status-aprovado" style="background: #dcfce7; color: #15803d; margin-left: auto;">✅ APROVADO</div>
+                <div class="banco-badge status-aprovado" style="background:#dcfce7;color:#15803d;margin-left:auto;">✅ APROVADO</div>
             </div>
-            
+
             <div class="banco-conteudo">
                 <div class="banco-valor-item">
                     <span class="banco-valor-label">💰 Margem Disponível</span>
-                    <span class="banco-valor-num">${margem.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                    <span class="banco-valor-num">${margem.toLocaleString('pt-BR', {style:'currency',currency:'BRL'})}</span>
                 </div>
+
                 <div class="banco-valor-item">
                     <span class="banco-valor-label">📅 Valor da Parcela</span>
-                    <span class="banco-valor-num parcela">${parcela.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                    <span class="banco-valor-num parcela">
+                        <input type="number" id="${banco}-parcela-input" class="resim-input resim-parcela"
+                            value="${parcela.toFixed(2)}"
+                            ${banco === 'v8' ? `oninput="onModoV8('parcela'); onEditarSimulacao('${banco}')"` : `oninput="onEditarSimulacao('${banco}')"`}>
+                    </span>
                 </div>
+
                 <div class="banco-valor-item">
                     <span class="banco-valor-label">⏱️ Prazo</span>
-                    <span class="banco-valor-num">${dados.prazo} meses</span>
+                    <span class="banco-valor-num">${prazoHtml}</span>
                 </div>
+            
                 <div class="banco-valor-item">
                     <span class="banco-valor-label">🎉 Valor Liberado</span>
-                    <span class="banco-valor-num liberado">${valorLiberado.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                    <span class="banco-valor-num liberado">
+                        <input type="number" id="${banco}-liberado-input" class="resim-input resim-liberado"
+                            value="${valorLiberado.toFixed(2)}"
+                            ${banco === 'v8' ? `oninput="onModoV8('liberado'); onEditarSimulacao('${banco}')"` : `oninput="onEditarSimulacao('${banco}')"`}>
+                    </span>
                 </div>
             </div>
-            
-            <div class="banco-acoes">
+
+            <div class="banco-acoes" id="${banco}-acoes">
                 <button class="btn-digitar" onclick="irParaDigitacao('${banco}', '${nomeBanco}')">
                     ✏️ Digitar Proposta
                 </button>
@@ -307,12 +566,14 @@ function renderizarCardReprovado(banco, nomeBanco, motivo) {
     const logoTexto = nomeBanco.split(' ')[1] || nomeBanco.substring(0,2);
 
     const html = `
-        <div class="banco-card" id="card-${banco}" style="opacity:0.85;">
+        <div class="banco-card" id="card-${banco}">
             <div class="banco-header">
                 <div class="banco-logo">
                     ${banco === 'v8' 
                         ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
-                        : logoTexto}
+                        : banco === 'have'
+                            ? '<img src="/static/imagens/logo-havecred.jpeg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">'
+                            : logoTexto}
                 </div>
                 <div class="banco-nome">${nomeBanco}</div>
                 <div class="banco-badge status-reprovado" style="background: #fee2e2; color: #b91c1c; margin-left: auto;">❌ REPROVADO</div>
@@ -353,9 +614,9 @@ async function simularV8(cpf) {
 
     const payload = {
         cpf: cpf,
-        nome: dadosAutorizacao?.nome || '',
-        data_nascimento: dadosAutorizacao?.data_nascimento || '',
-        sexo: dadosAutorizacao?.sexo || '',
+        nome: dadosConsulta?.nome || '',
+        data_nascimento: dadosConsulta?.dataNascimento || '',
+        sexo: dadosConsulta?.sexo || '',
         telefone: telAtual
     };
     
@@ -373,14 +634,33 @@ async function simularV8(cpf) {
     return resultado;
 }
 
-function mostrarToast(mensagem) {
+function mostrarToast(mensagem, tipo = 'success', duracao = 1500) {
     const toast = document.createElement('div');
-    toast.innerHTML = `<span class="material-symbols-outlined">check_circle</span> ${mensagem}`;
+    
+    let icone = 'check_circle';
+    let cor = '#16a34a';
+    let sombra = 'rgba(22,163,74,0.35)';
+    
+    if (tipo === 'success') {
+        icone = 'check_circle';
+        cor = '#16a34a';
+        sombra = 'rgba(22,163,74,0.35)';
+    } else if (tipo === 'error') {
+        icone = 'error';
+        cor = '#dc2626';
+        sombra = 'rgba(220,38,38,0.35)';
+    } else if (tipo === 'warning') {
+        icone = 'warning';
+        cor = '#ea580c';
+        sombra = 'rgba(234,88,12,0.35)';
+    }
+    
+    toast.innerHTML = `<span class="material-symbols-outlined">${icone}</span> ${mensagem}`;
     toast.style.cssText = `
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background: #16a34a;
+        background: ${cor};
         color: white;
         padding: 10px 16px;
         border-radius: 10px;
@@ -389,7 +669,7 @@ function mostrarToast(mensagem) {
         display: flex;
         align-items: center;
         gap: 6px;
-        box-shadow: 0 4px 14px rgba(22,163,74,0.35);
+        box-shadow: 0 4px 14px ${sombra};
         z-index: 99999;
         animation: slideInToast 0.3s ease;
     `;
@@ -398,7 +678,7 @@ function mostrarToast(mensagem) {
         toast.style.opacity = '0';
         toast.style.transition = 'opacity 0.3s ease';
         setTimeout(() => toast.remove(), 300);
-    }, 1500);
+    }, duracao);
 }
 
 function copiarLink() {
@@ -414,73 +694,149 @@ function copiarLink() {
     });
 }
 
-async function irParaDigitacao(){
-    const nome       = document.getElementById('ind-nome').value;
-    const nascimento = document.getElementById('ind-nascimento').value;
-    const sexo       = document.getElementById('ind-sexo').value;
-    const tel        = (resultadoSimulacaoAtual.telefone || document.getElementById('ind-telefone').value).replace(/\D/g, '');
+async function irParaDigitacao(banco, nomeBanco){
+    //pega os dados corretos dependendo do banco
+    let dadosCliente;
+    let simulacao;
 
-    // Abre o modal e preenche os automáticos
+    if(banco=='v8') {
+        dadosCliente = dadosConsulta;
+        simulacao = dadosSimulacaoV8;
+    } else if (banco === 'have') {
+        dadosCliente = dadosConsulta;
+        simulacao = dadosConsultaHave;
+    }
+
+    if (!dadosCliente || !simulacao) {
+        mostrarToast('Aguardando dados da simulação...', 'warning', 2000);
+        return;
+    }
+
+    resultadoSimulacaoAtual = {
+        nome: dadosCliente.nome,
+        cpf: cpfAtual,
+        telefone: telAtual,
+        nome_mae: dadosCliente.nome_mae,
+        banco: banco,
+        valor_liberado: simulacao.valor_simulado,
+        parcela:simulacao.parcela,
+        prazo: simulacao.prazo
+    }
+
     document.getElementById('modal-digitacao').style.display = 'flex';
 
-    document.getElementById('dig-doc-data').addEventListener('input', function() {
-        let v = this.value.replace(/\D/g, '').slice(0, 8);
-        v = v.replace(/(\d{2})(\d)/, '$1/$2');
-        v = v.replace(/(\d{2})(\d)/, '$1/$2');
-        this.value = v;
-    });
-    document.getElementById('dig-cep').addEventListener('input', async function() {
-        const cep = this.value.replace(/\D/g, '');
-        if (cep.length === 8) {
-            try {
-                const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                const end = await r.json();
-                if (!end.erro) {
-                    document.getElementById('dig-rua').value    = end.logradouro || '';
-                    document.getElementById('dig-bairro').value = end.bairro     || '';
-                    document.getElementById('dig-cidade').value = end.localidade  || '';
-                    document.getElementById('dig-estado').value = end.uf          || '';
-                }
-            } catch(e) {
-                console.error('Erro ViaCEP:', e)
-            }
-        }
-    })
+    // Mostra/esconde seção de documentos conforme o banco
+    const secaoDoc = document.getElementById('secao-documentos');
+    secaoDoc.style.display = banco === 'have' ? 'block' : 'none';
 
-    document.getElementById('dig-nome').value        = nome;
-    document.getElementById('dig-cpf').value         = dadosClienteIndividual.cpf || '';
-    document.getElementById('dig-doc-numero').value  = dadosClienteIndividual.cpf?.replace(/\D/g, '') || ''; // RG = CPF
-    document.getElementById('dig-doc-orgao').value   = 'SSP';
+    // Reseta os inputs de arquivo ao abrir
+    if (banco === 'have') {
+        document.getElementById('dig-doc-frente').value = '';
+        document.getElementById('dig-doc-verso').value = '';
+        document.getElementById('dig-doc-frente-nome').textContent = '';
+        document.getElementById('dig-doc-verso-nome').textContent = '';
+
+        document.getElementById('dig-doc-frente').addEventListener('change', function() {
+            document.getElementById('dig-doc-frente-nome').textContent = this.files[0]?.name || '';
+        });
+        document.getElementById('dig-doc-verso').addEventListener('change', function() {
+            document.getElementById('dig-doc-verso-nome').textContent = this.files[0]?.name || '';
+        });
+    }
+    const formatarDataBR = (isoDate) => {
+        if (!isoDate) return '';
+        const data = new Date(isoDate)
+        if (isNaN(data.getTime())) return '';
+        return data.toLocaleDateString('pt-BR')
+    }
+
+    document.getElementById('dig-nome').value = dadosCliente.nome || '';
+    document.getElementById('dig-cpf').value = cpfAtual || '';
+    document.getElementById('dig-doc-numero').value = cpfAtual?.replace(/\D/g, '') || '';
+    document.getElementById('dig-doc-orgao').value = 'SSP';
     document.getElementById('dig-nacionalidade').value = 'Brasileiro';
-    document.getElementById('dig-nascimento').value  = nascimento;
-    document.getElementById('dig-nome-mae').value    = resultadoSimulacaoAtual.nome_mae || '';
-    document.getElementById('dig-ddd').value         = tel.slice(0, 2);
-    document.getElementById('dig-telefone-modal').value = tel.slice(2);
+    document.getElementById('dig-nascimento').value = formatarDataBR(dadosCliente.dataNascimento);
+    document.getElementById('dig-nome-mae').value = dadosCliente.nome_mae || '';
+
+    const estadoCivilSelect = document.getElementById('dig-estado-civil');
+    estadoCivilSelect.value = 'single';
+
+    const tipoDocSelect = document.getElementById('dig-doc-tipo');
+    tipoDocSelect.value = 'rg';
+
+    //telefone
+    const tel = telAtual || '';
+    document.getElementById('dig-ddd').value = tel.slice(0, 2);
+    document.getElementById('dig-telefone-modal').value = tel.slice(2)
 
     // Sexo
     const generoSelect = document.getElementById('dig-genero');
-    generoSelect.value = sexo.toLowerCase().includes('fem') ? 'female' : 'male';
+    generoSelect.value = dadosCliente.sexo?.toLowerCase().includes('fem') ? 'female' : 'male';
 
+    //pix
     const pixTipoSelect = document.getElementById('dig-pix-tipo')
     const pixChaveInput = document.getElementById('dig-pix-chave')
 
     pixTipoSelect.value = 'cpf';
-    pixChaveInput.value = dadosClienteIndividual.cpf || '';
+    pixChaveInput.value = cpfAtual || '';
 
-    pixTipoSelect.addEventListener('change', function() {
+    // Remove event listener anterior para não duplicar
+    pixTipoSelect.removeEventListener('change', pixChangeHandler);
+    pixTipoSelect.addEventListener('change', pixChangeHandler);
+
+    function pixChangeHandler() {
         if (this.value === 'cpf') {
-            pixChaveInput.value = dadosClienteIndividual.cpf || '';
+            pixChaveInput.value = cpfAtual || '';
         } else {
             pixChaveInput.value = '';
         }
-    });
+    }
+
+    // Configura o CEP (já existe, mas mantém)
+    const cepInput = document.getElementById('dig-cep');
+    cepInput.removeEventListener('input', cepHandler);
+    cepInput.addEventListener('input', cepHandler);
+
+    async function cepHandler() {
+        const cep = this.value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            try {
+                const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const end = await r.json();
+                if (!end.erro) {
+                    document.getElementById('dig-rua').value = end.logradouro || '';
+                    document.getElementById('dig-bairro').value = end.bairro || '';
+                    document.getElementById('dig-cidade').value = end.localidade || '';
+                    document.getElementById('dig-estado').value = end.uf || '';
+                }
+            } catch(e) {
+                console.error('Erro ViaCEP:', e);
+            }
+        }
+    }
+
+    // Configura a data do documento
+    const docDataInput = document.getElementById('dig-doc-data');
+    docDataInput.removeEventListener('input', docDataHandler);
+    docDataInput.addEventListener('input', docDataHandler);
+
+
+    function docDataHandler() {
+        let v = this.value.replace(/\D/g, '').slice(0, 8);
+        v = v.replace(/(\d{2})(\d)/, '$1/$2');
+        v = v.replace(/(\d{2})(\d)/, '$1/$2');
+        this.value = v;
+    }
 
     // Botão de envio
-    document.getElementById('btn-enviar-digitacao').onclick = async function() {
-        const btn = this;
-        btn.disabled = true
-        btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Enviando...';
+    const enviarBtn = document.getElementById('btn-enviar-digitacao');
+    const novoEnviarBtn = enviarBtn.cloneNode(true);
+    enviarBtn.parentNode.replaceChild(novoEnviarBtn, enviarBtn);
 
+    novoEnviarBtn.onclick = async function() {
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Enviando...';
         const ddd = document.getElementById('dig-ddd').value.trim();
         const telNum = document.getElementById('dig-telefone-modal').value.replace(/\D/g, '');
 
@@ -488,33 +844,81 @@ async function irParaDigitacao(){
             if (!data || !data.includes('/')) return data;
             const [d, m, a] = data.split('/');
             return `${a}-${m}-${d}`;
-        }
-        const payload = {
-            nome:                   document.getElementById('dig-nome').value.trim(),
-            email:                  document.getElementById('dig-email').value.trim(),
-            cpf:                    document.getElementById('dig-cpf').value.replace(/\D/g, ''),
-            data_nascimento:        converterData(document.getElementById('dig-nascimento').value),
-            nome_mae:               document.getElementById('dig-nome-mae').value.trim(),
-            genero:                 document.getElementById('dig-genero').value,
-            orgao_emissor:          document.getElementById('dig-doc-orgao').value.trim(),
-            tipo_documento:         document.getElementById('dig-doc-tipo').value,
-            numero_documento:       document.getElementById('dig-doc-numero').value.trim(),
-            data_emissao_documento: converterData(document.getElementById('dig-doc-data').value),
-            ddd:                    ddd,
-            numero_telefone:        telNum,
-            cep:                    document.getElementById('dig-cep').value.replace(/\D/g, ''),
-            rua:                    document.getElementById('dig-rua').value.trim(),
-            numero_endereco:        document.getElementById('dig-numero-end').value.trim(),
-            complemento:            document.getElementById('dig-complemento').value.trim(),
-            bairro:                 document.getElementById('dig-bairro').value.trim(),
-            cidade:                 document.getElementById('dig-cidade').value.trim(),
-            estado:                 document.getElementById('dig-estado').value.trim(),
-            chave_pix:              document.getElementById('dig-pix-chave').value.trim(),
-            tipo_chave_pix:         document.getElementById('dig-pix-tipo').value,
         };
 
+        const payload = {
+            nome: document.getElementById('dig-nome').value.trim(),
+            email: document.getElementById('dig-email').value.trim(),
+            cpf: document.getElementById('dig-cpf').value.replace(/\D/g, ''),
+            data_nascimento: converterData(document.getElementById('dig-nascimento').value),
+            nome_mae: document.getElementById('dig-nome-mae').value.trim(),
+            genero: document.getElementById('dig-genero').value,
+            orgao_emissor: document.getElementById('dig-doc-orgao').value.trim(),
+            tipo_documento: document.getElementById('dig-doc-tipo').value,
+            numero_documento: document.getElementById('dig-doc-numero').value.trim(),
+            data_emissao_documento: converterData(document.getElementById('dig-doc-data').value),
+            ddd: ddd,
+            numero_telefone: telNum,
+            cep: document.getElementById('dig-cep').value.replace(/\D/g, ''),
+            rua: document.getElementById('dig-rua').value.trim(),
+            numero_endereco: document.getElementById('dig-numero-end').value.trim(),
+            complemento: document.getElementById('dig-complemento').value.trim(),
+            bairro: document.getElementById('dig-bairro').value.trim(),
+            cidade: document.getElementById('dig-cidade').value.trim(),
+            estado: document.getElementById('dig-estado').value.trim(),
+            chave_pix: document.getElementById('dig-pix-chave').value.trim(),
+            tipo_chave_pix: document.getElementById('dig-pix-tipo').value,
+            banco: banco  // 🔥 Adiciona o banco no payload
+        };
+
+        if (!payload.cep || !payload.rua || !payload.numero_endereco) {
+            mostrarToast('Preencha o endereço completo antes de enviar.', 'warning', 3000);
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
+            return;
+        }
+
+        if (banco === 'have') {
+            document.getElementById('dig-doc-frente').value = '';
+            document.getElementById('dig-doc-verso').value = '';
+            document.getElementById('dig-doc-frente-nome').textContent = '';
+            document.getElementById('dig-doc-verso-nome').textContent = '';
+            document.getElementById('dig-doc-frente-preview').style.display = 'none';
+            document.getElementById('dig-doc-verso-preview').style.display = 'none';
+
+            function configurarPreview(inputId, nomeId, previewId, imgId) {
+                const input = document.getElementById(inputId);
+                input.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (!file) return;
+
+                    document.getElementById(nomeId).textContent = file.name;
+
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            document.getElementById(imgId).src = e.target.result;
+                            document.getElementById(previewId).style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        document.getElementById(previewId).style.display = 'none';
+                        document.getElementById(nomeId).textContent = `📄 ${file.name}`;
+                    }
+                });
+            }
+
+            configurarPreview('dig-doc-frente', 'dig-doc-frente-nome', 'dig-doc-frente-preview', 'dig-doc-frente-img');
+            configurarPreview('dig-doc-verso', 'dig-doc-verso-nome', 'dig-doc-verso-preview', 'dig-doc-verso-img');
+        }
+
         try {
-            const response = await fetch('https://api.sistemamscred.com.br/digitarindividual', {
+
+            const url = banco === 'v8' 
+                ? 'https://api.sistemamscred.com.br/digitarindividual'
+                : 'https://api.sistemamscred.com.br/digitarhave';
+
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
@@ -525,52 +929,36 @@ async function irParaDigitacao(){
                 document.getElementById('modal-digitacao').style.display = 'none';
                 mostrarToast('Proposta digitada com sucesso!');
                 const linkFormalizacao = resultado.dados?.formalization_url || '';
-
-                const btnDigitar = document.querySelector('#resultado-individual-body .btn-processar');
-                if (btnDigitar) btnDigitar.style.display = 'none';
-
+                
                 document.getElementById('resultado-individual-body').innerHTML = `
                     <div style="padding:20px;">
                         <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
                             <span class="status-badge status-aprovado">✓ Proposta Digitada</span>
                             <span style="font-size:0.78rem; color:#888;">${resultadoSimulacaoAtual.nome || ''}</span>
                         </div>
-
                         <div class="cliente-field full-width" style="margin-bottom:0;">
                             <label class="cliente-field-label">🔗 Link de Formalização</label>
                             <div style="display:flex; gap:8px; align-items:center;">
-                                <input 
-                                    type="text" 
-                                    class="cliente-field-input" 
-                                    value="${linkFormalizacao}" 
-                                    id="link-formalizacao"
-                                    readonly 
-                                    style="background:#f5f5f5; cursor:default; flex:1;"
-                                >
-                                <button id="btn-copiar-link" onclick="copiarLink()" style="
-                                    display:flex; align-items:center; justify-content:center;
-                                    width:42px; height:42px; flex-shrink:0;
-                                    background:#eb6505; border:none; border-radius:8px;
-                                    color:white; cursor:pointer; transition:background 0.2s;
-                                ">
+                                <input type="text" class="cliente-field-input" value="${linkFormalizacao}" id="link-formalizacao" readonly style="background:#f5f5f5; cursor:default; flex:1;">
+                                <button id="btn-copiar-link" onclick="copiarLink()" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; flex-shrink:0; background:#eb6505; border:none; border-radius:8px; color:white; cursor:pointer; transition:background 0.2s;">
                                     <span class="material-symbols-outlined">content_copy</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 `;
-
             } else {
                 alert('Erro: ' + (resultado.mensagem || 'Tente novamente.'));
             }
         } catch(err) {
-            alert('Erro ao enviar a proposta!')
-            console.error(err)
+            alert('Erro ao enviar a proposta!');
+            console.error(err);
         }
 
         btn.disabled = false;
         btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
     }
+
 }
 
 function fecharModalDigitacao() {

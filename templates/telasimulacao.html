@@ -133,20 +133,27 @@
                             <span class="material-symbols-outlined">schedule</span>
                             <span>Link enviado! Aguardando o trabalhador autorizar no WhatsApp...</span>
                         </div>
-                        <button class="btn-processar ativo" style="padding:6px 14px; font-size:0.78rem;" onclick="consultarESimular()">
-                            <span class="material-symbols-outlined">play_circle</span> Já autorizou? Simular
-                        </button>
                     </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-processar" id="btn-consultar-dados" onclick="consultarDados()" disabled>
+                        <span class="material-symbols-outlined">search</span> Consultar Dados
+                    </button>
                 </div>
 
             </div>
                 <!-- RESULTADO -->
             <div class="card-tabela" id="resultado-individual" style="display:none">
-                <div class="tabela-header">
-                    <h3><span class="material-symbols-outlined">check_circle</span> Resultado</h3>
-                </div>
-                <div id="resultado-individual-body">
-                    <div class="bancos-grid" id="bancos-grid"></div>
+                <div class="box-resultado-simulacao">
+                    <div class="tabela-header">
+                        <h3><span class="material-symbols-outlined">check_circle</span> Resultado</h3>
+                        <button class="btn-processar" id="btn-simular" onclick="consultarESimular()" disabled>
+                            <span class="material-symbols-outlined">play_circle</span> Simular
+                        </button>
+                    </div>
+                    <div id="resultado-individual-body">
+                        <div class="bancos-grid" id="bancos-grid"></div>
+                    </div>
                 </div>
             </div>
             <div id="modal-digitacao">
@@ -287,6 +294,29 @@
                         <div class="cliente-field">
                             <label class="cliente-field-label">Chave Pix</label>
                             <input class="cliente-field-input" id="dig-pix-chave" type="text">
+                        </div>
+                    </div>
+                    
+                    <!-- Documentos (apenas Have) -->
+                    <div id="secao-documentos" style="display:none;">
+                        <p class="modal-secao-titulo">Documentos</p>
+                        <div class="cliente-fields-grid modal-secao">
+                            <div class="cliente-field">
+                                <label class="cliente-field-label">RG Frente</label>
+                                <input type="file" class="cliente-field-input" id="dig-doc-frente" accept="image/*,application/pdf" style="cursor:pointer; padding:8px;">
+                                <span id="dig-doc-frente-nome" style="font-size:0.75rem; color:#888; margin-top:4px; display:block;"></span>
+                                <div id="dig-doc-frente-preview" style="display:none; margin-top:8px;">
+                                    <img id="dig-doc-frente-img" style="width:100%; max-height:120px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                </div>
+                            </div>
+                            <div class="cliente-field">
+                                <label class="cliente-field-label">RG Verso</label>
+                                <input type="file" class="cliente-field-input" id="dig-doc-verso" accept="image/*,application/pdf" style="cursor:pointer; padding:8px;">
+                                <span id="dig-doc-verso-nome" style="font-size:0.75rem; color:#888; margin-top:4px; display:block;"></span>
+                                <div id="dig-doc-verso-preview" style="display:none; margin-top:8px;">
+                                    <img id="dig-doc-verso-img" style="width:100%; max-height:120px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
