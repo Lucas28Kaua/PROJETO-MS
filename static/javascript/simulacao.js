@@ -29,6 +29,37 @@ let dadosSimulacaoV8 = null;
 let margemOriginalHave = null;
 let margemOriginalV8 = null;
 
+const ufPorDDD = {
+    11: 'SP', 12: 'SP', 13: 'SP', 14: 'SP', 15: 'SP', 16: 'SP', 17: 'SP', 18: 'SP', 19: 'SP',
+    21: 'RJ', 22: 'RJ', 24: 'RJ',
+    27: 'ES', 28: 'ES',
+    31: 'MG', 32: 'MG', 33: 'MG', 34: 'MG', 35: 'MG', 37: 'MG', 38: 'MG',
+    41: 'PR', 42: 'PR', 43: 'PR', 44: 'PR', 45: 'PR', 46: 'PR',
+    47: 'SC', 48: 'SC', 49: 'SC',
+    51: 'RS', 53: 'RS', 54: 'RS', 55: 'RS',
+    61: 'DF',
+    62: 'GO', 64: 'GO',
+    63: 'TO',
+    65: 'MT', 66: 'MT',
+    67: 'MS',
+    68: 'AC',
+    69: 'RO',
+    71: 'BA', 73: 'BA', 74: 'BA', 75: 'BA', 77: 'BA',
+    79: 'SE',
+    81: 'PE', 87: 'PE',
+    82: 'AL',
+    83: 'PB',
+    84: 'RN',
+    85: 'CE', 88: 'CE',
+    86: 'PI', 89: 'PI',
+    91: 'PA', 93: 'PA', 94: 'PA',
+    92: 'AM',
+    95: 'RR',
+    96: 'AP',
+    97: 'AM',
+    98: 'MA', 99: 'MA'
+};
+
 // Dados completos do worker (para enviar na digitação)
 let dadosWorkerAtual = {
     workerId: null,
@@ -382,7 +413,7 @@ async function consultarESimular() {
             });
         } else {
             const motivo = resHave?.motivo || resHave?.Message || 'Simulação não aprovada';
-            
+
             renderizarCardReprovado('have', 'Banco Have', motivo);
         }
     });
@@ -1130,6 +1161,10 @@ async function irParaDigitacao(banco, nomeBanco){
         return;
     }
 
+    console.log('📝 PRAZO NA DIGITAÇÃO (simulacao.prazo):', simulacao?.prazo);
+    console.log('📝 dadosSimulacaoAtual.num_periods:', dadosSimulacaoAtual?.num_periods);
+    console.log('📝 dadosConsultaHave:', dadosConsultaHave);
+
     resultadoSimulacaoAtual = {
         nome: dadosCliente.nome,
         cpf: cpfAtual,
@@ -1147,6 +1182,9 @@ async function irParaDigitacao(banco, nomeBanco){
     const secaoDoc = document.getElementById('secao-documentos');
     secaoDoc.style.display = banco === 'have' ? 'block' : 'none';
 
+    const divBanco = document.getElementById('div-banco');
+    divBanco.style.display = banco === 'have' ? 'block' : 'none';
+    
     // Reseta os inputs de arquivo ao abrir
     if (banco === 'have') {
         await carregarBancos();
@@ -1241,6 +1279,13 @@ async function irParaDigitacao(banco, nomeBanco){
     document.getElementById('dig-ddd').value = tel.slice(0, 2);
     document.getElementById('dig-telefone-modal').value = tel.slice(2)
 
+    // Define a UF baseada no DDD (para usar no payload)
+    const dddCliente = document.getElementById('dig-ddd').value.trim();
+    const ufExpedicaoCalculada = ufPorDDD[parseInt(dddCliente)] || 'RN';
+
+    // Salva a UF em um data attribute ou variável para usar no payload depois
+    document.getElementById('dig-doc-orgao').setAttribute('data-uf', ufExpedicaoCalculada);
+
     // Sexo
     const generoSelect = document.getElementById('dig-genero');
     generoSelect.value = dadosCliente.sexo?.toLowerCase().includes('fem') ? 'female' : 'male';
@@ -1309,14 +1354,6 @@ async function irParaDigitacao(banco, nomeBanco){
         const btn = this;
         btn.disabled = true;
         btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Enviando...';
-        const ddd = document.getElementById('dig-ddd').value.trim();
-        const telNum = document.getElementById('dig-telefone-modal').value.replace(/\D/g, '');
-
-        const converterData = (data) => {
-            if (!data || !data.includes('/')) return data;
-            const [d, m, a] = data.split('/');
-            return `${a}-${m}-${d}`;
-        };
 
         // Função para converter arquivo para base64
         const fileToBase64 = (file) => {
@@ -1334,6 +1371,24 @@ async function irParaDigitacao(banco, nomeBanco){
                 reader.onerror = error => reject(error);
             });
         };
+
+        const ddd = document.getElementById('dig-ddd').value.trim();
+        const telNum = document.getElementById('dig-telefone-modal').value.replace(/\D/g, '');
+
+        const converterData = (data) => {
+            if (!data || !data.includes('/')) return data;
+            const [d, m, a] = data.split('/');
+            return `${a}-${m}-${d}`;
+        };
+
+        // PRIMEIRO IF: Força o prazo no dadosSimulacaoAtual
+        if (banco === 'have') {
+            const prazoSelect = document.getElementById('have-prazo-input');
+            if (prazoSelect && prazoSelect.value) {
+                dadosSimulacaoAtual.num_periods = parseInt(prazoSelect.value);
+                console.log('🔥 FORÇANDO PRAZO NA DIGITAÇÃO:', dadosSimulacaoAtual.num_periods);
+            }
+        }
 
         const payload = {
             nome: document.getElementById('dig-nome').value.trim(),
@@ -1374,19 +1429,13 @@ async function irParaDigitacao(banco, nomeBanco){
 
             // NOVOS CAMPOS ADICIONADOS
             estado_civil: 'single',
-            uf_emissao: document.getElementById('dig-estado').value.trim(),
+            uf_emissao: ufExpedicaoCalculada,
 
             worker: dadosWorkerAtual,
             simulacao: dadosSimulacaoAtual
         };
 
-        if (!payload.cep || !payload.rua || !payload.numero_endereco) {
-            mostrarToast('Preencha o endereço completo antes de enviar.', 'warning', 3000);
-            btn.disabled = false;
-            btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
-            return;
-        }
-
+        // SEGUNDO IF: Adiciona os documentos base64
         if (banco === 'have') {
             const docFrente = document.getElementById('dig-doc-frente').files[0];
             const docVerso = document.getElementById('dig-doc-verso').files[0];
@@ -1400,6 +1449,13 @@ async function irParaDigitacao(banco, nomeBanco){
                 payload.doc_verso_nome = docVerso.name;
             }
 
+        }
+
+        if (!payload.cep || !payload.rua || !payload.numero_endereco) {
+            mostrarToast('Preencha o endereço completo antes de enviar.', 'warning', 3000);
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
+            return;
         }
 
         try {

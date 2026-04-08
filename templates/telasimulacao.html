@@ -358,6 +358,13 @@
                             <option value="transferencia">Transferência Bancária</option>
                         </select>
                     </div>
+                    
+                    <div class="cliente-field full-width bancario-banco" id="div-banco" style="display:none;">
+                        <label class="cliente-field-label">Banco</label>
+                        <select class="cliente-field-input" id="dig-banco">
+                            <option value="">Carregando bancos...</option>
+                        </select>
+                    </div>
 
                     <!-- Bloco PIX -->
                     <div id="div-pix">
@@ -383,13 +390,6 @@
                     <div id="div-conta-bancaria" style="display:none; margin: 10px;">
                         <p class="modal-secao-titulo">Dados Bancários</p>
                         
-                        <div class="cliente-field full-width bancario-banco">
-                            <label class="cliente-field-label">Banco</label>
-                            <select class="cliente-field-input" id="dig-banco">
-                                <option value="">Carregando bancos...</option>
-                            </select>
-                        </div>
-
                         <div class="bancario-par">
                             <div class="cliente-field bancario-campo-principal">
                                 <label class="cliente-field-label">Agência</label>
