@@ -365,10 +365,8 @@ async function consultarESimular() {
     `;
     
     simularHave(cpfAtual).then(resHave => {
-        console.log('🔍 resHave recebido no consultarESimular:', resHave);
-        console.log('🔍 tipo:', resHave?.tipo);
+
         if (resHave?.tipo === 'erro_data_prev') {
-            console.log('✅ VAI CHAMAR renderizarCardHaveDataPrevExpirado()');
             renderizarCardHaveDataPrevExpirado();
             return;
         }
@@ -383,7 +381,9 @@ async function consultarESimular() {
                 valor_simulado: resHave.valor_solicitado
             });
         } else {
-            renderizarCardReprovado('have', 'Banco Have', 'Simulação não aprovada');
+            const motivo = resHave?.motivo || resHave?.Message || 'Simulação não aprovada';
+            
+            renderizarCardReprovado('have', 'Banco Have', motivo);
         }
     });
 
@@ -937,12 +937,13 @@ async function simularHave(cpf) {
         })
         const resultado = await resp.json()
         
-        // 🔥 LOG PARA VER O QUE ESTÁ CHEGANDO
-        console.log('📥 RESPOSTA COMPLETA DO SIMULAR HAVE:');
-        console.log('resultado:', resultado);
-        console.log('resultado.Code:', resultado.Code);
-        console.log('resultado.Message:', resultado.Message);
-        console.log('typeof Code:', typeof resultado.Code);
+        // Se veio como reprovado com motivo
+        if (resultado.tipo === 'reprovado') {
+            return {
+                tipo: 'reprovado',
+                motivo: resultado.motivo || resultado.Message || 'Simulação não aprovada'
+            }
+        }
 
         // 🔥 VERIFICAÇÃO MAIS ROBUSTA
         const isCode409 = resultado.Code === 409 || resultado.Code === '409';
@@ -953,15 +954,6 @@ async function simularHave(cpf) {
 
         if (isCode409 && hasDataPrev) {
             console.log('⚠️⚠️⚠️ ERRO DATA PREV DETECTADO! ⚠️⚠️⚠️')
-            return {
-                tipo: 'erro_data_prev',
-                message: resultado.Message,
-                Code: resultado.Code
-            }
-        }
-
-        if(resultado.Code === 409 && resultado.Message?.includes('Data Prev tem mais de 3 dias')) {
-            console.log('⚠️ Erro Data Prev no Have:', resultado)
             return {
                 tipo: 'erro_data_prev',
                 message: resultado.Message,
