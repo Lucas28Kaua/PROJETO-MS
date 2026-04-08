@@ -599,6 +599,17 @@ function onEditarSimulacao(banco) {
     const acoes = document.getElementById(`${banco}-acoes`)
     const nomeBanco = banco === 'v8' ? 'Banco V8' : 'Banco Have';
 
+
+    if (banco === 'have') {
+        const prazoInput = document.getElementById(`${banco}-prazo-input`)
+        const novoPrazo = parseInt(prazoInput.value);
+
+        if (dadosSimulacaoAtual) {
+            dadosSimulacaoAtual.num_periods = novoPrazo
+            console.log(`📝 Prazo alterado para ${novoPrazo} meses`)
+        }
+    }
+
     acoes.innerHTML = `
         <button class="btn-digitar" style="background:#64748b;" onclick="cancelarResimulacao('${banco}', '${nomeBanco}')">
             ✖ Cancelar
@@ -672,11 +683,37 @@ async function resimular(banco) {
 
         } else if (banco === 'have') {
             console.log('🔄 RE-SIMULAÇÃO HAVE - Iniciando');
+
+            let parcelaParaEnviar = null
+            let liberadoParaEnviar = null;
+
+            const editandoParcela = !parcelaInput.disabled && parcelaInput.value;
+            const editandoLiberado = !liberadoInput.disabled && liberadoInput.value;
+            
+
+            if (editandoParcela) {
+                parcelaParaEnviar = parseFloat(parcelaInput.value);
+                liberadoParaEnviar = null;  // 🔥 ZERA o liberado
+                console.log(`📝 Editando PARCELA: R$ ${parcelaParaEnviar}`);
+            }
+
+            else if (editandoLiberado) {
+                parcelaParaEnviar = null; //zera parcela
+                liberadoParaEnviar = parseFloat(liberadoInput.value);
+                console.log(`📝 Editando VALOR LIBERADO: R$ ${liberadoParaEnviar}`);
+            }
+
+            else {
+                parcelaParaEnviar = parseFloat(parcelaInput.value);
+                liberadoParaEnviar = null;  // 🔥 ZERA o liberado
+                console.log(`📝 Alterou PRAZO para ${prazo}, mantendo parcela: R$ ${parcelaParaEnviar}`);
+            }
+
             console.log('📤 Enviando payload:', {
                 cpf: cpfAtual,
                 prazo: prazo,
-                valor_parcela: parcela,
-                valor_liberado: valorLiberado
+                valor_parcela: parcelaParaEnviar,
+                valor_liberado: liberadoParaEnviar
             });
 
             const resp = await fetch('https://api.sistemamscred.com.br/resimular-have', {
@@ -685,8 +722,8 @@ async function resimular(banco) {
                 body: JSON.stringify({
                     cpf: cpfAtual,
                     prazo: prazo,
-                    valor_parcela: parcela,
-                    valor_liberado: valorLiberado
+                    valor_parcela: parcelaParaEnviar,
+                    valor_liberado: liberadoParaEnviar
                 })
             });
             const data = await resp.json();
@@ -745,7 +782,7 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
         </select>`;
     } else if (banco === 'have') {
         // Have: prazos padrão disponíveis (6 a 84 meses em incrementos comuns)
-        const prazosHave = [36, 24, 18, 12, 6].sort((a, b) => b - a);
+        const prazosHave = [24, 18, 15, 12, 9, 6].sort((a, b) => b - a);
         prazoHtml = `<select id="${banco}-prazo-input" class="resim-input resim-select" onchange="onEditarSimulacao('${banco}')">
             ${prazosHave.map(p => `<option value="${p}" ${p === parseInt(prazo) ? 'selected' : ''}>${p} meses</option>`).join('')}
         </select>`;

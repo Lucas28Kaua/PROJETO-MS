@@ -408,6 +408,30 @@ select.resim-input {
     margin-bottom: 16px;
 }
 
+/* Preview dos documentos */
+.preview-documento {
+    margin-top: 8px;
+    max-width: 120px;
+}
+
+.preview-documento img {
+    width: 100%;
+    height: auto;
+    max-height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.preview-documento span {
+    font-size: 0.7rem;
+    color: #666;
+    display: block;
+    text-align: center;
+    margin-top: 4px;
+    word-break: break-all;
+}
+
 .resim-select {
     width: 150px;
     font-size: 1rem;
@@ -441,7 +465,6 @@ select.resim-input {
     gap: 12px;
 }
 
-#dig-doc-frente,
 #dig-doc-verso {
     padding: 8px;
     cursor: pointer;
@@ -464,6 +487,16 @@ select.resim-input {
 #dig-doc-frente::-webkit-file-upload-button:hover,
 #dig-doc-verso::-webkit-file-upload-button:hover {
     background: #cf5800;
+}
+
+#dig-doc-frente-preview, #dig-doc-verso-preview {
+    max-width: 100px;
+}
+
+#dig-doc-frente-preview img, #dig-doc-verso-preview img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 .banco-logo {
