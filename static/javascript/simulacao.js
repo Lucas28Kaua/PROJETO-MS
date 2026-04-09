@@ -88,6 +88,7 @@ function mascaraCPFIndividual(input) {
     v = v.replace(/(\d{3})(\d)/, '$1.$2');
     v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
     input.value = v;
+    if (v.replace(/\D/g, '').length === 11) verificarCPFIndividual(); 
 }
 
 function exibirDadosCliente(margemData) {
@@ -269,6 +270,41 @@ async function iniciarAutorizacao() {
 
     btn.disabled = false;
     btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Autorização';
+}
+
+async function verificarCPFIndividual() {
+    const cpf = document.getElementById('cpf-individual').value.replace(/\D/g, '');
+    if (cpf.length !== 11) return;
+    
+    console.log('🔍 disparou, CPF:', cpf);
+    cpfAtual = cpf;
+
+    try {
+        const resp = await fetch('https://api.sistemamscred.com.br/consultar-dados-have', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ CPF: cpf })
+        })
+        const data = await resp.json();
+        console.log('📦 resposta:', data);
+        if (data.nome) {
+            // Já tem dados — pula autorização
+            mostrarToast('Cliente já autorizado!', 'success');
+            document.getElementById('campo-telefone').style.display = 'none';
+            document.getElementById('btn-autorizar').style.display = 'none';
+            document.getElementById('btn-consultar-dados').style.display = 'inline-flex';
+            document.getElementById('btn-consultar-dados').disabled = false;
+            document.getElementById('btn-consultar-dados').classList.add('ativo');
+        } else {
+            mostrarToast('Cliente não autorizado, envie o link de autorização!', 'warning');
+            document.getElementById('campo-telefone').style.display = 'flex';
+            document.getElementById('btn-autorizar').style.display = 'inline-flex';
+            document.getElementById('btn-consultar-dados').style.display = 'inline-flex';
+        }
+    } catch(e) {
+        console.error('Erro ao verificar CPF:', e);
+        document.getElementById('btn-autorizar').style.display = 'inline-flex';
+    }
 }
 
 async function consultarDados() {
