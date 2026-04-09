@@ -1184,7 +1184,7 @@ async function irParaDigitacao(banco, nomeBanco){
 
     const divBanco = document.getElementById('div-banco');
     divBanco.style.display = banco === 'have' ? 'block' : 'none';
-    
+
     // Reseta os inputs de arquivo ao abrir
     if (banco === 'have') {
         await carregarBancos();
@@ -1390,6 +1390,22 @@ async function irParaDigitacao(banco, nomeBanco){
             }
         }
 
+
+        if (banco === 'have') {
+            dadosSimulacaoAtual = {
+                num_periods: dadosConsultaHave?.prazo,
+                payment_amount: dadosConsultaHave?.valor_parcela,
+                disbursement_amount: dadosConsultaHave?.valor_solicitado,
+                financed_amount: dadosConsultaHave?.simulacao?.Data?.Simulation?.financed_amount || dadosConsultaHave?.valor_solicitado,
+                first_payment_date: dadosConsultaHave?.simulacao?.Data?.Simulation?.first_payment_date || null,
+                last_payment_date: dadosConsultaHave?.simulacao?.Data?.Simulation?.last_payment_date || null,
+                disbursement_date: dadosConsultaHave?.simulacao?.Data?.Simulation?.disbursement_date || null,
+                interest_rate: dadosConsultaHave?.simulacao?.Data?.Simulation?.interest_rate || null,
+                iof_amount: dadosConsultaHave?.simulacao?.Data?.Simulation?.iof_amount || null
+            };
+            console.log('📝 dadosSimulacaoAtual montado pro Have:', dadosSimulacaoAtual);
+        }
+        
         const payload = {
             nome: document.getElementById('dig-nome').value.trim(),
             email: document.getElementById('dig-email').value.trim(),
