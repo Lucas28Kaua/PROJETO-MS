@@ -239,10 +239,33 @@
 }
 
 .bancos-grid {
-    display:flex;
+    display: flex;
     flex-direction: column;
     gap: 14px;
-    margin-top: 4px;
+    margin-top: 10px;
+    max-height: 600px !important;      /* 👈 Força com !important */
+    overflow-y: auto !important;       /* 👈 Força com !important */
+    padding-right: 8px;
+}
+
+/* Garante que os cards não encolham */
+.bancos-grid .banco-card {
+    flex-shrink: 0;                    /* 👈 IMPEDE QUE OS CARDS ENCOLHAM */
+    min-height: fit-content;           /* 👈 Altura mínima baseada no conteúdo */
+}
+
+.bancos-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.bancos-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.bancos-grid::-webkit-scrollbar-thumb {
+    background: #eb6505;
+    border-radius: 10px;
 }
 
 .banco-card {
@@ -499,6 +522,82 @@ select.resim-input {
     border: 1px solid #ccc;
 }
 
+.aviso-autorizacao-box {
+    background: rgba(255, 140, 0, 0.12);
+    border: 1.5px solid rgba(255, 140, 0, 0.45);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.aviso-autorizacao-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff8c00;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.aviso-autorizacao-header .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.aviso-autorizacao-texto {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #848484);
+}
+
+.aviso-autorizacao-link-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgb(255 255 255 / 60%);
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.aviso-autorizacao-link {
+    color: #ff8c00;
+    font-size: 0.88rem;
+    word-break: break-all;
+    text-decoration: none;
+    opacity: 0.9;
+    flex: 1;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-copiar-link {
+    background: rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(255, 140, 0, 0.4);
+    border-radius: 6px;
+    color: #ff8c00;
+    cursor: pointer;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.btn-copiar-link:hover {
+    background: rgba(255, 140, 0, 0.35);
+}
+
+#tel-presenca-novo {
+    border: 1.5px solid #EB6505 !important;
+}
 .banco-logo {
     width: 48px;
     height: 48px;

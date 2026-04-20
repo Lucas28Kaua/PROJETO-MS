@@ -6,6 +6,16 @@ toggleBtn.addEventListener('click', () => {
     toggleBtn.classList.toggle('ativo');
 });
 
+function copiarLinkAutorizacao() {
+    const linkEl = document.getElementById('aviso-autorizacao-url');
+    const url = linkEl.href;
+    navigator.clipboard.writeText(url).then(() => {
+        mostrarToast('Link copiado!', 'success', 2000);
+    }).catch(() => {
+        mostrarToast('Erro ao copiar link!', 'error');
+    });
+}
+
 function trocarSubAba(tipo, elemento) {
     document.querySelectorAll('.sub-aba-btn').forEach(btn=>{
         btn.classList.remove('ativo');
@@ -28,6 +38,12 @@ let dadosConsultaHave = null;
 let dadosSimulacaoV8 = null;
 let margemOriginalHave = null;
 let margemOriginalV8 = null;
+let dadosConsultaPresenca = null;
+let margemOriginalPresenca = null;
+let modoV8 = null; // 'parcela' ou 'liberado'
+let modoHave = null;
+let modoPresenca = null;
+let limitePresenca = null;
 
 const ufPorDDD = {
     11: 'SP', 12: 'SP', 13: 'SP', 14: 'SP', 15: 'SP', 16: 'SP', 17: 'SP', 18: 'SP', 19: 'SP',
@@ -88,7 +104,6 @@ function mascaraCPFIndividual(input) {
     v = v.replace(/(\d{3})(\d)/, '$1.$2');
     v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
     input.value = v;
-    if (v.replace(/\D/g, '').length === 11) verificarCPFIndividual(); 
 }
 
 function exibirDadosCliente(margemData) {
@@ -244,7 +259,7 @@ async function iniciarAutorizacao() {
     btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Enviando...';
 
     try {
-        const resp = await fetch('https://api.sistemamscred.com.br/have/autorizar-zap', {
+        const resp = await fetch('https://api.sistemamscred.com.br/have/autorizar-sms', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ CPF: cpfRaw, phone: tel})
@@ -257,11 +272,50 @@ async function iniciarAutorizacao() {
         } else if (data.status === 'erro') {
             mostrarToast(data.msg || 'Erro desconhecido', 'error');
             console.error('❌ Erro retornado: ', data);
-        } else {
-            document.getElementById('aviso-aguardando').style.display = 'block';
-            mostrarToast('Link enviado com sucesso!');
-            document.getElementById('btn-consultar-dados').disabled = false;
-            document.getElementById('btn-consultar-dados').classList.add('ativo');
+        } else if (resp.status === 400) {
+            mostrarToast(data.url ? 'Autorização falhou, tente novamente.' : (data.erro || 'Erro ao autorizar'), 'error');
+        }        
+        else {
+
+            mostrarToast('Cliente autorizado com sucesso!', 'success', 3000);
+
+            const aviso = document.getElementById('aviso-aguardando');
+
+            aviso.innerHTML = `
+                <div class="aviso-autorizacao-box" style="border-color: rgba(34,197,94,0.45); background: rgba(34,197,94,0.10);">
+                    <div class="aviso-autorizacao-header" style="color: #16a34a;">
+                        <span class="material-symbols-outlined">check_circle</span>
+                        <span>Autorizado com sucesso!</span>
+                    </div>
+                    <p class="aviso-autorizacao-texto">A autorização foi confirmada. Clique em <strong>Consultar Dados</strong> para continuar.</p>
+                </div>
+            `;
+
+            aviso.style.display = 'block';
+            aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            const resultadoDiv = document.getElementById('resultado-individual');
+            resultadoDiv.style.display = 'none';
+
+            const btnConsultar = document.getElementById('btn-consultar-dados');
+            btnConsultar.disabled = false;
+            btnConsultar.classList.add('ativo');
+
+            dadosConsulta = null;
+            margemOriginalHave = null;
+            margemOriginalV8 = null;
+
+            const bancosGrid = document.getElementById('bancos-grid');
+            if (bancosGrid) bancosGrid.innerHTML = '';
+
+            const dadosClienteSection = document.querySelector('.dados-cliente-section');
+            if (dadosClienteSection) dadosClienteSection.remove();
+
+            const btnSimular = document.getElementById('btn-simular');
+            btnSimular.disabled = true;
+            btnSimular.classList.remove('ativo');
+            btnSimular.style.display = 'none';
+
         }
     } catch(e) {
         mostrarToast('Erro ao enviar autorização!', 'error');
@@ -290,14 +344,12 @@ async function verificarCPFIndividual() {
         if (data.nome) {
             // Já tem dados — pula autorização
             mostrarToast('Cliente já autorizado!', 'success');
-            document.getElementById('campo-telefone').style.display = 'none';
             document.getElementById('btn-autorizar').style.display = 'none';
             document.getElementById('btn-consultar-dados').style.display = 'inline-flex';
             document.getElementById('btn-consultar-dados').disabled = false;
             document.getElementById('btn-consultar-dados').classList.add('ativo');
         } else {
             mostrarToast('Cliente não autorizado, envie o link de autorização!', 'warning');
-            document.getElementById('campo-telefone').style.display = 'flex';
             document.getElementById('btn-autorizar').style.display = 'inline-flex';
             document.getElementById('btn-consultar-dados').style.display = 'inline-flex';
         }
@@ -413,6 +465,16 @@ async function consultarDados() {
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
     }
+
+    if (!dadosEncontrados) {
+        const aviso = document.getElementById('aviso-aguardando');
+        if (aviso.style.display !== 'none') {
+            // já tá visível, não faz nada
+        } else if (document.getElementById('aviso-autorizacao-url')?.href !== '#') {
+            aviso.style.display = 'block';
+        }
+        mostrarToast('Não foi possível consultar os dados. Verifique se autorizou o link.', 'error', 4000);
+    }
     btn.disabled = false;
     btn.innerHTML = '<span class="material-symbols-outlined">search</span> Consultar Dados';
 
@@ -426,15 +488,16 @@ async function consultarESimular() {
     
     document.getElementById('resultado-individual').style.display = 'block';
 
-    document.getElementById('bancos-grid').innerHTML= `
+    document.getElementById('bancos-grid').innerHTML = `
         ${cardSkeleton('have', 'Banco Have')}
         ${cardSkeleton('v8', 'Banco V8')}
+        ${cardSkeleton('presenca', 'Banco Presença')}
     `;
     
     simularHave(cpfAtual).then(resHave => {
-
-        if (resHave?.tipo === 'erro_data_prev') {
-            renderizarCardHaveDataPrevExpirado();
+        console.log('resHave:', resHave);
+        if (resHave?.tipo === 'erro_data_prev' || resHave?.motivo?.includes('Data Prev')) {
+            setTimeout(() => renderizarCardHaveDataPrevExpirado(), 100);
             return;
         }
 
@@ -468,6 +531,28 @@ async function consultarESimular() {
         renderizarCardReprovado('v8', 'Banco V8', resV8?.motivo || 'Simulação não aprovada');
     }
     });
+
+    simularPresenca(cpfAtual).then(resPresenca => {
+        if (resPresenca?.tipo === 'aprovado') {
+            dadosConsultaPresenca = resPresenca;
+            limitePresenca = {
+                parcela: resPresenca.parcela,
+                valor_simulado: resPresenca.valor_simulado,
+                prazo: resPresenca.prazo
+            };
+            renderizarCardBanco('presenca', 'Banco Presença', {
+                parcela: resPresenca.parcela,
+                prazo: resPresenca.prazo,
+                valor_simulado: resPresenca.valor_simulado,
+                prazos_disponiveis: resPresenca.prazos_disponiveis || [resPresenca.prazo]
+            });
+        } else if (resPresenca?.motivo?.includes('Telefone já utilizado')) {
+            renderizarCardPresencaTelefoneOcupado();
+        } else {
+            renderizarCardReprovado('presenca', 'Banco Presença',
+                resPresenca?.motivo || 'Simulação não aprovada');
+        }
+    });
 }
 
 function renderizarCardHaveDataPrevExpirado() {
@@ -488,7 +573,7 @@ function renderizarCardHaveDataPrevExpirado() {
                         <div style="font-size: 14px; font-weight: 600; color: #92400e;">Consulta Data Prev expirada</div>
                         <div style="font-size: 13px; color: #78350f; margin-top: 4px;">A autorização tem mais de 3,5 dias e precisa ser renovada</div>
                     </div>
-                    <button onclick="enviarLinkReautorizacaoHave()" style="
+                    <button id="btn-reautorizar-have" onclick="enviarLinkReautorizacaoHave()" style="
                         background: #f59e0b; 
                         color: white; 
                         border: none; 
@@ -504,18 +589,33 @@ function renderizarCardHaveDataPrevExpirado() {
                         <span>🔄</span> Reautorizar
                     </button>
                 </div>
-                <div style="margin-top: 12px; padding: 8px; background: #fef9e6; border-radius: 8px;">
-                    <small style="color: #92400e;">📌 Após o cliente autorizar, clique em "Consultar Dados" e depois em "Simular" novamente</small>
+                <div id="aviso-reautorizacao-have" style="display:none; margin-top: 12px; padding: 12px; background: rgba(34,197,94,0.10); border: 1.5px solid rgba(34,197,94,0.45); border-radius: 8px;">
+                    <div style="display:flex; align-items:center; gap:8px; color:#16a34a; font-weight:600;">
+                        <span class="material-symbols-outlined" style="font-size:18px;">check_circle</span>
+                        Reautorizado com sucesso!
+                    </div>
+                    <p style="margin: 6px 0 10px; font-size:0.83rem; color:#aaa;">Clique em Re-simular para atualizar o resultado.</p>
+                    <button onclick="resimularHave()" style="
+                        background: #16a34a;
+                        color: white;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 13px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                    ">
+                        <span class="material-symbols-outlined" style="font-size:16px;">play_circle</span> Re-simular Have
+                    </button>
                 </div>
-            </div>
-            
-            <div class="banco-acoes" style="justify-content: flex-end; padding: 12px 20px;">
-                <!-- Botão grande removido -->
             </div>
         </div>
     `;
     
-    document.getElementById(`card-have`).outerHTML = html;
+    document.getElementById('card-have').outerHTML = html;
 }
 
 async function enviarLinkReautorizacaoHave() {
@@ -524,17 +624,14 @@ async function enviarLinkReautorizacaoHave() {
         return;
     }
     
-    // Pega o botão que disparou o evento
-    const btn = event?.target?.closest('button') || event?.currentTarget;
-    const textoOriginal = btn?.innerHTML;
-
+    const btn = document.getElementById('btn-reautorizar-have');
     if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span>⏳</span> Enviando...';
+        btn.innerHTML = '<span>⏳</span> Reautorizando...';
     }
     
     try {
-        const resp = await fetch('https://api.sistemamscred.com.br/have/autorizar-zap', {
+        const resp = await fetch('https://api.sistemamscred.com.br/have/autorizar-sms', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ CPF: cpfAtual, phone: telAtual })
@@ -542,55 +639,58 @@ async function enviarLinkReautorizacaoHave() {
         const data = await resp.json();
         
         if (data.erro || data.status === 'erro') {
-
-            mostrarToast(data.erro || data.msg || 'Erro ao enviar autorização!', 'error');
-
+            mostrarToast(data.erro || data.msg || 'Erro ao reautorizar!', 'error');
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<span>🔄</span> Reautorizar';
+            }
         } else {
-
-            mostrarToast('Link enviado! Aguarda autorização novamente...', 'success', 3000);
-
-            const resultadoDiv = document.getElementById('resultado-individual')
-            resultadoDiv.style.display = 'none';
-
-            // Habilita botão de consultar dados novamente
-            const btnConsultar = document.getElementById('btn-consultar-dados')
-            btnConsultar.disabled = false;
-            btnConsultar.classList.add('ativo');
-
-            dadosConsulta = null;
-            margemOriginalHave = null;
-            margemOriginalV8 = null;
-
-            const bancosGrid = document.getElementById('bancos-grid')
-            if (bancosGrid) {
-                bancosGrid.innerHTML = '';
-            }
-
-            const dadosClienteSection = document.querySelector('.dados-cliente-section')
-            if (dadosClienteSection) {
-                dadosClienteSection.remove();
-            }
-
-            const btnSimular = document.getElementById('btn-simular');
-            btnSimular.disabled = true;
-            btnSimular.classList.remove('ativo');
-            btnSimular.style.display = 'none';
-            
-            // 6. Mostra aviso de aguardando
-            const aviso = document.getElementById('aviso-aguardando');
-            aviso.style.display = 'block';
-            
-            aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
+            mostrarToast('Reautorizado com sucesso!', 'success', 3000);
+            if (btn) btn.style.display = 'none';
+            const aviso = document.getElementById('aviso-reautorizacao-have');
+            if (aviso) aviso.style.display = 'block';
         }
     } catch(e) {
         console.error(e);
-        mostrarToast('Erro ao enviar autorização!', 'error');
+        mostrarToast('Erro ao reautorizar!', 'error');
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>🔄</span> Reautorizar';
+        }
     }
-    
+}
+
+async function resimularHave() {
+    const btn = event?.target?.closest('button');
     if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<span>🔄</span> Reautorizar';
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">sync</span> Simulando...';
+    }
+
+    // Coloca skeleton só no card have
+    document.getElementById('card-have').outerHTML = `
+        <div class="banco-card" id="card-have">
+            ${cardSkeleton('have', 'Banco Have')}
+        </div>
+    `;
+
+    const resHave = await simularHave(cpfAtual);
+
+    if (resHave?.tipo === 'erro_data_prev' || resHave?.motivo?.includes('Data Prev')) {
+        setTimeout(() => renderizarCardHaveDataPrevExpirado(), 100);
+        return;
+    }
+
+    if (resHave?.tipo === 'aprovado') {
+        dadosConsultaHave = resHave;
+        renderizarCardBanco('have', 'Banco Have', {
+            margem: resHave.margem?.ProdutoSaldoDisponivel,
+            parcela: resHave.valor_parcela,
+            prazo: resHave.prazo,
+            valor_simulado: resHave.valor_solicitado
+        });
+    } else {
+        renderizarCardReprovado('have', 'Banco Have', resHave?.motivo || 'Simulação não aprovada');
     }
 }
 
@@ -602,7 +702,9 @@ function cardSkeleton(banco, nomeBanco) {
                 ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
                 : banco === 'have'
                     ? '<img src="/static/imagens/logo-havecred.jpeg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">'
-                    : nomeBanco.split(' ')[1]}
+                    : banco === 'presenca'
+                        ? '<img src="/static/imagens/logo-presenca.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">'
+                        : nomeBanco.split(' ')[1]}
         </div>
         <div class="banco-card-info">
             <div><div class="banco-valor-label">Margem</div><div class="skeleton"></div></div>
@@ -615,9 +717,6 @@ function cardSkeleton(banco, nomeBanco) {
         </div>
     </div>`
 }
-
-let modoV8 = null; // 'parcela' ou 'liberado'
-let modoHave = null;
 
 function onModoV8(campo) {
     if (modoV8 === campo) return;
@@ -662,9 +761,47 @@ function onModoHave(campo) {
     }
 }
 
+function onModoPresenca(campo) {
+    if (modoPresenca === campo) return;
+    modoPresenca = campo;
+
+    const parcelaInput = document.getElementById('presenca-parcela-input');
+    const liberadoInput = document.getElementById('presenca-liberado-input');
+
+    if (campo === 'parcela') {
+        liberadoInput.value = '';
+        liberadoInput.disabled = true;
+        liberadoInput.style.opacity = '0.4';
+        parcelaInput.disabled = false;
+        parcelaInput.style.opacity = '1';
+    } else {
+        parcelaInput.value = '';
+        parcelaInput.disabled = true;
+        parcelaInput.style.opacity = '0.4';
+        liberadoInput.disabled = false;
+        liberadoInput.style.opacity = '1';
+    }
+}
+
 function onEditarSimulacao(banco) {
-    const acoes = document.getElementById(`${banco}-acoes`)
-    const nomeBanco = banco === 'v8' ? 'Banco V8' : 'Banco Have';
+    // Se mudou o prazo, limpa só o liberado e mantém a parcela
+    if (banco === 'presenca') {
+        const liberadoInput = document.getElementById('presenca-liberado-input');
+        const parcelaInput = document.getElementById('presenca-parcela-input');
+        if (liberadoInput) {
+            liberadoInput.value = '';
+            liberadoInput.disabled = false;
+            liberadoInput.style.opacity = '1';
+        }
+        if (parcelaInput) {
+            parcelaInput.disabled = false;
+            parcelaInput.style.opacity = '1';
+        }
+        modoPresenca = null;
+    }
+
+    const acoes = document.getElementById(`${banco}-acoes`);
+    const nomeBanco = banco === 'v8' ? 'Banco V8' : banco === 'have' ? 'Banco Have' : 'Banco Presença';
 
 
     if (banco === 'have') {
@@ -688,13 +825,11 @@ function onEditarSimulacao(banco) {
 }
 
 function cancelarResimulacao(banco, nomeBanco) {
-    const dados = banco === 'v8' ? dadosSimulacaoV8 : dadosConsultaHave;
+    const dados = banco === 'v8' ? dadosSimulacaoV8 : banco === 'have' ? dadosConsultaHave : dadosConsultaPresenca;
     
-    if (banco === 'v8') {
-        modoV8 = null;
-    } else {
-        modoHave = null;  // ← ADICIONA
-    }
+    if (banco === 'v8') modoV8 = null;
+    else if (banco === 'have') modoHave = null;
+    else if (banco === 'presenca') modoPresenca = null;
     
     renderizarCardBanco(banco, nomeBanco, dados);
 }
@@ -822,6 +957,65 @@ async function resimular(banco) {
                 mostrarToast('Re-simulação não aprovada.', 'error');
                 cancelarResimulacao('have', 'Banco Have');
             }
+        } else if (banco === 'presenca') {
+            let parcelaInput = document.getElementById('presenca-parcela-input');
+            let liberadoInput = document.getElementById('presenca-liberado-input');
+
+            let editandoParcela = !parcelaInput.disabled && parcelaInput.value;
+            let editandoLiberado = !liberadoInput.disabled && liberadoInput.value;
+
+            let parcelaParaEnviar = editandoParcela ? parseFloat(parcelaInput.value) : null;
+            let liberadoParaEnviar = editandoLiberado ? parseFloat(liberadoInput.value) : null;
+
+            if (editandoParcela) {
+                parcelaParaEnviar = parseFloat(parcelaInput.value);
+                // se editou os dois, parcela tem prioridade
+            } else if (editandoLiberado) {
+                liberadoParaEnviar = parseFloat(liberadoInput.value);
+            } else {
+                // só mudou prazo, usa parcela atual do card
+                parcelaParaEnviar = parseFloat(parcelaInput.value) || null;
+            }
+            const resp = await fetch('https://api.sistemamscred.com.br/resimular-presenca', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    cpf: cpfAtual,
+                    prazo: prazo,
+                    valor_parcela: parcelaParaEnviar,
+                    valor_liberado: liberadoParaEnviar
+                })
+            });
+            const data = await resp.json();
+
+            if (data.tipo === 'aprovado') {
+                // Valida depois de receber a resposta
+                if (limitePresenca) {
+                    if (data.valor_parcela > limitePresenca.parcela) {
+                        mostrarToast(`Parcela retornada (R$ ${data.valor_parcela.toFixed(2)}) ultrapassa o máximo permitido (R$ ${limitePresenca.parcela.toFixed(2)})`, 'error', 5000);
+                        cancelarResimulacao('presenca', 'Banco Presença');
+                        return;
+                    }
+                    if (data.valor_liberado > limitePresenca.valor_simulado) {
+                        mostrarToast(`Valor liberado (R$ ${data.valor_liberado.toFixed(2)}) ultrapassa o máximo permitido (R$ ${limitePresenca.valor_simulado.toFixed(2)})`, 'error', 5000);
+                        cancelarResimulacao('presenca', 'Banco Presença');
+                        return;
+                    }
+                }
+
+                dadosConsultaPresenca = data;
+                modoPresenca = null;
+                renderizarCardBanco('presenca', 'Banco Presença', {
+                    parcela: data.valor_parcela,
+                    prazo: data.prazo,
+                    valor_simulado: data.valor_liberado,
+                    prazos_disponiveis: data.prazos_disponiveis || [data.prazo]
+                });
+                mostrarToast('Re-simulação Presença concluída!');
+            } else {
+                mostrarToast(data.motivo || 'Re-simulação não aprovada.', 'error');
+                cancelarResimulacao('presenca', 'Banco Presença');
+            }
         }
     } catch(e) {
         console.error('Erro re-simulação:', e);
@@ -903,6 +1097,58 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
 
     document.getElementById(`card-${banco}`).outerHTML = htmlHave;
     return;
+    } else if (banco === 'presenca') {
+
+        const prazosPresenca = dados.prazos_disponiveis || [prazo];
+        const prazoHtmlPresenca = `<select id="presenca-prazo-input" class="resim-input resim-select" onchange="onEditarSimulacao('presenca')">
+            ${prazosPresenca.map(p => `<option value="${p}" ${p === parseInt(prazo) ? 'selected' : ''}>${p} meses</option>`).join('')}
+        </select>`;
+
+        const html = `
+            <div class="banco-card" id="card-presenca">
+                <div class="banco-header">
+                    <div class="banco-logo">
+                        <img src="/static/imagens/logo-presenca.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                    </div>
+                    <div class="banco-nome">${nomeBanco}</div>
+                    <div class="banco-badge status-aprovado" style="background:#dcfce7;color:#15803d;margin-left:auto;">✅ APROVADO</div>
+                </div>
+
+                <div class="banco-conteudo">
+                    <div class="banco-valor-item">
+                        <span class="banco-valor-label">📅 Valor da Parcela</span>
+                        <span class="banco-valor-num parcela">
+                            <input type="number" id="presenca-parcela-input" class="resim-input resim-parcela"
+                                value="${parcela.toFixed(2)}"
+                                oninput="onModoPresenca('parcela'); onEditarSimulacao('presenca')">
+                        </span>
+                    </div>
+
+                    <div class="banco-valor-item">
+                        <span class="banco-valor-label">⏱️ Prazo</span>
+                        <span class="banco-valor-num">${prazoHtmlPresenca}</span>
+                    </div>
+
+                    <div class="banco-valor-item">
+                        <span class="banco-valor-label">🎉 Valor Liberado</span>
+                        <span class="banco-valor-num liberado">
+                            <input type="number" id="presenca-liberado-input" class="resim-input resim-liberado"
+                                value="${valorLiberado.toFixed(2)}"
+                                oninput="onModoPresenca('liberado'); onEditarSimulacao('presenca')">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="banco-acoes" id="presenca-acoes">
+                    <button class="btn-digitar" onclick="irParaDigitacao('presenca', 'Banco Presença')">
+                        ✏️ Digitar Proposta
+                    </button>
+                </div>
+            </div>
+        `;
+        document.getElementById('card-presenca').outerHTML = html;
+        return;
+
     } else {
         prazoHtml = `<input type="number" id="${banco}-prazo-input" class="resim-input" value="${prazo}" min="1" oninput="onEditarSimulacao('${banco}')">`;
     }
@@ -971,7 +1217,9 @@ function renderizarCardReprovado(banco, nomeBanco, motivo) {
                         ? '<img src="/static/imagens/fotobancov8.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">' 
                         : banco === 'have'
                             ? '<img src="/static/imagens/logo-havecred.jpeg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">'
-                            : logoTexto}
+                            : banco === 'presenca'
+                                ? '<img src="/static/imagens/logo-presenca.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">'
+                                : nomeBanco.split(' ')[1]}
                 </div>
                 <div class="banco-nome">${nomeBanco}</div>
                 <div class="banco-badge status-reprovado" style="background: #fee2e2; color: #b91c1c; margin-left: auto;">❌ REPROVADO</div>
@@ -1093,6 +1341,184 @@ async function simularV8(cpf) {
     console.log('📥 Resposta do V8:', resultado)
 
     return resultado;
+}
+
+async function simularPresenca(cpf) {
+    console.log('Iniciando simulação Banco Presença para CPF:', cpf)
+
+    try {
+        const resp = await fetch('https://api.sistemamscred.com.br/consulta-presencabank', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                CPF: cpf,
+                phone: telAtual || '84996251305'
+            })
+        });
+
+        const resultado = await resp.json()
+        console.log('📦 Resposta completa Banco Presença:', resultado)
+
+        // 2. Verificar se a simulação foi bem sucedida
+        if (resultado.sucesso && resultado.tabela_id) {
+            
+            // Salvar dados da simulação no formato global
+            dadosSimulacaoAtual = {
+                num_periods: resultado.prazo,
+                payment_amount: resultado.valor_parcela,
+                disbursement_amount: resultado.valor_liberado,
+                financed_amount: resultado.valor_liberado,
+                first_payment_date: null,
+                last_payment_date: null,
+                disbursement_date: null,
+                interest_rate: null,
+                iof_amount: null,
+                tabela_id: resultado.tabela_id // Campo extra específico do Presença
+            };
+
+            // Salvar margem original (se disponível no retorno)
+            margemOriginalPresenca = parseFloat(resultado.margem_disponivel) || 
+                                     parseFloat(resultado.valor_liberado) * 1.3 || 
+                                     0; // Estimativa se não vier
+
+            // Salvar dados completos para uso posterior
+            dadosConsultaPresenca = {
+                ...resultado,
+                valor_simulado: resultado.valor_liberado,
+                parcela: resultado.valor_parcela,
+                prazo: resultado.prazo,
+                tabela_id: resultado.tabela_id
+            };
+
+            return {
+                tipo: 'aprovado',
+                parcela: resultado.valor_parcela,
+                prazo: resultado.prazo,
+                valor_simulado: resultado.valor_liberado,
+                prazos_disponiveis: resultado.prazos_disponiveis || [resultado.prazo]
+            };
+
+        } else if (resultado.sucesso === false) {
+            // Simulação não aprovada
+            return {
+                tipo: 'reprovado',
+                motivo: resultado.mensagem || 'Empresa não elegível ou crédito não disponível'
+            };
+        } else if (resultado.sucesso === false && resultado.mensagem) {
+            return {
+                tipo: 'reprovado',
+                motivo: resultado.mensagem
+            };
+        }
+
+        // Fallback
+        return {
+            tipo: 'reprovado',
+            motivo: 'Não foi possível simular no Banco Presença'
+        };
+    } catch(e) {
+        console.error('❌ Erro na simulação Banco Presença:', e);
+        return {
+            tipo: 'erro',
+            message: 'Erro na comunicação com o servidor'
+        };
+    }
+}
+
+function renderizarCardPresencaTelefoneOcupado() {
+    const html = `
+        <div class="banco-card" id="card-presenca">
+            <div class="banco-header">
+                <div class="banco-logo">
+                    <img src="/static/imagens/logo-presenca.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                </div>
+                <div class="banco-nome">Banco Presença</div>
+                <div class="banco-badge status-reprovado" style="background:#fef3c7;color:#92400e;margin-left:auto;">⚠️ TELEFONE OCUPADO</div>
+            </div>
+            
+            <div class="banco-conteudo" style="padding: 24px;">
+                <div style="display: flex; align-items: center; gap: 12px; background: #fffbeb; border-radius: 12px; padding: 16px; border-left: 4px solid #f59e0b;">
+                    <span style="font-size: 28px;">📱</span>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 600; color: #92400e;">Telefone já utilizado</div>
+                        <div style="font-size: 13px; color: #78350f; margin-top: 4px;">Este número já está vinculado a outro cliente. Informe outro número.</div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
+                    <input 
+                        type="text" 
+                        id="tel-presenca-novo" 
+                        class="campo-text-input" 
+                        placeholder="84999999999" 
+                        maxlength="11"
+                        style="flex:1;"
+                    >
+                    <button id="btn-retentar-presenca" onclick="retentarPresencaTelefone()" style="
+                        background: #EB6505;
+                        color: white;
+                        border: none;
+                        padding: 12px 16px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 13px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    ">
+                        <span class="material-symbols-outlined" style="font-size:16px;">send</span> Tentar novamente
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('card-presenca').outerHTML = html;
+}
+
+async function retentarPresencaTelefone() {
+    const telNovo = document.getElementById('tel-presenca-novo').value.replace(/\D/g, '');
+    if (telNovo.length < 11) {
+        mostrarToast('Telefone inválido!', 'error');
+        return;
+    }
+
+    const btn = document.getElementById('btn-retentar-presenca');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> Simulando...';
+    }
+
+    // Substitui temporariamente o telAtual só pra essa chamada
+    const telAnterior = telAtual;
+    telAtual = telNovo;
+
+    document.getElementById('card-presenca').outerHTML = `<div class="banco-card" id="card-presenca">${cardSkeleton('presenca', 'Banco Presença')}</div>`;
+
+    const resPresenca = await simularPresenca(cpfAtual);
+
+    telAtual = telAnterior; // restaura o original
+
+    if (resPresenca?.tipo === 'aprovado') {
+        dadosConsultaPresenca = resPresenca;
+
+        limitePresenca = {
+            parcela: resPresenca.parcela,
+            valor_simulado: resPresenca.valor_simulado,
+            prazo: resPresenca.prazo
+        };
+
+        renderizarCardBanco('presenca', 'Banco Presença', {
+            parcela: resPresenca.parcela,
+            prazo: resPresenca.prazo,
+            valor_simulado: resPresenca.valor_simulado
+        });
+    } else if (resPresenca?.motivo?.includes('Telefone já utilizado')) {
+        renderizarCardPresencaTelefoneOcupado();
+    } else {
+        renderizarCardReprovado('presenca', 'Banco Presença', resPresenca?.motivo || 'Simulação não aprovada');
+    }
 }
 
 function mostrarToast(mensagem, tipo = 'success', duracao = 1500) {
@@ -1894,4 +2320,17 @@ function fazerLogout() {
 
     // 2. Agora sim, manda para a tela de login
     window.location.replace("telalogin.html"); 
+}
+
+document.getElementById('tel-individual').addEventListener('input', function() {
+    telAtual = this.value.replace(/\D/g, '');
+    verificarSeCompleto();
+});
+
+function verificarSeCompleto() {
+    const cpf = document.getElementById('cpf-individual').value.replace(/\D/g, '');
+    const tel = document.getElementById('tel-individual').value.replace(/\D/g, '');
+    if (cpf.length === 11 && tel.length >= 11) {
+        verificarCPFIndividual();
+    }
 }

@@ -16,7 +16,7 @@ html {
 
 header {
     background-color: #101115;
-    height: 110px;
+    height: 90px;
     background: linear-gradient(to left, #2a2a2a 0%, #1a1a1a 100%);
     /* Cor */
     border-bottom: 2px solid rgba(235, 114, 28, 0.5);
@@ -33,7 +33,7 @@ header {
 }
 
 header img {
-    width: 140px;
+    width: 115px;
     /* ajuste o tamanho conforme necessário */
     height: auto;
     max-width: 150px;
@@ -93,9 +93,8 @@ header img:hover {
     background: linear-gradient(180deg, #1a1a1a 0%, #101115 50%, #0a0a0c 100%);
     border: 2px solid rgba(235, 114, 28, 0.4);
     border-left: none;
-    height: 100vh;
     padding: 20px 10px;
-    border-top-right-radius: 90px;
+    border-top-right-radius: 80px;
     transition: width 0.3s ease;
     overflow: hidden;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
