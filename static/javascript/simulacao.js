@@ -825,13 +825,32 @@ function onEditarSimulacao(banco) {
 }
 
 function cancelarResimulacao(banco, nomeBanco) {
-    const dados = banco === 'v8' ? dadosSimulacaoV8 : banco === 'have' ? dadosConsultaHave : dadosConsultaPresenca;
-    
-    if (banco === 'v8') modoV8 = null;
-    else if (banco === 'have') modoHave = null;
-    else if (banco === 'presenca') modoPresenca = null;
-    
-    renderizarCardBanco(banco, nomeBanco, dados);
+    if (banco === 'v8') {
+        modoV8 = null;
+        if (dadosSimulacaoV8) renderizarCardBanco('v8', 'Banco V8', {
+            margem: dadosSimulacaoV8.margem,
+            parcela: dadosSimulacaoV8.parcela,
+            prazo: dadosSimulacaoV8.prazo,
+            valor_simulado: dadosSimulacaoV8.valor_simulado,
+            parcelas_disponiveis: dadosSimulacaoV8.parcelas_disponiveis
+        });
+    } else if (banco === 'have') {
+        modoHave = null;
+        if (dadosConsultaHave) renderizarCardBanco('have', 'Banco Have', {
+            margem: dadosConsultaHave.margem,
+            parcela: dadosConsultaHave.valor_parcela,
+            prazo: dadosConsultaHave.prazo,
+            valor_simulado: dadosConsultaHave.valor_solicitado
+        });
+    } else if (banco === 'presenca') {
+        modoPresenca = null;
+        if (dadosConsultaPresenca) renderizarCardBanco('presenca', 'Banco Presença', {
+            parcela: dadosConsultaPresenca.valor_parcela || dadosConsultaPresenca.parcela,
+            prazo: dadosConsultaPresenca.prazo,
+            valor_simulado: dadosConsultaPresenca.valor_liberado || dadosConsultaPresenca.valor_simulado,
+            prazos_disponiveis: dadosConsultaPresenca.prazos_disponiveis || [dadosConsultaPresenca.prazo]
+        });
+    }
 }
 
 async function resimular(banco) {
