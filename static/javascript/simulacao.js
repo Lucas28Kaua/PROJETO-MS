@@ -44,6 +44,8 @@ let modoV8 = null; // 'parcela' ou 'liberado'
 let modoHave = null;
 let modoPresenca = null;
 let limitePresenca = null;
+let limiteHave = null;
+let margemPresenca = null;
 
 const ufPorDDD = {
     11: 'SP', 12: 'SP', 13: 'SP', 14: 'SP', 15: 'SP', 16: 'SP', 17: 'SP', 18: 'SP', 19: 'SP',
@@ -503,6 +505,11 @@ async function consultarESimular() {
 
         if (resHave?.tipo === 'aprovado') {
             dadosConsultaHave = resHave;
+            limiteHave = {                          // ← ADD
+                parcela: resHave.valor_parcela,
+                valor_simulado: resHave.valor_solicitado,
+                prazo: resHave.prazo
+            };
             const m = resHave.margem;
             renderizarCardBanco('have', 'Banco Have', {
                 margem: m.ProdutoSaldoDisponivel,
@@ -540,12 +547,16 @@ async function consultarESimular() {
                 valor_simulado: resPresenca.valor_simulado,
                 prazo: resPresenca.prazo
             };
+            margemPresenca = resPresenca.margem;
+            console.log('🔒 limitePresenca setado:', limitePresenca);
             renderizarCardBanco('presenca', 'Banco Presença', {
-                parcela: resPresenca.parcela,
-                prazo: resPresenca.prazo,
-                valor_simulado: resPresenca.valor_simulado,
-                prazos_disponiveis: resPresenca.prazos_disponiveis || [resPresenca.prazo]
+                margem: margemPresenca,  // ← ADD em todos que faltam
+                parcela: limitePresenca.parcela,
+                prazo: limitePresenca.prazo,
+                valor_simulado: limitePresenca.valor_simulado,
+                prazos_disponiveis: dadosConsultaPresenca?.prazos_disponiveis || [limitePresenca.prazo]
             });
+
         } else if (resPresenca?.motivo?.includes('Telefone já utilizado')) {
             renderizarCardPresencaTelefoneOcupado();
         } else {
@@ -683,6 +694,13 @@ async function resimularHave() {
 
     if (resHave?.tipo === 'aprovado') {
         dadosConsultaHave = resHave;
+
+        limiteHave = {                          // ← ADICIONA ISSO
+            parcela: resHave.valor_parcela,
+            valor_simulado: resHave.valor_solicitado,
+            prazo: resHave.prazo
+        };
+
         renderizarCardBanco('have', 'Banco Have', {
             margem: resHave.margem?.ProdutoSaldoDisponivel,
             parcela: resHave.valor_parcela,
@@ -780,24 +798,28 @@ function onModoPresenca(campo) {
         parcelaInput.style.opacity = '0.4';
         liberadoInput.disabled = false;
         liberadoInput.style.opacity = '1';
+        liberadoInput.focus()
     }
 }
 
 function onEditarSimulacao(banco) {
     // Se mudou o prazo, limpa só o liberado e mantém a parcela
     if (banco === 'presenca') {
-        const liberadoInput = document.getElementById('presenca-liberado-input');
-        const parcelaInput = document.getElementById('presenca-parcela-input');
-        if (liberadoInput) {
-            liberadoInput.value = '';
-            liberadoInput.disabled = false;
-            liberadoInput.style.opacity = '1';
+        // só reseta se NÃO estiver em modo parcela ou liberado
+        // ou seja, só quando disparou pelo select de prazo
+        if (!modoPresenca) {
+            const liberadoInput = document.getElementById('presenca-liberado-input');
+            const parcelaInput = document.getElementById('presenca-parcela-input');
+            if (liberadoInput) {
+                liberadoInput.value = '';
+                liberadoInput.disabled = false;
+                liberadoInput.style.opacity = '1';
+            }
+            if (parcelaInput) {
+                parcelaInput.disabled = false;
+                parcelaInput.style.opacity = '1';
+            }
         }
-        if (parcelaInput) {
-            parcelaInput.disabled = false;
-            parcelaInput.style.opacity = '1';
-        }
-        modoPresenca = null;
     }
 
     const acoes = document.getElementById(`${banco}-acoes`);
@@ -844,12 +866,14 @@ function cancelarResimulacao(banco, nomeBanco) {
         });
     } else if (banco === 'presenca') {
         modoPresenca = null;
-        if (dadosConsultaPresenca) renderizarCardBanco('presenca', 'Banco Presença', {
-            parcela: dadosConsultaPresenca.valor_parcela || dadosConsultaPresenca.parcela,
-            prazo: dadosConsultaPresenca.prazo,
-            valor_simulado: dadosConsultaPresenca.valor_liberado || dadosConsultaPresenca.valor_simulado,
-            prazos_disponiveis: dadosConsultaPresenca.prazos_disponiveis || [dadosConsultaPresenca.prazo]
+        renderizarCardBanco('presenca', 'Banco Presença', {
+            margem: margemPresenca,  // ← ADD
+            parcela: limitePresenca.parcela,
+            prazo: limitePresenca.prazo,
+            valor_simulado: limitePresenca.valor_simulado,
+            prazos_disponiveis: dadosConsultaPresenca?.prazos_disponiveis || [limitePresenca.prazo]
         });
+
     }
 }
 
@@ -905,6 +929,12 @@ async function resimular(banco) {
         } else if (banco === 'have') {
             console.log('🔄 RE-SIMULAÇÃO HAVE - Iniciando');
 
+            const dadosOriginais = {
+                parcela: dadosConsultaHave?.valor_parcela,
+                liberado: dadosConsultaHave?.valor_solicitado,
+                prazo: dadosConsultaHave?.prazo
+            }
+
             let parcelaParaEnviar = null
             let liberadoParaEnviar = null;
 
@@ -914,7 +944,7 @@ async function resimular(banco) {
 
             if (editandoParcela) {
                 parcelaParaEnviar = parseFloat(parcelaInput.value);
-                liberadoParaEnviar = null;  // 🔥 ZERA o liberado
+                liberadoParaEnviar = null;
                 console.log(`📝 Editando PARCELA: R$ ${parcelaParaEnviar}`);
             }
 
@@ -926,7 +956,7 @@ async function resimular(banco) {
 
             else {
                 parcelaParaEnviar = parseFloat(parcelaInput.value);
-                liberadoParaEnviar = null;  // 🔥 ZERA o liberado
+                liberadoParaEnviar = null;  // ZERA o liberado
                 console.log(`📝 Alterou PRAZO para ${prazo}, mantendo parcela: R$ ${parcelaParaEnviar}`);
             }
 
@@ -948,8 +978,34 @@ async function resimular(banco) {
                 })
             });
             const data = await resp.json();
+            console.log('📥 Resposta Have:', data)
 
             if (data.tipo === 'aprovado') {
+                
+                if (limiteHave) {
+                    if (data.valor_parcela > limiteHave.parcela) {
+                        mostrarToast(`Parcela (R$ ${data.valor_parcela.toFixed(2)}) acima do máximo (R$ ${limiteHave.parcela.toFixed(2)}). Voltando à simulação original.`, 'error', 5000);
+                        renderizarCardBanco('have', 'Banco Have', {
+                            margem: dadosConsultaHave?.margem?.ProdutoSaldoDisponivel,
+                            parcela: limiteHave.parcela,
+                            valor_simulado: limiteHave.valor_simulado,
+                            prazo: limiteHave.prazo,
+                        });
+                        modoHave = null;
+                        return;
+                    }
+                    if (data.valor_solicitado > limiteHave.valor_simulado) {
+                        mostrarToast(`Valor liberado (R$ ${data.valor_solicitado.toFixed(2)}) acima do máximo (R$ ${limiteHave.valor_simulado.toFixed(2)}). Voltando à simulação original.`, 'error', 5000);
+                        renderizarCardBanco('have', 'Banco Have', {
+                            margem: dadosConsultaHave?.margem?.ProdutoSaldoDisponivel,
+                            parcela: limiteHave.parcela,
+                            valor_simulado: limiteHave.valor_simulado,
+                            prazo: limiteHave.prazo,
+                        });
+                        modoHave = null;
+                        return;
+                    }
+                }
 
                 dadosSimulacaoAtual = {
                     num_periods: data.prazo,
@@ -973,28 +1029,48 @@ async function resimular(banco) {
                 });
                 mostrarToast('Re-simulação Have concluída!');
             } else {
-                mostrarToast('Re-simulação não aprovada.', 'error');
-                cancelarResimulacao('have', 'Banco Have');
+                // Não aprovado pela API — volta para limiteHave (valores da simulação original)
+                mostrarToast(data.motivo || 'Valor acima do máximo permitido. Voltando à simulação original.', 'error', 4000);
+
+                renderizarCardBanco('have', 'Banco Have', {
+                    parcela: limiteHave.parcela,
+                    valor_simulado: limiteHave.valor_simulado,
+                    prazo: limiteHave.prazo,
+                });
+
+                modoHave = null;
+
             }
+
+
         } else if (banco === 'presenca') {
+
+            const dadosOriginais = {
+                parcela:dadosConsultaPresenca?.parcela,
+                liberado: dadosConsultaPresenca?.valor_simulado,
+                prazo: dadosConsultaPresenca?.prazo,
+                margem:margemPresenca
+            }
+
             let parcelaInput = document.getElementById('presenca-parcela-input');
             let liberadoInput = document.getElementById('presenca-liberado-input');
 
             let editandoParcela = !parcelaInput.disabled && parcelaInput.value;
             let editandoLiberado = !liberadoInput.disabled && liberadoInput.value;
 
-            let parcelaParaEnviar = editandoParcela ? parseFloat(parcelaInput.value) : null;
-            let liberadoParaEnviar = editandoLiberado ? parseFloat(liberadoInput.value) : null;
+            let parcelaParaEnviar = null;
+            let liberadoParaEnviar = null;
 
             if (editandoParcela) {
                 parcelaParaEnviar = parseFloat(parcelaInput.value);
-                // se editou os dois, parcela tem prioridade
             } else if (editandoLiberado) {
                 liberadoParaEnviar = parseFloat(liberadoInput.value);
             } else {
-                // só mudou prazo, usa parcela atual do card
-                parcelaParaEnviar = parseFloat(parcelaInput.value) || null;
+                // só mudou prazo — usa parcela do limitePresenca, liberado null
+                parcelaParaEnviar = limitePresenca?.parcela || null;
+                liberadoParaEnviar = null;
             }
+
             const resp = await fetch('https://api.sistemamscred.com.br/resimular-presenca', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -1006,18 +1082,31 @@ async function resimular(banco) {
                 })
             });
             const data = await resp.json();
-
+            console.log('📥 Resposta re-sim Presença:', JSON.stringify(data));
             if (data.tipo === 'aprovado') {
-                // Valida depois de receber a resposta
                 if (limitePresenca) {
                     if (data.valor_parcela > limitePresenca.parcela) {
                         mostrarToast(`Parcela retornada (R$ ${data.valor_parcela.toFixed(2)}) ultrapassa o máximo permitido (R$ ${limitePresenca.parcela.toFixed(2)})`, 'error', 5000);
-                        cancelarResimulacao('presenca', 'Banco Presença');
+                        renderizarCardBanco('presenca', 'Banco Presença', {
+                            margem: margemPresenca,  // ← ADD
+                            parcela: limitePresenca.parcela,
+                            prazo: limitePresenca.prazo,
+                            valor_simulado: limitePresenca.valor_simulado,
+                            prazos_disponiveis: dadosConsultaPresenca.prazos_disponiveis || [limitePresenca.prazo]
+                        });
+                        modoPresenca = null;
                         return;
                     }
                     if (data.valor_liberado > limitePresenca.valor_simulado) {
                         mostrarToast(`Valor liberado (R$ ${data.valor_liberado.toFixed(2)}) ultrapassa o máximo permitido (R$ ${limitePresenca.valor_simulado.toFixed(2)})`, 'error', 5000);
-                        cancelarResimulacao('presenca', 'Banco Presença');
+                        renderizarCardBanco('presenca', 'Banco Presença', {
+                            margem: margemPresenca,  // ← ADD
+                            parcela: limitePresenca.parcela,
+                            prazo: limitePresenca.prazo,
+                            valor_simulado: limitePresenca.valor_simulado,
+                            prazos_disponiveis: dadosConsultaPresenca.prazos_disponiveis || [limitePresenca.prazo]
+                        });
+                        modoPresenca = null;
                         return;
                     }
                 }
@@ -1025,21 +1114,41 @@ async function resimular(banco) {
                 dadosConsultaPresenca = data;
                 modoPresenca = null;
                 renderizarCardBanco('presenca', 'Banco Presença', {
+                    margem: data.margem || dadosOriginais.margem,
                     parcela: data.valor_parcela,
                     prazo: data.prazo,
                     valor_simulado: data.valor_liberado,
                     prazos_disponiveis: data.prazos_disponiveis || [data.prazo]
                 });
                 mostrarToast('Re-simulação Presença concluída!');
+
             } else {
                 mostrarToast(data.motivo || 'Re-simulação não aprovada.', 'error');
-                cancelarResimulacao('presenca', 'Banco Presença');
+                renderizarCardBanco('presenca', 'Banco Presença', {
+                    margem: margemPresenca,
+                    parcela: limitePresenca.parcela,
+                    prazo: limitePresenca.prazo,
+                    valor_simulado: limitePresenca.valor_simulado,
+                    prazos_disponiveis: dadosConsultaPresenca.prazos_disponiveis || [limitePresenca.prazo]
+                });
+                modoPresenca = null;
             }
         }
     } catch(e) {
         console.error('Erro re-simulação:', e);
         mostrarToast('Erro ao re-simular.', 3000);
-        cancelarResimulacao(banco, banco === 'v8' ? 'Banco V8' : 'Banco Have');
+        if (banco === 'presenca') {
+            renderizarCardBanco('presenca', 'Banco Presença', {
+                margem: margemPresenca,
+                parcela: limitePresenca.parcela,
+                prazo: limitePresenca.prazo,
+                valor_simulado: limitePresenca.valor_simulado,
+                prazos_disponiveis: dadosConsultaPresenca?.prazos_disponiveis || [limitePresenca.prazo]
+            });
+            modoPresenca = null;
+        } else {
+            cancelarResimulacao(banco, banco === 'v8' ? 'Banco V8' : 'Banco Have');
+        }
     }
 }
 
@@ -1134,6 +1243,12 @@ function renderizarCardBanco(banco, nomeBanco, dados) {
                 </div>
 
                 <div class="banco-conteudo">
+
+                    <div class="banco-valor-item">
+                        <span class="banco-valor-label">💰 Margem Disponível</span>
+                        <span class="banco-valor-num">${dados.margem.toLocaleString('pt-BR', {style:'currency',currency:'BRL'})}</span>
+                    </div>
+
                     <div class="banco-valor-item">
                         <span class="banco-valor-label">📅 Valor da Parcela</span>
                         <span class="banco-valor-num parcela">
@@ -1406,7 +1521,8 @@ async function simularPresenca(cpf) {
                 valor_simulado: resultado.valor_liberado,
                 parcela: resultado.valor_parcela,
                 prazo: resultado.prazo,
-                tabela_id: resultado.tabela_id
+                tabela_id: resultado.tabela_id,
+                margem: resultado.margem_disponivel
             };
 
             return {
@@ -1414,7 +1530,8 @@ async function simularPresenca(cpf) {
                 parcela: resultado.valor_parcela,
                 prazo: resultado.prazo,
                 valor_simulado: resultado.valor_liberado,
-                prazos_disponiveis: resultado.prazos_disponiveis || [resultado.prazo]
+                prazos_disponiveis: resultado.prazos_disponiveis || [resultado.prazo],
+                margem: resultado.margem_disponivel
             };
 
         } else if (resultado.sucesso === false) {
@@ -1529,6 +1646,7 @@ async function retentarPresencaTelefone() {
         };
 
         renderizarCardBanco('presenca', 'Banco Presença', {
+            margem: resPresenca.margem,  // ← ADD
             parcela: resPresenca.parcela,
             prazo: resPresenca.prazo,
             valor_simulado: resPresenca.valor_simulado
@@ -1635,6 +1753,9 @@ async function irParaDigitacao(banco, nomeBanco){
     } else if (banco === 'have') {
         dadosCliente = dadosConsulta;
         simulacao = dadosConsultaHave;
+    } else if (banco === 'presenca') {
+        dadosCliente = dadosConsulta;
+        simulacao = dadosConsultaPresenca;
     }
 
     if (!dadosCliente || !simulacao) {
@@ -1652,8 +1773,8 @@ async function irParaDigitacao(banco, nomeBanco){
         telefone: telAtual,
         nome_mae: dadosCliente.nome_mae,
         banco: banco,
-        valor_liberado: simulacao.valor_simulado,
-        parcela:simulacao.parcela,
+        valor_liberado: simulacao.valor_simulado || simulacao.valor_liberado,
+        parcela: simulacao.parcela || simulacao.valor_parcela,
         prazo: simulacao.prazo
     }
 
@@ -1666,6 +1787,16 @@ async function irParaDigitacao(banco, nomeBanco){
     const divBanco = document.getElementById('div-banco');
     divBanco.style.display = banco === 'have' ? 'block' : 'none';
 
+    const campoNumero = document.getElementById('dig-numero-end')?.parentElement;
+    const campoComplemento = document.getElementById('dig-complemento')?.parentElement;
+
+    if (banco === 'presenca') {
+        if (campoNumero) campoNumero.style.display = 'none';
+        if (campoComplemento) campoComplemento.style.display = 'none';
+    } else {
+        if (campoNumero) campoNumero.style.display = '';
+        if (campoComplemento) campoComplemento.style.display = '';
+    }
     // Reseta os inputs de arquivo ao abrir
     if (banco === 'have') {
         await carregarBancos();
@@ -1887,50 +2018,73 @@ async function irParaDigitacao(banco, nomeBanco){
             console.log('📝 dadosSimulacaoAtual montado pro Have:', dadosSimulacaoAtual);
         }
         
-        const payload = {
-            nome: document.getElementById('dig-nome').value.trim(),
-            email: document.getElementById('dig-email').value.trim(),
-            cpf: document.getElementById('dig-cpf').value.replace(/\D/g, ''),
-            data_nascimento: converterData(document.getElementById('dig-nascimento').value),
-            nome_mae: document.getElementById('dig-nome-mae').value.trim(),
-            genero: document.getElementById('dig-genero').value,
-            orgao_emissor: document.getElementById('dig-doc-orgao').value.trim(),
-            tipo_documento: document.getElementById('dig-doc-tipo').value,
-            numero_documento: document.getElementById('dig-doc-numero').value.trim(),
-            data_emissao_documento: converterData(document.getElementById('dig-doc-data').value),
-            ddd: ddd,
-            numero_telefone: telNum,
-            cep: document.getElementById('dig-cep').value.replace(/\D/g, ''),
-            rua: document.getElementById('dig-rua').value.trim(),
-            numero_endereco: document.getElementById('dig-numero-end').value.trim(),
-            complemento: document.getElementById('dig-complemento').value.trim(),
-            bairro: document.getElementById('dig-bairro').value.trim(),
-            cidade: document.getElementById('dig-cidade').value.trim(),
-            estado: document.getElementById('dig-estado').value.trim(),
+        let payload;
+        if(banco === 'presenca') {
+            // Payload simplificado para Presença
+            payload = {
+                CPF: document.getElementById('dig-cpf').value.replace(/\D/g, ''),
+                phone: ddd + telNum,  // telefone completo sem formatação
+                "chave pix": document.getElementById('dig-pix-chave').value.trim(),
+                "Tipo chave PIX": document.getElementById('dig-pix-tipo').value,
+                "cep endereco": document.getElementById('dig-cep').value.replace(/\D/g, ''),
+                "rua casa cliente": document.getElementById('dig-rua').value.trim(),
+                "Bairro": document.getElementById('dig-bairro').value.trim()
+            };
+            
+            // Validação mínima para Presença
+            if (!payload["cep endereco"] || !payload["rua casa cliente"] || !payload["Bairro"]) {
+                mostrarToast('Preencha o endereço completo (CEP, rua e bairro) antes de enviar.', 'warning', 3000);
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
+                return;
+            }
+        } else {
+            // Payload completo para Have e V8 (mantém o que já existe)
+            payload = {
+                nome: document.getElementById('dig-nome').value.trim(),
+                email: document.getElementById('dig-email').value.trim(),
+                cpf: document.getElementById('dig-cpf').value.replace(/\D/g, ''),
+                data_nascimento: converterData(document.getElementById('dig-nascimento').value),
+                nome_mae: document.getElementById('dig-nome-mae').value.trim(),
+                genero: document.getElementById('dig-genero').value,
+                orgao_emissor: document.getElementById('dig-doc-orgao').value.trim(),
+                tipo_documento: document.getElementById('dig-doc-tipo').value,
+                numero_documento: document.getElementById('dig-doc-numero').value.trim(),
+                data_emissao_documento: converterData(document.getElementById('dig-doc-data').value),
+                ddd: ddd,
+                numero_telefone: telNum,
+                cep: document.getElementById('dig-cep').value.replace(/\D/g, ''),
+                rua: document.getElementById('dig-rua').value.trim(),
+                numero_endereco: document.getElementById('dig-numero-end').value.trim(),
+                complemento: document.getElementById('dig-complemento').value.trim(),
+                bairro: document.getElementById('dig-bairro').value.trim(),
+                cidade: document.getElementById('dig-cidade').value.trim(),
+                estado: document.getElementById('dig-estado').value.trim(),
+                forma_pagamento: document.getElementById('forma-pagamento').value,
+                chave_pix: document.getElementById('dig-pix-chave').value.trim(),
+                tipo_chave_pix: document.getElementById('dig-pix-tipo').value,
+                banco_id: document.getElementById('dig-banco').value,
+                banco_code: document.getElementById('dig-banco').options[document.getElementById('dig-banco').selectedIndex]?.getAttribute('data-bankcode'),
+                agencia: document.getElementById('dig-agencia').value.trim(),
+                agencia_digito: document.getElementById('dig-agencia-dig').value.trim(),
+                conta: document.getElementById('dig-conta').value.trim(),
+                conta_digito: document.getElementById('dig-conta-dig').value.trim(),
+                tipo_conta: document.getElementById('dig-tipo-conta').value,
+                banco: banco,
+                estado_civil: 'single',
+                uf_emissao: ufExpedicaoCalculada,
+                worker: dadosWorkerAtual,
+                simulacao: dadosSimulacaoAtual
+            };
 
-            // Dados de pagamento
-            forma_pagamento: document.getElementById('forma-pagamento').value,
-            chave_pix: document.getElementById('dig-pix-chave').value.trim(),
-            tipo_chave_pix: document.getElementById('dig-pix-tipo').value,
-
-            // Dados de conta bancária (se for transferência)
-            banco_id: document.getElementById('dig-banco').value,
-            banco_code: document.getElementById('dig-banco').options[document.getElementById('dig-banco').selectedIndex]?.getAttribute('data-bankcode'),
-            agencia: document.getElementById('dig-agencia').value.trim(),
-            agencia_digito: document.getElementById('dig-agencia-dig').value.trim(),
-            conta: document.getElementById('dig-conta').value.trim(),
-            conta_digito: document.getElementById('dig-conta-dig').value.trim(),
-            tipo_conta: document.getElementById('dig-tipo-conta').value,
-
-            banco: banco,
-
-            // NOVOS CAMPOS ADICIONADOS
-            estado_civil: 'single',
-            uf_emissao: ufExpedicaoCalculada,
-
-            worker: dadosWorkerAtual,
-            simulacao: dadosSimulacaoAtual
-        };
+            // Validação de endereço para Have/V8
+            if (!payload.cep || !payload.rua || !payload.numero_endereco) {
+                mostrarToast('Preencha o endereço completo antes de enviar.', 'warning', 3000);
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
+                return;
+            }
+        }
 
         // SEGUNDO IF: Adiciona os documentos base64
         if (banco === 'have') {
@@ -1948,18 +2102,66 @@ async function irParaDigitacao(banco, nomeBanco){
 
         }
 
-        if (!payload.cep || !payload.rua || !payload.numero_endereco) {
-            mostrarToast('Preencha o endereço completo antes de enviar.', 'warning', 3000);
-            btn.disabled = false;
-            btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
-            return;
-        }
-
         try {
 
-            const url = banco === 'v8' 
-                ? 'https://api.sistemamscred.com.br/digitarindividual'
-                : 'https://api.sistemamscred.com.br/digitarhave';
+            let url;
+            if (banco === 'v8') {
+                url = 'https://api.sistemamscred.com.br/digitarindividual';
+            } else if (banco === 'have') {
+                url = 'https://api.sistemamscred.com.br/digitarhave';
+            } else if (banco === 'presenca') {
+                url = 'https://api.sistemamscred.com.br/digitar-presencabank';
+            }
+
+            if (banco === 'presenca') {
+                // Fecha o modal imediatamente
+                document.getElementById('modal-digitacao').style.display = 'none';
+
+                // Bota o spinner no card enquanto aguarda
+                document.getElementById('presenca-acoes').innerHTML = `
+                    <div style="display:flex; align-items:center; gap:8px; color:#888; font-size:0.85rem;">
+                        <div class="spinner-link"></div>
+                        Aguardando link de formalização...
+                    </div>
+                `;
+                
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(payload)
+                    });
+                    const resultado = await response.json();
+                    const acoes = document.getElementById('presenca-acoes');
+
+                    if (resultado.sucesso && resultado.dados?.formalization_url) {
+                        const url_link = resultado.dados.formalization_url;
+                        acoes.innerHTML = `
+                            <div style="display:flex; gap:8px; align-items:center; width:100%;">
+                                <input type="text" value="${url_link}" readonly
+                                    style="flex:1; padding:8px; border-radius:8px; border:1px solid #ddd; font-size:0.8rem; background:#f5f5f5;">
+                                <button onclick="navigator.clipboard.writeText('${url_link}'); mostrarToast('Link copiado!', 'success', 2000)"
+                                    style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;
+                                    flex-shrink:0;background:#eb6505;border:none;border-radius:8px;color:white;cursor:pointer;">
+                                    <span class="material-symbols-outlined" style="font-size:18px;">content_copy</span>
+                                </button>
+                            </div>
+                        `;
+                        mostrarToast('Proposta digitada com sucesso!');
+                    } else {
+                        acoes.innerHTML = `<div style="color:#dc2626; font-size:0.82rem;">⚠️ Proposta digitada, mas link não gerado. Verifique no banco.</div>`;
+                        mostrarToast('Proposta digitada, mas link não chegou.', 'warning', 4000);
+                    }
+                } catch(err) {
+                    document.getElementById('presenca-acoes').innerHTML = 
+                        `<div style="color:#dc2626; font-size:0.82rem;">⚠️ Erro ao enviar proposta. Tente novamente.</div>`;
+                    console.error(err);
+                }
+
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Proposta';
+                return;
+            }
 
             const response = await fetch(url, {
                 method: 'POST',
