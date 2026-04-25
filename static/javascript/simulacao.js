@@ -2117,13 +2117,14 @@ async function irParaDigitacao(banco, nomeBanco){
                 // Fecha o modal imediatamente
                 document.getElementById('modal-digitacao').style.display = 'none';
 
-                // Bota o spinner no card enquanto aguarda
-                document.getElementById('presenca-acoes').innerHTML = `
-                    <div style="display:flex; align-items:center; gap:8px; color:#888; font-size:0.85rem;">
+                document.getElementById('resultado-individual').style.display = 'block';
+                document.getElementById('resultado-individual-body').innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px; padding:20px; color:#888; font-size:0.88rem;">
                         <div class="spinner-link"></div>
-                        Aguardando link de formalização...
+                        Aguardando link de formalização do Banco Presença...
                     </div>
                 `;
+                document.getElementById('card-presenca')?.remove();
                 
                 try {
                     const response = await fetch(url, {
@@ -2132,29 +2133,44 @@ async function irParaDigitacao(banco, nomeBanco){
                         body: JSON.stringify(payload)
                     });
                     const resultado = await response.json();
-                    const acoes = document.getElementById('presenca-acoes');
 
                     if (resultado.sucesso && resultado.dados?.formalization_url) {
                         const url_link = resultado.dados.formalization_url;
-                        acoes.innerHTML = `
-                            <div style="display:flex; gap:8px; align-items:center; width:100%;">
-                                <input type="text" value="${url_link}" readonly
-                                    style="flex:1; padding:8px; border-radius:8px; border:1px solid #ddd; font-size:0.8rem; background:#f5f5f5;">
-                                <button onclick="navigator.clipboard.writeText('${url_link}'); mostrarToast('Link copiado!', 'success', 2000)"
-                                    style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;
-                                    flex-shrink:0;background:#eb6505;border:none;border-radius:8px;color:white;cursor:pointer;">
-                                    <span class="material-symbols-outlined" style="font-size:18px;">content_copy</span>
-                                </button>
+                        mostrarToast('Proposta digitada com sucesso!');
+
+                        document.getElementById('resultado-individual-body').innerHTML = `
+                            <div style="padding:20px;">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
+                                    <span class="status-badge status-aprovado">✓ Proposta Digitada</span>
+                                    <span style="font-size:0.78rem; color:#888;">${resultadoSimulacaoAtual.nome || ''}</span>
+                                </div>
+                                <div class="cliente-field full-width" style="margin-bottom:0;">
+                                    <label class="cliente-field-label">🔗 Link de Formalização</label>
+                                    <div style="display:flex; gap:8px; align-items:center;">
+                                        <input type="text" class="cliente-field-input" value="${url_link}" id="link-formalizacao" readonly style="background:#f5f5f5; cursor:default; flex:1;">
+                                        <button id="btn-copiar-link" onclick="copiarLink()" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; flex-shrink:0; background:#eb6505; border:none; border-radius:8px; color:white; cursor:pointer; transition:background 0.2s;">
+                                            <span class="material-symbols-outlined">content_copy</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         `;
-                        mostrarToast('Proposta digitada com sucesso!');
+                    
                     } else {
-                        acoes.innerHTML = `<div style="color:#dc2626; font-size:0.82rem;">⚠️ Proposta digitada, mas link não gerado. Verifique no banco.</div>`;
                         mostrarToast('Proposta digitada, mas link não chegou.', 'warning', 4000);
+                        document.getElementById('resultado-individual-body').innerHTML = `
+                            <div style="padding:20px; color:#dc2626; font-size:0.85rem;">
+                                ⚠️ Proposta digitada, mas link não foi gerado. Verifique no banco.
+                            </div>
+                        `;
                     }
+
                 } catch(err) {
-                    document.getElementById('presenca-acoes').innerHTML = 
-                        `<div style="color:#dc2626; font-size:0.82rem;">⚠️ Erro ao enviar proposta. Tente novamente.</div>`;
+                    document.getElementById('resultado-individual-body').innerHTML = `
+                        <div style="padding:20px; color:#dc2626; font-size:0.85rem;">
+                            ⚠️ Erro ao enviar proposta. Tente novamente.
+                        </div>
+                    `;
                     console.error(err);
                 }
 

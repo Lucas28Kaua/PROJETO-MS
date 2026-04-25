@@ -243,29 +243,12 @@
     flex-direction: column;
     gap: 14px;
     margin-top: 10px;
-    max-height: 600px !important;      /* 👈 Força com !important */
-    overflow-y: auto !important;       /* 👈 Força com !important */
-    padding-right: 8px;
 }
 
 /* Garante que os cards não encolham */
 .bancos-grid .banco-card {
     flex-shrink: 0;                    /* 👈 IMPEDE QUE OS CARDS ENCOLHAM */
     min-height: fit-content;           /* 👈 Altura mínima baseada no conteúdo */
-}
-
-.bancos-grid::-webkit-scrollbar {
-    width: 8px;
-}
-
-.bancos-grid::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.bancos-grid::-webkit-scrollbar-thumb {
-    background: #eb6505;
-    border-radius: 10px;
 }
 
 .banco-card {
