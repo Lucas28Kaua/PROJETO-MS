@@ -190,7 +190,7 @@ function renderizarGraficoProducao(grupos, total) {
                     return;
                 }
                 
-                const idx = activeElements[0].dataIndex;
+                const idx = activeElements[0].index;
                 console.log("Índice clicado:", idx);
 
                 // VALIDAÇÃO: se o índice é válido e o grupo existe
