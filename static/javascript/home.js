@@ -182,7 +182,7 @@ function renderizarGraficoProducao(grupos, total) {
                 tooltip: { enabled: false } // Desativa o tooltip padrão do Chart.js
             },
             onHover: (event, activeElements) => {
-                console.log("onHover disparou!", activeElements); 
+                
 
                 // VALIDAÇÃO: se não tem elementos ativos
                 if (!activeElements || activeElements.length === 0) {
@@ -191,18 +191,17 @@ function renderizarGraficoProducao(grupos, total) {
                 }
                 
                 const idx = activeElements[0].index;
-                console.log("Índice clicado:", idx);
+                
 
                 // VALIDAÇÃO: se o índice é válido e o grupo existe
                 if (idx === undefined || !grupos[idx]) {
-                    console.log("Grupo não encontrado");
+        
                     esconderTooltip();
                     return;
                 }
                 
                 const grupo = grupos[idx];
-                console.log("Grupo encontrado:", grupo);
-
+              
                 // VALIDAÇÃO: se o grupo tem total
                 if (grupo.total === undefined) {
                     esconderTooltip();
@@ -232,7 +231,7 @@ function renderizarGraficoProducao(grupos, total) {
                     mouseY = rect.top + rect.height / 2;
                 }
                 
-                console.log("Mouse position:", mouseX, mouseY);
+              
 
                 // Monta o conteúdo do tooltip
                 let conteudo = `
@@ -240,10 +239,6 @@ function renderizarGraficoProducao(grupos, total) {
                     <div class="tooltip-linha">
                         <span>💰 Total:</span>
                         <span class="tooltip-valor">${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
-                    </div>
-                    <div class="tooltip-linha">
-                        <span>📈 Percentual:</span>
-                        <span>${pct}%</span>
                     </div>
                 `;
                 
@@ -281,11 +276,11 @@ function renderizarGraficoProducao(grupos, total) {
 
 function mostrarTooltip(conteudo, mouseX, mouseY) {
 
-    console.log("mostrarTooltip chamada!", conteudo, mouseX, mouseY); // ← TESTE
+    
 
 
     if (!tooltipElement) {
-        console.log("Criando tooltipElement...");
+      
         tooltipElement = document.createElement('div');
         tooltipElement.className = 'grafico-tooltip';
         document.body.appendChild(tooltipElement);
@@ -317,7 +312,7 @@ function mostrarTooltip(conteudo, mouseX, mouseY) {
     tooltipElement.style.left = left + 'px';
     tooltipElement.style.top = top + 'px';
 
-    console.log("Tooltip posicionado em:", left, top); // ← TESTE
+
 }
 
 // Função para esconder o tooltip
