@@ -182,45 +182,61 @@ function renderizarGraficoProducao(grupos, total) {
                 tooltip: { enabled: false } // Desativa o tooltip padrão do Chart.js
             },
             onHover: (event, activeElements) => {
-                if (activeElements && activeElements.length > 0) {
-                    const idx = activeElements[0].dataIndex;
-                    const grupo = grupos[idx];
-                    const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
-                    
-                    // Pega a posição do mouse
-                    const mouseX = event.clientX;
-                    const mouseY = event.clientY;
-                    
-                    // Monta o conteúdo do tooltip
-                    let conteudo = `
-                        <div class="tooltip-titulo">📊 ${grupo.convenio}</div>
-                        <div class="tooltip-linha">
-                            <span>💰 Total:</span>
-                            <span class="tooltip-valor">${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
-                        </div>
-                        <div class="tooltip-linha">
-                            <span>📈 Percentual:</span>
-                            <span>${pct}%</span>
-                        </div>
-                    `;
-                    
-                    // Adiciona os produtos
-                    if (Object.keys(grupo.produtos).length > 0) {
-                        conteudo += `<hr>`;
-                        Object.entries(grupo.produtos).forEach(([prod, val]) => {
-                            conteudo += `
-                                <div class="tooltip-linha">
-                                    <span class="tooltip-produto">📌 ${prod}:</span>
-                                    <span class="tooltip-valor">${val.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
-                                </div>
-                            `;
-                        });
-                    }
-                    
-                    mostrarTooltip(conteudo, mouseX, mouseY);
-                } else {
+                // VALIDAÇÃO: se não tem elementos ativos
+                if (!activeElements || activeElements.length === 0) {
                     esconderTooltip();
+                    return;
                 }
+                
+                const idx = activeElements[0].dataIndex;
+                
+                // VALIDAÇÃO: se o índice é válido e o grupo existe
+                if (idx === undefined || !grupos[idx]) {
+                    esconderTooltip();
+                    return;
+                }
+                
+                const grupo = grupos[idx];
+                
+                // VALIDAÇÃO: se o grupo tem total
+                if (grupo.total === undefined) {
+                    esconderTooltip();
+                    return;
+                }
+                
+                const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
+                
+                // Pega a posição do mouse
+                const mouseX = event.clientX;
+                const mouseY = event.clientY;
+                
+                // Monta o conteúdo do tooltip
+                let conteudo = `
+                    <div class="tooltip-titulo">📊 ${grupo.convenio}</div>
+                    <div class="tooltip-linha">
+                        <span>💰 Total:</span>
+                        <span class="tooltip-valor">${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+                    </div>
+                    <div class="tooltip-linha">
+                        <span>📈 Percentual:</span>
+                        <span>${pct}%</span>
+                    </div>
+                `;
+                
+                // Adiciona os produtos (com validação extra)
+                if (grupo.produtos && Object.keys(grupo.produtos).length > 0) {
+                    conteudo += `<hr>`;
+                    Object.entries(grupo.produtos).forEach(([prod, val]) => {
+                        conteudo += `
+                            <div class="tooltip-linha">
+                                <span class="tooltip-produto">📌 ${prod}:</span>
+                                <span class="tooltip-valor">${val.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+                            </div>
+                        `;
+                    });
+                }
+                
+                mostrarTooltip(conteudo, mouseX, mouseY);
             }
         }
     });
