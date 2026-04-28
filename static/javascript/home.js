@@ -136,17 +136,19 @@ async function carregarDashboardDoBanco() {
     }
 }
 
+let tooltipElement = null; // Variável global para o tooltip
+
 function renderizarGraficoProducao(grupos, total) {
     const canvas = document.getElementById('graficoProducao');
     if (!canvas) return;
 
-    // Destrói instância anterior para evitar duplicação
+
     if (chartProducao) {
         chartProducao.destroy();
         chartProducao = null;
     }
 
-    const legenda = document.getElementById('legendaProducao');
+    const legendaContainer = document.getElementById('legendaProducao');
 
     if (grupos.length === 0) {
         if (legendaContainer) {
@@ -173,25 +175,51 @@ function renderizarGraficoProducao(grupos, total) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             cutout: '65%',
             plugins: {
                 legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        title: (items) => items[0].label, // nome do convênio
-                        label: () => '', // limpa o label padrão
-                        afterBody: (items) => {
-                            const idx = items[0].dataIndex;
-                            const grupo = grupos[idx];
-                            const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
-                            const linhas = [`Total: ${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} (${pct}%)`];
-                            Object.entries(grupo.produtos).forEach(([prod, val]) => {
-                                linhas.push(`  ${prod}: ${val.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
-                            });
-                            return linhas;
-                        }
+                tooltip: { enabled: false } // Desativa o tooltip padrão do Chart.js
+            },
+            onHover: (event, activeElements) => {
+                if (activeElements && activeElements.length > 0) {
+                    const idx = activeElements[0].dataIndex;
+                    const grupo = grupos[idx];
+                    const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
+                    
+                    // Pega a posição do mouse
+                    const mouseX = event.clientX;
+                    const mouseY = event.clientY;
+                    
+                    // Monta o conteúdo do tooltip
+                    let conteudo = `
+                        <div class="tooltip-titulo">📊 ${grupo.convenio}</div>
+                        <div class="tooltip-linha">
+                            <span>💰 Total:</span>
+                            <span class="tooltip-valor">${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+                        </div>
+                        <div class="tooltip-linha">
+                            <span>📈 Percentual:</span>
+                            <span>${pct}%</span>
+                        </div>
+                    `;
+                    
+                    // Adiciona os produtos
+                    if (Object.keys(grupo.produtos).length > 0) {
+                        conteudo += `<hr>`;
+                        Object.entries(grupo.produtos).forEach(([prod, val]) => {
+                            conteudo += `
+                                <div class="tooltip-linha">
+                                    <span class="tooltip-produto">📌 ${prod}:</span>
+                                    <span class="tooltip-valor">${val.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+                                </div>
+                            `;
+                        });
                     }
+                    
+                    mostrarTooltip(conteudo, mouseX, mouseY);
+                } else {
+                    esconderTooltip();
                 }
             }
         }
@@ -208,6 +236,47 @@ function renderizarGraficoProducao(grupos, total) {
                 <div class="legenda-valor">${g.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</div>
             </div>
         `).join('');
+    }
+}
+
+function mostrarTooltip(conteudo, mouseX, mouseY) {
+    if (!tooltipElement) {
+        tooltipElement = document.createElement('div');
+        tooltipElement.className = 'grafico-tooltip';
+        document.body.appendChild(tooltipElement);
+    }
+    
+    tooltipElement.innerHTML = conteudo;
+    tooltipElement.style.display = 'block';
+    tooltipElement.style.opacity = '1';
+    
+    // Posiciona o tooltip (um pouco à direita e acima do mouse)
+    let left = mouseX + 15;
+    let top = mouseY - 10;
+    
+    // Ajusta para não sair da tela
+    const tooltipRect = tooltipElement.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    if (left + tooltipRect.width > viewportWidth) {
+        left = mouseX - tooltipRect.width - 15;
+    }
+    
+    if (top + tooltipRect.height > viewportHeight) {
+        top = mouseY - tooltipRect.height - 10;
+    }
+    
+    if (top < 0) top = mouseY + 20;
+    
+    tooltipElement.style.left = left + 'px';
+    tooltipElement.style.top = top + 'px';
+}
+
+// Função para esconder o tooltip
+function esconderTooltip() {
+    if (tooltipElement) {
+        tooltipElement.style.display = 'none';
     }
 }
 
