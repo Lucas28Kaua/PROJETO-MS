@@ -182,6 +182,8 @@ function renderizarGraficoProducao(grupos, total) {
                 tooltip: { enabled: false } // Desativa o tooltip padrão do Chart.js
             },
             onHover: (event, activeElements) => {
+                console.log("onHover disparou!", activeElements); 
+
                 // VALIDAÇÃO: se não tem elementos ativos
                 if (!activeElements || activeElements.length === 0) {
                     esconderTooltip();
@@ -189,7 +191,8 @@ function renderizarGraficoProducao(grupos, total) {
                 }
                 
                 const idx = activeElements[0].dataIndex;
-                
+                console.log("Índice clicado:", idx);
+
                 // VALIDAÇÃO: se o índice é válido e o grupo existe
                 if (idx === undefined || !grupos[idx]) {
                     esconderTooltip();
@@ -197,7 +200,8 @@ function renderizarGraficoProducao(grupos, total) {
                 }
                 
                 const grupo = grupos[idx];
-                
+                console.log("Grupo encontrado:", grupo);
+
                 // VALIDAÇÃO: se o grupo tem total
                 if (grupo.total === undefined) {
                     esconderTooltip();
@@ -209,7 +213,8 @@ function renderizarGraficoProducao(grupos, total) {
                 // Pega a posição do mouse
                 const mouseX = event.clientX;
                 const mouseY = event.clientY;
-                
+                console.log("Vou mostrar tooltip para:", grupo.convenio); // ← TESTE
+
                 // Monta o conteúdo do tooltip
                 let conteudo = `
                     <div class="tooltip-titulo">📊 ${grupo.convenio}</div>
@@ -256,7 +261,12 @@ function renderizarGraficoProducao(grupos, total) {
 }
 
 function mostrarTooltip(conteudo, mouseX, mouseY) {
+
+    console.log("mostrarTooltip chamada!", conteudo, mouseX, mouseY); // ← TESTE
+
+
     if (!tooltipElement) {
+        console.log("Criando tooltipElement...");
         tooltipElement = document.createElement('div');
         tooltipElement.className = 'grafico-tooltip';
         document.body.appendChild(tooltipElement);
@@ -287,6 +297,8 @@ function mostrarTooltip(conteudo, mouseX, mouseY) {
     
     tooltipElement.style.left = left + 'px';
     tooltipElement.style.top = top + 'px';
+
+    console.log("Tooltip posicionado em:", left, top); // ← TESTE
 }
 
 // Função para esconder o tooltip
