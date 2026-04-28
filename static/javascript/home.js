@@ -149,7 +149,9 @@ function renderizarGraficoProducao(grupos, total) {
     const legenda = document.getElementById('legendaProducao');
 
     if (grupos.length === 0) {
-        if (legenda) legenda.innerHTML = '<span style="color:#aaa;font-size:12px;">Nenhuma proposta finalizada este mês.</span>';
+        if (legendaContainer) {
+            legendaContainer.innerHTML = '<div style="color:rgba(255,255,255,0.6);font-size:12px;text-align:center;">Nenhuma proposta finalizada este mês.</div>';
+        }
         return;
     }
 
@@ -181,7 +183,7 @@ function renderizarGraficoProducao(grupos, total) {
                         label: () => '', // limpa o label padrão
                         afterBody: (items) => {
                             const idx = items[0].dataIndex;
-                            const grupo = grupos[idx]; // ✅ usa o parâmetro local, não gruposArray
+                            const grupo = grupos[idx];
                             const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
                             const linhas = [`Total: ${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} (${pct}%)`];
                             Object.entries(grupo.produtos).forEach(([prod, val]) => {
@@ -196,13 +198,15 @@ function renderizarGraficoProducao(grupos, total) {
     });
 
     // Legenda customizada com valor de cada convênio
-    if (legenda) {
-        legenda.innerHTML = grupos.map((g, i) => `
-            <span style="display:flex;align-items:center;gap:5px;white-space:nowrap;">
-                <span style="width:10px;height:10px;border-radius:2px;background:${cores[i]};flex-shrink:0;"></span>
-                <span style="font-size:11px;color:#555;">${g.convenio}</span>
-                <span style="font-size:11px;font-weight:600;color:#222;">${g.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
-            </span>
+    if (legendaContainer) {
+        legendaContainer.innerHTML = grupos.map((g, i) => `
+            <div class="legenda-item">
+                <div class="legenda-nome">
+                    <span class="legenda-cor" style="background: ${cores[i]};"></span>
+                    <span>${g.convenio}</span>
+                </div>
+                <div class="legenda-valor">${g.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</div>
+            </div>
         `).join('');
     }
 }

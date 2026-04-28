@@ -92,17 +92,28 @@
             <div class="cards-menores">
                 <div class="card">
                     <div class="card-inner">
+                        
                         <h3>Minha Produção 📊</h3>
 
-                        <div style="position:relative; width:100%; height:190px; margin:8px 0;">
-                            <canvas id="graficoProducao" role="img" aria-label="Produção mensal por convênio"></canvas>
-                        </div>
+                        <div class="producao-layout">
+                            
+                            <!-- COLUNA ESQUERDA: GRÁFICO -->
+                            <div class="producao-grafico">
+                                <canvas id="graficoProducao" role="img" aria-label="Produção mensal por convênio"></canvas>
+                            </div>
 
-                        <div id="legendaProducao" style="display:flex; flex-wrap:wrap; gap:8px; margin:6px 0;"></div>
+                            <!-- COLUNA DIREITA: LEGENDA + TOTAL -->
+                            <div class="producao-info">
+                                <!-- Legenda vertical dos convênios -->
+                                <div id="legendaProducao" class="legenda-vertical"></div>
+                                
+                                <!-- Total do mês -->
+                                <div class="total-mes-card">
+                                    <span class="total-label">Total do mês</span>
+                                    <div class="valor-principal" id="prod-mes-anterior">R$ 0,00</div>
+                                </div>
+                            </div>
 
-                        <div style="border-top:1px solid #eee; padding-top:8px; margin-top:6px;">
-                            <span style="font-size:11px; color:#888;">Total do mês</span>
-                            <div class="valor-principal" id="prod-mes-anterior">R$ 0,00</div>
                         </div>
                     </div>
                 </div>

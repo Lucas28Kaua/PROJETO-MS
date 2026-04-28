@@ -112,6 +112,137 @@ div.card:hover{
     transition: 0.3s ease;
 }
 
+.producao-layout{
+    display:flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.producao-grafico {
+    flex: 0 0 140px;  /* Largura fixa de 140px */
+    height: 140px;
+    position: relative;
+}
+
+.producao-grafico canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* COLUNA DIREITA - INFORMAÇÕES */
+.producao-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Legenda vertical estilo lista */
+.legenda-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Scroll bonito para a legenda */
+.legenda-vertical::-webkit-scrollbar {
+    width: 3px;
+}
+
+.legenda-vertical::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.legenda-vertical::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+/* Cada item da legenda */
+.legenda-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.legenda-item .legenda-nome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.legenda-item .legenda-cor {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.legenda-item .legenda-valor {
+    font-weight: 700;
+    color: white;
+    font-size: 11px;
+}
+
+.total-mes-card {
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    padding-top: 10px;
+    margin-top: 4px;
+    text-align: right;
+}
+
+.total-mes-card .total-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+}
+
+.total-mes-card .valor-principal {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: white;
+    filter: none;
+}
+
+/* Ajuste para o título do card */
+.card-inner h3 {
+    margin-bottom: 15px;
+}
+
+/* Responsivo para telas pequenas */
+@media screen and (max-width: 480px) {
+    .producao-layout {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .producao-grafico {
+        flex: 0 0 120px;
+        height: 120px;
+    }
+    
+    .total-mes-card {
+        text-align: center;
+    }
+}
+
 div.prodmes{
     background-color: white;
     min-height: 115px;
