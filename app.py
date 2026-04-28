@@ -164,9 +164,6 @@ def buscar_clientes():
     except Exception as e:
         return jsonify({"erro": f"Erro na busca: {str(e)}"}), 500
 
-
-
-
 @app.route('/uploads/<filename>')
 def servindo_arquivos(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)

@@ -93,7 +93,17 @@
                 <div class="card">
                     <div class="card-inner">
                         <h3>Minha Produção 📊</h3>
-                        <div class="valor-principal" id="prod-mes-anterior">R$ 0,00</div>
+
+                        <div style="position:relative; width:100%; height:190px; margin:8px 0;">
+                            <canvas id="graficoProducao" role="img" aria-label="Produção mensal por convênio"></canvas>
+                        </div>
+
+                        <div id="legendaProducao" style="display:flex; flex-wrap:wrap; gap:8px; margin:6px 0;"></div>
+
+                        <div style="border-top:1px solid #eee; padding-top:8px; margin-top:6px;">
+                            <span style="font-size:11px; color:#888;">Total do mês</span>
+                            <div class="valor-principal" id="prod-mes-anterior">R$ 0,00</div>
+                        </div>
                     </div>
                 </div>
 
@@ -208,6 +218,7 @@
             }
         };
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </body>
 
 </html>

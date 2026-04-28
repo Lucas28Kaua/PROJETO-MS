@@ -57,6 +57,19 @@ async function carregarConfiguracoes() {
     }
 }
 
+const CORES_CONVENIO = [
+    '#378ADD', // azul
+    '#1D9E75', // teal
+    '#D85A30', // coral
+    '#BA7517', // amber
+    '#7F77DD', // roxo
+    '#D4537E', // rosa
+    '#639922', // verde
+    '#E24B4A', // vermelho
+];
+
+let chartProducao = null;
+
 // 2. BUSCA PRODUÇÃO E GERA OS CARDS
 async function carregarDashboardDoBanco() {
     try {
@@ -64,38 +77,50 @@ async function carregarDashboardDoBanco() {
         const response = await fetch(`https://sistemamscred.com.br/propostas?usuario_id=${idDono}`);
         const propostas = await response.json();
 
-        let somaTotalUsuario = 0;
         const agora = new Date();
         const mesAtual = agora.getMonth();
         const anoAtual = agora.getFullYear();
+
+        // Agrupa por convênio só as propostas finalizadas do mês atual
+        const grupos = {};
+        let somaTotalUsuario = 0;
 
         const container = document.getElementById('containerCardsHome');
         if(container) container.innerHTML = ""; 
 
         propostas.forEach(p => {
+
             const dataFinalizacao = new Date(p.data_finalizacao);
             const mesProposta = dataFinalizacao.getMonth();
             const anoProposta = dataFinalizacao.getFullYear();
+
             const t = parseFloat(p.valor_operacao) || 0;
             const s = parseFloat(p.saldo_devedor_estimado) || 0;
             const isPort = (p.operacao_feita || "").toLowerCase().includes('port');
             const valorReal = isPort ? (t + s) : t;
 
-            if(p.status_proposta === 'Finalizado' &&
-                mesProposta === mesAtual &&
-                anoProposta === anoAtual
-            ){
+            if (p.status_proposta === 'Finalizado' && mesProposta === mesAtual && anoProposta === anoAtual) {
+                somaTotalUsuario += valorReal;
 
-                somaTotalUsuario += valorReal;                
-                
+                // Usa convenio se existir, senão cai pro banco
+                const chave = p.convenio || p.banco || 'Outros';
+                if (!grupos[chave]) grupos[chave] = { total: 0, produtos: {} };
+                grupos[chave].total += valorReal;
+
+                const produto = p.operacao_feita || 'Outros';
+                grupos[chave].produtos[produto] = (grupos[chave].produtos[produto] || 0) + valorReal;
             }
-            
-
-            // Se a proposta estiver finalizada, soma na produção do mês
-            
 
             gerarCardNoDashboard(p, valorReal);
+
         });
+
+        // Monta array ordenado por valor decrescente
+        const gruposArray = Object.entries(grupos)
+            .map(([convenio, dados]) => ({ convenio, total: dados.total, produtos: dados.produtos }))
+            .sort((a, b) => b.total - a.total);
+
+        renderizarGraficoProducao(gruposArray, somaTotalUsuario);
 
         // Atualiza o texto da produção na tela
         const elProd = document.getElementById('prod-mes-anterior');
@@ -111,19 +136,90 @@ async function carregarDashboardDoBanco() {
     }
 }
 
+function renderizarGraficoProducao(grupos, total) {
+    const canvas = document.getElementById('graficoProducao');
+    if (!canvas) return;
+
+    // Destrói instância anterior para evitar duplicação
+    if (chartProducao) {
+        chartProducao.destroy();
+        chartProducao = null;
+    }
+
+    const legenda = document.getElementById('legendaProducao');
+
+    if (grupos.length === 0) {
+        if (legenda) legenda.innerHTML = '<span style="color:#aaa;font-size:12px;">Nenhuma proposta finalizada este mês.</span>';
+        return;
+    }
+
+    const labels = grupos.map(g => g.convenio);
+    const valores = grupos.map(g => g.total);
+    const cores = grupos.map((_, i) => CORES_CONVENIO[i % CORES_CONVENIO.length]);
+
+    chartProducao = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: cores,
+                borderWidth: 2,
+                borderColor: '#ffffff',
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        title: (items) => items[0].label, // nome do convênio
+                        label: () => '', // limpa o label padrão
+                        afterBody: (items) => {
+                            const idx = items[0].dataIndex;
+                            const grupo = grupos[idx]; // ✅ usa o parâmetro local, não gruposArray
+                            const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
+                            const linhas = [`Total: ${grupo.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} (${pct}%)`];
+                            Object.entries(grupo.produtos).forEach(([prod, val]) => {
+                                linhas.push(`  ${prod}: ${val.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`);
+                            });
+                            return linhas;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Legenda customizada com valor de cada convênio
+    if (legenda) {
+        legenda.innerHTML = grupos.map((g, i) => `
+            <span style="display:flex;align-items:center;gap:5px;white-space:nowrap;">
+                <span style="width:10px;height:10px;border-radius:2px;background:${cores[i]};flex-shrink:0;"></span>
+                <span style="font-size:11px;color:#555;">${g.convenio}</span>
+                <span style="font-size:11px;font-weight:600;color:#222;">${g.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+            </span>
+        `).join('');
+    }
+}
+
 function gerarCardNoDashboard(p, valorReal) {
     const container = document.getElementById('containerCardsHome');
-    if(!container) return;
+    if (!container) return;
 
     const div = document.createElement('div');
-    div.className = 'card-item'; // Use a classe do seu CSS
+    div.className = 'card-item';
     div.innerHTML = `
         <div class="info">
             <strong>${p.nome_cliente}</strong>
             <span>${p.banco} - ${p.operacao_feita}</span>
         </div>
         <div class="valor-status">
-            <span class="v">${valorReal.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}</span>
+            <span class="v">${valorReal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
             <span class="s status-${p.status_proposta.toLowerCase()}">${p.status_proposta}</span>
         </div>
     `;
