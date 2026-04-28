@@ -195,6 +195,7 @@ function renderizarGraficoProducao(grupos, total) {
 
                 // VALIDAÇÃO: se o índice é válido e o grupo existe
                 if (idx === undefined || !grupos[idx]) {
+                    console.log("Grupo não encontrado");
                     esconderTooltip();
                     return;
                 }
@@ -211,9 +212,27 @@ function renderizarGraficoProducao(grupos, total) {
                 const pct = total > 0 ? ((grupo.total / total) * 100).toFixed(1) : 0;
                 
                 // Pega a posição do mouse
-                const mouseX = event.clientX;
-                const mouseY = event.clientY;
-                console.log("Vou mostrar tooltip para:", grupo.convenio); // ← TESTE
+                let mouseX = 0;
+                let mouseY = 0;
+
+                // Tenta pegar do event.native (Chart.js v3)
+                if (event.native && event.native.clientX) {
+                    mouseX = event.native.clientX;
+                    mouseY = event.native.clientY;
+                } 
+                // Tenta pegar do próprio event
+                else if (event.clientX) {
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                }
+                // Último recurso: usa a posição do canvas
+                else {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = rect.left + rect.width / 2;
+                    mouseY = rect.top + rect.height / 2;
+                }
+                
+                console.log("Mouse position:", mouseX, mouseY);
 
                 // Monta o conteúdo do tooltip
                 let conteudo = `
