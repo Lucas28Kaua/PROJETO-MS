@@ -260,6 +260,10 @@ function renderizarGraficoProducao(grupos, total) {
         }
     });
 
+    canvas.addEventListener('mouseleave', () => {
+        esconderTooltip();
+    });
+
     // Legenda customizada com valor de cada convênio
     if (legendaContainer) {
         legendaContainer.innerHTML = grupos.map((g, i) => `
